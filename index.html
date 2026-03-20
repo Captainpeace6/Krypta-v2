@@ -659,6 +659,57 @@ tick();
 
 // ── INIT ──────────────────────────────────────────────────
 renderGrid("all");
+
+// CURSOR
+var cur = document.getElementById('cur');
+var curR = document.getElementById('curR');
+if (cur && curR) {
+  document.addEventListener('mousemove', function(e) {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top = e.clientY + 'px';
+    setTimeout(function(){ curR.style.left = e.clientX + 'px'; curR.style.top = e.clientY + 'px'; }, 80);
+  });
+  document.querySelectorAll('a,button').forEach(function(el) {
+    el.addEventListener('mouseenter', function(){ cur.classList.add('big'); });
+    el.addEventListener('mouseleave', function(){ cur.classList.remove('big'); });
+  });
+}
+
+// PARTICLES
+(function() {
+  var canvas = document.getElementById('heroCanvas');
+  if (!canvas) return;
+  var hero = canvas.parentElement;
+  function resize() { canvas.width = hero.offsetWidth; canvas.height = hero.offsetHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  var ctx = canvas.getContext('2d');
+  var pts = [];
+  for (var i = 0; i < 80; i++) {
+    pts.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.8 + 0.2,
+      dx: (Math.random() - 0.5) * 0.35,
+      dy: (Math.random() - 0.5) * 0.35,
+      o: Math.random() * 0.3 + 0.05
+    });
+  }
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pts.forEach(function(p) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(200,255,0,' + p.o + ')';
+      ctx.fill();
+      p.x += p.dx; p.y += p.dy;
+      if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
 </script>
 </body>
 </html>
