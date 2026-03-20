@@ -25,7 +25,7 @@ body { background:var(--black); color:var(--white); font-family:'Barlow Condense
 /* NAV */
 nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; justify-content:space-between; align-items:center; padding:18px 40px; background:rgba(6,6,8,0.97); border-bottom:1px solid var(--border); }
 .nav-logo { display:flex; align-items:center; text-decoration:none; }
-.nav-logo img { height:52px; width:auto; object-fit:contain; filter:drop-shadow(0 0 8px rgba(212,165,0,0.3)); transition:filter 0.3s; }
+.nav-logo img { height:64px; width:auto; object-fit:contain; filter:drop-shadow(0 0 6px rgba(212,165,0,0.25)); transition:filter 0.3s; }
 .nav-logo img:hover { filter:drop-shadow(0 0 14px rgba(212,165,0,0.6)); }
 .nav-links { display:flex; gap:28px; list-style:none; }
 .nav-links a { font-family:'Space Mono',monospace; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--muted); text-decoration:none; }
@@ -114,14 +114,14 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; justify
 .qv-badge { display:inline-block; background:var(--purple); color:#fff; font-family:'Space Mono',monospace; font-size:0.55rem; letter-spacing:0.18em; padding:4px 10px; font-weight:700; }
 .qv-name { font-family:'Bebas Neue',sans-serif; font-size:2rem; letter-spacing:0.05em; line-height:1; }
 .qv-price { font-family:'Bebas Neue',sans-serif; font-size:2.4rem; color:var(--purple-light); }
-.qv-desc { font-family:'Space Mono',monospace; font-size:0.58rem; color:var(--muted); letter-spacing:0.08em; line-height:1.8; }
-.qv-size-title { font-family:'Space Mono',monospace; font-size:0.58rem; letter-spacing:0.22em; color:var(--muted); text-transform:uppercase; margin-bottom:8px; }
+.qv-desc { font-family:'Space Mono',monospace; font-size:0.6rem; color:#c8c4d4; letter-spacing:0.08em; line-height:1.9; }
+.qv-size-title { font-family:'Space Mono',monospace; font-size:0.58rem; letter-spacing:0.22em; color:#c8c4d4; text-transform:uppercase; margin-bottom:8px; }
 .qv-sizes { display:flex; gap:7px; flex-wrap:wrap; }
 .qv-size { font-family:'Space Mono',monospace; font-size:0.6rem; letter-spacing:0.12em; color:var(--muted); border:1px solid var(--border); padding:7px 13px; background:none; cursor:pointer; }
 .qv-size:hover, .qv-size.picked { border-color:var(--accent); color:var(--accent); }
 .qv-add { background:var(--purple); color:#fff; border:none; padding:15px; font-family:'Space Mono',monospace; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; font-weight:700; cursor:pointer; width:100%; }
 .qv-add:hover { background:var(--accent); color:var(--black); }
-.qv-note { font-family:'Space Mono',monospace; font-size:0.52rem; letter-spacing:0.12em; color:var(--muted); text-align:center; }
+.qv-note { font-family:'Space Mono',monospace; font-size:0.54rem; letter-spacing:0.12em; color:#999; text-align:center; }
 
 /* CART */
 .cart-bg { position:fixed; inset:0; background:rgba(0,0,0,0.65); z-index:199; display:none; }
@@ -322,7 +322,7 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
   <div class="hero-bg">KRYPTAA</div>
   <div class="hero-content">
     <div class="hero-tag">Drop 001 — Pre-Order Now Open</div>
-    <img src="imgs/logo.png" alt="KRYPTAA" style="height:120px;width:auto;object-fit:contain;filter:drop-shadow(0 0 20px rgba(212,165,0,0.4));margin-bottom:20px;display:block;">
+
     <h1 class="hero-title">WEAR THE<br><span>VOID</span></h1>
     <p class="hero-sub">Streetwear born from the shadows. Crafted for those who move in silence.</p>
     <a href="#store" class="hero-btn">Shop The Drop →</a>
