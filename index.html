@@ -105,8 +105,8 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; justify
 /* PRODUCT CARD */
 .card { background:var(--surface); border:1px solid var(--border); overflow:hidden; transition:border-color 0.25s,transform 0.25s; }
 .card:hover { border-color:var(--accent); transform:translateY(-3px); }
-.card-img { position:relative; height:280px; background:#0d0d0d; overflow:hidden; }
-.card-img img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; transition:transform 0.5s; }
+.card-img { position:relative; height:340px; background:#0d0d0d; overflow:hidden; }
+.card-img img { width:100%; height:100%; object-fit:contain; object-position:center; display:block; transition:transform 0.5s; background:#0d0d0d; }
 .card:hover .card-img img { transform:scale(1.04); }
 .card-img-ph { width:100%; height:100%; display:flex; align-items:center; justify-content:center; opacity:0.1; }
 .card-img-ph svg { width:55%; height:55%; }
@@ -239,7 +239,7 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
   .hero{padding:36px 18px;}
   .section{padding:40px 18px;} .section-border{margin:0 18px;}
   .grid-5,.grid-4{grid-template-columns:repeat(2,1fr);}
-  .card-img{height:200px;}
+  .card-img{height:260px;}
   footer{grid-template-columns:1fr;padding:28px 18px;}
   .ft-bottom{padding:14px 18px;flex-direction:column;gap:6px;}
   .cart-panel{width:100%;}
@@ -741,12 +741,12 @@ document.querySelectorAll('a,button').forEach(function(el) {
   resize(); window.addEventListener('resize', resize);
   var ctx = canvas.getContext('2d');
   var pts = [];
-  for (var i = 0; i < 280; i++) {
+  for (var i = 0; i < 400; i++) {
     pts.push({
       x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-      r: Math.random() * 1.8 + 0.2,
-      dx: (Math.random()-0.5)*0.35, dy: (Math.random()-0.5)*0.35,
-      o: Math.random() * 0.3 + 0.04
+      r: Math.random() * 2.2 + 0.3,
+      dx: (Math.random()-0.5)*0.55, dy: (Math.random()-0.5)*0.55,
+      o: Math.random() * 0.4 + 0.06
     });
   }
   function draw() {
