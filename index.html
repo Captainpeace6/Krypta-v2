@@ -100,12 +100,12 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; justify
 .slider-btn:hover { border-color:var(--accent); color:var(--accent); }
 .slider-prev { left:-18px; }
 .slider-next { right:-18px; }
-.slider .card { min-width:220px; flex-shrink:0; }
+.slider .card { min-width:200px; max-width:200px; flex-shrink:0; }
 
 /* PRODUCT CARD */
 .card { background:var(--surface); border:1px solid var(--border); overflow:hidden; transition:border-color 0.25s,transform 0.25s; }
 .card:hover { border-color:var(--accent); transform:translateY(-3px); }
-.card-img { position:relative; aspect-ratio:3/4; background:#0d0d0d; overflow:hidden; }
+.card-img { position:relative; height:280px; background:#0d0d0d; overflow:hidden; }
 .card-img img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; transition:transform 0.5s; }
 .card:hover .card-img img { transform:scale(1.04); }
 .card-img-ph { width:100%; height:100%; display:flex; align-items:center; justify-content:center; opacity:0.1; }
@@ -239,6 +239,7 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
   .hero{padding:36px 18px;}
   .section{padding:40px 18px;} .section-border{margin:0 18px;}
   .grid-5,.grid-4{grid-template-columns:repeat(2,1fr);}
+  .card-img{height:200px;}
   footer{grid-template-columns:1fr;padding:28px 18px;}
   .ft-bottom{padding:14px 18px;flex-direction:column;gap:6px;}
   .cart-panel{width:100%;}
@@ -406,7 +407,7 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
       <div class="section-tag">Men's Collection</div>
       <div class="section-title">MEN'S JEANS</div>
     </div>
-    <div class="section-tag">7 STYLES · PRE-ORDER</div>
+    <div class="section-tag">16 STYLES · PRE-ORDER</div>
   </div>
   <div class="grid-4" id="mensGrid"></div>
   <div class="slider-wrap" style="padding:0 20px;margin-top:16px;">
@@ -520,9 +521,18 @@ var MENS = [
   {id:11, name:"Sakura Wide-Leg",       price:118, sizes:["S","M","L","XL"], img:"imgs/jeans-flower-full.jpg", desc:"Black wide-leg with full cherry blossom embroidery. Raw fray seams. Statement piece."},
   {id:12, name:"Red Dragon Print",      price:98,  sizes:["S","M","L","XL"], img:"imgs/jeans-red-dragon.jpg",  desc:"Black wide-leg. Bold red dragon print both legs. Gothic street energy."},
   {id:13, name:"Hellfire Pants",        price:92,  sizes:["S","M","L","XL"], img:"imgs/jeans-flame.jpg",       desc:"Black wide-leg with red and gold flame hem. Fire rises from ankle to knee."},
-  {id:14, name:"Gold Dragon Jeans",     price:122, sizes:["S","M","L","XL"], img:"imgs/jeans-gold-dragon.jpg", desc:"Black denim. Full gold and red dragon embroidery. Premium street luxury."},
+  {id:14, name:"Gold Dragon Jeans",     price:118, sizes:["S","M","L","XL"], img:"imgs/jeans-gold-dragon.jpg", desc:"Black denim. Full gold and red dragon embroidery. Premium street luxury."},
   {id:15, name:"Skull Cap Wide-Leg",    price:88,  sizes:["S","M","L","XL"], img:"imgs/jeans-skull.jpg",       desc:"Black wide-leg with white contrast stitching. Skull graphic embroidery."},
-  {id:16, name:"Dual Dragon Baggy",     price:102, sizes:["S","M","L","XL"], img:"imgs/jeans-dual-dragon.jpg", desc:"Oversized black baggy. Red dual dragon on both legs. Heavy denim street cut."}
+  {id:16, name:"Dual Dragon Baggy",     price:75,  sizes:["S","M","L","XL"], img:"imgs/jeans-dual-dragon.jpg", desc:"Oversized black baggy. Red dual dragon on both legs. Heavy denim street cut."},
+  {id:17, name:"One Piece Manga Jeans", price:72,  sizes:["S","M","L","XL"], img:"imgs/anime-one-piece.jpg",   desc:"Blue washed wide-leg. Full One Piece manga panel print. Anime streetwear statement."},
+  {id:18, name:"Dark Horror Manga",     price:78,  sizes:["S","M","L","XL"], img:"imgs/anime-horror.jpg",      desc:"Blue washed. Dark horror manga panel collage. Gothic anime energy."},
+  {id:19, name:"JJK Cursed Wide-Leg",   price:72,  sizes:["S","M","L","XL"], img:"imgs/anime-jjk1.jpg",        desc:"Blue washed wide-leg. Jujutsu Kaisen manga print. Red slash detail."},
+  {id:20, name:"JJK Collage Jeans",     price:72,  sizes:["S","M","L","XL"], img:"imgs/anime-jjk2.jpg",        desc:"Blue washed. JJK multi-panel collage print. Rose and cross detail."},
+  {id:21, name:"Death Note Wide-Leg",   price:80,  sizes:["S","M","L","XL"], img:"imgs/anime-deathnote.jpg",   desc:"Blue washed minimal. L and Ryuk silhouette print. Clean gothic anime."},
+  {id:22, name:"Baki Red Kanji",        price:75,  sizes:["S","M","L","XL"], img:"imgs/anime-baki.jpg",        desc:"Blue washed. Baki character with red kanji text. Aggressive street energy."},
+  {id:23, name:"Gojo Full-Leg Print",   price:78,  sizes:["S","M","L","XL"], img:"imgs/anime-gojo.jpg",        desc:"Blue washed wide-leg. Gojo Satoru full panel print. JJK manga style."},
+  {id:24, name:"Gojo x Geto Jeans",     price:78,  sizes:["S","M","L","XL"], img:"imgs/anime-gojo2.jpg",       desc:"Blue washed. Gojo and Geto manga collage with kanji text detail."},
+  {id:25, name:"Black Red JJK Jeans",   price:80,  sizes:["S","M","L","XL"], img:"imgs/anime-blackred.jpg",    desc:"Black base. Red JJK character print. Bold two-tone gothic anime energy."}
 ];
 
 var WOMENS = [
