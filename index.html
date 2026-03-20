@@ -50,7 +50,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; justify
 .hero-tag { font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.3em; color:var(--accent); text-transform:uppercase; margin-bottom:14px; }
 .hero-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(56px,9vw,110px); line-height:0.9; margin-bottom:20px; }
 .hero-title span { color:var(--accent); }
-.hero-brand { color:var(--accent); font-size:clamp(56px,9vw,110px); letter-spacing:0.04em; display:block; line-height:0.9; margin-bottom:-4px; }
+.hero-brand { color:var(--accent); font-size:clamp(56px,9vw,110px); letter-spacing:0.04em; display:block; line-height:0.82; margin-bottom:-12px; }
 .hero-sub { font-family:'Barlow Condensed',sans-serif; font-size:0.95rem; font-weight:300; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; margin-bottom:36px; max-width:380px; }
 .hero-btn { display:inline-block; font-family:'Space Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--black); background:var(--accent); padding:15px 30px; text-decoration:none; font-weight:700; }
 .hero-btn:hover { background:var(--white); }
@@ -685,7 +685,7 @@ if (cur && curR) {
   window.addEventListener('resize', resize);
   var ctx = canvas.getContext('2d');
   var pts = [];
-  for (var i = 0; i < 80; i++) {
+  for (var i = 0; i < 260; i++) {
     pts.push({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
