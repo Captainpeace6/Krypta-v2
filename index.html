@@ -332,25 +332,181 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
 .toast { position:fixed; bottom:70px; left:50%; transform:translateX(-50%) translateY(70px); background:var(--accent); color:var(--black); font-family:'Space Mono',monospace; font-size:0.6rem; letter-spacing:0.18em; text-transform:uppercase; font-weight:700; padding:12px 26px; z-index:9999; transition:transform 0.38s cubic-bezier(0.34,1.56,0.64,1); pointer-events:none; white-space:nowrap; }
 .toast.show { transform:translateX(-50%) translateY(0); }
 
-/* RESPONSIVE */
-@media(max-width:1024px){ .grid-5{grid-template-columns:repeat(3,1fr);} .grid-4{grid-template-columns:repeat(3,1fr);} }
-@media(max-width:768px){
-  nav{padding:14px 18px;} .nav-links{display:none;}
-  .hero{flex-direction:column;} .hero-left{width:100%;padding:36px 18px 40px;justify-content:flex-end;} .hero-right{width:100%;height:40vh;}
-  .section{padding:40px 18px;} .section-border{margin:0 18px;}
-  .track-section{padding:40px 18px;}
-  .grid-5,.grid-4{grid-template-columns:repeat(2,1fr);}
-  .card-img{height:260px;}
-  footer{grid-template-columns:1fr;padding:28px 18px;}
-  .ft-bottom{padding:14px 18px;flex-direction:column;gap:6px;}
-  .cart-panel{width:100%;}
-  .nl-form{flex-direction:column;}
-  .nl-input{border-right:1px solid var(--border);border-bottom:none;}
-  .qv-box{grid-template-columns:1fr;}
-  .follow-bar{padding:18px;gap:12px;}
-  .countdown-bar{padding:18px;gap:16px;}
-  .sticky-atc-bar{padding:12px 18px;flex-wrap:wrap;gap:8px;}
+/* ══════════════════════════════════════
+   RESPONSIVE — TABLET
+   ══════════════════════════════════════ */
+@media(max-width:1024px){
+  .grid-5 { grid-template-columns:repeat(3,1fr); }
 }
+
+/* ══════════════════════════════════════
+   RESPONSIVE — MOBILE
+   ══════════════════════════════════════ */
+@media(max-width:768px){
+  /* NAV */
+  nav { padding:12px 16px; }
+  .nav-links { display:none; }
+  .nav-logo-text { font-size:22px; }
+  .nav-cart { padding:7px 12px; font-size:0.6rem; }
+
+  /* HERO — stack vertically, compact */
+  .hero {
+    flex-direction:column;
+    height:auto;
+    min-height:100vh;
+    padding-top:56px;
+  }
+  .hero-grid { display:none; } /* hide grid lines on mobile */
+  .hero-left {
+    width:100%;
+    padding:28px 20px 20px;
+    justify-content:flex-start;
+    position:relative;
+    z-index:10;
+    order:1;
+  }
+  .hero-right {
+    width:100%;
+    height:50vw;
+    min-height:200px;
+    max-height:260px;
+    position:relative;
+    order:2;
+    flex-shrink:0;
+  }
+  #heroCanvas {
+    position:absolute !important;
+    top:0; left:0;
+    width:100% !important;
+    height:100% !important;
+  }
+  .hero-title {
+    font-size:clamp(52px,14vw,90px);
+    line-height:0.88;
+    margin-bottom:14px;
+  }
+  .hero-sub {
+    font-size:0.6rem;
+    letter-spacing:0.14em;
+    margin-bottom:20px;
+  }
+  .hero-btn {
+    padding:12px 22px;
+    font-size:0.65rem;
+    display:inline-block;
+    width:auto;
+  }
+
+  /* TICKER */
+  .ticker-item { font-size:0.75rem; padding:0 20px; }
+
+  /* COUNTDOWN */
+  .countdown-bar { padding:16px; gap:12px; flex-wrap:wrap; }
+  .cd-num { font-size:1.8rem; min-width:40px; }
+  .cd-btn { padding:8px 14px; font-size:0.55rem; }
+
+  /* SECTIONS */
+  .section { padding:36px 16px; }
+  .section-border { margin:0 16px; }
+  .section-title { font-size:1.8rem; }
+
+  /* GRIDS — 2 columns on mobile */
+  .grid-5 { grid-template-columns:repeat(2,1fr); gap:8px; }
+  .grid-4 { grid-template-columns:repeat(2,1fr); gap:8px; }
+
+  /* CARDS */
+  .card-img { height:220px; }
+  .card-info { padding:8px 10px 12px; }
+  .card-name { font-size:0.85rem; }
+  .card-price { font-size:1rem; }
+  .card-badge { font-size:0.45rem; padding:2px 6px; }
+  .slider .card { min-width:160px; max-width:160px; }
+  .slider .card .card-img { height:200px; }
+
+  /* SLIDER BUTTONS */
+  .slider-btn { width:28px; height:28px; font-size:0.9rem; }
+  .slider-prev { left:-14px; }
+  .slider-next { right:-14px; }
+
+  /* TRACK PANT sub-section */
+  .track-sub-grid { grid-template-columns:repeat(2,1fr) !important; gap:8px !important; }
+
+  /* CART */
+  .cart-panel { width:100%; }
+  .qv-box { grid-template-columns:1fr; max-height:85vh; }
+  .qv-left { min-height:240px; }
+
+  /* SIZE MODAL */
+  .size-box { padding:24px 16px; }
+  .size-tbl th, .size-tbl td { padding:7px 6px; font-size:0.75rem; }
+
+  /* NEWSLETTER */
+  .newsletter { padding:50px 16px; }
+  .nl-title { font-size:2rem; }
+  .nl-form { flex-direction:column; }
+  .nl-input { border-right:1px solid var(--border); border-bottom:none; }
+  .nl-btn { padding:12px; }
+
+  /* FOLLOW BAR */
+  .follow-bar { padding:14px 16px; gap:8px; flex-wrap:wrap; justify-content:center; }
+  .follow-lbl { width:100%; text-align:center; }
+  .follow-link, .copy-btn { padding:6px 10px; font-size:0.52rem; }
+
+  /* FOOTER */
+  footer { grid-template-columns:1fr; padding:28px 16px; gap:24px; margin-top:30px; }
+  .ft-bottom { padding:14px 16px; flex-direction:column; gap:6px; text-align:center; }
+  .ft-logo { font-size:28px; }
+
+  /* EMAIL POPUP */
+  .popup-box { width:95%; }
+  .popup-inner { padding:24px 20px; }
+  .popup-title { font-size:38px; }
+
+  /* PREORDER BANNER */
+  .preorder-banner { padding:10px 12px; }
+  .preorder-banner span { font-size:0.5rem; letter-spacing:0.12em; }
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — SMALL PHONES (375px)
+   ══════════════════════════════════════ */
+@media(max-width:420px){
+  .hero-title { font-size:clamp(44px,12vw,72px); }
+  .card-img { height:190px; }
+  .grid-5 { gap:6px; }
+  .section { padding:28px 12px; }
+  .cd-num { font-size:1.5rem; min-width:36px; }
+}
+
+/* Mobile canvas fix */
+@media(max-width:768px){
+  #heroCanvas {
+    position:relative !important;
+    display:block;
+    width:100% !important;
+    height:260px !important;
+    inset:auto !important;
+  }
+  .hero-right {
+    position:relative;
+    overflow:hidden;
+  }
+}
+
+@media(max-width:768px){
+  .hero { min-height:auto !important; }
+  .hero-left { min-height:auto; }
+}
+
+/* HAMBURGER MENU */
+.nav-hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:4px; }
+.nav-hamburger span { display:block; width:22px; height:2px; background:var(--accent); transition:all 0.3s; }
+.mobile-menu { display:none; position:fixed; top:56px; left:0; right:0; background:rgba(6,6,8,0.98); border-bottom:1px solid var(--border); z-index:150; padding:12px 0; }
+.mobile-menu a { display:block; padding:14px 20px; font-family:'Space Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--white); text-decoration:none; border-bottom:1px solid var(--border); }
+.mobile-menu a:last-child { border-bottom:none; }
+.mobile-menu a:hover { color:var(--accent); background:var(--surface); }
+.mobile-menu.open { display:block; }
+@media(max-width:768px){ .nav-hamburger { display:flex; } }
 </style>
 </head>
 <body>
@@ -442,7 +598,16 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
     <li><a href="#" onclick="openSizeGuide();return false;">Size Guide</a></li>
   </ul>
   <button class="nav-cart" onclick="openCart()">BAG <span class="cart-badge" id="cartBadge">0</span></button>
+  <button class="nav-hamburger" onclick="toggleMobileMenu()" id="hamburgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#tees" onclick="smoothTo('tees');closeMobileMenu()">T-Shirts</a>
+  <a href="#mens" onclick="smoothTo('mens');closeMobileMenu()">Men's Jeans</a>
+  <a href="#womens" onclick="smoothTo('womens');closeMobileMenu()">Women's Jeans</a>
+  <a href="#" onclick="openSizeGuide();closeMobileMenu();return false;">Size Guide</a>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="heroSection">
@@ -452,7 +617,7 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
     <p class="hero-sub">DEFINED BY POWER. DRIVEN BY AURA.</p>
     <a href="#tees" class="hero-btn" onclick="smoothTo('tees')">Shop The Drop →</a>
   </div>
-  <canvas id="heroCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
+  <canvas id="heroCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;" id="heroCanvas"></canvas>
   <div class="hero-right">
   </div>
 </section>
@@ -1031,13 +1196,17 @@ document.querySelectorAll('a,button').forEach(function(el) {
   if (!canvas) return;
   var mx = 0, my = 0, pmx = 0, pmy = 0;
 
-  function resize() { 
+  function resize() {
     var hero = document.getElementById('heroSection');
-    canvas.width = hero ? hero.offsetWidth : window.innerWidth; 
-    canvas.height = hero ? hero.offsetHeight : window.innerHeight;
+    var heroRight = hero ? hero.querySelector('.hero-right') : null;
+    var W = heroRight ? heroRight.offsetWidth : (hero ? hero.offsetWidth : window.innerWidth);
+    var H = heroRight ? heroRight.offsetHeight : (hero ? hero.offsetHeight : window.innerHeight);
+    canvas.width = Math.max(W, 1);
+    canvas.height = Math.max(H, 1);
   }
   resize();
   window.addEventListener('resize', resize);
+  window.addEventListener('orientationchange', function(){ setTimeout(resize, 200); });
   document.addEventListener('mousemove', function(e) {
     mx = (e.clientX / window.innerWidth - 0.5);
     my = (e.clientY / window.innerHeight - 0.5);
@@ -1099,13 +1268,19 @@ document.querySelectorAll('a,button').forEach(function(el) {
     });
 
     // Font size
-    // Text lives on RIGHT half, particles cover full canvas — stretched bigger
-    var maxW=W*0.52, fs=10;
+    // Responsive text: desktop = right half, mobile = full width centered
+    var isMobile = W < 600;
+    var maxW = isMobile ? W*0.88 : W*0.52;
+    var fs=10;
     ctx.font='900 '+fs+'px "Bebas Neue",sans-serif';
     while(ctx.measureText('KRYPTAA').width<maxW&&fs<500) fs+=2;
-    fs=Math.min(fs, Math.floor(H*0.38), Math.floor(W*0.22));
-    while(ctx.font='900 '+fs+'px "Bebas Neue",sans-serif', ctx.measureText('KRYPTAA').width > W*0.54 && fs>10) fs-=2;
-    var cx=W*0.72, cy=H/2-fs*0.05;
+    var maxH = isMobile ? H*0.55 : H*0.38;
+    var maxFW = isMobile ? W*0.38 : W*0.22;
+    fs=Math.min(fs, Math.floor(maxH), Math.floor(maxFW));
+    var clampW = isMobile ? W*0.9 : W*0.54;
+    while(ctx.font='900 '+fs+'px "Bebas Neue",sans-serif', ctx.measureText('KRYPTAA').width > clampW && fs>10) fs-=2;
+    var cx = isMobile ? W*0.5 : W*0.72;
+    var cy=H/2-fs*0.05;
 
     if (!glitch.active) { glitch.cooldown--; if(glitch.cooldown<=0) triggerGlitch(); }
 
