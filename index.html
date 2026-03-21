@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KRYPTAA — Drop 001</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;600;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Russo+One&family=Black+Ops+One&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;600;900&display=swap" rel="stylesheet">
 <style>
 :root {
   --black: #060608;
@@ -1122,83 +1122,11 @@ document.getElementById('sizeBg').addEventListener('click', function(e){ if(e.ta
 // EMAIL POPUP (8 second delay)
 // ══════════════════════════════════════════════
 setTimeout(function() {
-  if (!sessionStorage.getItem('kryptaa_popup')) {
-    document.getElementById('emailPopup').classList.add('open');
-  }
-}, 8000);
-
-function closeEmailPopup() {
-  document.getElementById('emailPopup').classList.remove('open');
-  sessionStorage.setItem('kryptaa_popup', '1');
-}
-
-function submitEmailPopup() {
-  var val = document.getElementById('popupEmailInput').value;
-  if (!val || !val.includes('@')) return;
-  document.querySelector('.popup-inner').innerHTML = '<div style="text-align:center;padding:16px 0"><div style="font-family:sans-serif;font-size:58px;color:var(--accent);line-height:1;font-weight:900;letter-spacing:0.04em">10% OFF</div><div style="font-size:0.55rem;letter-spacing:0.2em;color:var(--muted);margin:10px 0 6px;text-transform:uppercase">USE CODE AT CHECKOUT:</div><div style="font-size:30px;letter-spacing:0.2em;border:1px dashed rgba(200,255,0,0.35);padding:10px 24px;color:var(--white);display:inline-block;margin:8px 0">VOID10</div><div style="font-size:0.48rem;color:var(--muted);margin-top:8px">Welcome to the underground.</div><button onclick="closeEmailPopup()" style="margin-top:20px;font-size:0.6rem;letter-spacing:0.18em;background:var(--accent);color:#000;border:none;padding:12px 30px;cursor:pointer;font-weight:700;text-transform:uppercase">SHOP NOW</button></div>';
-  sessionStorage.setItem('kryptaa_popup', '1');
-}
-
-// ══════════════════════════════════════════════
-// NEWSLETTER
-// ══════════════════════════════════════════════
-function subscribe() {
-  var v = document.getElementById('nlEmail').value;
-  if (!v || !v.includes('@')) { document.getElementById('nlEmail').style.borderColor='var(--red)'; setTimeout(function(){ document.getElementById('nlEmail').style.borderColor=''; }, 1000); return; }
-  document.querySelector('.nl-form').style.display='none';
-  document.getElementById('nlOk').style.display='block';
-  toast('You are on the list');
-}
-
-function copyLink() { navigator.clipboard.writeText(window.location.href).then(function(){ toast('Link Copied'); }); }
-
-// ══════════════════════════════════════════════
-// TOAST
-// ══════════════════════════════════════════════
-function toast(msg) {
-  var t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 2800);
-}
-
-// ══════════════════════════════════════════════
-// COUNTDOWN
-// ══════════════════════════════════════════════
-var end = new Date(); end.setDate(end.getDate() + 14);
-function tick() {
-  var diff = end - new Date(); if (diff < 0) diff = 0;
-  document.getElementById('cdD').textContent = String(Math.floor(diff/86400000)).padStart(2,'0');
-  document.getElementById('cdH').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
-  document.getElementById('cdM').textContent = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
-  document.getElementById('cdS').textContent = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
-}
-setInterval(tick,1000); tick();
-
-// ══════════════════════════════════════════════
-// CURSOR
-// ══════════════════════════════════════════════
-var curEl = document.getElementById('cur');
-var curR = document.getElementById('curR');
-document.addEventListener('mousemove', function(e) {
-  curEl.style.left = e.clientX+'px'; curEl.style.top = e.clientY+'px';
-  setTimeout(function(){ curR.style.left = e.clientX+'px'; curR.style.top = e.clientY+'px'; }, 80);
-});
-document.querySelectorAll('a,button').forEach(function(el) {
-  el.addEventListener('mouseenter', function(){ curEl.classList.add('big'); });
-  el.addEventListener('mouseleave', function(){ curEl.classList.remove('big'); });
-});
-
-// ══════════════════════════════════════════════
-// HERO CANVAS — KRYPTAA NEON GLITCH
-// ══════════════════════════════════════════════
-(function() {
   var canvas = document.getElementById('heroCanvas');
   if (!canvas) return;
-  // Ensure Bebas Neue font is loaded before drawing
   if (document.fonts && document.fonts.load) {
     document.fonts.load('900 40px "Bebas Neue"');
   }
-  var mx = 0, my = 0, pmx = 0, pmy = 0;
 
   function resize() {
     var hero = document.getElementById('heroSection');
@@ -1211,130 +1139,333 @@ document.querySelectorAll('a,button').forEach(function(el) {
   resize();
   window.addEventListener('resize', resize);
   window.addEventListener('orientationchange', function(){ setTimeout(resize, 200); });
+
+  var ctx = canvas.getContext('2d');
+  var t = 0;
+  var mx = 0, my = 0, pmx = 0, pmy = 0;
   document.addEventListener('mousemove', function(e) {
     mx = (e.clientX / window.innerWidth - 0.5);
     my = (e.clientY / window.innerHeight - 0.5);
   });
 
-  var ctx = canvas.getContext('2d');
-  var t = 0;
+  // ── PARTICLES ──
   var pts = [];
-  for (var i = 0; i < 400; i++) pts.push({ x:Math.random()*1600, y:Math.random()*1200, r:Math.random()*2+0.3, dx:(Math.random()-0.5)*0.45, dy:(Math.random()-0.5)*0.45, o:Math.random()*0.32+0.06 });
+  for (var i = 0; i < 300; i++) pts.push({
+    x: Math.random() * 1600, y: Math.random() * 1200,
+    r: Math.random() * 1.8 + 0.2,
+    dx: (Math.random()-0.5)*0.4, dy: (Math.random()-0.5)*0.4,
+    o: Math.random() * 0.28 + 0.05
+  });
 
+  // ── FALLING LINES ──
   var lines = [];
-  for (var i = 0; i < 30; i++) lines.push({ x:Math.random()*1600, y:Math.random()*-1000, len:40+Math.random()*120, speed:1+Math.random()*2.2, o:0.06+Math.random()*0.22, w:0.5+Math.random()*1.2 });
+  for (var i = 0; i < 22; i++) lines.push({
+    x: Math.random()*1600, y: Math.random()*-800,
+    len: 40+Math.random()*100, speed: 1+Math.random()*2,
+    o: 0.06+Math.random()*0.18, w: 0.5+Math.random()*1
+  });
 
-  var blocks = [];
-  for (var i = 0; i < 28; i++) blocks.push({ x:Math.random()*1600, y:Math.random()*-600, s:4+Math.random()*12, speed:0.35+Math.random()*0.8, o:0.05+Math.random()*0.16, solid:Math.random()>0.5 });
+  // ── SPARK SYSTEM ──
+  var sparks = [];
+  function spawnSpark(x, y) {
+    for (var i = 0; i < 6; i++) {
+      var angle = Math.random() * Math.PI * 2;
+      var speed = 1 + Math.random() * 3;
+      sparks.push({
+        x: x, y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 1,
+        life: 1.0,
+        size: 1 + Math.random() * 2
+      });
+    }
+  }
 
-  var glitch = { active:false, timer:0, cooldown:80, slices:[], flickerPhase:0 };
+  // ── GLITCH STATE ──
+  var glitch = { active: false, timer: 0, cooldown: 80, slices: [], flicker: 0, rgb: false };
 
   function triggerGlitch() {
-    glitch.active = true; glitch.timer = 8+Math.floor(Math.random()*12); glitch.slices = [];
-    for (var i = 0; i < 5+Math.floor(Math.random()*6); i++) glitch.slices.push({ y:Math.random(), h:0.01+Math.random()*0.06, dx:(Math.random()-0.5)*30, o:0.4+Math.random()*0.5 });
-    glitch.cooldown = 60+Math.floor(Math.random()*120);
+    glitch.active = true;
+    glitch.timer = 12 + Math.floor(Math.random() * 16);
+    glitch.slices = [];
+    glitch.rgb = Math.random() > 0.4;
+    for (var i = 0; i < 4 + Math.floor(Math.random() * 7); i++) {
+      glitch.slices.push({
+        y: Math.random(), h: 0.008 + Math.random() * 0.055,
+        dx: (Math.random() - 0.5) * 40,
+        o: 0.5 + Math.random() * 0.5,
+        col: Math.random() > 0.5 ? 'cyan' : 'magenta'
+      });
+    }
+    glitch.cooldown = 50 + Math.floor(Math.random() * 100);
   }
+
+  // ── LETTER PARTICLES on glitch ──
+  var letterPts = [];
+  function burstLetterParticles(cx, cy, fs) {
+    for (var i = 0; i < 18; i++) {
+      var angle = Math.random() * Math.PI * 2;
+      var spd = 2 + Math.random() * 5;
+      letterPts.push({
+        x: cx + (Math.random()-0.5)*fs*1.2,
+        y: cy + (Math.random()-0.5)*fs*0.5,
+        vx: Math.cos(angle)*spd, vy: Math.sin(angle)*spd - 2,
+        life: 1.0, size: 2+Math.random()*4,
+        col: Math.random() > 0.5 ? '#c8ff00' : '#fff'
+      });
+    }
+  }
+
+  var lastGlitchBurst = 0;
 
   function draw() {
     var W = canvas.width, H = canvas.height;
     t++;
-    pmx += (mx-pmx)*0.05; pmy += (my-pmy)*0.05;
-    ctx.clearRect(0,0,W,H);
-    ctx.fillStyle='#060608'; ctx.fillRect(0,0,W,H);
+    pmx += (mx - pmx) * 0.05;
+    pmy += (my - pmy) * 0.05;
 
-    // Grid
-    ctx.strokeStyle='rgba(200,255,0,0.03)'; ctx.lineWidth=1;
-    var gs=50, gox=((pmx*18)%gs+gs)%gs, goy=((pmy*18)%gs+gs)%gs;
-    for (var x=gox-gs; x<W+gs; x+=gs) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-    for (var y=goy-gs; y<H+gs; y+=gs) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#060608';
+    ctx.fillRect(0, 0, W, H);
 
+    // ── GRID ──
+    ctx.strokeStyle = 'rgba(200,255,0,0.025)'; ctx.lineWidth = 1;
+    var gs = 50, gox = ((pmx*18)%gs+gs)%gs, goy = ((pmy*18)%gs+gs)%gs;
+    for (var x = gox-gs; x < W+gs; x += gs) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+    for (var y = goy-gs; y < H+gs; y += gs) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+
+    // ── FALLING LINES ──
     lines.forEach(function(l) {
-      l.y += l.speed; if (l.y>H+100) { l.y=-l.len-20; l.x=Math.random()*W; }
-      var rx=l.x+pmx*18, ry=l.y+pmy*10;
-      var grad=ctx.createLinearGradient(rx,ry,rx,ry+l.len);
-      grad.addColorStop(0,'rgba(200,255,0,0)'); grad.addColorStop(0.4,'rgba(200,255,0,'+l.o+')'); grad.addColorStop(1,'rgba(200,255,0,0)');
-      ctx.strokeStyle=grad; ctx.lineWidth=l.w; ctx.beginPath(); ctx.moveTo(rx,ry); ctx.lineTo(rx,ry+l.len); ctx.stroke();
+      l.y += l.speed; if (l.y > H+100) { l.y = -l.len-20; l.x = Math.random()*W; }
+      var rx = l.x+pmx*18, ry = l.y+pmy*10;
+      var grad = ctx.createLinearGradient(rx,ry,rx,ry+l.len);
+      grad.addColorStop(0,'rgba(200,255,0,0)');
+      grad.addColorStop(0.5,'rgba(200,255,0,'+l.o+')');
+      grad.addColorStop(1,'rgba(200,255,0,0)');
+      ctx.strokeStyle = grad; ctx.lineWidth = l.w;
+      ctx.beginPath(); ctx.moveTo(rx,ry); ctx.lineTo(rx,ry+l.len); ctx.stroke();
     });
 
-    blocks.forEach(function(b) {
-      b.y += b.speed; if (b.y>H+20) { b.y=-20; b.x=Math.random()*W; }
-      var rx=b.x+pmx*14, ry=b.y+pmy*10;
-      if (b.solid) { ctx.fillStyle='rgba(200,255,0,'+b.o+')'; ctx.fillRect(rx,ry,b.s,b.s); }
-      else { ctx.strokeStyle='rgba(200,255,0,'+(b.o*1.4)+')'; ctx.lineWidth=0.8; ctx.strokeRect(rx,ry,b.s,b.s); }
-    });
-
+    // ── PARTICLES ──
     pts.forEach(function(p) {
       p.x+=p.dx; p.y+=p.dy;
       if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
       var rx=p.x+pmx*22, ry=p.y+pmy*16;
       if(rx<0||rx>W||ry<0||ry>H)return;
-      ctx.beginPath(); ctx.arc(rx,ry,p.r,0,Math.PI*2); ctx.fillStyle='rgba(200,255,0,'+p.o+')'; ctx.fill();
+      ctx.beginPath(); ctx.arc(rx,ry,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(200,255,0,'+p.o+')'; ctx.fill();
     });
 
-    // Font size
-    // Responsive text: desktop = right half, mobile = full width centered
+    // ── FONT SIZE ──
     var isMobile = W < 600;
     var maxW = isMobile ? W*0.88 : W*0.52;
-    var fs=10;
-    ctx.font='900 '+fs+'px "Bebas Neue",sans-serif';
-    while(ctx.measureText('KRYPTAA').width<maxW&&fs<500) fs+=2;
+    var fs = 10;
+    ctx.font = '900 '+fs+'px "Bebas Neue",sans-serif';
+    while(ctx.measureText('KRYPTAA').width < maxW && fs < 500) fs += 2;
     var maxH = isMobile ? H*0.55 : H*0.38;
     var maxFW = isMobile ? W*0.38 : W*0.22;
-    fs=Math.min(fs, Math.floor(maxH), Math.floor(maxFW));
-    var clampW = isMobile ? W*0.9 : W*0.54;
-    while(ctx.font='900 '+fs+'px "Bebas Neue",sans-serif', ctx.measureText('KRYPTAA').width > clampW && fs>10) fs-=2;
+    fs = Math.min(fs, Math.floor(maxH), Math.floor(maxFW));
+    while(ctx.font='900 '+fs+'px "Bebas Neue",sans-serif', ctx.measureText('KRYPTAA').width > (isMobile?W*0.9:W*0.54) && fs>10) fs-=2;
     var cx = isMobile ? W*0.5 : W*0.72;
-    var cy=H/2-fs*0.05;
+    var cy = H/2 - fs*0.05;
 
-    if (!glitch.active) { glitch.cooldown--; if(glitch.cooldown<=0) triggerGlitch(); }
+    // ── GLITCH TRIGGER ──
+    if (!glitch.active) {
+      glitch.cooldown--;
+      if (glitch.cooldown <= 0) { triggerGlitch(); }
+    }
 
     ctx.save();
-    ctx.translate(pmx*-8, pmy*-6);
+    ctx.translate(pmx * -8, pmy * -6);
 
-    glitch.flickerPhase += 0.12;
-    var flicker = glitch.active ? 0.3+Math.abs(Math.sin(glitch.flickerPhase*8))*0.7 : 0.88+Math.sin(t*0.018)*0.12;
+    // ── FLICKER ──
+    glitch.flicker += 0.15;
+    var flicker = glitch.active
+      ? 0.2 + Math.abs(Math.sin(glitch.flicker * 12)) * 0.8
+      : 0.88 + Math.sin(t * 0.018) * 0.12;
 
-    ctx.font='900 '+fs+'px "Bebas Neue",sans-serif';
-    ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.shadowColor='#c8ff00';
-    ctx.shadowBlur=90; ctx.fillStyle='rgba(200,255,0,'+(0.04*flicker)+')'; ctx.fillText('KRYPTAA',cx,cy);
-    ctx.shadowBlur=55; ctx.fillStyle='rgba(200,255,0,'+(0.08*flicker)+')'; ctx.fillText('KRYPTAA',cx,cy);
-    ctx.shadowBlur=28; ctx.fillStyle='rgba(200,255,0,'+(0.14*flicker)+')'; ctx.fillText('KRYPTAA',cx,cy);
-    ctx.shadowBlur=12; ctx.fillStyle='rgba(200,255,0,'+(0.92*flicker)+')'; ctx.fillText('KRYPTAA',cx,cy);
-    ctx.shadowBlur=0;
+    ctx.font = '900 '+fs+'px "Bebas Neue",sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
 
-    ctx.globalCompositeOperation='lighter';
-    ctx.font='900 '+Math.floor(fs*0.82)+'px "Bebas Neue",sans-serif';
-    ctx.fillStyle='rgba(230,255,180,'+(0.12*flicker)+')'; ctx.shadowColor='rgba(230,255,180,0.6)'; ctx.shadowBlur=4; ctx.fillText('KRYPTAA',cx,cy);
-    ctx.globalCompositeOperation='source-over'; ctx.shadowBlur=0;
-    ctx.font='900 '+fs+'px "Bebas Neue",sans-serif';
+    // ══════════════════════════════════════
+    // CUSTOM LOGO EFFECT: SHATTERED NEON
+    // Each letter drawn individually with:
+    // - Chromatic aberration (RGB split)
+    // - Per-letter vertical offset wobble
+    // - Scanline overlay per letter
+    // - Electric edge glow
+    // ══════════════════════════════════════
+    var letters = ['K','R','Y','P','T','A','A'];
+    var totalW = ctx.measureText('KRYPTAA').width;
+    var startX = cx - totalW/2;
+    var letterWidths = letters.map(function(l){ return ctx.measureText(l).width; });
+    var cumX = startX;
 
+    letters.forEach(function(letter, i) {
+      var lw = letterWidths[i];
+      var lx = cumX + lw/2;
+      cumX += lw;
+
+      // Per-letter wobble — each letter has its own breathing
+      var wobble = Math.sin(t * 0.04 + i * 0.9) * (glitch.active ? fs*0.04 : fs*0.008);
+      var ly = cy + wobble;
+
+      // Per-letter scale pulse
+      var pulse = 1 + Math.sin(t * 0.06 + i * 1.1) * (glitch.active ? 0.04 : 0.005);
+
+      ctx.save();
+      ctx.translate(lx, ly);
+      ctx.scale(pulse, pulse);
+
+      // ── OUTER HALO (wide diffuse glow) ──
+      ctx.shadowColor = '#c8ff00';
+      ctx.shadowBlur = 60 + Math.sin(t*0.03+i)*15;
+      ctx.fillStyle = 'rgba(200,255,0,'+(0.05*flicker)+')';
+      ctx.fillText(letter, 0, 0);
+      ctx.shadowBlur = 35;
+      ctx.fillStyle = 'rgba(200,255,0,'+(0.10*flicker)+')';
+      ctx.fillText(letter, 0, 0);
+
+      // ── CHROMATIC ABERRATION (RGB split) ──
+      if (glitch.active && glitch.rgb) {
+        var aberr = 3 + Math.random() * 5;
+        ctx.shadowBlur = 0;
+        // Cyan channel left
+        ctx.fillStyle = 'rgba(0,255,255,'+(0.35*flicker)+')';
+        ctx.shadowColor = 'rgba(0,255,255,0.5)'; ctx.shadowBlur = 8;
+        ctx.fillText(letter, -aberr, 0);
+        // Magenta channel right
+        ctx.fillStyle = 'rgba(255,0,255,'+(0.35*flicker)+')';
+        ctx.shadowColor = 'rgba(255,0,255,0.5)'; ctx.shadowBlur = 8;
+        ctx.fillText(letter, aberr, 0);
+        ctx.shadowBlur = 0;
+      } else if (!glitch.active) {
+        // Subtle always-on chroma
+        var microAberr = Math.sin(t*0.02+i)*1.5;
+        ctx.fillStyle = 'rgba(0,255,255,0.06)';
+        ctx.shadowBlur = 0;
+        ctx.fillText(letter, -microAberr, 0);
+        ctx.fillStyle = 'rgba(255,0,180,0.06)';
+        ctx.fillText(letter, microAberr, 0);
+      }
+
+      // ── MAIN LETTER ──
+      ctx.shadowColor = '#c8ff00';
+      ctx.shadowBlur = 14;
+      ctx.fillStyle = 'rgba(200,255,0,'+(0.95*flicker)+')';
+      ctx.fillText(letter, 0, 0);
+      ctx.shadowBlur = 0;
+
+      // ── INNER WHITE HOTSPOT (neon tube) ──
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.font = '900 '+Math.floor(fs*0.75)+'px "Bebas Neue",sans-serif';
+      ctx.fillStyle = 'rgba(255,255,255,'+(0.12*flicker)+')';
+      ctx.shadowColor = 'rgba(255,255,220,0.8)'; ctx.shadowBlur = 3;
+      ctx.fillText(letter, 0, 0);
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.shadowBlur = 0;
+      ctx.font = '900 '+fs+'px "Bebas Neue",sans-serif';
+
+      // ── PER-LETTER SCAN LINES ──
+      var letterHalfH = fs * 0.55;
+      var letterHalfW = lw * 0.5;
+      for (var sy = -letterHalfH; sy < letterHalfH; sy += 4) {
+        ctx.fillStyle = 'rgba(0,0,0,0.07)';
+        ctx.fillRect(-letterHalfW, sy, lw, 1);
+      }
+
+      ctx.restore();
+    });
+
+    // ── ELECTRIC ARC between letters (random) ──
+    if (glitch.active && Math.random() > 0.6) {
+      var arcIdx = Math.floor(Math.random() * (letters.length - 1));
+      var ax1 = startX; var ax2 = startX;
+      for(var ai=0;ai<arcIdx;ai++) ax1+=letterWidths[ai];
+      ax1 += letterWidths[arcIdx];
+      ax2 = ax1 + letterWidths[arcIdx+1];
+      var ay = cy - fs*0.3 + Math.random()*fs*0.6;
+      ctx.beginPath();
+      ctx.moveTo(ax1, ay);
+      var steps = 4+Math.floor(Math.random()*4);
+      var segW = (ax2-ax1)/steps;
+      for(var si=1;si<=steps;si++){
+        ctx.lineTo(ax1+si*segW, ay+(Math.random()-0.5)*fs*0.25);
+      }
+      ctx.strokeStyle='rgba(200,255,0,'+(0.4+Math.random()*0.5)+')';
+      ctx.lineWidth=1+Math.random()*2;
+      ctx.shadowColor='#c8ff00'; ctx.shadowBlur=8;
+      ctx.stroke();
+      ctx.shadowBlur=0;
+    }
+
+    // ── GLITCH SLICES ──
     if (glitch.active) {
       glitch.timer--;
       glitch.slices.forEach(function(sl) {
-        var sy=cy-fs*0.55+sl.y*fs*1.1, sh=sl.h*fs;
-        ctx.save(); ctx.beginPath(); ctx.rect(0,sy,W,sh); ctx.clip();
-        ctx.shadowColor='rgba(0,255,200,0.8)'; ctx.shadowBlur=6; ctx.fillStyle='rgba(0,255,200,'+(sl.o*0.4)+')'; ctx.fillText('KRYPTAA',cx+sl.dx,cy);
-        ctx.shadowColor='#c8ff00'; ctx.shadowBlur=10; ctx.fillStyle='rgba(200,255,0,'+sl.o+')'; ctx.fillText('KRYPTAA',cx+sl.dx*0.5,cy);
+        var sy = cy - fs*0.55 + sl.y*fs*1.1;
+        var sh = sl.h * fs;
+        ctx.save();
+        ctx.beginPath(); ctx.rect(cx-fs*1.5, sy, fs*3, sh); ctx.clip();
+        ctx.shadowColor = sl.col === 'cyan' ? 'rgba(0,255,255,0.8)' : 'rgba(255,0,255,0.8)';
+        ctx.shadowBlur = 6;
+        ctx.fillStyle = sl.col === 'cyan' ? 'rgba(0,255,255,'+(sl.o*0.5)+')' : 'rgba(255,0,255,'+(sl.o*0.5)+')';
+        ctx.fillText('KRYPTAA', cx + sl.dx, cy);
+        ctx.shadowColor = '#c8ff00'; ctx.shadowBlur = 10;
+        ctx.fillStyle = 'rgba(200,255,0,'+sl.o+')';
+        ctx.fillText('KRYPTAA', cx + sl.dx*0.4, cy);
         ctx.restore();
       });
-      if(glitch.timer<=0){ glitch.active=false; glitch.cooldown=60+Math.floor(Math.random()*120); }
+
+      // Spawn sparks at glitch start
+      if (t - lastGlitchBurst > 8) {
+        spawnSpark(cx + (Math.random()-0.5)*totalW*0.8, cy + (Math.random()-0.5)*fs*0.4);
+        lastGlitchBurst = t;
+        burstLetterParticles(cx, cy, fs);
+      }
+
+      if (glitch.timer <= 0) {
+        glitch.active = false;
+        glitch.cooldown = 50 + Math.floor(Math.random()*100);
+      }
     }
 
-    for(var sy=cy-fs*0.6; sy<cy+fs*0.6; sy+=3) { ctx.fillStyle='rgba(0,0,0,0.06)'; ctx.fillRect(cx-fs*1.6,sy,fs*3.2,1); }
+    // ── SPARKS ──
+    sparks = sparks.filter(function(sp){ return sp.life > 0; });
+    sparks.forEach(function(sp) {
+      sp.x += sp.vx; sp.y += sp.vy; sp.vy += 0.15; sp.life -= 0.06;
+      ctx.beginPath(); ctx.arc(sp.x, sp.y, sp.size*sp.life, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(200,255,0,'+sp.life+')';
+      ctx.shadowColor = '#c8ff00'; ctx.shadowBlur = 6;
+      ctx.fill(); ctx.shadowBlur = 0;
+    });
 
-    // Tagline — 2 lines
-    // Lines + brackets
-    var lw=fs*1.3, lya=cy+fs*0.47, lyb=cy+fs*0.72;
-    ctx.strokeStyle='rgba(200,255,0,0.2)'; ctx.lineWidth=1;
-    ctx.beginPath(); ctx.moveTo(cx-lw/2,lya); ctx.lineTo(cx+lw/2,lya); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(cx-lw/2,lyb); ctx.lineTo(cx+lw/2,lyb); ctx.stroke();
-    var pad=16, bx1=cx-lw/2-pad, by1=cy-fs*0.56-pad, bx2=cx+lw/2+pad, by2=lyb+pad, bl=22;
-    ctx.strokeStyle='rgba(200,255,0,0.2)'; ctx.lineWidth=1.5;
+    // ── LETTER BURST PARTICLES ──
+    letterPts = letterPts.filter(function(p){ return p.life > 0; });
+    letterPts.forEach(function(p) {
+      p.x += p.vx; p.y += p.vy; p.vy += 0.08; p.life -= 0.04;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size*p.life, 0, Math.PI*2);
+      ctx.fillStyle = p.col.replace(')', ','+p.life+')').replace('rgb','rgba').replace('#c8ff00','rgba(200,255,0,'+p.life+')').replace('#fff','rgba(255,255,255,'+p.life+')');
+      ctx.fill();
+    });
+
+    // ── CORNER BRACKETS ──
+    var pad = 18, bx1 = cx-totalW/2-pad, by1 = cy-fs*0.56-pad;
+    var bx2 = cx+totalW/2+pad, by2 = cy+fs*0.56+pad, bl = 20;
+    var bracketAlpha = 0.15 + Math.sin(t*0.02)*0.05;
+    ctx.strokeStyle = 'rgba(200,255,0,'+bracketAlpha+')'; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.moveTo(bx1,by1+bl); ctx.lineTo(bx1,by1); ctx.lineTo(bx1+bl,by1); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(bx2-bl,by1); ctx.lineTo(bx2,by1); ctx.lineTo(bx2,by1+bl); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(bx1,by2-bl); ctx.lineTo(bx1,by2); ctx.lineTo(bx1+bl,by2); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(bx2-bl,by2); ctx.lineTo(bx2,by2); ctx.lineTo(bx2,by2-bl); ctx.stroke();
+
+    // ── BOTTOM SCAN LINE SWEEP ──
+    var scanY = ((t * 2) % (H + fs)) - fs*0.5;
+    if (scanY > cy-fs*0.6 && scanY < cy+fs*0.6) {
+      ctx.fillStyle = 'rgba(200,255,0,0.04)';
+      ctx.fillRect(cx-totalW/2-pad, scanY, totalW+pad*2, 2);
+    }
 
     ctx.restore();
     requestAnimationFrame(draw);
