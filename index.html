@@ -628,14 +628,14 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
     <span class="ticker-item">NEW DROP 001</span><span class="ticker-item">✦</span>
     <span class="ticker-item">PRE-ORDER NOW OPEN</span><span class="ticker-item">✦</span>
     <span class="ticker-item">FREE SHIPPING OVER $75</span><span class="ticker-item">✦</span>
-    <span class="ticker-item">KRYPTAA SS26</span><span class="ticker-item">✦</span>
+    <span class="ticker-item">KRYPTAA @ ULTRA MIAMI 2026</span><span class="ticker-item">✦</span>
     <span class="ticker-item">WEAR THE VOID</span><span class="ticker-item">✦</span>
     <span class="ticker-item">300GSM HEAVYWEIGHT DTF</span><span class="ticker-item">✦</span>
     <span class="ticker-item">DEFINED BY POWER · DRIVEN BY AURA</span><span class="ticker-item">✦</span>
     <span class="ticker-item">NEW DROP 001</span><span class="ticker-item">✦</span>
     <span class="ticker-item">PRE-ORDER NOW OPEN</span><span class="ticker-item">✦</span>
     <span class="ticker-item">FREE SHIPPING OVER $75</span><span class="ticker-item">✦</span>
-    <span class="ticker-item">KRYPTAA SS26</span><span class="ticker-item">✦</span>
+    <span class="ticker-item">KRYPTAA @ ULTRA MIAMI 2026</span><span class="ticker-item">✦</span>
     <span class="ticker-item">WEAR THE VOID</span><span class="ticker-item">✦</span>
     <span class="ticker-item">300GSM HEAVYWEIGHT DTF</span><span class="ticker-item">✦</span>
     <span class="ticker-item">DEFINED BY POWER · DRIVEN BY AURA</span><span class="ticker-item">✦</span>
@@ -644,9 +644,9 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
 
 <!-- COUNTDOWN -->
 <div class="countdown-bar">
-  <div class="cd-label">Pre-Order Closes In</div>
+  <div class="cd-label">🔥 KRYPTAA AT ULTRA MIAMI — DROP CLOSES IN</div>
   <div class="cd-timer">
-    <div class="cd-unit"><span class="cd-num" id="cdD">14</span><span class="cd-lbl">Days</span></div>
+    <div class="cd-unit"><span class="cd-num" id="cdD">00</span><span class="cd-lbl">Days</span></div>
     <span class="cd-sep">:</span>
     <div class="cd-unit"><span class="cd-num" id="cdH">00</span><span class="cd-lbl">Hrs</span></div>
     <span class="cd-sep">:</span>
@@ -654,12 +654,12 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
     <span class="cd-sep">:</span>
     <div class="cd-unit"><span class="cd-num" id="cdS">00</span><span class="cd-lbl">Sec</span></div>
   </div>
-  <button class="cd-btn" onclick="smoothTo('trackpants')">Pre-Order Now →</button>
+  <button class="cd-btn" onclick="smoothTo('tees')">Secure Your Drop →</button>
 </div>
 
 <!-- PREORDER BANNER -->
 <div class="preorder-banner">
-  <span>⚡ Drop 001 Open — Ships in 2-3 weeks · 300GSM Heavyweight · DTF Print · Free shipping over $75 ⚡</span>
+  <span>⚡ AS SEEN AT ULTRA MIAMI 2026 · Drop 001 · Ships in 2-3 weeks · 300GSM Heavyweight · Free shipping over $75 ⚡</span>
 </div>
 
 
@@ -1121,7 +1121,7 @@ document.getElementById('sizeBg').addEventListener('click', function(e){ if(e.ta
 // ══════════════════════════════════════════════
 // EMAIL POPUP (8 second delay)
 // ══════════════════════════════════════════════
-setTimeout(function() {
+(function() {
   var canvas = document.getElementById('heroCanvas');
   if (!canvas) return;
   if (document.fonts && document.fonts.load) {
@@ -1138,339 +1138,254 @@ setTimeout(function() {
   }
   resize();
   window.addEventListener('resize', resize);
-  window.addEventListener('orientationchange', function(){ setTimeout(resize, 200); });
+  window.addEventListener('orientationchange', function(){ window.setTimeout(resize, 200); });
 
   var ctx = canvas.getContext('2d');
   var t = 0;
   var mx = 0, my = 0, pmx = 0, pmy = 0;
   document.addEventListener('mousemove', function(e) {
-    mx = (e.clientX / window.innerWidth - 0.5);
-    my = (e.clientY / window.innerHeight - 0.5);
+    mx = (e.clientX / window.innerWidth - 0.5) * 0.3; // dampened
+    my = (e.clientY / window.innerHeight - 0.5) * 0.3;
   });
 
-  // ── PARTICLES ──
+  // FPS cap at 45fps
+  var lastFrame = 0;
+  var fpsInterval = 1000 / 45;
+
+  // Particles
   var pts = [];
-  for (var i = 0; i < 300; i++) pts.push({
-    x: Math.random() * 1600, y: Math.random() * 1200,
-    r: Math.random() * 1.8 + 0.2,
-    dx: (Math.random()-0.5)*0.4, dy: (Math.random()-0.5)*0.4,
-    o: Math.random() * 0.28 + 0.05
+  for (var i = 0; i < 200; i++) pts.push({
+    x: Math.random()*1600, y: Math.random()*1200,
+    r: Math.random()*1.5+0.2,
+    dx: (Math.random()-0.5)*0.35, dy: (Math.random()-0.5)*0.35,
+    o: Math.random()*0.22+0.05
   });
 
-  // ── FALLING LINES ──
+  // Falling lines
   var lines = [];
-  for (var i = 0; i < 22; i++) lines.push({
+  for (var i = 0; i < 18; i++) lines.push({
     x: Math.random()*1600, y: Math.random()*-800,
-    len: 40+Math.random()*100, speed: 1+Math.random()*2,
-    o: 0.06+Math.random()*0.18, w: 0.5+Math.random()*1
+    len: 40+Math.random()*90, speed: 0.8+Math.random()*1.8,
+    o: 0.05+Math.random()*0.15, w: 0.5+Math.random()*0.8
   });
 
-  // ── SPARK SYSTEM ──
+  // Sparks
   var sparks = [];
-  function spawnSpark(x, y) {
-    for (var i = 0; i < 6; i++) {
-      var angle = Math.random() * Math.PI * 2;
-      var speed = 1 + Math.random() * 3;
-      sparks.push({
-        x: x, y: y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed - 1,
-        life: 1.0,
-        size: 1 + Math.random() * 2
-      });
+  function spawnSparks(cx, cy, fs) {
+    if (sparks.length > 15) return;
+    for (var i = 0; i < 4; i++) {
+      var a = Math.random()*Math.PI*2, spd = 1.5+Math.random()*2.5;
+      sparks.push({ x:cx+(Math.random()-0.5)*fs*0.8, y:cy+(Math.random()-0.5)*fs*0.3,
+        vx:Math.cos(a)*spd, vy:Math.sin(a)*spd-0.8, life:1.0, size:1+Math.random()*2 });
     }
   }
 
-  // ── GLITCH STATE ──
-  var glitch = { active: false, timer: 0, cooldown: 80, slices: [], flicker: 0, rgb: false };
-
+  // Glitch
+  var glitch = { active:false, timer:0, cooldown:90, slices:[], phase:0 };
   function triggerGlitch() {
-    glitch.active = true;
-    glitch.timer = 12 + Math.floor(Math.random() * 16);
-    glitch.slices = [];
-    glitch.rgb = Math.random() > 0.4;
-    for (var i = 0; i < 4 + Math.floor(Math.random() * 7); i++) {
-      glitch.slices.push({
-        y: Math.random(), h: 0.008 + Math.random() * 0.055,
-        dx: (Math.random() - 0.5) * 40,
-        o: 0.5 + Math.random() * 0.5,
-        col: Math.random() > 0.5 ? 'cyan' : 'magenta'
-      });
+    glitch.active=true; glitch.timer=10+Math.floor(Math.random()*12);
+    glitch.slices=[];
+    for (var i=0;i<3+Math.floor(Math.random()*4);i++) {
+      glitch.slices.push({ y:Math.random(), h:0.01+Math.random()*0.045,
+        dx:(Math.random()-0.5)*28, o:0.45+Math.random()*0.45 });
     }
-    glitch.cooldown = 50 + Math.floor(Math.random() * 100);
+    glitch.cooldown=65+Math.floor(Math.random()*85);
   }
 
-  // ── LETTER PARTICLES on glitch ──
-  var letterPts = [];
-  function burstLetterParticles(cx, cy, fs) {
-    for (var i = 0; i < 18; i++) {
-      var angle = Math.random() * Math.PI * 2;
-      var spd = 2 + Math.random() * 5;
-      letterPts.push({
-        x: cx + (Math.random()-0.5)*fs*1.2,
-        y: cy + (Math.random()-0.5)*fs*0.5,
-        vx: Math.cos(angle)*spd, vy: Math.sin(angle)*spd - 2,
-        life: 1.0, size: 2+Math.random()*4,
-        col: Math.random() > 0.5 ? '#c8ff00' : '#fff'
-      });
-    }
-  }
+  function draw(now) {
+    requestAnimationFrame(draw);
+    var elapsed = now - lastFrame;
+    if (elapsed < fpsInterval) return;
+    lastFrame = now - (elapsed % fpsInterval);
 
-  var lastGlitchBurst = 0;
-
-  function draw() {
     var W = canvas.width, H = canvas.height;
     t++;
-    pmx += (mx - pmx) * 0.05;
-    pmy += (my - pmy) * 0.05;
+    // Smooth, dampened parallax — small movement only for background
+    pmx += (mx - pmx) * 0.04;
+    pmy += (my - pmy) * 0.04;
 
-    ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = '#060608';
-    ctx.fillRect(0, 0, W, H);
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#060608'; ctx.fillRect(0,0,W,H);
 
-    // ── GRID ──
-    ctx.strokeStyle = 'rgba(200,255,0,0.025)'; ctx.lineWidth = 1;
-    var gs = 50, gox = ((pmx*18)%gs+gs)%gs, goy = ((pmy*18)%gs+gs)%gs;
-    for (var x = gox-gs; x < W+gs; x += gs) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-    for (var y = goy-gs; y < H+gs; y += gs) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
+    // ── BACKGROUND ELEMENTS (use parallax) ──
+    // Grid
+    if (t%2===0) {
+      ctx.strokeStyle='rgba(200,255,0,0.025)'; ctx.lineWidth=1;
+      var gs=60;
+      // Parallax offset CLAMPED to small range
+      var gox=((pmx*12)%gs+gs)%gs, goy=((pmy*12)%gs+gs)%gs;
+      for (var x=gox-gs;x<W+gs;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+      for (var y=goy-gs;y<H+gs;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    }
 
-    // ── FALLING LINES ──
+    // Falling lines (with parallax, but they wrap so no fly-off)
     lines.forEach(function(l) {
-      l.y += l.speed; if (l.y > H+100) { l.y = -l.len-20; l.x = Math.random()*W; }
-      var rx = l.x+pmx*18, ry = l.y+pmy*10;
-      var grad = ctx.createLinearGradient(rx,ry,rx,ry+l.len);
-      grad.addColorStop(0,'rgba(200,255,0,0)');
-      grad.addColorStop(0.5,'rgba(200,255,0,'+l.o+')');
-      grad.addColorStop(1,'rgba(200,255,0,0)');
-      ctx.strokeStyle = grad; ctx.lineWidth = l.w;
-      ctx.beginPath(); ctx.moveTo(rx,ry); ctx.lineTo(rx,ry+l.len); ctx.stroke();
+      l.y+=l.speed;
+      if(l.y>H+100){l.y=-l.len-20;l.x=Math.random()*W;}
+      // Wrap x too
+      var rx=(l.x+pmx*10+W*2)%(W+40)-20;
+      var ry=l.y+pmy*6;
+      var g=ctx.createLinearGradient(rx,ry,rx,ry+l.len);
+      g.addColorStop(0,'rgba(200,255,0,0)');
+      g.addColorStop(0.5,'rgba(200,255,0,'+l.o+')');
+      g.addColorStop(1,'rgba(200,255,0,0)');
+      ctx.strokeStyle=g; ctx.lineWidth=l.w;
+      ctx.beginPath();ctx.moveTo(rx,ry);ctx.lineTo(rx,ry+l.len);ctx.stroke();
     });
 
-    // ── PARTICLES ──
+    // Particles (wrap around canvas, no fly-off)
     pts.forEach(function(p) {
       p.x+=p.dx; p.y+=p.dy;
       if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
-      var rx=p.x+pmx*22, ry=p.y+pmy*16;
-      if(rx<0||rx>W||ry<0||ry>H)return;
-      ctx.beginPath(); ctx.arc(rx,ry,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(200,255,0,'+p.o+')'; ctx.fill();
+      // Parallax with wrapping
+      var rx=(p.x+pmx*15+W*2)%(W+10)-5;
+      var ry=(p.y+pmy*10+H*2)%(H+10)-5;
+      if(p.r>0){ctx.beginPath();ctx.arc(rx,ry,Math.max(0.01,p.r),0,Math.PI*2);}
+      ctx.fillStyle='rgba(200,255,0,'+p.o+')';ctx.fill();
     });
 
-    // ── FONT SIZE ──
-    var isMobile = W < 600;
-    var maxW = isMobile ? W*0.88 : W*0.52;
-    var fs = 10;
-    ctx.font = '900 '+fs+'px "Bebas Neue",sans-serif';
-    while(ctx.measureText('KRYPTAA').width < maxW && fs < 500) fs += 2;
-    var maxH = isMobile ? H*0.55 : H*0.38;
-    var maxFW = isMobile ? W*0.38 : W*0.22;
-    fs = Math.min(fs, Math.floor(maxH), Math.floor(maxFW));
-    while(ctx.font='900 '+fs+'px "Bebas Neue",sans-serif', ctx.measureText('KRYPTAA').width > (isMobile?W*0.9:W*0.54) && fs>10) fs-=2;
+    // ── TEXT SETUP — NO parallax, always centered ──
+    var isMobile = W<600;
+    var maxW = isMobile ? W*0.88 : W*0.50;
+    var fs=10;
+    ctx.font='900 '+fs+'px "Bebas Neue",sans-serif';
+    while(ctx.measureText('KRYPTAA').width<maxW&&fs<500) fs+=2;
+    fs=Math.min(fs, Math.floor(isMobile?H*0.52:H*0.36), Math.floor(isMobile?W*0.36:W*0.20));
+    while(ctx.font='900 '+fs+'px "Bebas Neue",sans-serif',
+          ctx.measureText('KRYPTAA').width>(isMobile?W*0.9:W*0.52)&&fs>10) fs-=2;
+
+    // cx/cy FIXED — no parallax on text position
     var cx = isMobile ? W*0.5 : W*0.72;
-    var cy = H/2 - fs*0.05;
-
-    // ── GLITCH TRIGGER ──
-    if (!glitch.active) {
-      glitch.cooldown--;
-      if (glitch.cooldown <= 0) { triggerGlitch(); }
-    }
-
-    ctx.save();
-    ctx.translate(pmx * -8, pmy * -6);
-
-    // ── FLICKER ──
-    glitch.flicker += 0.15;
-    var flicker = glitch.active
-      ? 0.2 + Math.abs(Math.sin(glitch.flicker * 12)) * 0.8
-      : 0.88 + Math.sin(t * 0.018) * 0.12;
-
-    ctx.font = '900 '+fs+'px "Bebas Neue",sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-
-    // ══════════════════════════════════════
-    // CUSTOM LOGO EFFECT: SHATTERED NEON
-    // Each letter drawn individually with:
-    // - Chromatic aberration (RGB split)
-    // - Per-letter vertical offset wobble
-    // - Scanline overlay per letter
-    // - Electric edge glow
-    // ══════════════════════════════════════
-    var letters = ['K','R','Y','P','T','A','A'];
+    var cy = H/2;
     var totalW = ctx.measureText('KRYPTAA').width;
-    var startX = cx - totalW/2;
-    var letterWidths = letters.map(function(l){ return ctx.measureText(l).width; });
-    var cumX = startX;
 
-    letters.forEach(function(letter, i) {
-      var lw = letterWidths[i];
-      var lx = cumX + lw/2;
-      cumX += lw;
+    // Safety clamp — text never goes off canvas
+    cx = Math.max(totalW/2 + 20, Math.min(W - totalW/2 - 20, cx));
 
-      // Per-letter wobble — each letter has its own breathing
-      var wobble = Math.sin(t * 0.04 + i * 0.9) * (glitch.active ? fs*0.04 : fs*0.008);
-      var ly = cy + wobble;
+    // Glitch trigger
+    if (!glitch.active){glitch.cooldown--;if(glitch.cooldown<=0)triggerGlitch();}
+    glitch.phase+=0.15;
+    var flicker = glitch.active
+      ? 0.25+Math.abs(Math.sin(glitch.phase*10))*0.75
+      : 0.88+Math.sin(t*0.018)*0.12;
 
-      // Per-letter scale pulse
-      var pulse = 1 + Math.sin(t * 0.06 + i * 1.1) * (glitch.active ? 0.04 : 0.005);
+    ctx.font='900 '+fs+'px "Bebas Neue",sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
 
-      ctx.save();
-      ctx.translate(lx, ly);
-      ctx.scale(pulse, pulse);
+    // ── LETTERS (per-letter wobble but NO positional parallax) ──
+    var letters=['K','R','Y','P','T','A','A'];
+    var lws=letters.map(function(l){return ctx.measureText(l).width;});
+    var startX=cx-totalW/2;
+    var cumX=startX;
 
-      // ── OUTER HALO (wide diffuse glow) ──
-      ctx.shadowColor = '#c8ff00';
-      ctx.shadowBlur = 60 + Math.sin(t*0.03+i)*15;
-      ctx.fillStyle = 'rgba(200,255,0,'+(0.05*flicker)+')';
-      ctx.fillText(letter, 0, 0);
-      ctx.shadowBlur = 35;
-      ctx.fillStyle = 'rgba(200,255,0,'+(0.10*flicker)+')';
-      ctx.fillText(letter, 0, 0);
-
-      // ── CHROMATIC ABERRATION (RGB split) ──
-      if (glitch.active && glitch.rgb) {
-        var aberr = 3 + Math.random() * 5;
-        ctx.shadowBlur = 0;
-        // Cyan channel left
-        ctx.fillStyle = 'rgba(0,255,255,'+(0.35*flicker)+')';
-        ctx.shadowColor = 'rgba(0,255,255,0.5)'; ctx.shadowBlur = 8;
-        ctx.fillText(letter, -aberr, 0);
-        // Magenta channel right
-        ctx.fillStyle = 'rgba(255,0,255,'+(0.35*flicker)+')';
-        ctx.shadowColor = 'rgba(255,0,255,0.5)'; ctx.shadowBlur = 8;
-        ctx.fillText(letter, aberr, 0);
-        ctx.shadowBlur = 0;
-      } else if (!glitch.active) {
-        // Subtle always-on chroma
-        var microAberr = Math.sin(t*0.02+i)*1.5;
-        ctx.fillStyle = 'rgba(0,255,255,0.06)';
-        ctx.shadowBlur = 0;
-        ctx.fillText(letter, -microAberr, 0);
-        ctx.fillStyle = 'rgba(255,0,180,0.06)';
-        ctx.fillText(letter, microAberr, 0);
-      }
-
-      // ── MAIN LETTER ──
-      ctx.shadowColor = '#c8ff00';
-      ctx.shadowBlur = 14;
-      ctx.fillStyle = 'rgba(200,255,0,'+(0.95*flicker)+')';
-      ctx.fillText(letter, 0, 0);
-      ctx.shadowBlur = 0;
-
-      // ── INNER WHITE HOTSPOT (neon tube) ──
-      ctx.globalCompositeOperation = 'lighter';
-      ctx.font = '900 '+Math.floor(fs*0.75)+'px "Bebas Neue",sans-serif';
-      ctx.fillStyle = 'rgba(255,255,255,'+(0.12*flicker)+')';
-      ctx.shadowColor = 'rgba(255,255,220,0.8)'; ctx.shadowBlur = 3;
-      ctx.fillText(letter, 0, 0);
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.shadowBlur = 0;
-      ctx.font = '900 '+fs+'px "Bebas Neue",sans-serif';
-
-      // ── PER-LETTER SCAN LINES ──
-      var letterHalfH = fs * 0.55;
-      var letterHalfW = lw * 0.5;
-      for (var sy = -letterHalfH; sy < letterHalfH; sy += 4) {
-        ctx.fillStyle = 'rgba(0,0,0,0.07)';
-        ctx.fillRect(-letterHalfW, sy, lw, 1);
-      }
-
-      ctx.restore();
-    });
-
-    // ── ELECTRIC ARC between letters (random) ──
-    if (glitch.active && Math.random() > 0.6) {
-      var arcIdx = Math.floor(Math.random() * (letters.length - 1));
-      var ax1 = startX; var ax2 = startX;
-      for(var ai=0;ai<arcIdx;ai++) ax1+=letterWidths[ai];
-      ax1 += letterWidths[arcIdx];
-      ax2 = ax1 + letterWidths[arcIdx+1];
-      var ay = cy - fs*0.3 + Math.random()*fs*0.6;
-      ctx.beginPath();
-      ctx.moveTo(ax1, ay);
-      var steps = 4+Math.floor(Math.random()*4);
-      var segW = (ax2-ax1)/steps;
-      for(var si=1;si<=steps;si++){
-        ctx.lineTo(ax1+si*segW, ay+(Math.random()-0.5)*fs*0.25);
-      }
-      ctx.strokeStyle='rgba(200,255,0,'+(0.4+Math.random()*0.5)+')';
-      ctx.lineWidth=1+Math.random()*2;
-      ctx.shadowColor='#c8ff00'; ctx.shadowBlur=8;
-      ctx.stroke();
-      ctx.shadowBlur=0;
+    // Pass 1: Diffuse outer glow
+    ctx.shadowColor='#c8ff00'; ctx.shadowBlur=55;
+    ctx.fillStyle='rgba(200,255,0,'+(0.07*flicker)+')';
+    cumX=startX;
+    for(var i=0;i<letters.length;i++){
+      var wb=Math.sin(t*0.035+i*0.85)*(glitch.active?fs*0.032:fs*0.005);
+      ctx.fillText(letters[i], cumX+lws[i]/2, cy+wb);
+      cumX+=lws[i];
     }
 
-    // ── GLITCH SLICES ──
-    if (glitch.active) {
+    // Pass 2: Chromatic aberration
+    ctx.shadowBlur=0;
+    if(glitch.active){
+      var ab=3+Math.random()*4;
+      cumX=startX;
+      ctx.fillStyle='rgba(0,255,255,0.28)';
+      for(var i=0;i<letters.length;i++){ctx.fillText(letters[i],cumX+lws[i]/2-ab,cy);cumX+=lws[i];}
+      cumX=startX;
+      ctx.fillStyle='rgba(255,0,200,0.28)';
+      for(var i=0;i<letters.length;i++){ctx.fillText(letters[i],cumX+lws[i]/2+ab,cy);cumX+=lws[i];}
+    } else {
+      cumX=startX;
+      ctx.fillStyle='rgba(0,255,200,0.04)';
+      for(var i=0;i<letters.length;i++){
+        var mc=Math.sin(t*0.015+i)*1.0;
+        ctx.fillText(letters[i],cumX+lws[i]/2-mc,cy);
+        cumX+=lws[i];
+      }
+    }
+
+    // Pass 3: Sharp main text
+    ctx.shadowColor='#c8ff00'; ctx.shadowBlur=10;
+    ctx.fillStyle='rgba(200,255,0,'+(0.96*flicker)+')';
+    cumX=startX;
+    for(var i=0;i<letters.length;i++){
+      var wb=Math.sin(t*0.035+i*0.85)*(glitch.active?fs*0.032:fs*0.005);
+      ctx.fillText(letters[i], cumX+lws[i]/2, cy+wb);
+      cumX+=lws[i];
+    }
+    ctx.shadowBlur=0;
+
+    // Pass 4: Hotspot
+    ctx.globalCompositeOperation='lighter';
+    ctx.font='900 '+Math.floor(fs*0.8)+'px "Bebas Neue",sans-serif';
+    ctx.fillStyle='rgba(255,255,200,'+(0.09*flicker)+')';
+    ctx.fillText('KRYPTAA',cx,cy);
+    ctx.globalCompositeOperation='source-over';
+    ctx.font='900 '+fs+'px "Bebas Neue",sans-serif';
+
+    // Scanlines (every 3rd frame)
+    if(t%3===0){
+      var slX=cx-totalW/2-8;
+      for(var sy=cy-fs*0.55;sy<cy+fs*0.55;sy+=4){
+        ctx.fillStyle='rgba(0,0,0,0.05)';
+        ctx.fillRect(slX,sy,totalW+16,1.5);
+      }
+    }
+
+    // Glitch slices
+    if(glitch.active){
       glitch.timer--;
-      glitch.slices.forEach(function(sl) {
-        var sy = cy - fs*0.55 + sl.y*fs*1.1;
-        var sh = sl.h * fs;
+      glitch.slices.forEach(function(sl){
+        var sy=cy-fs*0.55+sl.y*fs*1.1, sh=sl.h*fs;
         ctx.save();
-        ctx.beginPath(); ctx.rect(cx-fs*1.5, sy, fs*3, sh); ctx.clip();
-        ctx.shadowColor = sl.col === 'cyan' ? 'rgba(0,255,255,0.8)' : 'rgba(255,0,255,0.8)';
-        ctx.shadowBlur = 6;
-        ctx.fillStyle = sl.col === 'cyan' ? 'rgba(0,255,255,'+(sl.o*0.5)+')' : 'rgba(255,0,255,'+(sl.o*0.5)+')';
-        ctx.fillText('KRYPTAA', cx + sl.dx, cy);
-        ctx.shadowColor = '#c8ff00'; ctx.shadowBlur = 10;
-        ctx.fillStyle = 'rgba(200,255,0,'+sl.o+')';
-        ctx.fillText('KRYPTAA', cx + sl.dx*0.4, cy);
-        ctx.restore();
+        ctx.beginPath();ctx.rect(cx-totalW/2-10,sy,totalW+20,sh);ctx.clip();
+        ctx.fillStyle='rgba(0,255,255,'+(sl.o*0.4)+')';
+        ctx.fillText('KRYPTAA',cx+sl.dx,cy);
+        ctx.shadowColor='#c8ff00';ctx.shadowBlur=8;
+        ctx.fillStyle='rgba(200,255,0,'+sl.o+')';
+        ctx.fillText('KRYPTAA',cx+sl.dx*0.3,cy);
+        ctx.shadowBlur=0;ctx.restore();
       });
-
-      // Spawn sparks at glitch start
-      if (t - lastGlitchBurst > 8) {
-        spawnSpark(cx + (Math.random()-0.5)*totalW*0.8, cy + (Math.random()-0.5)*fs*0.4);
-        lastGlitchBurst = t;
-        burstLetterParticles(cx, cy, fs);
+      // Electric arc
+      if(Math.random()>0.72){
+        var ai=Math.floor(Math.random()*(letters.length-1));
+        var ax1=startX,ax2=startX;
+        for(var j=0;j<=ai;j++)ax1+=lws[j];
+        ax2=ax1+lws[ai+1];
+        var ay=cy+(Math.random()-0.5)*fs*0.45;
+        ctx.beginPath();ctx.moveTo(ax1,ay);
+        for(var s=1;s<=3;s++)ctx.lineTo(ax1+(ax2-ax1)*s/3,ay+(Math.random()-0.5)*fs*0.18);
+        ctx.strokeStyle='rgba(200,255,0,0.75)';ctx.lineWidth=1.5;
+        ctx.shadowColor='#c8ff00';ctx.shadowBlur=5;ctx.stroke();ctx.shadowBlur=0;
       }
-
-      if (glitch.timer <= 0) {
-        glitch.active = false;
-        glitch.cooldown = 50 + Math.floor(Math.random()*100);
-      }
+      spawnSparks(cx,cy,fs);
+      if(glitch.timer<=0){glitch.active=false;glitch.cooldown=65+Math.floor(Math.random()*85);}
     }
 
-    // ── SPARKS ──
-    sparks = sparks.filter(function(sp){ return sp.life > 0; });
-    sparks.forEach(function(sp) {
-      sp.x += sp.vx; sp.y += sp.vy; sp.vy += 0.15; sp.life -= 0.06;
-      ctx.beginPath(); ctx.arc(sp.x, sp.y, sp.size*sp.life, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(200,255,0,'+sp.life+')';
-      ctx.shadowColor = '#c8ff00'; ctx.shadowBlur = 6;
-      ctx.fill(); ctx.shadowBlur = 0;
+    // Sparks — update first, filter dead ones, then draw survivors
+    sparks.forEach(function(sp){sp.x+=sp.vx;sp.y+=sp.vy;sp.vy+=0.1;sp.life-=0.05;});
+    sparks=sparks.filter(function(s){return s.life>0.02;});
+    sparks.forEach(function(sp){
+      var spR=Math.max(0.1,sp.size*sp.life);
+      ctx.beginPath();ctx.arc(sp.x,sp.y,spR,0,Math.PI*2);
+      ctx.fillStyle='rgba(200,255,0,'+Math.max(0,sp.life)+')';ctx.fill();
     });
 
-    // ── LETTER BURST PARTICLES ──
-    letterPts = letterPts.filter(function(p){ return p.life > 0; });
-    letterPts.forEach(function(p) {
-      p.x += p.vx; p.y += p.vy; p.vy += 0.08; p.life -= 0.04;
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.size*p.life, 0, Math.PI*2);
-      ctx.fillStyle = p.col.replace(')', ','+p.life+')').replace('rgb','rgba').replace('#c8ff00','rgba(200,255,0,'+p.life+')').replace('#fff','rgba(255,255,255,'+p.life+')');
-      ctx.fill();
-    });
-
-    // ── CORNER BRACKETS ──
-    var pad = 18, bx1 = cx-totalW/2-pad, by1 = cy-fs*0.56-pad;
-    var bx2 = cx+totalW/2+pad, by2 = cy+fs*0.56+pad, bl = 20;
-    var bracketAlpha = 0.15 + Math.sin(t*0.02)*0.05;
-    ctx.strokeStyle = 'rgba(200,255,0,'+bracketAlpha+')'; ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.moveTo(bx1,by1+bl); ctx.lineTo(bx1,by1); ctx.lineTo(bx1+bl,by1); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(bx2-bl,by1); ctx.lineTo(bx2,by1); ctx.lineTo(bx2,by1+bl); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(bx1,by2-bl); ctx.lineTo(bx1,by2); ctx.lineTo(bx1+bl,by2); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(bx2-bl,by2); ctx.lineTo(bx2,by2); ctx.lineTo(bx2,by2-bl); ctx.stroke();
-
-    // ── BOTTOM SCAN LINE SWEEP ──
-    var scanY = ((t * 2) % (H + fs)) - fs*0.5;
-    if (scanY > cy-fs*0.6 && scanY < cy+fs*0.6) {
-      ctx.fillStyle = 'rgba(200,255,0,0.04)';
-      ctx.fillRect(cx-totalW/2-pad, scanY, totalW+pad*2, 2);
-    }
-
-    ctx.restore();
-    requestAnimationFrame(draw);
+    // Bracket corners (static — no parallax)
+    var pad=14,bx1=cx-totalW/2-pad,by1=cy-fs*0.56-pad;
+    var bx2=cx+totalW/2+pad,by2=cy+fs*0.56+pad,bl=16;
+    var ba=0.12+Math.sin(t*0.022)*0.04;
+    ctx.strokeStyle='rgba(200,255,0,'+ba+')';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(bx1,by1+bl);ctx.lineTo(bx1,by1);ctx.lineTo(bx1+bl,by1);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(bx2-bl,by1);ctx.lineTo(bx2,by1);ctx.lineTo(bx2,by1+bl);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(bx1,by2-bl);ctx.lineTo(bx1,by2);ctx.lineTo(bx1+bl,by2);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(bx2-bl,by2);ctx.lineTo(bx2,by2);ctx.lineTo(bx2,by2-bl);ctx.stroke();
   }
-  draw();
+  requestAnimationFrame(draw);
 })();
 
 // shake anim
@@ -1481,6 +1396,26 @@ document.head.appendChild(s);
 // ══════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════
+
+// ══════════════════════════════════════════════
+// COUNTDOWN — Ultra Miami March 27 2026
+// ══════════════════════════════════════════════
+var ultraDropEnd = new Date('2026-03-27T12:00:00');
+function tick() {
+  var diff = ultraDropEnd - new Date();
+  if (diff < 0) diff = 0;
+  var d = document.getElementById('cdD');
+  var h = document.getElementById('cdH');
+  var m = document.getElementById('cdM');
+  var elS2 = document.getElementById('cdS');
+  if(d) d.textContent = String(Math.floor(diff/86400000)).padStart(2,'0');
+  if(h) h.textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+  if(m) m.textContent = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+  if(elS2) elS2.textContent = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+}
+window.setInterval(tick, 1000);
+tick();
+
 initStore();
 </script>
 </body>
