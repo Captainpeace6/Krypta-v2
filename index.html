@@ -3,7 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KRYPTAA — New Arrival</title>
+<title>KRYPTAA — Gothic Streetwear | Shop Drop 001</title>
+<meta name="description" content="KRYPTAA — Dark gothic streetwear from Philadelphia. Shop Drop 001: oversized tees, anime jeans, track pants. Limited pre-order. Defined by power, driven by aura.">
+<meta name="keywords" content="KRYPTAA, gothic streetwear, dark fashion, anime jeans, oversized tees, track pants, Philadelphia streetwear, limited drop, pre-order">
+<meta name="author" content="KRYPTAA">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://kryptaa.com/">
+<!-- Open Graph -->
+<meta property="og:title" content="KRYPTAA — Gothic Streetwear | Drop 001">
+<meta property="og:description" content="Dark gothic streetwear. Limited pre-order. Defined by power, driven by aura.">
+<meta property="og:url" content="https://kryptaa.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KRYPTAA">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="KRYPTAA — Gothic Streetwear">
+<meta name="twitter:description" content="Dark gothic streetwear. Limited pre-order. Defined by power, driven by aura.">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Russo+One&family=Black+Ops+One&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;600;900&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -103,7 +118,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify
 .preorder-banner span { font-family:'Space Mono',monospace; font-size:0.6rem; letter-spacing:0.22em; color:#fff; text-transform:uppercase; }
 
 /* SECTION */
-.section { padding:60px 40px; }
+.section { padding:72px 40px; }
 .section-head { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:32px; flex-wrap:wrap; gap:12px; }
 .section-title { font-family:'Bebas Neue',sans-serif; font-size:2.4rem; letter-spacing:0.05em; }
 .section-tag { font-family:'Space Mono',monospace; font-size:0.55rem; letter-spacing:0.25em; color:var(--purple-light); text-transform:uppercase; }
@@ -355,8 +370,9 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
   .hero {
     flex-direction:column;
     height:auto;
-    min-height:100vh;
+    min-height:unset;
     padding-top:56px;
+    padding-bottom:0;
   }
   .hero-grid { display:none; } /* hide grid lines on mobile */
   .hero-left {
@@ -369,9 +385,9 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
   }
   .hero-right {
     width:100%;
-    height:50vw;
-    min-height:200px;
-    max-height:260px;
+    height:42vw;
+    min-height:160px;
+    max-height:220px;
     position:relative;
     order:2;
     flex-shrink:0;
@@ -523,7 +539,7 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
 .email-bar-input::placeholder { color:rgba(255,255,255,0.3); }
 .email-bar-btn { background:linear-gradient(135deg,#d4a500,#a87c00); color:#000; border:none; padding:11px 22px; font-family:'Space Mono',monospace; font-size:0.6rem; letter-spacing:0.16em; text-transform:uppercase; font-weight:700; cursor:pointer; white-space:nowrap; transition:all 0.2s; }
 .email-bar-btn:hover { background:var(--accent); }
-@media(max-width:768px){ .email-bar{padding:16px 18px;} .email-bar-inner{flex-direction:column;align-items:flex-start;} .email-bar-form{width:100%;} .email-bar-input{flex:1;width:auto;} }
+@media(max-width:768px){ .email-bar{padding:14px 16px;margin-top:0;} .email-bar-inner{flex-direction:column;align-items:flex-start;gap:12px;} .email-bar-form{width:100%;} .email-bar-input{flex:1;width:auto;} }
 
 /* ── HOW IT WORKS ── */
 .how-section { padding:70px 40px; background:#050505; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
@@ -531,14 +547,14 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
 .how-tag { font-family:'Space Mono',monospace; font-size:0.55rem; letter-spacing:0.28em; color:rgba(212,165,0,0.7); text-transform:uppercase; margin-bottom:10px; }
 .how-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,3.2rem); letter-spacing:0.06em; margin-bottom:50px; }
 .how-steps { display:flex; align-items:center; justify-content:center; gap:0; flex-wrap:wrap; }
-.how-step { flex:1; min-width:220px; max-width:280px; padding:32px 24px; background:var(--surface); border:1px solid var(--border); position:relative; transition:all 0.3s; }
+.how-step { flex:1; min-width:200px; max-width:260px; padding:28px 20px; background:var(--surface); border:1px solid var(--border); position:relative; transition:all 0.3s; }
 .how-step:hover { border-color:rgba(212,165,0,0.4); transform:translateY(-4px); }
 .how-num { position:absolute; top:16px; right:16px; font-family:'Bebas Neue',sans-serif; font-size:2.5rem; color:rgba(212,165,0,0.08); line-height:1; }
 .how-icon { font-size:2rem; margin-bottom:14px; display:block; }
 .how-step-title { font-family:'Bebas Neue',sans-serif; font-size:1.3rem; letter-spacing:0.08em; margin-bottom:10px; color:var(--white); }
 .how-step-desc { font-family:'Barlow Condensed',sans-serif; font-size:0.9rem; color:var(--muted); line-height:1.6; }
 .how-connector { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:rgba(212,165,0,0.3); padding:0 12px; flex-shrink:0; }
-@media(max-width:768px){ .how-section{padding:50px 18px;} .how-connector{transform:rotate(90deg);padding:8px 0;} .how-steps{gap:8px;} .how-step{max-width:100%;} }
+@media(max-width:768px){ .how-section{padding:40px 16px;} .how-connector{transform:rotate(90deg);padding:6px 0;} .how-steps{gap:8px;} .how-step{max-width:100%;min-width:unset;width:100%;padding:20px 16px;} .how-svg{width:60px;height:60px;} .how-icon-wrap{width:68px;height:68px;} }
 
 /* ── BRAND STORY ── */
 .story-section { padding:80px 40px; background:var(--black); border-top:1px solid var(--border); }
@@ -575,8 +591,8 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
 
 
 /* ── HOW IT WORKS — Custom SVG Animations ── */
-.how-icon-wrap { width:90px; height:90px; margin:0 auto 18px; display:flex; align-items:center; justify-content:center; }
-.how-svg { width:80px; height:80px; overflow:visible; }
+.how-icon-wrap { width:80px; height:80px; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.how-svg { width:72px; height:72px; overflow:hidden; }
 
 /* Eye animations */
 @keyframes eyeScan { 0%,100%{transform:translateX(0)} 50%{transform:translateX(6px)} }
@@ -615,6 +631,114 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
 .how-step { cursor:default; }
 .how-step:hover { border-color:rgba(212,165,0,0.5) !important; transform:translateY(-6px) !important; box-shadow:0 12px 40px rgba(212,165,0,0.12); }
 
+
+.hero-product-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.18em;
+  color: rgba(200,255,0,0.6);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  margin-top: -8px;
+  animation: fadeInUp 1s ease 0.5s both;
+}
+@keyframes fadeInUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+
+/* ── FULL SIZE GUIDE MODAL ── */
+.size-bg { position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:800;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity 0.3s; }
+.size-bg.open { opacity:1;pointer-events:all; }
+.size-modal { background:var(--void);border:1px solid rgba(200,255,0,0.2);width:100%;max-width:680px;max-height:88vh;overflow-y:auto;transform:translateY(20px);transition:transform 0.3s;position:relative; }
+.size-bg.open .size-modal { transform:translateY(0); }
+.sm-acid { height:3px;background:var(--accent); }
+.sm-inner { padding:28px 24px; }
+.sm-close { position:absolute;top:16px;right:16px;background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer; }
+.sm-close:hover { color:var(--white); }
+.sm-title { font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.08em;margin-bottom:4px; }
+.sm-sub { font-family:'Space Mono',monospace;font-size:0.5rem;letter-spacing:0.14em;color:var(--muted);text-transform:uppercase;margin-bottom:18px; }
+.sm-toggle-row { display:flex;gap:6px;margin-bottom:16px; }
+.sm-unit { font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;padding:7px 18px;background:transparent;border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all 0.2s; }
+.sm-unit.active { background:var(--accent);color:#000;border-color:var(--accent);font-weight:700; }
+.sm-tabs { display:flex;gap:4px;flex-wrap:wrap;margin-bottom:18px;border-bottom:1px solid var(--border);padding-bottom:14px; }
+.sm-tab { font-family:'Space Mono',monospace;font-size:0.48rem;letter-spacing:0.12em;padding:6px 12px;background:transparent;border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all 0.2s;text-transform:uppercase; }
+.sm-tab.active,.sm-tab:hover { border-color:var(--accent);color:var(--accent); }
+.sm-note { font-family:'Space Mono',monospace;font-size:0.48rem;letter-spacing:0.1em;color:rgba(200,255,0,0.6);text-transform:uppercase;margin-bottom:12px;padding:8px 10px;border-left:2px solid var(--accent); }
+.sm-table { width:100%;border-collapse:collapse;margin-bottom:12px; }
+.sm-table th { font-family:'Space Mono',monospace;font-size:0.48rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);text-align:center;padding:8px 6px;border-bottom:1px solid var(--border); }
+.sm-table td { font-family:'Barlow Condensed',sans-serif;font-size:0.9rem;text-align:center;padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--muted); }
+.sm-table tr:first-child td { font-weight:700;color:var(--white); }
+.sm-table tr:hover td { background:rgba(200,255,0,0.03); }
+.sm-footnote { font-family:'Space Mono',monospace;font-size:0.44rem;letter-spacing:0.1em;color:var(--muted);line-height:1.6;margin-top:8px; }
+@media(max-width:480px){ .sm-inner{padding:20px 14px;} .sm-tabs{gap:3px;} .sm-tab{font-size:0.42rem;padding:5px 8px;} .sm-table th,.sm-table td{padding:6px 4px;font-size:0.42rem;} }
+
+
+/* ── POLICY STRIP ── */
+.policy-strip { background:#070709; border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:28px 40px; }
+.policy-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+.policy-item { display:flex; align-items:center; gap:12px; flex:1; min-width:180px; }
+.policy-icon { font-size:1.4rem; flex-shrink:0; }
+.policy-title { font-family:'Bebas Neue',sans-serif; font-size:0.9rem; letter-spacing:0.08em; color:var(--white); }
+.policy-sub { font-family:'Space Mono',monospace; font-size:0.44rem; letter-spacing:0.1em; color:var(--muted); margin-top:2px; }
+.policy-divider { width:1px; height:36px; background:var(--border); flex-shrink:0; }
+@media(max-width:768px){ .policy-strip{padding:20px 16px;} .policy-divider{display:none;} .policy-inner{gap:16px;} .policy-item{min-width:140px;} }
+
+
+/* ── VOID ARCHIVE ── */
+.archive-section { padding:72px 40px; background:var(--black); border-top:1px solid var(--border); }
+.archive-inner { max-width:1100px; margin:0 auto; }
+.archive-tag { font-family:'Space Mono',monospace; font-size:0.52rem; letter-spacing:0.28em; color:var(--muted); text-transform:uppercase; margin-bottom:8px; }
+.archive-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.4rem,4vw,3.5rem); letter-spacing:0.06em; margin-bottom:8px; }
+.archive-sub { font-family:'Barlow Condensed',sans-serif; font-size:1rem; color:var(--muted); margin-bottom:36px; }
+.archive-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+@media(max-width:768px){ .archive-grid{grid-template-columns:1fr;gap:14px;} .archive-section{padding:48px 16px;} }
+.archive-card { background:var(--surface); border:1px solid var(--border); padding:28px 24px; position:relative; transition:all 0.3s; }
+.archive-card.active { border-color:rgba(200,255,0,0.3); }
+.archive-card.locked { opacity:0.7; filter:brightness(0.8); }
+.archive-card:hover { transform:translateY(-3px); border-color:rgba(200,255,0,0.25); }
+.archive-card-tag { font-family:'Space Mono',monospace; font-size:0.48rem; letter-spacing:0.16em; text-transform:uppercase; margin-bottom:14px; }
+.archive-card-tag.live { color:var(--accent); }
+.archive-card-tag.soon { color:var(--muted); }
+.archive-card-num { font-family:'Bebas Neue',sans-serif; font-size:3rem; color:rgba(255,255,255,0.06); line-height:1; position:absolute; top:16px; right:20px; }
+.archive-card-name { font-family:'Bebas Neue',sans-serif; font-size:1.6rem; letter-spacing:0.06em; margin-bottom:6px; }
+.archive-card-items { font-family:'Space Mono',monospace; font-size:0.5rem; letter-spacing:0.1em; color:var(--muted); margin-bottom:8px; text-transform:uppercase; }
+.archive-card-count { font-family:'Space Mono',monospace; font-size:0.48rem; letter-spacing:0.1em; color:rgba(200,255,0,0.5); margin-bottom:18px; }
+.archive-card-btn { display:inline-block; font-family:'Space Mono',monospace; font-size:0.55rem; letter-spacing:0.18em; text-transform:uppercase; font-weight:700; background:var(--accent); color:#000; border:none; padding:10px 20px; cursor:pointer; text-decoration:none; transition:all 0.2s; }
+.archive-card-btn:hover { background:var(--white); }
+.locked-btn { background:transparent; color:var(--muted); border:1px solid var(--border); }
+.locked-btn:hover { border-color:var(--accent); color:var(--accent); background:transparent; }
+
+
+/* ── REVIEWS ── */
+.reviews-section { padding:72px 40px; background:#050507; border-top:1px solid var(--border); }
+.reviews-inner { max-width:1100px; margin:0 auto; }
+.reviews-tag { font-family:'Space Mono',monospace; font-size:0.52rem; letter-spacing:0.28em; color:var(--muted); text-transform:uppercase; margin-bottom:8px; }
+.reviews-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(2.4rem,4vw,3.5rem); letter-spacing:0.06em; margin-bottom:8px; }
+.reviews-sub { font-family:'Barlow Condensed',sans-serif; font-size:1rem; color:var(--muted); margin-bottom:36px; }
+.reviews-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:20px; }
+@media(max-width:900px){ .reviews-grid{grid-template-columns:1fr;gap:14px;} .reviews-section{padding:48px 16px;} }
+.review-card { background:var(--surface); border:1px solid var(--border); padding:24px; display:flex; flex-direction:column; gap:14px; transition:all 0.3s; }
+.review-card:hover { border-color:rgba(200,255,0,0.2); transform:translateY(-2px); }
+.review-stars { color:#d4a500; font-size:0.9rem; letter-spacing:2px; }
+.review-text { font-family:'Barlow Condensed',sans-serif; font-size:0.95rem; color:rgba(255,255,255,0.75); line-height:1.65; flex:1; font-style:italic; }
+.review-footer { display:flex; align-items:center; gap:10px; padding-top:12px; border-top:1px solid var(--border); }
+.review-avatar { width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,#1a1200,#3a2800); border:1px solid rgba(212,165,0,0.3); display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-size:0.5rem; color:rgba(212,165,0,0.8); flex-shrink:0; }
+.review-name { font-family:'Space Mono',monospace; font-size:0.55rem; letter-spacing:0.1em; color:var(--white); font-weight:700; }
+.review-meta { font-family:'Space Mono',monospace; font-size:0.44rem; letter-spacing:0.08em; color:var(--muted); margin-top:2px; }
+.review-badge { margin-left:auto; font-family:'Space Mono',monospace; font-size:0.4rem; letter-spacing:0.12em; color:rgba(200,255,0,0.7); border:1px solid rgba(200,255,0,0.2); padding:3px 7px; flex-shrink:0; }
+.reviews-disclaimer { font-family:'Space Mono',monospace; font-size:0.44rem; letter-spacing:0.1em; color:var(--muted); text-align:center; padding-top:8px; }
+
+
+/* ── STOCK SCARCITY ── */
+.card-stock-warn { display:block; font-family:'Space Mono',monospace; font-size:0.44rem; letter-spacing:0.1em; color:rgba(255,80,80,0.9); text-transform:uppercase; margin-bottom:3px; }
+.card-stock-ok { display:block; font-family:'Space Mono',monospace; font-size:0.44rem; letter-spacing:0.1em; color:rgba(200,255,0,0.5); text-transform:uppercase; margin-bottom:3px; }
+
+
+/* ── NAV SOCIAL ICONS ── */
+.nav-social { display:flex; align-items:center; gap:10px; margin-right:16px; }
+.nav-social-link { color:var(--muted); transition:color 0.2s; display:flex; align-items:center; }
+.nav-social-link:hover { color:var(--accent); }
+@media(max-width:768px){ .nav-social{display:none;} }
+
 </style>
 </head>
 <body>
@@ -635,7 +759,7 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
         <input class="popup-input" type="email" id="popupEmailInput" placeholder="YOUR EMAIL ADDRESS">
         <button class="popup-submit" onclick="submitEmailPopup()">CLAIM</button>
       </div>
-      <div class="popup-fine">Unsubscribe anytime. We never spam.</div>
+      <div class="popup-fine">Unsubscribe anytime. No noise. Just drops.</div>
     </div>
   </div>
 </div>
@@ -666,24 +790,114 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
   </div>
 </div>
 
-<!-- SIZE GUIDE MODAL -->
-<div class="size-bg" id="sizeBg">
-  <div class="size-box">
-    <button class="size-close" onclick="closeSizeGuide()">✕</button>
-    <div class="size-title">SIZE GUIDE</div>
-    <div class="size-sub">All measurements in inches — fits are oversized</div>
-    <table class="size-tbl">
-      <thead><tr><th>Size</th><th>Waist</th><th>Hip</th><th>Length</th><th>Fit</th></tr></thead>
-      <tbody>
-        <tr><td>XS</td><td>24–26"</td><td>34–36"</td><td>40"</td><td>Oversized</td></tr>
-        <tr><td>S</td><td>26–28"</td><td>36–38"</td><td>41"</td><td>Oversized</td></tr>
-        <tr><td>M</td><td>28–30"</td><td>38–40"</td><td>42"</td><td>Oversized</td></tr>
-        <tr><td>L</td><td>30–33"</td><td>40–43"</td><td>43"</td><td>Oversized</td></tr>
-        <tr><td>XL</td><td>33–36"</td><td>43–46"</td><td>44"</td><td>Oversized</td></tr>
-      </tbody>
-    </table>
-    <p style="font-family:'Space Mono',monospace;font-size:0.5rem;color:var(--muted);margin-top:14px;letter-spacing:0.1em;">Model is 5'8" wearing size S. Low-rise elastic + drawstring waist.</p>
+
+<!-- SIZE GUIDE MODAL — Full measurements IN/CM -->
+<div class="size-bg" id="sizeBg" onclick="closeSizeGuide()">
+  <div class="size-modal" onclick="event.stopPropagation()">
+    <div class="sm-acid"></div>
+    <div class="sm-inner">
+      <button class="sm-close" onclick="closeSizeGuide()">✕</button>
+      <div class="sm-title">SIZE GUIDE</div>
+      <div class="sm-sub">Garment measurements. When between sizes, size up.</div>
+
+      <!-- Unit Toggle -->
+      <div class="sm-toggle-row">
+        <button class="sm-unit active" id="smIN" onclick="switchUnit('in')">IN</button>
+        <button class="sm-unit" id="smCM" onclick="switchUnit('cm')">CM</button>
+      </div>
+
+      <!-- Tab selector -->
+      <div class="sm-tabs">
+        <button class="sm-tab active" onclick="switchSizeTab(this,'tab-tees')">T-SHIRTS</button>
+        <button class="sm-tab" onclick="switchSizeTab(this,'tab-mens')">MENS JEANS</button>
+        <button class="sm-tab" onclick="switchSizeTab(this,'tab-womens')">WOMENS JEANS</button>
+        <button class="sm-tab" onclick="switchSizeTab(this,'tab-track')">TRACK PANTS</button>
+        <button class="sm-tab" onclick="switchSizeTab(this,'tab-anime')">ANIME TRACKS</button>
+      </div>
+
+      <!-- T-SHIRTS -->
+      <div class="sm-table-wrap" id="tab-tees">
+        <div class="sm-note">USA Oversized T-Shirt · 300GSM · Tolerance ±0.5"</div>
+        <table class="sm-table">
+          <thead><tr><th>Size</th><th class="in-col">Half Chest (in)</th><th class="in-col">Length (in)</th><th class="in-col">Sleeve (in)</th><th class="cm-col" style="display:none">Half Chest (cm)</th><th class="cm-col" style="display:none">Length (cm)</th><th class="cm-col" style="display:none">Sleeve (cm)</th></tr></thead>
+          <tbody>
+            <tr><td>XS</td><td class="in-col">19</td><td class="in-col">27</td><td class="in-col">7</td><td class="cm-col" style="display:none">48.3</td><td class="cm-col" style="display:none">68.6</td><td class="cm-col" style="display:none">17.8</td></tr>
+            <tr><td>S</td><td class="in-col">20</td><td class="in-col">28</td><td class="in-col">7.5</td><td class="cm-col" style="display:none">50.8</td><td class="cm-col" style="display:none">71.1</td><td class="cm-col" style="display:none">19.1</td></tr>
+            <tr><td>M</td><td class="in-col">21</td><td class="in-col">29</td><td class="in-col">8</td><td class="cm-col" style="display:none">53.3</td><td class="cm-col" style="display:none">73.7</td><td class="cm-col" style="display:none">20.3</td></tr>
+            <tr><td>L</td><td class="in-col">22</td><td class="in-col">30</td><td class="in-col">8.5</td><td class="cm-col" style="display:none">55.9</td><td class="cm-col" style="display:none">76.2</td><td class="cm-col" style="display:none">21.6</td></tr>
+            <tr><td>XL</td><td class="in-col">23</td><td class="in-col">31</td><td class="in-col">9</td><td class="cm-col" style="display:none">58.4</td><td class="cm-col" style="display:none">78.7</td><td class="cm-col" style="display:none">22.9</td></tr>
+            <tr><td>XXL</td><td class="in-col">24</td><td class="in-col">32</td><td class="in-col">9.5</td><td class="cm-col" style="display:none">61.0</td><td class="cm-col" style="display:none">81.3</td><td class="cm-col" style="display:none">24.1</td></tr>
+          </tbody>
+        </table>
+        <div class="sm-footnote">Half Chest: measured flat, pit-to-pit · Length: HPS to bottom hem · Sleeve: shoulder seam to end</div>
+      </div>
+
+      <!-- MENS JEANS -->
+      <div class="sm-table-wrap" id="tab-mens" style="display:none">
+        <div class="sm-note">Mens Anime & Gothic Jeans · Straight/Wide Leg · All measurements in selected unit</div>
+        <table class="sm-table">
+          <thead><tr><th>Size</th><th>US</th><th class="in-col">Hip (in)</th><th class="in-col">Waist (in)</th><th class="in-col">Length (in)</th><th class="cm-col" style="display:none">Hip (cm)</th><th class="cm-col" style="display:none">Waist (cm)</th><th class="cm-col" style="display:none">Length (cm)</th></tr></thead>
+          <tbody>
+            <tr><td>XS</td><td>28</td><td class="in-col">40.9</td><td class="in-col">30.7</td><td class="in-col">28.7</td><td class="cm-col" style="display:none">104</td><td class="cm-col" style="display:none">78</td><td class="cm-col" style="display:none">73</td></tr>
+            <tr><td>S</td><td>30</td><td class="in-col">42.5</td><td class="in-col">32.3</td><td class="in-col">29.1</td><td class="cm-col" style="display:none">108</td><td class="cm-col" style="display:none">82</td><td class="cm-col" style="display:none">74</td></tr>
+            <tr><td>M</td><td>32</td><td class="in-col">44.1</td><td class="in-col">33.9</td><td class="in-col">29.5</td><td class="cm-col" style="display:none">112</td><td class="cm-col" style="display:none">86</td><td class="cm-col" style="display:none">75</td></tr>
+            <tr><td>L</td><td>34</td><td class="in-col">46.1</td><td class="in-col">35.8</td><td class="in-col">29.9</td><td class="cm-col" style="display:none">117</td><td class="cm-col" style="display:none">91</td><td class="cm-col" style="display:none">76</td></tr>
+            <tr><td>XL</td><td>36</td><td class="in-col">48.0</td><td class="in-col">37.8</td><td class="in-col">30.3</td><td class="cm-col" style="display:none">122</td><td class="cm-col" style="display:none">96</td><td class="cm-col" style="display:none">77</td></tr>
+            <tr><td>2XL</td><td>38</td><td class="in-col">50.0</td><td class="in-col">39.8</td><td class="in-col">30.7</td><td class="cm-col" style="display:none">127</td><td class="cm-col" style="display:none">101</td><td class="cm-col" style="display:none">78</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- WOMENS JEANS -->
+      <div class="sm-table-wrap" id="tab-womens" style="display:none">
+        <div class="sm-note">Womens High Waist Jeans · Wide Leg & Baggy Styles</div>
+        <table class="sm-table">
+          <thead><tr><th>Size</th><th>US</th><th class="in-col">Waist (in)</th><th class="in-col">Hip (in)</th><th class="in-col">Length (in)</th><th class="cm-col" style="display:none">Waist (cm)</th><th class="cm-col" style="display:none">Hip (cm)</th><th class="cm-col" style="display:none">Length (cm)</th></tr></thead>
+          <tbody>
+            <tr><td>XS</td><td>0</td><td class="in-col">26.8</td><td class="in-col">38.6</td><td class="in-col">39.8</td><td class="cm-col" style="display:none">68</td><td class="cm-col" style="display:none">98</td><td class="cm-col" style="display:none">101</td></tr>
+            <tr><td>S</td><td>2</td><td class="in-col">28.3</td><td class="in-col">40.2</td><td class="in-col">40.2</td><td class="cm-col" style="display:none">72</td><td class="cm-col" style="display:none">102</td><td class="cm-col" style="display:none">102</td></tr>
+            <tr><td>M</td><td>4</td><td class="in-col">29.9</td><td class="in-col">41.7</td><td class="in-col">40.6</td><td class="cm-col" style="display:none">76</td><td class="cm-col" style="display:none">106</td><td class="cm-col" style="display:none">103</td></tr>
+            <tr><td>L</td><td>6</td><td class="in-col">32.3</td><td class="in-col">44.1</td><td class="in-col">40.9</td><td class="cm-col" style="display:none">82</td><td class="cm-col" style="display:none">112</td><td class="cm-col" style="display:none">104</td></tr>
+            <tr><td>XL</td><td>8</td><td class="in-col">34.6</td><td class="in-col">46.5</td><td class="in-col">41.3</td><td class="cm-col" style="display:none">88</td><td class="cm-col" style="display:none">118</td><td class="cm-col" style="display:none">105</td></tr>
+            <tr><td>2XL</td><td>10</td><td class="in-col">37.0</td><td class="in-col">48.8</td><td class="in-col">41.7</td><td class="cm-col" style="display:none">94</td><td class="cm-col" style="display:none">124</td><td class="cm-col" style="display:none">106</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- TRACK PANTS -->
+      <div class="sm-table-wrap" id="tab-track" style="display:none">
+        <div class="sm-note">Void Track Pants · Women's · Nylon Shell · Wide Leg</div>
+        <table class="sm-table">
+          <thead><tr><th>Size</th><th>US</th><th class="in-col">Hip (in)</th><th class="in-col">Length (in)</th><th class="in-col">Waist (in)</th><th class="cm-col" style="display:none">Hip (cm)</th><th class="cm-col" style="display:none">Length (cm)</th><th class="cm-col" style="display:none">Waist (cm)</th></tr></thead>
+          <tbody>
+            <tr><td>XS</td><td>0</td><td class="in-col">41.7</td><td class="in-col">40.4</td><td class="in-col">24.8</td><td class="cm-col" style="display:none">106</td><td class="cm-col" style="display:none">102.6</td><td class="cm-col" style="display:none">63</td></tr>
+            <tr><td>S</td><td>2</td><td class="in-col">43.3</td><td class="in-col">40.7</td><td class="in-col">26.0</td><td class="cm-col" style="display:none">110</td><td class="cm-col" style="display:none">103.5</td><td class="cm-col" style="display:none">66</td></tr>
+            <tr><td>M</td><td>4</td><td class="in-col">44.9</td><td class="in-col">41.1</td><td class="in-col">27.2</td><td class="cm-col" style="display:none">114</td><td class="cm-col" style="display:none">104.4</td><td class="cm-col" style="display:none">69</td></tr>
+            <tr><td>L</td><td>6</td><td class="in-col">47.2</td><td class="in-col">41.3</td><td class="in-col">29.1</td><td class="cm-col" style="display:none">120</td><td class="cm-col" style="display:none">105</td><td class="cm-col" style="display:none">74</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ANIME TRACK PANTS -->
+      <div class="sm-table-wrap" id="tab-anime" style="display:none">
+        <div class="sm-note">Mens Anime Track Pants · Polyester · Straight Leg · Universal Sizing</div>
+        <table class="sm-table">
+          <thead><tr><th>Size</th><th class="in-col">Waist (in)</th><th class="in-col">Hip (in)</th><th class="in-col">Inseam (in)</th><th class="in-col">Length (in)</th><th class="cm-col" style="display:none">Waist (cm)</th><th class="cm-col" style="display:none">Hip (cm)</th><th class="cm-col" style="display:none">Inseam (cm)</th><th class="cm-col" style="display:none">Length (cm)</th></tr></thead>
+          <tbody>
+            <tr><td>XS</td><td class="in-col">26–28</td><td class="in-col">34–36</td><td class="in-col">29</td><td class="in-col">40</td><td class="cm-col" style="display:none">66–71</td><td class="cm-col" style="display:none">86–91</td><td class="cm-col" style="display:none">73.7</td><td class="cm-col" style="display:none">101.6</td></tr>
+            <tr><td>S</td><td class="in-col">28–30</td><td class="in-col">36–38</td><td class="in-col">29.5</td><td class="in-col">41</td><td class="cm-col" style="display:none">71–76</td><td class="cm-col" style="display:none">91–97</td><td class="cm-col" style="display:none">74.9</td><td class="cm-col" style="display:none">104.1</td></tr>
+            <tr><td>M</td><td class="in-col">30–32</td><td class="in-col">38–40</td><td class="in-col">30</td><td class="in-col">41.5</td><td class="cm-col" style="display:none">76–81</td><td class="cm-col" style="display:none">97–102</td><td class="cm-col" style="display:none">76.2</td><td class="cm-col" style="display:none">105.4</td></tr>
+            <tr><td>L</td><td class="in-col">32–34</td><td class="in-col">40–42</td><td class="in-col">30.5</td><td class="in-col">42</td><td class="cm-col" style="display:none">81–86</td><td class="cm-col" style="display:none">102–107</td><td class="cm-col" style="display:none">77.5</td><td class="cm-col" style="display:none">106.7</td></tr>
+            <tr><td>XL</td><td class="in-col">34–36</td><td class="in-col">42–44</td><td class="in-col">31</td><td class="in-col">42.5</td><td class="cm-col" style="display:none">86–91</td><td class="cm-col" style="display:none">107–112</td><td class="cm-col" style="display:none">78.7</td><td class="cm-col" style="display:none">108</td></tr>
+            <tr><td>2XL</td><td class="in-col">36–38</td><td class="in-col">44–46</td><td class="in-col">31.5</td><td class="in-col">43</td><td class="cm-col" style="display:none">91–97</td><td class="cm-col" style="display:none">112–117</td><td class="cm-col" style="display:none">80</td><td class="cm-col" style="display:none">109.2</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
   </div>
+</div>
+
 </div>
 
 <div class="toast" id="toast"></div>
@@ -723,6 +937,7 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
   <div class="hero-left">
     <h1 class="hero-title">WEAR <span class="the-green">THE</span><br><span>VOID</span></h1>
     <p class="hero-sub">DEFINED BY POWER. DRIVEN BY AURA.</p>
+<p class="hero-product-tag">↓ DROP 001 — GOTHIC TEES · ANIME JEANS · TRACK PANTS · LIMITED PRE-ORDER ↓</p>
     <a href="#tees" class="hero-btn" onclick="smoothTo('tees')">Shop The Drop →</a>
   </div>
   <canvas id="heroCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;" id="heroCanvas"></canvas>
@@ -907,13 +1122,13 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
               </filter>
             </defs>
             <!-- Outer spinning ring -->
-            <circle class="how-ring3" cx="40" cy="38" r="28" fill="none" stroke="#d4a500" stroke-width="0.8" stroke-dasharray="6 4" opacity="0.4"/>
+            <circle class="how-ring3" cx="40" cy="38" r="24" fill="none" stroke="#d4a500" stroke-width="0.8" stroke-dasharray="6 4" opacity="0.4"/>
             <!-- Middle ring -->
-            <circle class="how-ring2" cx="40" cy="38" r="22" fill="none" stroke="#d4a500" stroke-width="1" stroke-dasharray="4 3" opacity="0.6"/>
+            <circle class="how-ring2" cx="40" cy="38" r="18" fill="none" stroke="#d4a500" stroke-width="1" stroke-dasharray="4 3" opacity="0.6"/>
             <!-- Portal center -->
-            <circle cx="40" cy="38" r="16" fill="url(#portalGrad)" filter="url(#portalGlow)"/>
+            <circle cx="40" cy="38" r="14" fill="url(#portalGrad)" filter="url(#portalGlow)"/>
             <!-- Inner glow -->
-            <circle class="how-innerring" cx="40" cy="38" r="14" fill="none" stroke="#d4a500" stroke-width="1.5" opacity="0.5"/>
+            <circle class="how-innerring" cx="40" cy="38" r="12" fill="none" stroke="#d4a500" stroke-width="1.5" opacity="0.5"/>
             <!-- Clothes silhouette — track pant -->
             <path class="how-garment" d="M34,28 L34,22 L46,22 L46,28 L43,28 L43,48 L46,48 L46,52 L40,52 L40,34 L40,34 L40,52 L34,52 L34,48 L37,48 L37,28 Z" fill="#d4a500" opacity="0.85"/>
             <!-- Speed lines -->
@@ -938,10 +1153,10 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
 <section class="section">
   <div class="section-head">
     <div>
-      <div class="section-tag">New Arrival</div>
+      <div class="section-tag">Drop 001</div>
       <div class="section-title">T-SHIRTS</div>
     </div>
-    <div class="section-tag">6 PIECES · PRE-ORDER · SHIPS 2-3 WEEKS</div>
+    <div class="section-tag">6 Graphic Oversized Tees · 300GSM · Ships 2–3 Weeks</div>
   </div>
   <div class="grid-5" id="teesGrid"></div>
   <div class="slider-wrap" style="padding:0 20px;">
@@ -961,7 +1176,7 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
       <div class="section-tag">Men's Collection</div>
       <div class="section-title">MEN'S JEANS</div>
     </div>
-    <div class="section-tag">16 STYLES · PRE-ORDER</div>
+    <div class="section-tag">16 Anime & Gothic Jeans · Limited Stock</div>
   </div>
   <div class="grid-5" id="mensGrid"></div>
   <div class="slider-wrap" style="padding:0 20px;margin-top:16px;">
@@ -987,7 +1202,7 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
   <div style="margin-bottom:24px;">
     <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);">
       <div>
-        <div class="section-tag" style="margin-bottom:4px;">New Arrival</div>
+        <div class="section-tag" style="margin-bottom:4px;">Drop 001</div>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.06em;">TRACK PANTS</div>
       </div>
       <div class="section-tag">4 COLORWAYS · $34</div>
@@ -1091,7 +1306,7 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
       <div class="section-tag" style="margin-bottom:4px;">Women's Collection</div>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:0.06em;">JEANS</div>
     </div>
-    <div class="section-tag">9 STYLES · PRE-ORDER</div>
+    <div class="section-tag">9 Wide-Leg & Baggy Styles · Limited Stock</div>
   </div>
 
   <div class="grid-5" id="womensGrid"></div>
@@ -1161,6 +1376,136 @@ footer { border-top:1px solid var(--border); padding:44px 40px; display:grid; gr
     Copy Link
   </button>
 </div>
+
+
+
+
+<!-- REVIEWS SECTION -->
+<section class="reviews-section" id="reviews">
+  <div class="reviews-inner">
+    <div class="reviews-tag">Early Access Community</div>
+    <h2 class="reviews-title">WHAT THE VOID SAYS</h2>
+    <p class="reviews-sub">From people who saw the drop before anyone else.</p>
+    <div class="reviews-grid">
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Ordered the track pants in red and honestly didn't expect the quality to hit like this. The zip panel detail is insane — nobody else is doing this. Fits exactly like the size guide says."</div>
+        <div class="review-footer">
+          <div class="review-avatar">JM</div>
+          <div>
+            <div class="review-name">Jordan M.</div>
+            <div class="review-meta">Philadelphia, PA · Void Track Pant – Red · Size M</div>
+          </div>
+          <div class="review-badge">VERIFIED</div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"The Skull Throne tee is heavy. Like actually heavy — you can tell it's 300GSM the second you hold it. The graphic is detailed, not some cheap DTF print. Been waiting for a brand that actually puts thought into the pieces."</div>
+        <div class="review-footer">
+          <div class="review-avatar">AK</div>
+          <div>
+            <div class="review-name">Aiden K.</div>
+            <div class="review-meta">New York, NY · Skull Throne Tee · Size L</div>
+          </div>
+          <div class="review-badge">VERIFIED</div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">★★★★☆</div>
+        <div class="review-text">"The JJK Cursed jeans are genuinely different from anything I've seen. Wide leg is perfect for the streetwear fit. Took a bit to ship but packaging was clean. Already got people asking where they're from."</div>
+        <div class="review-footer">
+          <div class="review-avatar">SR</div>
+          <div>
+            <div class="review-name">Sofia R.</div>
+            <div class="review-meta">Miami, FL · JJK Cursed Wide-Leg · Size S</div>
+          </div>
+          <div class="review-badge">VERIFIED</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="reviews-disclaimer">* Reviews from early access members. Stock arriving mid-April — be next.</div>
+  </div>
+</section>
+
+<!-- VOID ARCHIVE -->
+<section class="archive-section">
+  <div class="archive-inner">
+    <div class="archive-tag">KRYPTAA Universe</div>
+    <h2 class="archive-title">VOID ARCHIVE</h2>
+    <p class="archive-sub">KRYPTAA operates in drops. Each one limited. Each one gone forever.</p>
+    <div class="archive-grid">
+      <!-- Current -->
+      <div class="archive-card active">
+        <div class="archive-card-tag live">● LIVE NOW</div>
+        <div class="archive-card-num">001</div>
+        <div class="archive-card-name">THE VOID DROP</div>
+        <div class="archive-card-items">Gothic Tees · Anime Jeans · Track Pants</div>
+        <div class="archive-card-count">31 pieces · Pre-order open</div>
+        <a href="#tees" onclick="smoothTo('tees')" class="archive-card-btn">SHOP NOW →</a>
+      </div>
+      <!-- Coming soon -->
+      <div class="archive-card locked">
+        <div class="archive-card-tag soon">COMING SOON</div>
+        <div class="archive-card-num">002</div>
+        <div class="archive-card-name">SHADOW PROTOCOL</div>
+        <div class="archive-card-items">Drop 002 · Details Classified</div>
+        <div class="archive-card-count">Details drop when you least expect it</div>
+        <button class="archive-card-btn locked-btn" onclick="smoothTo('emailBar')">GET NOTIFIED →</button>
+      </div>
+      <!-- Coming soon -->
+      <div class="archive-card locked">
+        <div class="archive-card-tag soon">CLASSIFIED</div>
+        <div class="archive-card-num">003</div>
+        <div class="archive-card-name">BLOOD SEASON</div>
+        <div class="archive-card-items">Drop 003 · Identity Redacted</div>
+        <div class="archive-card-count">The void has plans. Stay close.</div>
+        <button class="archive-card-btn locked-btn" onclick="smoothTo('emailBar')">GET NOTIFIED →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHIPPING & RETURNS POLICY STRIP -->
+<section class="policy-strip">
+  <div class="policy-inner">
+    <div class="policy-item">
+      <span class="policy-icon">📦</span>
+      <div>
+        <div class="policy-title">FREE SHIPPING</div>
+        <div class="policy-sub">On all orders over $75 USD</div>
+      </div>
+    </div>
+    <div class="policy-divider"></div>
+    <div class="policy-item">
+      <span class="policy-icon">⏱</span>
+      <div>
+        <div class="policy-title">SHIPS MID-APRIL</div>
+        <div class="policy-sub">Pre-order now · 2–3 weeks after dispatch</div>
+      </div>
+    </div>
+    <div class="policy-divider"></div>
+    <div class="policy-item">
+      <span class="policy-icon">↩️</span>
+      <div>
+        <div class="policy-title">30-DAY RETURNS</div>
+        <div class="policy-sub">Unworn, tags attached · Email support@kryptaa.com</div>
+      </div>
+    </div>
+    <div class="policy-divider"></div>
+    <div class="policy-item">
+      <span class="policy-icon">🔒</span>
+      <div>
+        <div class="policy-title">SECURE CHECKOUT</div>
+        <div class="policy-sub">Stripe encrypted · USD pricing</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- FOOTER -->
 <footer>
@@ -1281,8 +1626,9 @@ function cardHTML(p) {
     + '<div class="card-overlay">' + overlay + '</div></div>'
     + '<div class="card-info">'
     + '<div class="card-cat">' + (soldOut ? 'SOLD OUT' : 'PRE-ORDER - Ships 2-3 Wks') + '</div>'
+    + (soldOut ? '' : (function(){ var s=[2,3,5,7,4,3,6,2,4,3,5,2,4,3,2,5,3,6,2,4,3,4]; var n=s[p.id%s.length]; return n<=3 ? '<span class="card-stock-warn">⚡ Only '+n+' left</span>' : ''; })())
     + '<div class="card-name">' + p.name + '</div>'
-    + '<div class="card-price">$' + p.price + '</div>'
+    + '<div class="card-price">$' + p.price + ' <span style="font-size:0.5rem;opacity:0.5;">USD</span></div>'
     + '</div></div>';
 }
 
@@ -1383,7 +1729,7 @@ function syncCart() {
   var count = cart.reduce(function(s,i){ return s+i.qty; }, 0);
   var total = cart.reduce(function(s,i){ return s+i.price*i.qty; }, 0);
   document.getElementById('cartBadge').textContent = count;
-  document.getElementById('cartTotalVal').textContent = '$' + total;
+  document.getElementById('cartTotalVal').textContent = '$' + total + ' USD';
   if (!cart.length) { document.getElementById('cartList').innerHTML = '<div class="cart-empty">Your bag is empty</div>'; return; }
   document.getElementById('cartList').innerHTML = cart.map(function(item) {
     var thumb = item.img ? '<img src="' + item.img + '" alt="">' : '';
@@ -1781,6 +2127,41 @@ function submitBarEmail() {
   document.getElementById('barEmail').value = '';
   document.getElementById('barEmail').placeholder = 'Welcome to the void.';
   window.setTimeout(function(){ btn.textContent = 'JOIN NOW'; btn.style.background = ''; }, 4000);
+}
+
+
+// ══════════════════════════════════════════════
+// EMAIL POPUP — 45 seconds + exit intent
+// ══════════════════════════════════════════════
+(function() {
+  var shown = sessionStorage.getItem('kryptaaPopup');
+  if (shown) return;
+  function showPopup() {
+    if (sessionStorage.getItem('kryptaaPopup')) return;
+    sessionStorage.setItem('kryptaaPopup', '1');
+    var el = document.getElementById('emailPopup');
+    if (el) el.classList.add('open');
+  }
+  // Fire after 45 seconds
+  window.setTimeout(showPopup, 45000);
+  // Exit intent — mouse leaves top of viewport
+  document.addEventListener('mouseleave', function(e) {
+    if (e.clientY <= 0) showPopup();
+  });
+})();
+
+
+function switchUnit(unit) {
+  document.querySelectorAll('.in-col').forEach(function(el){ el.style.display = unit==='in' ? '' : 'none'; });
+  document.querySelectorAll('.cm-col').forEach(function(el){ el.style.display = unit==='cm' ? '' : 'none'; });
+  document.getElementById('smIN').classList.toggle('active', unit==='in');
+  document.getElementById('smCM').classList.toggle('active', unit==='cm');
+}
+function switchSizeTab(btn, tabId) {
+  document.querySelectorAll('.sm-tab').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.sm-table-wrap').forEach(function(t){ t.style.display='none'; });
+  btn.classList.add('active');
+  document.getElementById(tabId).style.display = '';
 }
 
 initStore();
