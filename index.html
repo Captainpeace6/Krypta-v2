@@ -297,8 +297,8 @@ nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify
 .cart-checkout:hover { background:var(--accent); color:var(--black); }
 
 /* SIZE MODAL */
-.size-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:800; align-items:center; justify-content:center; }
-.size-bg.open { display:flex; }
+.size-bg { display:flex; position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:800; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+.size-bg.open { opacity:1; pointer-events:all; }
 .size-box { background:var(--void); border:1px solid var(--border); width:90%; max-width:560px; padding:36px; position:relative; }
 .size-close { position:absolute; top:16px; right:16px; background:none; border:none; color:var(--muted); font-size:1.1rem; cursor:pointer; }
 .size-title { font-family:'Bebas Neue',sans-serif; font-size:1.9rem; letter-spacing:0.1em; margin-bottom:6px; }
@@ -869,6 +869,49 @@ nav { top: 28px !important; }
 @keyframes pkgBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
 @keyframes sparkShow { 0%,60%,100%{opacity:0;transform:scale(0)} 75%{opacity:1;transform:scale(1.2)} }
 
+
+.qv-sg-btn { width:100%; padding:10px; background:transparent; border:1px solid rgba(200,255,0,0.2); color:rgba(200,255,0,0.6); font-family:'Space Mono',monospace; font-size:0.52rem; letter-spacing:0.16em; text-transform:uppercase; cursor:pointer; margin-bottom:8px; transition:all 0.2s; }
+.qv-sg-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+
+/* ── NARUTO BACKGROUND ── */
+.how-section { position:relative; overflow:hidden; }
+.naruto-bg {
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  height:100%;
+  pointer-events:none;
+  z-index:0;
+}
+.how-inner { position:relative; z-index:1; }
+.naruto-svg { width:100%; height:100%; display:block; }
+/* Running animations */
+@keyframes runAcross {
+  0% { transform:translateX(0); }
+  100% { transform:translateX(1500px); }
+}
+@keyframes runAcrossFast {
+  0% { transform:translateX(-200px); }
+  100% { transform:translateX(1600px); }
+}
+@keyframes jumpBounce {
+  0%,100% { transform:translateY(0); }
+  50% { transform:translateY(-12px); }
+}
+/* Subtle pulse on chakra elements */
+@keyframes chakraPulse {
+  0%,100% { opacity:0.12; }
+  50% { opacity:0.22; }
+}
+.naruto-runner-1 { animation:none; }
+.naruto-runner-2 { animation:none; }
+.sasuke-runner-1 { animation:none; }
+.sasuke-runner-2 { animation:none; }
+.sakura-jumper { animation:jumpBounce 1.2s ease-in-out infinite; }
+
 </style>
 </head>
 <body>
@@ -1157,6 +1200,294 @@ nav { top: 28px !important; }
 
 <!-- HOW IT WORKS -->
 <section class="how-section">
+<!-- HIDDEN LEAF VILLAGE BACKGROUND -->
+<div class="naruto-bg" aria-hidden="true">
+<svg class="naruto-svg" viewBox="0 0 1400 420" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+<defs>
+  <pattern id="pixdot" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+    <rect x="0" y="0" width="1" height="1" fill="#c8ff00" opacity="0.04"/>
+    <rect x="8" y="8" width="1" height="1" fill="#c8ff00" opacity="0.03"/>
+  </pattern>
+  <!-- Leaf symbol -->
+  <g id="leaf-sym">
+    <ellipse cx="0" cy="-6" rx="7" ry="9" fill="none" stroke="#c8ff00" stroke-width="1.2" opacity="0.3"/>
+    <line x1="0" y1="3" x2="0" y2="10" stroke="#c8ff00" stroke-width="1" opacity="0.3"/>
+    <ellipse cx="-3" cy="-5" rx="4" ry="6" fill="none" stroke="#c8ff00" stroke-width="0.8" opacity="0.2" transform="rotate(-20)"/>
+  </g>
+  <!-- Naruto run silhouette -->
+  <g id="nrun">
+    <ellipse cx="0" cy="-22" rx="4" ry="5" fill="#c8ff00" opacity="0.18"/>
+    <polygon points="-3,-29 0,-35 3,-29" fill="#c8ff00" opacity="0.2"/>
+    <polygon points="-5,-27 -2,-34 0,-27" fill="#c8ff00" opacity="0.15"/>
+    <polygon points="1,-27 3,-34 6,-27" fill="#c8ff00" opacity="0.15"/>
+    <line x1="0" y1="-17" x2="3" y2="-4" stroke="#c8ff00" stroke-width="2.5" opacity="0.2" stroke-linecap="round"/>
+    <line x1="0" y1="-14" x2="-7" y2="-9" stroke="#c8ff00" stroke-width="2" opacity="0.18" stroke-linecap="round"/>
+    <line x1="0" y1="-14" x2="-9" y2="-5" stroke="#c8ff00" stroke-width="2" opacity="0.15" stroke-linecap="round"/>
+    <line x1="3" y1="-4" x2="7" y2="6" stroke="#c8ff00" stroke-width="2.5" opacity="0.2" stroke-linecap="round"/>
+    <line x1="7" y1="6" x2="5" y2="14" stroke="#c8ff00" stroke-width="2" opacity="0.15" stroke-linecap="round"/>
+    <line x1="3" y1="-4" x2="-2" y2="6" stroke="#c8ff00" stroke-width="2.5" opacity="0.2" stroke-linecap="round"/>
+    <line x1="-2" y1="6" x2="0" y2="14" stroke="#c8ff00" stroke-width="2" opacity="0.15" stroke-linecap="round"/>
+  </g>
+  <!-- Sasuke silhouette -->
+  <g id="srun">
+    <ellipse cx="0" cy="-22" rx="3.5" ry="5" fill="#d4a500" opacity="0.15"/>
+    <polygon points="-4,-28 0,-26 4,-28 2,-33 -2,-33" fill="#d4a500" opacity="0.18"/>
+    <line x1="0" y1="-17" x2="2" y2="-3" stroke="#d4a500" stroke-width="2.5" opacity="0.18" stroke-linecap="round"/>
+    <path d="M-1,-14 Q-8,-10 -11,-2 Q-7,-6 -1,-3" fill="#d4a500" opacity="0.1"/>
+    <line x1="1" y1="-12" x2="6" y2="-7" stroke="#d4a500" stroke-width="2" opacity="0.15" stroke-linecap="round"/>
+    <line x1="1" y1="-12" x2="-5" y2="-7" stroke="#d4a500" stroke-width="2" opacity="0.15" stroke-linecap="round"/>
+    <line x1="-2" y1="-18" x2="4" y2="-4" stroke="#d4a500" stroke-width="1.5" opacity="0.22" stroke-linecap="round"/>
+    <line x1="2" y1="-3" x2="7" y2="7" stroke="#d4a500" stroke-width="2.5" opacity="0.18" stroke-linecap="round"/>
+    <line x1="2" y1="-3" x2="-3" y2="8" stroke="#d4a500" stroke-width="2.5" opacity="0.18" stroke-linecap="round"/>
+  </g>
+  <!-- Jumping sakura -->
+  <g id="sjump">
+    <ellipse cx="0" cy="-25" rx="3.5" ry="4.5" fill="#c8ff00" opacity="0.12"/>
+    <ellipse cx="0" cy="-30" rx="5" ry="3" fill="#c8ff00" opacity="0.14"/>
+    <line x1="0" y1="-21" x2="0" y2="-6" stroke="#c8ff00" stroke-width="2.5" opacity="0.15" stroke-linecap="round"/>
+    <line x1="0" y1="-16" x2="8" y2="-22" stroke="#c8ff00" stroke-width="2" opacity="0.15" stroke-linecap="round"/>
+    <line x1="0" y1="-16" x2="-6" y2="-14" stroke="#c8ff00" stroke-width="2" opacity="0.12" stroke-linecap="round"/>
+    <line x1="0" y1="-6" x2="5" y2="4" stroke="#c8ff00" stroke-width="2" opacity="0.14" stroke-linecap="round"/>
+    <line x1="5" y1="4" x2="8" y2="-2" stroke="#c8ff00" stroke-width="2" opacity="0.1" stroke-linecap="round"/>
+    <line x1="0" y1="-6" x2="-5" y2="4" stroke="#c8ff00" stroke-width="2" opacity="0.14" stroke-linecap="round"/>
+  </g>
+</defs>
+
+<!-- Full background pixel grid -->
+<rect width="1400" height="420" fill="url(#pixdot)"/>
+
+<!-- ═══ HOKAGE MOUNTAIN — large stone faces carved into cliff ═══ -->
+<!-- Mountain cliff mass -->
+<path d="M0,420 L0,160 Q80,140 120,100 Q160,60 200,90 Q240,60 280,80 Q320,50 370,70 Q420,40 480,65 Q540,35 600,60 Q660,30 720,55 Q780,25 840,50 Q900,20 960,45 Q1020,15 1080,40 Q1140,10 1200,35 Q1280,5 1350,30 L1400,40 L1400,420 Z" fill="rgba(20,15,5,0.5)"/>
+<!-- Mountain face detail lines -->
+<path d="M0,180 Q200,140 400,155 Q600,130 800,148 Q1000,125 1200,140 Q1350,128 1400,135" fill="none" stroke="#d4a500" stroke-width="0.5" opacity="0.12"/>
+<path d="M0,220 Q200,190 400,200 Q600,180 800,195 Q1000,172 1200,185 Q1350,175 1400,180" fill="none" stroke="#d4a500" stroke-width="0.4" opacity="0.1"/>
+
+<!-- HOKAGE FACE 1 — Hashirama (left) -->
+<g transform="translate(120,200)">
+  <!-- Face oval -->
+  <ellipse cx="0" cy="0" rx="52" ry="60" fill="rgba(15,10,3,0.7)" stroke="#d4a500" stroke-width="1.2" opacity="0.6"/>
+  <!-- Hair top -->
+  <path d="M-52,0 Q-55,-30 -40,-52 Q-20,-68 0,-70 Q20,-68 40,-52 Q55,-30 52,0" fill="rgba(8,5,0,0.8)" stroke="#d4a500" stroke-width="1" opacity="0.5"/>
+  <!-- Hair details - spiky on sides -->
+  <path d="M-52,-10 Q-62,-20 -58,-35 Q-52,-20 -50,-10" fill="#d4a500" opacity="0.15"/>
+  <path d="M52,-10 Q62,-20 58,-35 Q52,-20 50,-10" fill="#d4a500" opacity="0.15"/>
+  <!-- Eyes -->
+  <ellipse cx="-18" cy="-8" rx="10" ry="8" fill="rgba(5,5,5,0.9)" stroke="#d4a500" stroke-width="1" opacity="0.7"/>
+  <ellipse cx="18" cy="-8" rx="10" ry="8" fill="rgba(5,5,5,0.9)" stroke="#d4a500" stroke-width="1" opacity="0.7"/>
+  <!-- Pupils -->
+  <circle cx="-18" cy="-8" r="4" fill="#d4a500" opacity="0.3"/>
+  <circle cx="18" cy="-8" r="4" fill="#d4a500" opacity="0.3"/>
+  <!-- Nose bridge -->
+  <line x1="0" y1="-2" x2="0" y2="10" stroke="#d4a500" stroke-width="1" opacity="0.3"/>
+  <!-- Nose -->
+  <path d="M-8,10 Q0,16 8,10" fill="none" stroke="#d4a500" stroke-width="1.5" opacity="0.35"/>
+  <!-- Mouth - serious expression -->
+  <line x1="-20" y1="26" x2="20" y2="26" stroke="#d4a500" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
+  <!-- Eyebrows -->
+  <line x1="-28" y1="-20" x2="-8" y2="-18" stroke="#d4a500" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
+  <line x1="8" y1="-18" x2="28" y2="-20" stroke="#d4a500" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
+  <!-- Forehead markings -->
+  <line x1="-15" y1="-40" x2="15" y2="-40" stroke="#d4a500" stroke-width="1.5" opacity="0.3"/>
+  <!-- Chin detail -->
+  <path d="M-20,48 Q0,58 20,48" fill="none" stroke="#d4a500" stroke-width="1" opacity="0.3"/>
+  <!-- Collar -->
+  <path d="M-52,55 Q-30,65 0,68 Q30,65 52,55" fill="none" stroke="#d4a500" stroke-width="1.5" opacity="0.35"/>
+</g>
+
+<!-- HOKAGE FACE 2 — Tobirama (second from left) -->
+<g transform="translate(330,195)">
+  <ellipse cx="0" cy="0" rx="48" ry="56" fill="rgba(15,10,3,0.65)" stroke="#d4a500" stroke-width="1" opacity="0.55"/>
+  <path d="M-48,0 Q-50,-28 -36,-48 Q-18,-64 0,-66 Q18,-64 36,-48 Q50,-28 48,0" fill="rgba(8,5,0,0.75)" stroke="#d4a500" stroke-width="1" opacity="0.45"/>
+  <!-- White hair spikes -->
+  <line x1="-20" y1="-64" x2="-24" y2="-76" stroke="#d4a500" stroke-width="2" opacity="0.3" stroke-linecap="round"/>
+  <line x1="-8" y1="-66" x2="-10" y2="-78" stroke="#d4a500" stroke-width="2" opacity="0.3" stroke-linecap="round"/>
+  <line x1="4" y1="-66" x2="4" y2="-79" stroke="#d4a500" stroke-width="2" opacity="0.3" stroke-linecap="round"/>
+  <line x1="16" y1="-65" x2="18" y2="-77" stroke="#d4a500" stroke-width="2" opacity="0.3" stroke-linecap="round"/>
+  <ellipse cx="-16" cy="-8" rx="9" ry="7.5" fill="rgba(5,5,5,0.9)" stroke="#d4a500" stroke-width="1" opacity="0.65"/>
+  <ellipse cx="16" cy="-8" rx="9" ry="7.5" fill="rgba(5,5,5,0.9)" stroke="#d4a500" stroke-width="1" opacity="0.65"/>
+  <circle cx="-16" cy="-8" r="3.5" fill="#d4a500" opacity="0.28"/>
+  <circle cx="16" cy="-8" r="3.5" fill="#d4a500" opacity="0.28"/>
+  <path d="M-7,10 Q0,15 7,10" fill="none" stroke="#d4a500" stroke-width="1.5" opacity="0.3"/>
+  <line x1="-18" y1="24" x2="18" y2="24" stroke="#d4a500" stroke-width="2" opacity="0.38" stroke-linecap="round"/>
+  <line x1="-26" y1="-19" x2="-7" y2="-17" stroke="#d4a500" stroke-width="1.8" opacity="0.38" stroke-linecap="round"/>
+  <line x1="7" y1="-17" x2="26" y2="-19" stroke="#d4a500" stroke-width="1.8" opacity="0.38" stroke-linecap="round"/>
+  <path d="M-48,52 Q0,64 48,52" fill="none" stroke="#d4a500" stroke-width="1.5" opacity="0.32"/>
+</g>
+
+<!-- HOKAGE FACE 3 — Hiruzen (center) -->
+<g transform="translate(560,188)">
+  <ellipse cx="0" cy="0" rx="55" ry="62" fill="rgba(15,10,3,0.7)" stroke="#d4a500" stroke-width="1.2" opacity="0.6"/>
+  <path d="M-55,5 Q-56,-25 -42,-50 Q-22,-70 0,-72 Q22,-70 42,-50 Q56,-25 55,5" fill="rgba(8,5,0,0.8)" stroke="#d4a500" stroke-width="1" opacity="0.5"/>
+  <!-- Hat on Hiruzen -->
+  <path d="M-30,-70 Q0,-85 30,-70 L28,-60 Q0,-75 -28,-60 Z" fill="rgba(10,8,0,0.8)" stroke="#d4a500" stroke-width="1.2" opacity="0.5"/>
+  <ellipse cx="0" cy="-60" rx="32" ry="8" fill="rgba(12,10,0,0.7)" stroke="#d4a500" stroke-width="1" opacity="0.45"/>
+  <ellipse cx="-20" cy="-8" rx="11" ry="8.5" fill="rgba(5,5,5,0.9)" stroke="#d4a500" stroke-width="1" opacity="0.7"/>
+  <ellipse cx="20" cy="-8" rx="11" ry="8.5" fill="rgba(5,5,5,0.9)" stroke="#d4a500" stroke-width="1" opacity="0.7"/>
+  <circle cx="-20" cy="-8" r="4.5" fill="#d4a500" opacity="0.32"/>
+  <circle cx="20" cy="-8" r="4.5" fill="#d4a500" opacity="0.32"/>
+  <!-- Wrinkle lines - older face -->
+  <path d="M-30,-2 Q-22,2 -15,-2" fill="none" stroke="#d4a500" stroke-width="0.8" opacity="0.25"/>
+  <path d="M15,-2 Q22,2 30,-2" fill="none" stroke="#d4a500" stroke-width="0.8" opacity="0.25"/>
+  <path d="M-8,10 Q0,17 8,10" fill="none" stroke="#d4a500" stroke-width="1.5" opacity="0.32"/>
+  <path d="M-22,26 Q0,34 22,26" fill="none" stroke="#d4a500" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
+  <line x1="-30" y1="-22" x2="-9" y2="-20" stroke="#d4a500" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
+  <line x1="9" y1="-20" x2="30" y2="-22" stroke="#d4a500" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
+  <path d="M-55,56 Q0,68 55,56" fill="none" stroke="#d4a500" stroke-width="1.5" opacity="0.35"/>
+</g>
+
+<!-- HOKAGE FACE 4 — Minato (right of center, blonde) -->
+<g transform="translate(800,192)">
+  <ellipse cx="0" cy="0" rx="50" ry="58" fill="rgba(15,10,3,0.65)" stroke="#d4a500" stroke-width="1.1" opacity="0.58"/>
+  <path d="M-50,2 Q-52,-26 -38,-50 Q-19,-66 0,-68 Q19,-66 38,-50 Q52,-26 50,2" fill="rgba(8,6,0,0.75)" stroke="#d4a500" stroke-width="1" opacity="0.48"/>
+  <!-- Minato spiky hair -->
+  <line x1="-25" y1="-66" x2="-30" y2="-80" stroke="#d4a500" stroke-width="2.5" opacity="0.3" stroke-linecap="round"/>
+  <line x1="-10" y1="-68" x2="-14" y2="-82" stroke="#d4a500" stroke-width="2.5" opacity="0.3" stroke-linecap="round"/>
+  <line x1="5" y1="-68" x2="2" y2="-83" stroke="#d4a500" stroke-width="2.5" opacity="0.32" stroke-linecap="round"/>
+  <line x1="20" y1="-67" x2="22" y2="-81" stroke="#d4a500" stroke-width="2.5" opacity="0.3" stroke-linecap="round"/>
+  <line x1="33" y1="-62" x2="38" y2="-76" stroke="#d4a500" stroke-width="2.5" opacity="0.28" stroke-linecap="round"/>
+  <ellipse cx="-17" cy="-8" rx="10" ry="8" fill="rgba(5,5,5,0.9)" stroke="#d4a500" stroke-width="1" opacity="0.68"/>
+  <ellipse cx="17" cy="-8" rx="10" ry="8" fill="rgba(5,5,5,0.9)" stroke="#d4a500" stroke-width="1" opacity="0.68"/>
+  <circle cx="-17" cy="-8" r="4" fill="#d4a500" opacity="0.3"/>
+  <circle cx="17" cy="-8" r="4" fill="#d4a500" opacity="0.3"/>
+  <path d="M-7,10 Q0,16 7,10" fill="none" stroke="#d4a500" stroke-width="1.5" opacity="0.32"/>
+  <!-- Slight smile - Minato -->
+  <path d="M-20,26 Q0,33 20,26" fill="none" stroke="#d4a500" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
+  <line x1="-28" y1="-20" x2="-7" y2="-18" stroke="#d4a500" stroke-width="1.8" opacity="0.4" stroke-linecap="round"/>
+  <line x1="7" y1="-18" x2="28" y2="-20" stroke="#d4a500" stroke-width="1.8" opacity="0.4" stroke-linecap="round"/>
+  <!-- Forehead protector mark -->
+  <rect x="-12" y="-40" width="24" height="14" rx="2" fill="none" stroke="#d4a500" stroke-width="1" opacity="0.35"/>
+  <use href="#leaf-sym" transform="translate(0,-33) scale(0.8)" opacity="0.5"/>
+  <path d="M-50,52 Q0,64 50,52" fill="none" stroke="#d4a500" stroke-width="1.5" opacity="0.32"/>
+</g>
+
+<!-- HOKAGE FACE 5 — Tsunade (far right, female) -->
+<g transform="translate(1040,196)">
+  <ellipse cx="0" cy="0" rx="46" ry="55" fill="rgba(15,10,3,0.65)" stroke="#d4a500" stroke-width="1" opacity="0.55"/>
+  <path d="M-46,2 Q-48,-24 -34,-48 Q-17,-64 0,-66 Q17,-64 34,-48 Q48,-24 46,2" fill="rgba(8,6,0,0.72)" stroke="#d4a500" stroke-width="1" opacity="0.45"/>
+  <!-- Tsunade - two hair buns + long strands -->
+  <circle cx="-28" cy="-52" r="10" fill="rgba(12,8,0,0.7)" stroke="#d4a500" stroke-width="1" opacity="0.45"/>
+  <circle cx="28" cy="-52" r="10" fill="rgba(12,8,0,0.7)" stroke="#d4a500" stroke-width="1" opacity="0.45"/>
+  <line x1="-20" y1="-44" x2="-22" y2="30" stroke="#d4a500" stroke-width="2" opacity="0.25" stroke-linecap="round"/>
+  <line x1="20" y1="-44" x2="22" y2="30" stroke="#d4a500" stroke-width="2" opacity="0.25" stroke-linecap="round"/>
+  <!-- Diamond mark on forehead -->
+  <path d="M0,-38 L-6,-30 L0,-22 L6,-30 Z" fill="#d4a500" opacity="0.3"/>
+  <ellipse cx="-16" cy="-6" rx="9" ry="7.5" fill="rgba(5,5,5,0.9)" stroke="#d4a500" stroke-width="1" opacity="0.65"/>
+  <ellipse cx="16" cy="-6" rx="9" ry="7.5" fill="rgba(5,5,5,0.9)" stroke="#d4a500" stroke-width="1" opacity="0.65"/>
+  <circle cx="-16" cy="-6" r="3.5" fill="#d4a500" opacity="0.28"/>
+  <circle cx="16" cy="-6" r="3.5" fill="#d4a500" opacity="0.28"/>
+  <path d="M-6,10 Q0,14 6,10" fill="none" stroke="#d4a500" stroke-width="1.5" opacity="0.3"/>
+  <path d="M-18,26 Q0,33 18,26" fill="none" stroke="#d4a500" stroke-width="1.8" opacity="0.38" stroke-linecap="round"/>
+  <line x1="-24" y1="-19" x2="-7" y2="-17" stroke="#d4a500" stroke-width="1.8" opacity="0.38" stroke-linecap="round"/>
+  <line x1="7" y1="-17" x2="24" y2="-19" stroke="#d4a500" stroke-width="1.8" opacity="0.38" stroke-linecap="round"/>
+</g>
+
+<!-- HOKAGE FACE 6 — Kakashi (far right) -->
+<g transform="translate(1270,194)">
+  <ellipse cx="0" cy="0" rx="44" ry="52" fill="rgba(15,10,3,0.6)" stroke="#d4a500" stroke-width="1" opacity="0.5"/>
+  <path d="M-44,2 Q-46,-22 -32,-46 Q-16,-62 0,-64 Q16,-62 32,-46 Q46,-22 44,2" fill="rgba(8,6,0,0.7)" stroke="#d4a500" stroke-width="1" opacity="0.42"/>
+  <!-- Kakashi spiky silver hair -->
+  <line x1="-18" y1="-63" x2="-22" y2="-78" stroke="#d4a500" stroke-width="2" opacity="0.3" stroke-linecap="round"/>
+  <line x1="-5" y1="-64" x2="-6" y2="-80" stroke="#d4a500" stroke-width="2" opacity="0.32" stroke-linecap="round"/>
+  <line x1="8" y1="-64" x2="9" y2="-79" stroke="#d4a500" stroke-width="2" opacity="0.3" stroke-linecap="round"/>
+  <line x1="22" y1="-62" x2="25" y2="-77" stroke="#d4a500" stroke-width="2" opacity="0.28" stroke-linecap="round"/>
+  <!-- Mask covering lower face -->
+  <rect x="-44" y="4" width="88" height="40" rx="4" fill="rgba(10,8,2,0.5)" stroke="#d4a500" stroke-width="0.8" opacity="0.3"/>
+  <!-- One eye visible, one sharingan covered by hair -->
+  <ellipse cx="-12" cy="-8" rx="10" ry="8" fill="rgba(5,5,5,0.9)" stroke="#d4a500" stroke-width="1" opacity="0.65"/>
+  <!-- Sharingan eye -->
+  <ellipse cx="15" cy="-8" rx="10" ry="8" fill="rgba(20,3,3,0.9)" stroke="#d4a500" stroke-width="1" opacity="0.6"/>
+  <circle cx="15" cy="-8" r="4" fill="#d4a500" opacity="0.4"/>
+  <circle cx="-12" cy="-8" r="3.5" fill="#d4a500" opacity="0.28"/>
+  <line x1="-22" y1="-20" x2="-2" y2="-18" stroke="#d4a500" stroke-width="1.8" opacity="0.38" stroke-linecap="round"/>
+  <line x1="5" y1="-18" x2="26" y2="-20" stroke="#d4a500" stroke-width="1.8" opacity="0.38" stroke-linecap="round"/>
+  <!-- Hair sweep over right eye -->
+  <path d="M-5,-64 Q10,-55 18,-30 Q12,-48 2,-64" fill="rgba(8,6,0,0.6)" stroke="#d4a500" stroke-width="0.8" opacity="0.3"/>
+</g>
+
+<!-- ═══ HIDDEN LEAF VILLAGE SKYLINE ═══ -->
+<!-- Village buildings silhouette -->
+<g opacity="0.45">
+  <!-- Hokage Tower (center tall) -->
+  <rect x="680" y="280" width="40" height="80" fill="rgba(10,8,2,0.9)" stroke="#d4a500" stroke-width="1"/>
+  <rect x="672" y="275" width="56" height="12" fill="rgba(10,8,2,0.9)" stroke="#d4a500" stroke-width="0.8"/>
+  <!-- Tower windows -->
+  <rect x="690" y="290" width="8" height="8" fill="#d4a500" opacity="0.25"/>
+  <rect x="702" y="290" width="8" height="8" fill="#d4a500" opacity="0.2"/>
+  <rect x="690" y="308" width="8" height="8" fill="#d4a500" opacity="0.2"/>
+  <rect x="702" y="308" width="8" height="8" fill="#d4a500" opacity="0.25"/>
+  <!-- Leaf symbol on tower -->
+  <use href="#leaf-sym" transform="translate(700,268) scale(1.5)"/>
+
+  <!-- Buildings left cluster -->
+  <rect x="550" y="310" width="28" height="50" fill="rgba(10,8,2,0.8)" stroke="#d4a500" stroke-width="0.6"/>
+  <rect x="582" y="320" width="22" height="40" fill="rgba(10,8,2,0.8)" stroke="#d4a500" stroke-width="0.6"/>
+  <rect x="608" y="300" width="30" height="60" fill="rgba(10,8,2,0.85)" stroke="#d4a500" stroke-width="0.7"/>
+  <rect x="642" y="315" width="24" height="45" fill="rgba(10,8,2,0.75)" stroke="#d4a500" stroke-width="0.6"/>
+  <!-- Buildings right cluster -->
+  <rect x="724" y="305" width="26" height="55" fill="rgba(10,8,2,0.8)" stroke="#d4a500" stroke-width="0.6"/>
+  <rect x="754" y="318" width="20" height="42" fill="rgba(10,8,2,0.75)" stroke="#d4a500" stroke-width="0.6"/>
+  <rect x="778" y="295" width="32" height="65" fill="rgba(10,8,2,0.85)" stroke="#d4a500" stroke-width="0.7"/>
+  <rect x="814" y="322" width="24" height="38" fill="rgba(10,8,2,0.75)" stroke="#d4a500" stroke-width="0.6"/>
+  <!-- Far left buildings -->
+  <rect x="400" y="330" width="22" height="30" fill="rgba(10,8,2,0.6)" stroke="#d4a500" stroke-width="0.5"/>
+  <rect x="426" y="318" width="26" height="42" fill="rgba(10,8,2,0.65)" stroke="#d4a500" stroke-width="0.6"/>
+  <rect x="456" y="325" width="20" height="35" fill="rgba(10,8,2,0.6)" stroke="#d4a500" stroke-width="0.5"/>
+  <rect x="480" y="308" width="30" height="52" fill="rgba(10,8,2,0.7)" stroke="#d4a500" stroke-width="0.6"/>
+  <rect x="514" y="328" width="22" height="32" fill="rgba(10,8,2,0.6)" stroke="#d4a500" stroke-width="0.5"/>
+  <!-- Far right buildings -->
+  <rect x="844" y="328" width="24" height="32" fill="rgba(10,8,2,0.65)" stroke="#d4a500" stroke-width="0.5"/>
+  <rect x="872" y="315" width="28" height="45" fill="rgba(10,8,2,0.7)" stroke="#d4a500" stroke-width="0.6"/>
+  <rect x="904" y="325" width="22" height="35" fill="rgba(10,8,2,0.6)" stroke="#d4a500" stroke-width="0.5"/>
+  <rect x="930" y="308" width="30" height="52" fill="rgba(10,8,2,0.7)" stroke="#d4a500" stroke-width="0.6"/>
+  <!-- Trees between buildings -->
+  <path d="M590,310 Q595,295 600,310" fill="rgba(8,12,4,0.6)" stroke="#c8ff00" stroke-width="0.5" opacity="0.4"/>
+  <path d="M760,316 Q765,300 770,316" fill="rgba(8,12,4,0.6)" stroke="#c8ff00" stroke-width="0.5" opacity="0.4"/>
+  <path d="M840,320 Q845,305 850,320" fill="rgba(8,12,4,0.6)" stroke="#c8ff00" stroke-width="0.5" opacity="0.4"/>
+</g>
+
+<!-- ═══ GROUND LEVEL — NINJAS RUNNING ═══ -->
+<!-- Ground line -->
+<line x1="0" y1="380" x2="1400" y2="380" stroke="#d4a500" stroke-width="0.6" opacity="0.15"/>
+<!-- Subtle dust lines -->
+<line x1="160" y1="378" x2="200" y2="378" stroke="#c8ff00" stroke-width="1" opacity="0.08"/>
+<line x1="310" y1="379" x2="360" y2="379" stroke="#c8ff00" stroke-width="1" opacity="0.08"/>
+<line x1="480" y1="377" x2="520" y2="377" stroke="#c8ff00" stroke-width="1.2" opacity="0.1"/>
+<line x1="640" y1="378" x2="690" y2="378" stroke="#c8ff00" stroke-width="1" opacity="0.08"/>
+<line x1="800" y1="377" x2="840" y2="377" stroke="#c8ff00" stroke-width="1.2" opacity="0.1"/>
+<line x1="960" y1="378" x2="1010" y2="378" stroke="#c8ff00" stroke-width="1" opacity="0.08"/>
+<line x1="1120" y1="377" x2="1170" y2="377" stroke="#c8ff00" stroke-width="1" opacity="0.1"/>
+
+<!-- Ninjas on ground - full scene -->
+<!-- Group 1 - left side running -->
+<use href="#nrun" transform="translate(100,378) scale(2.8)"/>
+<use href="#srun" transform="translate(195,376) scale(2.5)"/>
+<use href="#sjump" transform="translate(290,345) scale(2.3)"/>
+<!-- Group 2 - center left -->
+<use href="#nrun" transform="translate(420,378) scale(2.6)" opacity="0.85"/>
+<use href="#srun" transform="translate(510,375) scale(2.4)" opacity="0.8"/>
+<!-- Group 3 - center -->
+<use href="#nrun" transform="translate(640,378) scale(3)" opacity="0.9"/>
+<use href="#sjump" transform="translate(740,340) scale(2.5)" opacity="0.85"/>
+<use href="#srun" transform="translate(840,376) scale(2.7)" opacity="0.8"/>
+<!-- Group 4 - right -->
+<use href="#nrun" transform="translate(970,378) scale(2.6)" opacity="0.85"/>
+<use href="#srun" transform="translate(1060,375) scale(2.4)" opacity="0.8"/>
+<use href="#sjump" transform="translate(1150,342) scale(2.3)" opacity="0.75"/>
+<!-- Group 5 - far right -->
+<use href="#nrun" transform="translate(1250,378) scale(2.8)" opacity="0.85"/>
+<use href="#srun" transform="translate(1340,376) scale(2.5)" opacity="0.8"/>
+
+<!-- Leaf Village symbol watermarks -->
+<use href="#leaf-sym" transform="translate(220,340) scale(3)" opacity="0.06"/>
+<use href="#leaf-sym" transform="translate(700,300) scale(4)" opacity="0.05"/>
+<use href="#leaf-sym" transform="translate(1180,335) scale(3)" opacity="0.06"/>
+
+<!-- Subtle text -->
+<text x="700" y="415" font-family="Space Mono" font-size="8" fill="#d4a500" opacity="0.15" text-anchor="middle" letter-spacing="4">木ノ葉隠れの里 · HIDDEN LEAF VILLAGE</text>
+</svg>
+</div>
+
   <div class="how-inner">
     <div class="how-tag">The Process</div>
     <h2 class="how-title">HOW IT WORKS</h2>
@@ -1855,14 +2186,15 @@ function addCart(id, name, price, img, sizeOverride) {
   var key = id + '-' + sz;
   var ex = cart.find(function(x){ return x.key===key; });
   if (ex) ex.qty++;
-  else cart.push({key:key, id:id, name:name, price:price, img:img||'', size:sz, qty:1});
+  else cart.push({key:key, id:id, name:name, price:parseFloat(price)||0, img:img||'', size:sz, qty:1});
   syncCart(); openCart();
   toast('Added to Bag');
 }
 
 function syncCart() {
-  var count = cart.reduce(function(s,i){ return s+i.qty; }, 0);
-  var total = cart.reduce(function(s,i){ return s+i.price*i.qty; }, 0);
+  cart = cart.filter(function(i){ return i && i.key; }); // remove corrupt items
+  var count = cart.reduce(function(s,i){ return s+(parseInt(i.qty)||0); }, 0);
+  var total = cart.reduce(function(s,i){ return s+(parseFloat(i.price)||0)*(parseInt(i.qty)||1); }, 0);
   document.getElementById('cartBadge').textContent = count;
   document.getElementById('cartTotalVal').textContent = '$' + total + ' USD';
   if (!cart.length) { document.getElementById('cartList').innerHTML = '<div class="cart-empty">Your bag is empty</div>'; return; }
@@ -1876,7 +2208,7 @@ function syncCart() {
       + '<button class="qty-b" data-key="' + k + '" data-d="-1" onclick="chQty(this.dataset.key,parseInt(this.dataset.d))">-</button>'
       + '<span class="qty-n">' + item.qty + '</span>'
       + '<button class="qty-b" data-key="' + k + '" data-d="1" onclick="chQty(this.dataset.key,parseInt(this.dataset.d))">+</button>'
-      + '</div></div><div class="cart-rprice">$' + (item.price*item.qty) + '</div></div>';
+      + '</div></div><div class="cart-rprice">$' + ((parseFloat(item.price)||0)*(parseInt(item.qty)||1)) + '</div></div>';
   }).join('');
 }
 
@@ -1911,7 +2243,6 @@ function openQV(id) {
     +'<div class="qv-price">$'+qvActive.price+'</div>'
     +'<div class="qv-desc">'+(qvActive.desc||'')+'<br><br>300GSM Heavyweight - DTF Print * Pre-order now, ships in 2-3 weeks.</div>'
     +'<div><div class="qv-size-title">Select Size</div><div class="qv-sizes">'+szH+'</div></div>'
-    +'<button class="qv-add" onclick="addCart('+id+');closeQV();">Pre-Order Now - $'+qvActive.price+'</button>'
     +'<div class="qv-note">Free shipping on orders over $75</div>';
   document.getElementById('qvBg').classList.add('open');
 }
