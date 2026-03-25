@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',function(){var s=document.querySelector('#womensSlider');if(s){Array.from(s.querySelectorAll('.card')).forEach(function(c){var n=c.querySelector('h3,h4,[class*=name]');if(n&&n.textContent.toLowerCase().includes('track pant'))c.remove();});}});
