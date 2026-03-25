@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRYPTAA - Checkout</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+:root{--black:#060608;--void:#0a0a0d;--surface:#111116;--border:#1e1e26;--accent:#c8ff00;--white:#f0ede8;--muted:#555560;--red:#ff3c00;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--white);font-family:'Barlow Condensed',sans-serif;overflow-x:hidden;cursor:none;min-height:100vh;}
+#cur{position:fixed;width:12px;height:12px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:exclusion;}
+#curR{position:fixed;width:36px;height:36px;border:1px solid var(--accent);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:.12s;mix-blend-mode:exclusion;opacity:.5;}
+#cur.big{width:22px;height:22px;}
+.ticker{background:var(--accent);padding:9px 0;overflow:hidden;white-space:nowrap;}
+.ticker-track{display:inline-flex;animation:scroll 22s linear infinite;}
+.ticker-item{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:.2em;color:var(--black);padding:0 36px;}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+nav{position:sticky;top:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:16px 40px;background:rgba(6,6,8,.97);border-bottom:1px solid var(--border);}
+.nav-logo{display:flex;align-items:center;text-decoration:none;}
+.nav-logo img{height:40px;}
+.nav-logo-text{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.12em;background:linear-gradient(135deg,#ffd700,#c8960c,#ffd700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;}
+.nav-links{display:flex;gap:28px;list-style:none;align-items:center;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--accent);}
+.nav-bag-btn{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--white);background:transparent;border:1px solid var(--border);padding:8px 16px;cursor:none;display:flex;align-items:center;gap:8px;transition:border-color .2s;}
+.nav-bag-btn:hover{border-color:var(--accent);}
+.bag-count{background:var(--accent);color:var(--black);font-size:10px;font-weight:800;padding:1px 5px;}
+.breadcrumb{padding:14px 40px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.breadcrumb a{color:var(--muted);text-decoration:none;}.breadcrumb a:hover{color:var(--accent);}
+.breadcrumb .current{color:var(--white);}
+.checkout-wrap{display:grid;grid-template-columns:1fr 420px;max-width:1300px;margin:0 auto;}
+.checkout-form{padding:52px 56px 80px;border-right:1px solid var(--border);}
+.form-block{margin-bottom:44px;}
+.step-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.step-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.08em;color:var(--white);margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.field label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+.field input,.field select{background:var(--surface);border:1px solid var(--border);color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:15px;padding:13px 14px;outline:none;transition:border-color .2s;cursor:none;appearance:none;}
+.field input:focus,.field select:focus{border-color:var(--accent);}
+.field input::placeholder{color:var(--muted);}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23555560'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+.field select option{background:var(--surface);color:var(--white);}
+.or-divider{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-align:center;display:flex;align-items:center;gap:14px;margin-bottom:28px;}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.stripe-wrap{background:var(--surface);border:1px solid var(--border);padding:14px;transition:border-color .2s;margin-bottom:14px;}
+.stripe-wrap.focused{border-color:var(--accent);}
+.btn-pay{width:100%;background:var(--accent);color:var(--black);font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.16em;padding:18px 32px;border:none;cursor:none;display:flex;align-items:center;justify-content:center;gap:10px;transition:opacity .2s;margin-top:22px;}
+.btn-pay:hover{opacity:.88;}.btn-pay:disabled{opacity:.45;}
+#payment-error{font-family:'Space Mono',monospace;font-size:11px;color:var(--red);margin-top:10px;display:none;}
+.secure-row{display:flex;align-items:center;justify-content:center;gap:24px;margin-top:18px;padding-top:18px;border-top:1px solid var(--border);}
+.secure-item{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.order-summary{background:var(--void);padding:52px 36px 80px;border-left:1px solid var(--border);position:sticky;top:57px;align-self:start;max-height:calc(100vh - 57px);overflow-y:auto;}
+.summary-heading{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.1em;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+.cart-items{margin-bottom:20px;}
+.cart-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);}
+.item-thumb{width:66px;height:82px;object-fit:cover;background:var(--surface);border:1px solid var(--border);flex-shrink:0;}
+.item-thumb-ph{width:66px;height:82px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.item-details{flex:1;min-width:0;}
+.item-name{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.item-size{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.qty-row{display:flex;align-items:center;gap:8px;}
+.qty-btn{width:24px;height:24px;background:var(--surface);border:1px solid var(--border);color:var(--white);font-size:15px;cursor:none;display:flex;align-items:center;justify-content:center;transition:border-color .2s;font-family:inherit;}
+.qty-btn:hover{border-color:var(--accent);color:var(--accent);}
+.qty-num{font-family:'Space Mono',monospace;font-size:11px;min-width:20px;text-align:center;}
+.item-price{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--white);white-space:nowrap;align-self:center;}
+.cart-empty{text-align:center;padding:36px 0;}
+.cart-empty p{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;}
+.btn-back{display:inline-block;border:1px solid var(--accent);color:var(--accent);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:10px 20px;text-decoration:none;cursor:none;transition:background .2s,color .2s;}
+.btn-back:hover{background:var(--accent);color:var(--black);}
+.promo-row{display:flex;gap:8px;margin-bottom:6px;}
+.promo-input{flex:1;background:var(--surface);border:1px solid var(--border);color:var(--white);font-family:'Space Mono',monospace;font-size:11px;padding:10px 12px;outline:none;letter-spacing:.08em;transition:border-color .2s;}
+.promo-input:focus{border-color:var(--accent);}.promo-input::placeholder{color:var(--muted);}
+.btn-promo{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:10px 14px;cursor:none;transition:border-color .2s,color .2s;}
+.btn-promo:hover{border-color:var(--accent);color:var(--accent);}
+#promoMsg{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px;display:none;}
+.totals{margin:18px 0;}
+.total-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;}
+.total-row .lbl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+.total-row .val{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;color:var(--white);}
+.total-row.grand{padding-top:14px;margin-top:8px;border-top:1px solid var(--border);}
+.total-row.grand .lbl{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.1em;color:var(--white);}
+.total-row.grand .val{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent);}
+.free-ship-note{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-top:4px;display:none;}
+.policy-list{display:flex;flex-direction:column;gap:10px;padding-top:18px;margin-top:4px;border-top:1px solid var(--border);}
+.policy-item{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px;}
+.success-screen{display:none;text-align:center;padding:100px 40px;max-width:600px;margin:0 auto;}
+.success-screen.show{display:block;}
+.success-icon{font-family:'Bebas Neue',sans-serif;font-size:80px;color:var(--accent);line-height:1;margin-bottom:24px;}
+.success-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,7vw,80px);letter-spacing:.04em;line-height:.95;margin-bottom:20px;}
+.success-title span{color:var(--accent);}
+.success-sub{font-family:'Barlow',sans-serif;font-size:15px;font-weight:300;color:var(--muted);line-height:1.7;margin-bottom:32px;}
+.success-id{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:36px;}
+.success-id strong{color:var(--accent);}
+.spinner{width:16px;height:16px;border:2px solid rgba(6,6,8,.4);border-top-color:var(--black);border-radius:50%;animation:spin .6s linear infinite;display:none;}
+@keyframes spin{to{transform:rotate(360deg)}}
+footer{border-top:1px solid var(--border);padding:44px 40px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:36px;margin-top:60px;}
+.footer-brand img{height:36px;margin-bottom:14px;}
+.footer-brand p{font-family:'Barlow',sans-serif;font-size:13px;font-weight:300;color:var(--muted);line-height:1.7;margin-bottom:18px;max-width:260px;}
+.footer-socials{display:flex;gap:10px;}
+.footer-socials a{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:6px 12px;transition:border-color .2s,color .2s;}
+.footer-socials a:hover{border-color:var(--accent);color:var(--accent);}
+.footer-col-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-col ul li a{font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--white);text-decoration:none;transition:color .2s;}
+.footer-col ul li a:hover{color:var(--accent);}
+.footer-bottom{border-top:1px solid var(--border);padding:20px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.footer-copy{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+@media(max-width:900px){.checkout-wrap{grid-template-columns:1fr;}.checkout-form{padding:32px 24px;}.order-summary{position:static;border-left:none;border-top:1px solid var(--border);}.form-row{grid-template-columns:1fr;}nav{padding:14px 20px;}.nav-links{display:none;}footer{grid-template-columns:1fr;padding:28px 16px;gap:24px;}}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="curR"></div>
+<div class="ticker"><div class="ticker-track"><div class="ticker-item">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9 RATING</div><div class="ticker-item">&#128293; DROP 001 &mdash; PRE-ORDER OPEN</div><div class="ticker-item">&#10022; FREE SHIPPING OVER $75 USD</div><div class="ticker-item">&#10022; 500+ MEMBERS IN THE UNDERGROUND</div><div class="ticker-item">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9 RATING</div><div class="ticker-item">&#128293; DROP 001 &mdash; PRE-ORDER OPEN</div><div class="ticker-item">&#10022; FREE SHIPPING OVER $75 USD</div><div class="ticker-item">&#10022; 500+ MEMBERS IN THE UNDERGROUND</div></div></div>
+<nav>
+  <a href="index.html" class="nav-logo" id="navLogoLink"><span class="nav-logo-text">KRYPTAA</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">SHOP &#9662;</a></li>
+    <li><a href="index.html#tees">T-SHIRTS</a></li>
+    <li><a href="index.html#mens">MEN</a></li>
+    <li><a href="index.html#womens">WOMEN</a></li>
+    <li><a href="index.html#">SIZE GUIDE</a></li>
+  </ul>
+  <button class="nav-bag-btn" onclick="window.location.href='index.html'">BAG <span class="bag-count" id="navBagCount">0</span></button>
+</nav>
+<div class="breadcrumb"><a href="index.html">Home</a> &rsaquo; <a href="index.html">Shop</a> &rsaquo; <span class="current">Checkout</span></div>
+<div class="checkout-wrap" id="checkoutWrap">
+  <div class="checkout-form">
+    <div class="or-divider">secure checkout</div>
+    <div class="form-block">
+      <div class="step-label">Step 01</div>
+      <div class="step-title">Contact</div>
+      <div class="field"><label>Email Address</label><input type="email" id="email" placeholder="your@email.com"></div>
+    </div>
+    <div class="form-block">
+      <div class="step-label">Step 02</div>
+      <div class="step-title">Shipping Address</div>
+      <div class="form-row">
+        <div class="field"><label>First Name</label><input type="text" id="firstName" placeholder="First"></div>
+        <div class="field"><label>Last Name</label><input type="text" id="lastName" placeholder="Last"></div>
+      </div>
+      <div class="field"><label>Street Address</label><input type="text" id="address" placeholder="123 Main St"></div>
+      <div class="form-row">
+        <div class="field"><label>City</label><input type="text" id="city" placeholder="City"></div>
+        <div class="field"><label>State</label><input type="text" id="state" placeholder="State"></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>ZIP Code</label><input type="text" id="zip" placeholder="00000"></div>
+        <div class="field"><label>Country</label><select id="country"><option value="US">United States</option><option value="CA">Canada</option><option value="GB">United Kingdom</option><option value="AU">Australia</option><option value="IN">India</option><option value="AE">UAE</option><option value="OTHER">Other</option></select></div>
+      </div>
+    </div>
+    <div class="form-block">
+      <div class="step-label">Step 03</div>
+      <div class="step-title">Payment</div>
+      <div class="field"><label>Card Details</label><div class="stripe-wrap" id="card-element"></div></div>
+      <div id="payment-error"></div>
+      <button class="btn-pay" id="payBtn" type="button"><span>&#128274;</span><span id="payBtnText">PAY NOW</span><div class="spinner" id="paySpinner"></div></button>
+      <div class="secure-row"><div class="secure-item">&#128274; SSL Encrypted</div><div class="secure-item">&#9889; Stripe Secured</div><div class="secure-item">&#8617; 30-Day Returns</div></div>
+    </div>
+  </div>
+  <div class="order-summary">
+    <div class="summary-heading">Order Summary</div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="promo-row"><input class="promo-input" type="text" id="promoInput" placeholder="Promo code"><button class="btn-promo" onclick="applyPromo()">Apply</button></div>
+    <div id="promoMsg"></div>
+    <div class="totals">
+      <div class="total-row"><span class="lbl">Subtotal</span><span class="val" id="subtotalVal">$0.00</span></div>
+      <div class="total-row"><span class="lbl">Shipping</span><span class="val" id="shippingVal">&mdash;</span></div>
+      <div class="total-row" id="discountRow" style="display:none"><span class="lbl" style="color:var(--accent)">Discount</span><span class="val" style="color:var(--accent)" id="discountVal">-$0.00</span></div>
+      <div class="total-row grand"><span class="lbl">Total</span><span class="val" id="grandTotal">$0.00</span></div>
+      <div class="free-ship-note" id="freeShipNote">&#10003; Free shipping applied</div>
+    </div>
+    <div class="policy-list">
+      <div class="policy-item"><span>&#128230;</span> Free shipping over $75 USD</div>
+      <div class="policy-item"><span>&#9201;</span> Ships mid-April &middot; 2&ndash;3 weeks</div>
+      <div class="policy-item"><span>&#8617;</span> 30-day returns &middot; Tags attached</div>
+      <div class="policy-item"><span>&#128274;</span> Stripe encrypted &middot; USD pricing</div>
+    </div>
+  </div>
+</div>
+<div class="success-screen" id="successScreen">
+  <div class="success-icon">&#10022;</div>
+  <div class="success-title">Order <span>Confirmed</span></div>
+  <p class="success-sub">Your drop is locked in. Confirmation email on its way.<br>Ships mid-April. Stay underground.</p>
+  <p class="success-id">Order: <strong id="successOrderId">&mdash;</strong></p>
+  <br><br><a href="index.html" class="btn-back">&#8592; BACK TO THE DROP</a>
+</div>
+<footer>
+  <div class="footer-brand">
+    <img src="" alt="KRYPTAA" id="footerLogoEl" style="display:none">
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.12em;background:linear-gradient(135deg,#ffd700,#c8960c,#ffd700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;" id="footerLogoText">KRYPTAA</span>
+    <p style="margin-top:14px">Streetwear from the underground. Every piece is limited. Every drop is a statement. Defined by Power. Driven by Aura.</p>
+    <div class="footer-socials" style="margin-top:18px"><a href="https://instagram.com/Kryptaa">IG</a><a href="https://twitter.com/Kryptaa">X</a><a href="https://facebook.com/Kryptaa">FB</a></div>
+  </div>
+  <div class="footer-col">
+    <div class="footer-col-title">Shop</div>
+    <ul><li><a href="index.html#tees">T-Shirts</a></li><li><a href="index.html#mens">Men&rsquo;s Jeans</a></li><li><a href="index.html#womens">Women&rsquo;s Jeans</a></li></ul>
+  </div>
+  <div class="footer-col">
+    <div class="footer-col-title">Info</div>
+    <ul><li><a href="#">Sizing Guide</a></li><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li><li><a href="#">Contact</a></li></ul>
+  </div>
+</footer>
+<div class="footer-bottom"><span class="footer-copy">&copy; 2026 KRYPTAA. All Rights Reserved.</span><span class="footer-copy">Defined by Power. Driven by Aura.</span></div>
+<script>
+// Cursor
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';setTimeout(()=>{curR.style.left=e.clientX+'px';curR.style.top=e.clientY+'px';},60);});
+document.querySelectorAll('a,button,input,select').forEach(el=>{el.addEventListener('mouseenter',()=>cur.classList.add('big'));el.addEventListener('mouseleave',()=>cur.classList.remove('big'));});
+// Load logo from index.html via fetch
+fetch('index.html').then(r=>r.text()).then(html=>{
+  const m=html.match(/nav[^>]*>[sS]*?<img[^>]+src="([^"]+)"/);
+  if(m&&m[1]){const l=document.createElement('img');l.src=m[1];l.style.height='40px';document.getElementById('navLogoLink').innerHTML='';document.getElementById('navLogoLink').appendChild(l);}
+}).catch(()=>{});
+// Cart
+function getCart(){try{return JSON.parse(localStorage.getItem('kryptaa_cart')||'[]');}catch{return[];}}
+function saveCart(c){localStorage.setItem('kryptaa_cart',JSON.stringify(c));}
+let cart=getCart(),discount=0;
+function renderCart(){
+  cart=getCart();
+  const el=document.getElementById('cartItems');
+  document.getElementById('navBagCount').textContent=cart.reduce((s,i)=>s+(i.qty||1),0);
+  if(!cart.length){el.innerHTML='<div class="cart-empty"><p>Your bag is empty</p><a href="index.html" class="btn-back">Shop the Drop &rarr;</a></div>';updateTotals();return;}
+  el.innerHTML=cart.map((item,i)=>'<div class="cart-item">'+(item.img&&!item.img.includes('BASE64')?'<img class="item-thumb" src="'+(item.img.startsWith('http')?item.img:'https://kryptaa.com/'+item.img)+'" alt="'+item.name+'" onerror="this.style.display='none'">':'<div class="item-thumb-ph">&#128085;</div>')+'<div class="item-details"><div class="item-name">'+item.name+'</div><div class="item-size">Size: '+(item.size||'&mdash;')+'</div><div class="qty-row"><button class="qty-btn" onclick="chQty('+i+',-1)">&minus;</button><span class="qty-num">'+(item.qty||1)+'</span><button class="qty-btn" onclick="chQty('+i+',1)">+</button></div></div><div class="item-price">$'+((item.price||0)*(item.qty||1)).toFixed(2)+'</div></div>').join('');
+  updateTotals();
+}
+function chQty(i,d){cart[i].qty=Math.max(1,(cart[i].qty||1)+d);saveCart(cart);renderCart();}
+function updateTotals(){
+  const sub=cart.reduce((s,i)=>s+(i.price||0)*(i.qty||1),0);
+  const ship=cart.length?(sub>=75?0:9.99):0;
+  const total=Math.max(0,sub-discount+ship);
+  document.getElementById('subtotalVal').textContent='$'+sub.toFixed(2);
+  document.getElementById('shippingVal').textContent=!cart.length?'&mdash;':ship===0?'FREE':'$'+ship.toFixed(2);
+  document.getElementById('grandTotal').textContent='$'+total.toFixed(2);
+  document.getElementById('freeShipNote').style.display=ship===0&&cart.length?'block':'none';
+  document.getElementById('discountRow').style.display=discount>0?'flex':'none';
+  if(discount>0)document.getElementById('discountVal').textContent='-$'+discount.toFixed(2);
+}
+const PROMOS={'VOID10':10,'UNDERGROUND':15,'DROP001':20};
+function applyPromo(){const code=document.getElementById('promoInput').value.trim().toUpperCase();const msg=document.getElementById('promoMsg');msg.style.display='block';if(PROMOS[code]){discount=PROMOS[code];msg.style.color='var(--accent)';msg.textContent='&#10003; "'+code+'" applied &mdash; $'+discount+' off';}else{discount=0;msg.style.color='var(--red)';msg.textContent='&#10007; Invalid promo code';}updateTotals();}
+// Stripe
+const stripe=Stripe('pk_live_51TEuajBxvrWSHcOeBNiYsjBhoM6Uvxqz3sFZvwvNb5923VCy39AbBrMoIGzvpLVei3KVDqX9Sxl9t0FFDz2ntF1300FwFGevMd');
+const elements=stripe.elements({fonts:[{cssSrc:'https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&display=swap'}]});
+const cardEl=elements.create('card',{style:{base:{fontFamily:'"Barlow Condensed",sans-serif',fontSize:'15px',color:'#f0ede8','::placeholder':{color:'#555560'},backgroundColor:'#111116'},invalid:{color:'#ff3c00'}}});
+cardEl.mount('#card-element');
+cardEl.on('focus',()=>document.getElementById('card-element').classList.add('focused'));
+cardEl.on('blur',()=>document.getElementById('card-element').classList.remove('focused'));
+cardEl.on('change',e=>{const err=document.getElementById('payment-error');if(e.error){err.textContent=e.error.message;err.style.display='block';}else{err.style.display='none';}});
+document.getElementById('payBtn').addEventListener('click',async()=>{
+  const btn=document.getElementById('payBtn'),txt=document.getElementById('payBtnText'),spin=document.getElementById('paySpinner'),errEl=document.getElementById('payment-error');
+  const email=document.getElementById('email').value.trim(),firstName=document.getElementById('firstName').value.trim(),lastName=document.getElementById('lastName').value.trim(),address=document.getElementById('address').value.trim(),city=document.getElementById('city').value.trim(),zip=document.getElementById('zip').value.trim();
+  if(!email||!firstName||!lastName||!address||!city||!zip){errEl.textContent='&#10007; Please fill in all required fields.';errEl.style.display='block';return;}
+  if(!cart.length){errEl.textContent='&#10007; Your bag is empty.';errEl.style.display='block';return;}
+  btn.disabled=true;txt.textContent='Processing...';spin.style.display='block';errEl.style.display='none';
+  try{
+    const{token,error}=await stripe.createToken(cardEl,{name:firstName+' '+lastName,address_line1:address,address_city:city,address_zip:zip,address_country:document.getElementById('country').value});
+    if(error){errEl.textContent='&#10007; '+error.message;errEl.style.display='block';btn.disabled=false;txt.textContent='PAY NOW';spin.style.display='none';return;}
+    const orderId='KRP-'+Date.now().toString(36).toUpperCase();
+    document.getElementById('successOrderId').textContent=orderId;
+    document.getElementById('checkoutWrap').style.display='none';
+    document.getElementById('successScreen').classList.add('show');
+    localStorage.removeItem('kryptaa_cart');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }catch(e){errEl.textContent='&#10007; Something went wrong. Please try again.';errEl.style.display='block';btn.disabled=false;txt.textContent='PAY NOW';spin.style.display='none';}
+});
+renderCart();
+</script>
+</body>
+</html>
