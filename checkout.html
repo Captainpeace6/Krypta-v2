@@ -80,14 +80,52 @@ footer{border-top:1px solid var(--border);padding:44px 40px;display:grid;grid-te
 .footer-col ul li a:hover{color:var(--accent);}
 .footer-bottom{border-top:1px solid var(--border);padding:20px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
 .footer-copy{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
-@media(max-width:900px){.checkout-wrap{grid-template-columns:1fr;}.checkout-left{padding:32px 24px;}.order-summary{position:static;border-left:none;border-top:1px solid var(--border);}nav{padding:14px 20px;}.nav-links{display:none;}footer{grid-template-columns:1fr;padding:28px 16px;gap:24px;}.total-display .amount{font-size:28px;}}
+/* ── STRIPE NOTICE BANNER ── */
+.stripe-notice{background:var(--surface);border:1px solid var(--border);border-left:3px solid #635bff;padding:14px 18px;margin-bottom:24px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px;}
+.stripe-notice span{color:#635bff;font-size:16px;}
+@media(max-width:900px){
+  .checkout-wrap{grid-template-columns:1fr;}
+  .checkout-left{padding:32px 24px;}
+  .order-summary{position:static;border-left:none;border-top:1px solid var(--border);}
+  nav{padding:14px 20px;}
+  .nav-links{display:none;}
+  footer{grid-template-columns:1fr;padding:28px 16px;gap:24px;}
+  .total-display .amount{font-size:28px;}
+}
 </style>
 </head>
 <body>
 <div id="cur"></div><div id="curR"></div>
-<div class="ticker"><div class="ticker-track"><div class="ticker-item">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9 RATING</div><div class="ticker-item">&#128293; DROP 001 &mdash; PRE-ORDER OPEN</div><div class="ticker-item">&#10022; FREE SHIPPING OVER $75 USD</div><div class="ticker-item">&#10022; 500+ MEMBERS IN THE UNDERGROUND</div><div class="ticker-item">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9 RATING</div><div class="ticker-item">&#128293; DROP 001 &mdash; PRE-ORDER OPEN</div><div class="ticker-item">&#10022; FREE SHIPPING OVER $75 USD</div><div class="ticker-item">&#10022; 500+ MEMBERS IN THE UNDERGROUND</div></div></div>
-<nav><a href="index.html" class="nav-logo"><span class="nav-logo-text">KRYPTAA</span></a><ul class="nav-links"><li><a href="index.html">SHOP &#9662;</a></li><li><a href="index.html#tees">T-SHIRTS</a></li><li><a href="index.html#mens">MEN</a></li><li><a href="index.html#womens">WOMEN</a></li></ul><button class="nav-bag-btn" onclick="window.location.href='index.html'">BAG <span class="bag-count" id="navBagCount">0</span></button></nav>
-<div class="breadcrumb"><a href="index.html">Home</a> &rsaquo; <a href="index.html">Shop</a> &rsaquo; <span class="current">Checkout</span></div>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <div class="ticker-item">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9 RATING</div>
+    <div class="ticker-item">&#128293; DROP 001 &mdash; PRE-ORDER OPEN</div>
+    <div class="ticker-item">&#10022; FREE SHIPPING OVER $75 USD</div>
+    <div class="ticker-item">&#10022; 500+ MEMBERS IN THE UNDERGROUND</div>
+    <div class="ticker-item">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9 RATING</div>
+    <div class="ticker-item">&#128293; DROP 001 &mdash; PRE-ORDER OPEN</div>
+    <div class="ticker-item">&#10022; FREE SHIPPING OVER $75 USD</div>
+    <div class="ticker-item">&#10022; 500+ MEMBERS IN THE UNDERGROUND</div>
+  </div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo"><span class="nav-logo-text">KRYPTAA</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">SHOP &#9662;</a></li>
+    <li><a href="index.html#tees">T-SHIRTS</a></li>
+    <li><a href="index.html#mens">MEN</a></li>
+    <li><a href="index.html#womens">WOMEN</a></li>
+  </ul>
+  <button class="nav-bag-btn" onclick="window.location.href='index.html'">BAG <span class="bag-count" id="navBagCount">0</span></button>
+</nav>
+
+<div class="breadcrumb">
+  <a href="index.html">Home</a> &rsaquo;
+  <a href="index.html">Shop</a> &rsaquo;
+  <span class="current">Checkout</span>
+</div>
 
 <div class="checkout-wrap">
   <div class="checkout-left">
@@ -113,6 +151,7 @@ footer{border-top:1px solid var(--border);padding:44px 40px;display:grid;grid-te
     <button class="stripe-btn" id="payBtn" onclick="goToStripe()">
       &#128274;&nbsp; PAY NOW &mdash; <span id="btnTotal">$0.00</span>
     </button>
+
     <div class="secure-note">
       <span>&#128274; SSL Encrypted</span>
       <span>&#9889; Powered by Stripe</span>
@@ -139,64 +178,132 @@ footer{border-top:1px solid var(--border);padding:44px 40px;display:grid;grid-te
 </div>
 
 <footer>
-  <div class="footer-brand"><div class="footer-logo-text">KRYPTAA</div><p>Streetwear from the underground. Every piece is limited. Defined by Power. Driven by Aura.</p><div class="footer-socials"><a href="https://instagram.com/Kryptaa">IG</a><a href="https://twitter.com/Kryptaa">X</a></div></div>
-  <div class="footer-col"><div class="footer-col-title">Shop</div><ul><li><a href="index.html#tees">T-Shirts</a></li><li><a href="index.html#mens">Men's Jeans</a></li><li><a href="index.html#womens">Women's Jeans</a></li></ul></div>
-  <div class="footer-col"><div class="footer-col-title">Info</div><ul><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li><li><a href="#">Contact</a></li></ul></div>
+  <div class="footer-brand">
+    <div class="footer-logo-text">KRYPTAA</div>
+    <p>Streetwear from the underground. Every piece is limited. Defined by Power. Driven by Aura.</p>
+    <div class="footer-socials">
+      <a href="https://instagram.com/Kryptaa">IG</a>
+      <a href="https://twitter.com/Kryptaa">X</a>
+    </div>
+  </div>
+  <div class="footer-col">
+    <div class="footer-col-title">Shop</div>
+    <ul>
+      <li><a href="index.html#tees">T-Shirts</a></li>
+      <li><a href="index.html#mens">Men's Jeans</a></li>
+      <li><a href="index.html#womens">Women's Jeans</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <div class="footer-col-title">Info</div>
+    <ul>
+      <li><a href="#">Shipping</a></li>
+      <li><a href="#">Returns</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
 </footer>
-<div class="footer-bottom"><span class="footer-copy">&copy; 2026 KRYPTAA. All Rights Reserved.</span><span class="footer-copy">Defined by Power. Driven by Aura.</span></div>
+<div class="footer-bottom">
+  <span class="footer-copy">&copy; 2026 KRYPTAA. All Rights Reserved.</span>
+  <span class="footer-copy">Defined by Power. Driven by Aura.</span>
+</div>
 
 <script>
-var cur=document.getElementById('cur'),curR=document.getElementById('curR');
-document.addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';curR.style.left=e.clientX+'px';curR.style.top=e.clientY+'px';});
-document.addEventListener('mouseleave',function(){cur.style.left='-50px';cur.style.top='-50px';});
-document.querySelectorAll('a,button').forEach(function(el){el.addEventListener('mouseenter',function(){cur.classList.add('big');});el.addEventListener('mouseleave',function(){cur.classList.remove('big');});});
+// ── Cursor ──────────────────────────────────────────────────────────────────
+var cur = document.getElementById('cur'), curR = document.getElementById('curR');
+document.addEventListener('mousemove', function(e) {
+  cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+  curR.style.left = e.clientX + 'px'; curR.style.top = e.clientY + 'px';
+});
+document.addEventListener('mouseleave', function() {
+  cur.style.left = '-50px'; cur.style.top = '-50px';
+});
+document.querySelectorAll('a,button').forEach(function(el) {
+  el.addEventListener('mouseenter', function() { cur.classList.add('big'); });
+  el.addEventListener('mouseleave', function() { cur.classList.remove('big'); });
+});
 
-function getCart(){try{return JSON.parse(localStorage.getItem('kryptaa_cart')||'[]');}catch(e){return[];}}
-var cart=getCart();
-var cartTotal=0;
+// ── Cart ────────────────────────────────────────────────────────────────────
+function getCart() {
+  try { return JSON.parse(localStorage.getItem('kryptaa_cart') || '[]'); }
+  catch(e) { return []; }
+}
 
-function renderCart(){
-  var el=document.getElementById('cartItems');
-  var nb=document.getElementById('navBagCount');
-  if(nb)nb.textContent=cart.reduce(function(s,i){return s+(i.qty||1);},0);
-  if(!cart.length){
-    el.innerHTML='<div class="cart-empty"><p>Your bag is empty</p><a href="index.html" class="btn-back">Shop the Drop &rarr;</a></div>';
-    document.getElementById('payBtn').disabled=true;
-    updateTotals();return;
+var cart = getCart();
+var cartTotal = 0;
+
+function renderCart() {
+  var el = document.getElementById('cartItems');
+  var nb = document.getElementById('navBagCount');
+  if (nb) nb.textContent = cart.reduce(function(s,i){ return s + (i.qty||1); }, 0);
+
+  if (!cart.length) {
+    el.innerHTML = '<div class="cart-empty"><p>Your bag is empty</p><a href="index.html" class="btn-back">Shop the Drop &rarr;</a></div>';
+    document.getElementById('payBtn').disabled = true;
+    updateTotals();
+    return;
   }
-  el.innerHTML=cart.map(function(item){
-    var src=item.img?(item.img.startsWith('http')?item.img:'https://kryptaa.com/'+item.img):null;
-    return '<div class="cart-item">'+(src?'<img class="item-thumb" src="'+src+'" onerror="this.style.display=\'none\'">':'<div class="item-thumb-ph">&#128085;</div>')+'<div class="item-details"><div class="item-name">'+item.name+'</div><div class="item-meta">Size: '+(item.size||'&mdash;')+' &middot; Qty: '+(item.qty||1)+'</div></div><div class="item-price">$'+((item.price||0)*(item.qty||1)).toFixed(2)+'</div></div>';
+
+  el.innerHTML = cart.map(function(item) {
+    var src = item.img ? (item.img.startsWith('http') ? item.img : 'https://kryptaa.com/' + item.img) : null;
+    return '<div class="cart-item">' +
+      (src ? '<img class="item-thumb" src="' + src + '" onerror="this.style.display=\'none\'">' :
+             '<div class="item-thumb-ph">&#128085;</div>') +
+      '<div class="item-details">' +
+        '<div class="item-name">' + item.name + '</div>' +
+        '<div class="item-meta">Size: ' + (item.size || '&mdash;') + ' &middot; Qty: ' + (item.qty || 1) + '</div>' +
+      '</div>' +
+      '<div class="item-price">$' + ((item.price || 0) * (item.qty || 1)).toFixed(2) + '</div>' +
+    '</div>';
   }).join('');
+
   updateTotals();
 }
 
-function updateTotals(){
-  var sub=cart.reduce(function(s,i){return s+(i.price||0)*(i.qty||1);},0);
-  var ship=cart.length?(sub>=75?0:9.99):0;
-  cartTotal=Math.round((sub+ship)*100)/100;
-  var totalStr='$'+cartTotal.toFixed(2);
-  document.getElementById('subtotalVal').textContent='$'+sub.toFixed(2);
-  document.getElementById('shippingVal').textContent=!cart.length?'&mdash;':ship===0?'FREE':'$'+ship.toFixed(2);
-  document.getElementById('grandTotal').textContent=totalStr;
-  document.getElementById('totalDisplay').textContent=totalStr;
-  document.getElementById('btnTotal').textContent=totalStr;
-  document.getElementById('freeShipNote').style.display=ship===0&&cart.length?'block':'none';
+function updateTotals() {
+  var sub = cart.reduce(function(s,i){ return s + (i.price||0) * (i.qty||1); }, 0);
+  var ship = cart.length ? (sub >= 75 ? 0 : 9.99) : 0;
+  cartTotal = Math.round((sub + ship) * 100) / 100;
+
+  var totalStr = '$' + cartTotal.toFixed(2);
+  document.getElementById('subtotalVal').textContent = '$' + sub.toFixed(2);
+  document.getElementById('shippingVal').textContent = !cart.length ? '—' : ship === 0 ? 'FREE' : '$' + ship.toFixed(2);
+  document.getElementById('grandTotal').textContent = totalStr;
+  document.getElementById('totalDisplay').textContent = totalStr;
+  document.getElementById('btnTotal').textContent = totalStr;
+  document.getElementById('freeShipNote').style.display = (ship === 0 && cart.length) ? 'block' : 'none';
 }
 
-function goToStripe(){
-  if(!cart.length){alert('Your bag is empty!');return;}
-  var btn=document.getElementById('payBtn');
-  btn.textContent='Redirecting to Stripe...';
-  btn.disabled=true;
-  // Build order summary for Stripe
-  var orderNote=cart.map(function(i){return i.name+' ('+i.size+') x'+(i.qty||1);}).join(', ');
-  localStorage.setItem('kryptaa_pending_order',JSON.stringify({items:cart,total:cartTotal,date:new Date().toISOString()}));
-  // Pass quantity = total in cents so Stripe charges correct amount
-  // The payment link product is $1, we set quantity = total amount
-  var qty=Math.round(cartTotal);
-  var stripeUrl='https://buy.stripe.com/eVqbJ0fF97fbgoC9P86wE00?quantity='+qty;
-  window.location.href=stripeUrl;
+// ── Stripe redirect ─────────────────────────────────────────────────────────
+function goToStripe() {
+  if (!cart.length) { alert('Your bag is empty!'); return; }
+
+  var btn = document.getElementById('payBtn');
+  btn.innerHTML = '⏳&nbsp; Redirecting to Stripe...';
+  btn.disabled = true;
+
+  // Save pending order to localStorage for reference
+  localStorage.setItem('kryptaa_pending_order', JSON.stringify({
+    items: cart,
+    total: cartTotal,
+    date: new Date().toISOString()
+  }));
+
+  // ── HOW THE STRIPE TOTAL WORKS ──────────────────────────────────────────
+  // Your Stripe product is set to $0.01 per unit.
+  // We pass quantity = cartTotal in cents (e.g. $98.50 → 9850 units × $0.01 = $98.50)
+  // This means Stripe charges the EXACT cart total every time.
+  //
+  // IMPORTANT: In your Stripe Dashboard, make sure your Payment Link product
+  // price is set to $0.01 (1 cent) and "customer chooses quantity" is ENABLED.
+  // Go to: Payment Links → Edit → change price to $0.01 → enable qty selection.
+  // ────────────────────────────────────────────────────────────────────────
+
+  var totalCents = Math.round(cartTotal * 100); // e.g. $98.50 → 9850
+  var stripeBaseUrl = 'https://buy.stripe.com/eVqbJ0fF97fbgoC9P86wE00';
+  var stripeUrl = stripeBaseUrl + '?quantity=' + totalCents;
+
+  window.location.href = stripeUrl;
 }
 
 renderCart();
