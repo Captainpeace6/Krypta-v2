@@ -1,4 +1,4 @@
-<!-- v4 --><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -112,7 +112,7 @@ footer{border-top:1px solid var(--border);padding:44px 40px;display:grid;grid-te
 <body>
 <div id="cur"></div><div id="curR"></div>
 <div class="ticker"><div class="ticker-track"><div class="ticker-item">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9 RATING</div><div class="ticker-item">&#128293; DROP 001 &mdash; PRE-ORDER OPEN</div><div class="ticker-item">&#10022; FREE SHIPPING OVER $75 USD</div><div class="ticker-item">&#10022; 500+ MEMBERS IN THE UNDERGROUND</div><div class="ticker-item">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9 RATING</div><div class="ticker-item">&#128293; DROP 001 &mdash; PRE-ORDER OPEN</div><div class="ticker-item">&#10022; FREE SHIPPING OVER $75 USD</div><div class="ticker-item">&#10022; 500+ MEMBERS IN THE UNDERGROUND</div></div></div>
-<nav><a href="index.html" class="nav-logo"><span class="nav-logo-text">KRYPTAA</span></a><ul class="nav-links"><li><a href="index.html">SHOP &#9662;</a></li><li><a href="index.html#tees">T-SHIRTS</a></li><li><a href="index.html#mens">MEN</a></li><li><a href="index.html#womens">WOMEN</a></li><li><a href="index.html#">SIZE GUIDE</a></li></ul><button class="nav-bag-btn" onclick="window.location.href='index.html'">BAG <span class="bag-count" id="navBagCount">0</span></button></nav>
+<nav><a href="index.html" class="nav-logo"><span class="nav-logo-text">KRYPTAA</span></a><ul class="nav-links"><li><a href="index.html">SHOP &#9662;</a></li><li><a href="index.html#tees">T-SHIRTS</a></li><li><a href="index.html#mens">MEN</a></li><li><a href="index.html#womens">WOMEN</a></li></ul><button class="nav-bag-btn" onclick="window.location.href='index.html'">BAG <span class="bag-count" id="navBagCount">0</span></button></nav>
 <div class="breadcrumb"><a href="index.html">Home</a> &rsaquo; <a href="index.html">Shop</a> &rsaquo; <span class="current">Checkout</span></div>
 <div class="checkout-wrap" id="checkoutWrap">
   <div class="checkout-form">
@@ -162,7 +162,7 @@ bindCursor();
 function getCart(){try{return JSON.parse(localStorage.getItem('kryptaa_cart')||'[]');}catch(e){return[];}}
 function saveCart(c){localStorage.setItem('kryptaa_cart',JSON.stringify(c));}
 var cart=getCart(),discount=0;
-function renderCart(){cart=getCart();var el=document.getElementById('cartItems');var nb=document.getElementById('navBagCount');if(nb)nb.textContent=cart.reduce(function(s,i){return s+(i.qty||1);},0);if(!cart.length){el.innerHTML='<div class="cart-empty"><p>Your bag is empty</p><a href="index.html" class="btn-back">Shop the Drop &rarr;</a></div>';updateTotals();return;}el.innerHTML=cart.map(function(item,i){var src=item.img&&!item.img.includes('BASE64')?(item.img.startsWith('http')?item.img:'https://kryptaa.com/'+item.img):null;return '<div class="cart-item">'+(src?'<img class="item-thumb" src="'+src+'" onerror="this.style.display='none'">':'<div class="item-thumb-ph">&#128085;</div>')+'<div class="item-details"><div class="item-name">'+item.name+'</div><div class="item-size">Size: '+(item.size||'&mdash;')+'</div><div class="qty-row"><button class="qty-btn" onclick="chQty('+i+',-1)">&minus;</button><span class="qty-num">'+(item.qty||1)+'</span><button class="qty-btn" onclick="chQty('+i+',1)">+</button></div></div><div class="item-price">$'+((item.price||0)*(item.qty||1)).toFixed(2)+'</div></div>';}).join('');updateTotals();bindCursor();}
+function renderCart(){cart=getCart();var el=document.getElementById('cartItems');var nb=document.getElementById('navBagCount');if(nb)nb.textContent=cart.reduce(function(s,i){return s+(i.qty||1);},0);if(!cart.length){el.innerHTML='<div class="cart-empty"><p>Your bag is empty</p><a href="index.html" class="btn-back">Shop the Drop &rarr;</a></div>';updateTotals();return;}el.innerHTML=cart.map(function(item,i){var src=item.img&&!item.img.includes('BASE64')?(item.img.startsWith('http')?item.img:'https://kryptaa.com/'+item.img):null;return '<div class="cart-item">'+(src?'<img class="item-thumb" src="'+src+'" onerror="this.style.display=\'none\'">':'<div class="item-thumb-ph">&#128085;</div>')+'<div class="item-details"><div class="item-name">'+item.name+'</div><div class="item-size">Size: '+(item.size||'&mdash;')+'</div><div class="qty-row"><button class="qty-btn" onclick="chQty('+i+',-1)">&minus;</button><span class="qty-num">'+(item.qty||1)+'</span><button class="qty-btn" onclick="chQty('+i+',1)">+</button></div></div><div class="item-price">$'+((item.price||0)*(item.qty||1)).toFixed(2)+'</div></div>';}).join('');updateTotals();bindCursor();}
 function chQty(i,d){cart=getCart();cart[i].qty=Math.max(1,(cart[i].qty||1)+d);saveCart(cart);renderCart();}
 function updateTotals(){var sub=cart.reduce(function(s,i){return s+(i.price||0)*(i.qty||1);},0);var ship=cart.length?(sub>=75?0:9.99):0;document.getElementById('subtotalVal').textContent='$'+sub.toFixed(2);document.getElementById('shippingVal').textContent=!cart.length?'&mdash;':ship===0?'FREE':'$'+ship.toFixed(2);document.getElementById('grandTotal').textContent='$'+(Math.max(0,sub-discount+ship)).toFixed(2);document.getElementById('freeShipNote').style.display=ship===0&&cart.length?'block':'none';document.getElementById('discountRow').style.display=discount>0?'flex':'none';if(discount>0)document.getElementById('discountVal').textContent='-$'+discount.toFixed(2);}
 var PROMOS={'VOID10':10,'UNDERGROUND':15,'DROP001':20};
@@ -178,4 +178,4 @@ document.getElementById('payBtn').addEventListener('click',async function(){var 
 renderCart();
 </script>
 </body>
-                                                                                                                                                                     </html>
+</html>
