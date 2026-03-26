@@ -1,6 +1,1 @@
-document.addEventListener('DOMContentLoaded',function(){
-  var s=document.querySelector('#womensSlider');
-  if(s){Array.from(s.querySelectorAll('.card')).forEach(function(c){var n=c.querySelector('h3,h4,[class*=name]');if(n&&n.textContent.toLowerCase().includes('track pant'))c.remove();});}
-  var btn=document.querySelector('.cart-checkout');
-  if(btn){btn.addEventListener('click',function(){localStorage.setItem('kryptaa_cart',JSON.stringify(window.cart||[]));window.location.href='checkout.html';});}
-});
+document.addEventListener('DOMContentLoaded',function(){var s=document.querySelector('#womensSlider');if(s){Array.from(s.querySelectorAll('.card')).forEach(function(c){var n=c.querySelector('h3,h4,[class*=name]');if(n&&n.textContent.toLowerCase().includes('track pant'))c.remove();});}var btn=document.querySelector('.cart-checkout');if(btn){btn.addEventListener('click',function(){localStorage.setItem('kryptaa_cart',JSON.stringify(window.cart||[]));window.location.href='checkout.html';});}});
