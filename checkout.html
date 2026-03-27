@@ -201,7 +201,7 @@ function updateTotals(){
   var ship=cart.length?(sub>=75?0:9.99):0;
   var exact=Math.round((sub+ship)*100)/100;
   // Round to nearest dollar to match Stripe charge ($1/unit × quantity)
-  cartTotal=Math.round(exact);
+  cartTotal=exact;
   document.getElementById('subtotalVal').textContent='$'+sub.toFixed(2);
   document.getElementById('shippingVal').textContent=!cart.length?'\u2014':ship===0?'FREE':'$'+ship.toFixed(2);
   document.getElementById('grandTotal').textContent='$'+cartTotal.toFixed(2);
@@ -224,12 +224,11 @@ function goToStripe(){
   }));
 
   // ---- STRIPE TOTAL FIX ----
-  // Stripe product is $1.00 per unit.
-  // We pass quantity = cart total rounded to nearest dollar.
-  // Example: $98.50 cart → quantity=99 → Stripe charges $99.00
-  // Example: $118.00 cart → quantity=118 → Stripe charges $118.00
-  var quantityDollars = Math.round(cartTotal);
-  var stripeUrl = 'https://buy.stripe.com/eVqbJ0fF97fbgoC9P86wE00?quantity=' + quantityDollars;
+  // 'Customers choose what to pay' Stripe link.
+  // Pass ?amount= in cents for exact pricing to the cent.
+  // e.g. $98.50 cart → amount=9850 → Stripe charges $98.50 exactly
+  var amountInCents = Math.round(cartTotal * 100);
+  var stripeUrl = 'https://buy.stripe.com/eVqbJ0fF97fbgoC9P86wE00?amount=' + amountInCents;
   window.location.href = stripeUrl;
 }
 
