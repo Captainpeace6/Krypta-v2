@@ -141,11 +141,23 @@ document.querySelectorAll('.card,[class*=card]').forEach(function(card){var pid=
 })();
 
 // =============================================
+// V2: FOOTER LOGO — Replace with gold KRYPTAA image
+// =============================================
+(function() {
+  var footerImg = document.querySelector('footer img[alt="KRYPTAA"]');
+  if (!footerImg) footerImg = document.querySelector('footer img');
+  if (footerImg) {
+    footerImg.src = 'imgs/kryptaa-logo-gold.png';
+    footerImg.alt = 'KRYPTAA';
+    footerImg.style.cssText = 'height:52px;width:auto;object-fit:contain;display:block;margin:0 auto;';
+  }
+})();
+
+// =============================================
 // V2: HERO — Cinematic banner replacement
 // =============================================
 (function() {
 
-  // Inject hero styles
   var heroStyle = document.createElement('style');
   heroStyle.textContent = `
     @keyframes kryptaa-fade-in {
@@ -262,7 +274,6 @@ document.querySelectorAll('.card,[class*=card]').forEach(function(card){var pid=
   `;
   document.head.appendChild(heroStyle);
 
-  // Build hero HTML
   var heroHTML = `
     <div id="kryptaa-hero-v2">
       <div class="hero-glow"></div>
@@ -275,7 +286,6 @@ document.querySelectorAll('.card,[class*=card]').forEach(function(card){var pid=
     </div>
   `;
 
-  // Find existing hero section and replace it
   var heroSelectors = [
     '.hero-section', '#hero', '.hero', '[class*="hero"]',
     'section.banner', '.banner-section', '#banner',
@@ -285,14 +295,12 @@ document.querySelectorAll('.card,[class*=card]').forEach(function(card){var pid=
   var existing = null;
   for (var i = 0; i < heroSelectors.length; i++) {
     var el = document.querySelector(heroSelectors[i]);
-    // Make sure we don't accidentally grab a tiny element
     if (el && el.offsetHeight > 40) { existing = el; break; }
   }
 
   if (existing) {
     existing.outerHTML = heroHTML;
   } else {
-    // Fallback: inject right after <nav>
     var navEl = document.querySelector('nav') || document.querySelector('header');
     if (navEl && navEl.parentNode) {
       var tmp = document.createElement('div');
