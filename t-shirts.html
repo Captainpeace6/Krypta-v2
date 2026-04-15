@@ -8,60 +8,97 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--k-black:#000;--k-deep:#060608;--k-dark:#0a0a0d;--k-mid:#111116;--k-border:#1e1e26;--k-muted:#555560;--k-off:#f0ede8;--k-gold:#c8a84b;--k-gold-hi:#e8d080;--k-lime:#c8ff00}
+:root{--k-black:#000;--k-deep:#060608;--k-dark:#0a0a0d;--k-border:#1e1e26;--k-muted:#555560;--k-off:#f0ede8;--k-gold:#c8a84b;--k-gold-hi:#e8d080;--k-lime:#c8ff00}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:#000;color:#f0ede8;font-family:'Barlow Condensed',sans-serif;-webkit-font-smoothing:antialiased;padding-top:62px}
-nav{position:fixed;top:0;left:0;right:0;height:62px;background:rgba(6,6,8,.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(200,168,75,.1);display:flex;align-items:center;justify-content:space-between;padding:0 36px;z-index:900}
-.nav-logo-img{height:34px;width:auto;object-fit:contain}
-.nav-center{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:24px}
+body{background:#000;color:#f0ede8;font-family:'Barlow Condensed',sans-serif;-webkit-font-smoothing:antialiased;padding-top:66px}
+@keyframes k-fade-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes k-glow{0%,100%{opacity:.4;filter:blur(55px)}50%{opacity:.75;filter:blur(70px)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;height:66px;background:rgba(6,6,8,.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(200,168,75,.1);display:flex;align-items:center;justify-content:space-between;padding:0 40px;z-index:900}
+.nav-logo-img{height:44px;width:auto;object-fit:contain;filter:drop-shadow(0 0 10px rgba(200,168,75,.2))}
+.nav-center{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:32px}
 @media(max-width:900px){.nav-center{display:none}.nav-ham{display:flex!important}}
-.nav-lnk{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.15em;color:rgba(240,237,232,.6);text-decoration:none;text-transform:uppercase;transition:color .2s;white-space:nowrap}
+.nav-lnk{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.12em;color:rgba(240,237,232,.6);text-decoration:none;text-transform:uppercase;transition:color .2s;white-space:nowrap}
 .nav-lnk:hover,.nav-lnk.active{color:#e8d080}
 .nav-dd{position:relative}
-.nav-dd-label{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.15em;color:rgba(240,237,232,.6);cursor:pointer;text-transform:uppercase;user-select:none;transition:color .2s}
+.nav-dd-label{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.12em;color:rgba(240,237,232,.6);cursor:pointer;text-transform:uppercase;user-select:none;transition:color .2s}
 .nav-dd.open .nav-dd-label{color:#e8d080}
-.nav-dd-menu{display:none;position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%);background:#0a0a0d;border:1px solid #1e1e26;border-top:1px solid rgba(200,168,75,.3);min-width:200px;padding:8px 0;z-index:1000}
+.nav-dd-menu{display:none;position:absolute;top:calc(100% + 18px);left:50%;transform:translateX(-50%);background:#0a0a0d;border:1px solid #1e1e26;border-top:1px solid rgba(200,168,75,.3);min-width:190px;padding:6px 0;z-index:1000}
 .nav-dd.open .nav-dd-menu{display:block}
-.nav-dd-menu a{display:block;padding:11px 20px;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:#555560;text-decoration:none;border-bottom:1px solid #1a1a22;transition:color .15s,background .15s}
+.nav-dd-menu a{display:block;padding:11px 20px;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:#555560;text-decoration:none;border-bottom:1px solid #1a1a22;transition:color .15s,background .15s}
 .nav-dd-menu a:last-child{border-bottom:none}
 .nav-dd-menu a:hover{color:#e8d080;background:#111116}
-.nav-cart-btn{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.12em;color:rgba(240,237,232,.8);background:none;border:1px solid rgba(240,237,232,.2);padding:7px 18px;cursor:pointer;text-transform:uppercase;transition:border-color .2s,color .2s;white-space:nowrap}
+.nav-cart-btn{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.12em;color:rgba(240,237,232,.8);background:none;border:1px solid rgba(240,237,232,.18);padding:7px 18px;cursor:pointer;text-transform:uppercase;transition:border-color .2s,color .2s;white-space:nowrap}
 .nav-cart-btn:hover{border-color:#c8a84b;color:#e8d080}
 .nav-ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
 .nav-ham span{display:block;width:24px;height:1px;background:#f0ede8}
-.mob-menu{display:none;position:fixed;top:62px;left:0;right:0;background:#060608;border-bottom:1px solid rgba(200,168,75,.12);z-index:890;padding:8px 0}
+.mob-menu{display:none;position:fixed;top:66px;left:0;right:0;background:#060608;border-bottom:1px solid rgba(200,168,75,.12);z-index:890;padding:8px 0;max-height:calc(100vh - 66px);overflow-y:auto}
 .mob-menu.open{display:block}
-.mob-menu a{display:flex;align-items:center;gap:12px;padding:14px 24px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.1em;color:#f0ede8;text-decoration:none;border-bottom:1px solid #1a1a22}
+.mob-menu a{display:flex;align-items:center;gap:12px;padding:14px 24px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.1em;color:#f0ede8;text-decoration:none;border-bottom:1px solid #1a1a22;transition:color .2s,background .2s}
 .mob-menu a:hover{color:#e8d080;background:#0a0a0d}
-.cat-hero{position:relative;height:55vh;min-height:320px;display:flex;align-items:flex-end;padding-bottom:52px;overflow:hidden;background:#000}
-.cat-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:brightness(.3) saturate(.6)}
-.cat-hero-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.1) 65%)}
-.cat-hero-content{position:relative;z-index:2;padding:0 52px}
-.cat-eyebrow{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.4em;color:rgba(200,168,75,.65);text-transform:uppercase;margin-bottom:12px}
-.cat-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,12vw,110px);letter-spacing:.04em;color:#fff;line-height:.9;margin-bottom:14px}
-.cat-desc{font-family:'Barlow Condensed',sans-serif;font-size:16px;color:rgba(240,237,232,.45);letter-spacing:.06em;max-width:420px}
-.products-section{background:#060608;padding:60px 32px 80px}
-.products-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:36px;border-bottom:1px solid #1e1e26;padding-bottom:14px}
+
+/* HERO — editorial cinematic */
+.cat-hero{
+  position:relative;height:62vh;min-height:360px;
+  display:flex;align-items:flex-end;padding-bottom:56px;
+  overflow:hidden;background:#000;
+}
+.cat-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:brightness(.25) saturate(.55);transition:transform 8s ease}
+.cat-hero:hover .cat-hero-bg{transform:scale(1.03)}
+.cat-hero-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.95) 0%,rgba(0,0,0,.3) 55%,rgba(0,0,0,.1) 100%)}
+.cat-hero-glow{position:absolute;top:30%;left:50%;transform:translateX(-50%);width:500px;height:250px;background:radial-gradient(ellipse,rgba(200,168,75,.18),transparent 70%);animation:k-glow 6s ease-in-out infinite;pointer-events:none}
+.cat-hero-content{position:relative;z-index:2;padding:0 52px;animation:k-fade-up 1s ease forwards}
+.cat-eyebrow{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.4em;color:rgba(200,168,75,.65);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.cat-eyebrow::before{content:'';width:28px;height:1px;background:rgba(200,168,75,.3)}
+.cat-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,13vw,120px);letter-spacing:.03em;color:#fff;line-height:.88;margin-bottom:16px}
+.cat-desc{font-family:'Barlow Condensed',sans-serif;font-size:17px;color:rgba(240,237,232,.4);letter-spacing:.06em;max-width:400px;line-height:1.5}
+/* hero stat strip */
+.hero-stats{position:absolute;bottom:0;right:0;display:flex;gap:0;z-index:2}
+.hero-stat{padding:14px 24px;border-left:1px solid #1e1e26;border-top:1px solid #1e1e26;background:rgba(6,6,8,.85);backdrop-filter:blur(8px);text-align:center}
+.hero-stat-val{font-family:'Bebas Neue',sans-serif;font-size:24px;color:#e8d080;letter-spacing:.08em;display:block}
+.hero-stat-lbl{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.2em;color:#555560;text-transform:uppercase;display:block;margin-top:2px}
+@media(max-width:600px){.hero-stats{display:none}.cat-hero-content{padding:0 24px}}
+
+/* PRODUCTS */
+.products-section{background:#060608;padding:56px 32px 80px}
+.products-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:36px;border-bottom:1px solid #1e1e26;padding-bottom:14px;flex-wrap:wrap;gap:12px}
 .products-header h2{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.12em;color:#fff}
 .products-header span{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.2em;color:#555560;text-transform:uppercase}
 .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;max-width:1300px;margin:0 auto}
 @media(max-width:600px){.products-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
-.product-card{background:#0a0a0d;border:1px solid #1e1e26;cursor:pointer;transition:transform .3s ease,box-shadow .3s ease,border-color .3s;overflow:hidden}
-.product-card:hover{transform:translateY(-4px) scale(1.015);box-shadow:0 14px 44px rgba(0,0,0,.5),0 0 20px rgba(200,168,75,.06);border-color:rgba(200,168,75,.2)}
+
+/* PRODUCT CARD */
+.product-card{background:#0a0a0d;border:1px solid #1e1e26;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease,border-color .3s;cursor:pointer}
+.product-card:hover{transform:translateY(-5px) scale(1.015);box-shadow:0 16px 48px rgba(0,0,0,.55),0 0 24px rgba(200,168,75,.07);border-color:rgba(200,168,75,.22)}
 .product-img-wrap{position:relative;overflow:hidden;padding-top:110%}
-.product-img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .5s ease}
-.product-card:hover .product-img-wrap img{transform:scale(1.07)}
-.product-badge{position:absolute;top:10px;left:10px;background:#c8ff00;color:#000;font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.18em;padding:4px 8px;text-transform:uppercase;z-index:2}
-.product-info{padding:14px}
-.product-name{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:.08em;color:#f0ede8;margin-bottom:4px}
-.product-price{font-family:'Space Mono',monospace;font-size:11px;color:#e8d080;margin-bottom:12px}
-.product-sizes{display:flex;gap:5px;margin-bottom:11px;flex-wrap:wrap}
-.size-btn{background:none;border:1px solid #252530;color:#555560;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.08em;padding:5px 7px;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
+.product-img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .55s ease}
+.product-card:hover .product-img-wrap img{transform:scale(1.08)}
+.product-badge{position:absolute;top:10px;left:10px;background:#c8ff00;color:#000;font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.18em;padding:4px 9px;text-transform:uppercase;z-index:2}
+.product-info{padding:16px}
+.product-name{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.08em;color:#f0ede8;margin-bottom:4px;transition:color .2s}
+.product-card:hover .product-name{color:#e8d080}
+.product-price{font-family:'Space Mono',monospace;font-size:12px;color:#e8d080;margin-bottom:14px}
+.product-sizes{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap}
+.size-btn{background:none;border:1px solid #252530;color:#555560;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.08em;padding:5px 8px;cursor:pointer;transition:border-color .15s,color .15s,background .15s}
 .size-btn:hover{border-color:#555560;color:#f0ede8}
 .size-btn.selected{border-color:#c8a84b;color:#e8d080;background:rgba(200,168,75,.07)}
-.atc-btn{width:100%;background:transparent;border:1px solid rgba(200,255,0,.38);color:#c8ff00;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.18em;padding:10px;cursor:pointer;text-transform:uppercase;transition:background .2s,color .2s}
+.atc-btn{width:100%;background:transparent;border:1px solid rgba(200,255,0,.38);color:#c8ff00;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.18em;padding:11px;cursor:pointer;text-transform:uppercase;transition:background .2s,color .2s}
 .atc-btn:hover{background:#c8ff00;color:#000}
+
+/* EDITORIAL STRIP */
+.editorial-strip{background:#000;padding:64px 32px;display:flex;align-items:center;gap:60px;max-width:1260px;margin:0 auto}
+.ed-text{flex:1}
+.ed-eyebrow{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.35em;color:rgba(200,168,75,.55);text-transform:uppercase;margin-bottom:16px}
+.ed-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,6vw,60px);letter-spacing:.07em;color:#fff;line-height:.95;margin-bottom:20px}
+.ed-body{font-family:'Barlow Condensed',sans-serif;font-size:17px;color:rgba(240,237,232,.5);line-height:1.7;max-width:400px}
+.ed-body strong{color:#e8d080;font-weight:400}
+.ed-img{flex:1;max-width:400px}
+.ed-img img{width:100%;height:320px;object-fit:cover;object-position:top;filter:brightness(.85) saturate(.8)}
+@media(max-width:768px){.editorial-strip{flex-direction:column;gap:32px;padding:48px 24px}.ed-img{max-width:100%}.ed-img img{height:240px}}
+
+/* CART + SHARED */
 .cart-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;backdrop-filter:blur(4px)}
 .cart-overlay.open{display:block}
 .cart-sidebar{position:fixed;top:0;right:-400px;width:380px;height:100vh;background:#060608;border-left:1px solid #1e1e26;z-index:1100;transition:right .35s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column}
@@ -95,22 +132,18 @@ nav{position:fixed;top:0;left:0;right:0;height:62px;background:rgba(6,6,8,.97);b
 .footer-copy{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.2em;color:#222228;text-transform:uppercase}
 .k-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#0a0a0d;border:1px solid rgba(200,168,75,.28);color:#e8d080;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.2em;padding:12px 24px;text-transform:uppercase;transition:transform .4s cubic-bezier(.16,1,.3,1);z-index:2000;white-space:nowrap}
 .k-toast.show{transform:translateX(-50%) translateY(0)}
-.k-div{display:flex;align-items:center;gap:16px;padding:24px 48px;background:#000}
-.k-div::before,.k-div::after{content:'';flex:1;max-width:280px;height:1px;background:linear-gradient(90deg,transparent,rgba(200,168,75,.18),transparent)}
-.k-div::after{background:linear-gradient(90deg,rgba(200,168,75,.18),transparent)}
-.k-div-txt{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.4em;color:rgba(200,168,75,.25);text-transform:uppercase}
 </style>
 </head>
 <body>
 <nav>
   <a href="index.html"><img class="nav-logo-img" src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA"></a>
   <div class="nav-center">
-    <div class="nav-dd" id="shopDd"><span class="nav-dd-label">SHOP ▾</span><div class="nav-dd-menu"><a href="men.html">Men's Collection</a><a href="women.html">Women's Collection</a><a href="jeans.html">All Jeans</a><a href="t-shirts.html">T-Shirts</a><a href="track-pants.html">Track Pants</a></div></div>
+    <div class="nav-dd" id="shopDd"><span class="nav-dd-label">SHOP ▾</span><div class="nav-dd-menu"><a href="men.html">Men's Collection</a><a href="women.html">Women's Collection</a><a href="t-shirts.html">T-Shirts</a><a href="track-pants.html">Track Pants</a></div></div>
     <a class="nav-lnk" href="men.html">MEN</a>
     <a class="nav-lnk" href="women.html">WOMEN</a>
-    <a class="nav-lnk" href="jeans.html">JEANS</a>
     <a class="nav-lnk active" href="t-shirts.html">T-SHIRTS</a>
     <a class="nav-lnk" href="track-pants.html">TRACK PANTS</a>
+    <a class="nav-lnk" href="index.html#k-size-guide">SIZE GUIDE</a>
   </div>
   <div style="display:flex;align-items:center;gap:12px">
     <button class="nav-cart-btn" id="cartBtn">BAG (<span id="cartCount">0</span>)</button>
@@ -118,27 +151,52 @@ nav{position:fixed;top:0;left:0;right:0;height:62px;background:rgba(6,6,8,.97);b
   </div>
 </nav>
 <div class="mob-menu" id="mobMenu">
-  <a href="index.html">🏠 HOME</a><a href="men.html">👖 MEN</a><a href="women.html">👗 WOMEN</a><a href="jeans.html">🔥 JEANS</a><a href="t-shirts.html">👕 T-SHIRTS</a><a href="track-pants.html">⚡ TRACK PANTS</a>
+  <a href="index.html">🏠 HOME</a><a href="men.html">👖 MEN</a><a href="women.html">👗 WOMEN</a><a href="t-shirts.html">👕 T-SHIRTS</a><a href="track-pants.html">⚡ TRACK PANTS</a>
 </div>
+
+<!-- CINEMATIC HERO -->
 <section class="cat-hero">
   <div class="cat-hero-bg" style="background-image:url('imgs/img-glorious.png')"></div>
   <div class="cat-hero-ov"></div>
+  <div class="cat-hero-glow"></div>
   <div class="cat-hero-content">
-    <div class="cat-eyebrow">— Category —</div>
+    <div class="cat-eyebrow">Category</div>
     <h1 class="cat-title">T-SHIRTS</h1>
-    <p class="cat-desc">300 GSM heavyweight. Premium print. Dark statements on premium fabric.</p>
+    <p class="cat-desc">300 GSM heavyweight cotton. Premium print technology. Dark statements on premium fabric.</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="hero-stat-val">300</span><span class="hero-stat-lbl">GSM</span></div>
+    <div class="hero-stat"><span class="hero-stat-val">5</span><span class="hero-stat-lbl">Designs</span></div>
+    <div class="hero-stat"><span class="hero-stat-val">$35</span><span class="hero-stat-lbl">From</span></div>
   </div>
 </section>
+
+<!-- PRODUCTS -->
 <section class="products-section">
-  <div class="products-header"><h2>T-SHIRTS</h2><span id="productCount">0 pieces</span></div>
+  <div class="products-header"><h2>ALL T-SHIRTS</h2><span id="productCount">0 pieces</span></div>
   <div class="products-grid" id="productsGrid"></div>
 </section>
-<div class="k-div"><span class="k-div-txt">✦ Kryptaa ✦</span></div>
+
+<!-- EDITORIAL -->
+<div style="background:#000;padding:64px 32px">
+  <div class="editorial-strip">
+    <div class="ed-text">
+      <div class="ed-eyebrow">Craftsmanship</div>
+      <h2 class="ed-title">BUILT<br>DIFFERENT</h2>
+      <p class="ed-body">Every Kryptaa tee is engineered for presence.<br><strong>300 GSM heavyweight cotton.</strong> Premium print technology. Limited pieces. <strong>No restocks.</strong><br><br>Kryptaa is not worn. It is carried.</p>
+    </div>
+    <div class="ed-img">
+      <img src="imgs/img-angel.png" alt="Kryptaa Tee" loading="lazy">
+    </div>
+  </div>
+</div>
+
 <footer class="site-footer">
   <img class="footer-logo-img" src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA">
-  <div class="footer-links"><a href="index.html">Home</a><a href="men.html">Men</a><a href="women.html">Women</a><a href="jeans.html">Jeans</a><a href="t-shirts.html">T-Shirts</a><a href="track-pants.html">Track Pants</a></div>
+  <div class="footer-links"><a href="index.html">Home</a><a href="men.html">Men</a><a href="women.html">Women</a><a href="t-shirts.html">T-Shirts</a><a href="track-pants.html">Track Pants</a></div>
   <p class="footer-copy">© 2026 Kryptaa. All rights reserved.</p>
 </footer>
+
 <div class="cart-overlay" id="cartOverlay"></div>
 <div class="cart-sidebar" id="cartSidebar">
   <div class="cart-sidebar-hdr"><h3>YOUR BAG</h3><button class="cart-close" id="cartClose">×</button></div>
@@ -146,6 +204,7 @@ nav{position:fixed;top:0;left:0;right:0;height:62px;background:rgba(6,6,8,.97);b
   <div class="cart-ftr"><div class="cart-total-row"><span class="cart-total-lbl">Total</span><span class="cart-total-amt">$<span id="cartTotal">0</span></span></div><button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button></div>
 </div>
 <div class="k-toast" id="kToast"></div>
+
 <script>
 var PRODUCTS=[
   {id:301,name:"Angel Tee",price:35,img:"imgs/img-angel.png",badge:"DROP 001"},

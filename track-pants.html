@@ -8,96 +8,156 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--k-black:#000;--k-deep:#060608;--k-dark:#0a0a0d;--k-mid:#111116;--k-border:#1e1e26;--k-muted:#555560;--k-off:#f0ede8;--k-gold:#c8a84b;--k-gold-hi:#e8d080;--k-lime:#c8ff00}
+:root{--k-black:#000;--k-deep:#060608;--k-dark:#0a0a0d;--k-border:#1e1e26;--k-muted:#555560;--k-off:#f0ede8;--k-gold:#c8a84b;--k-gold-hi:#e8d080;--k-lime:#c8ff00}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:#000;color:#f0ede8;font-family:'Barlow Condensed',sans-serif;-webkit-font-smoothing:antialiased;padding-top:62px;min-height:100vh}
-nav{position:fixed;top:0;left:0;right:0;height:62px;background:rgba(6,6,8,.97);backdrop-filter:blur(14px);border-bottom:1px solid rgba(200,168,75,.1);display:flex;align-items:center;justify-content:space-between;padding:0 36px;z-index:900}
-.nav-logo-img{height:34px;width:auto;object-fit:contain}
-.nav-center{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:24px}
+body{background:#000;color:#f0ede8;font-family:'Barlow Condensed',sans-serif;-webkit-font-smoothing:antialiased;padding-top:66px}
+@keyframes k-glow-pulse{0%,100%{opacity:.4;filter:blur(65px)}50%{opacity:.82;filter:blur(85px)}}
+@keyframes k-smoke-a{0%,100%{transform:translateY(0) scale(1);opacity:.45}50%{transform:translateY(-18px) scale(1.04);opacity:.65}}
+@keyframes k-smoke-b{0%,100%{transform:translateY(0) scale(1);opacity:.35}50%{transform:translateY(-12px) scale(1.03);opacity:.55}}
+@keyframes k-fade-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes k-scan{from{top:-1px}to{top:100%}}
+@keyframes k-pulse-border{0%,100%{box-shadow:0 0 0 0 rgba(200,168,75,0)}60%{box-shadow:0 0 0 4px rgba(200,168,75,.07)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;height:66px;background:rgba(6,6,8,.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(200,168,75,.1);display:flex;align-items:center;justify-content:space-between;padding:0 40px;z-index:900}
+.nav-logo-img{height:44px;width:auto;object-fit:contain;filter:drop-shadow(0 0 10px rgba(200,168,75,.2))}
+.nav-center{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:32px}
 @media(max-width:900px){.nav-center{display:none}.nav-ham{display:flex!important}}
-.nav-lnk{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.15em;color:rgba(240,237,232,.6);text-decoration:none;text-transform:uppercase;transition:color .2s;white-space:nowrap}
+.nav-lnk{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.12em;color:rgba(240,237,232,.6);text-decoration:none;text-transform:uppercase;transition:color .2s;white-space:nowrap}
 .nav-lnk:hover,.nav-lnk.active{color:#e8d080}
 .nav-dd{position:relative}
-.nav-dd-label{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.15em;color:rgba(240,237,232,.6);cursor:pointer;text-transform:uppercase;user-select:none;transition:color .2s}
+.nav-dd-label{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.12em;color:rgba(240,237,232,.6);cursor:pointer;text-transform:uppercase;user-select:none;transition:color .2s}
 .nav-dd.open .nav-dd-label{color:#e8d080}
-.nav-dd-menu{display:none;position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%);background:#0a0a0d;border:1px solid #1e1e26;border-top:1px solid rgba(200,168,75,.3);min-width:200px;padding:8px 0;z-index:1000}
+.nav-dd-menu{display:none;position:absolute;top:calc(100% + 18px);left:50%;transform:translateX(-50%);background:#0a0a0d;border:1px solid #1e1e26;border-top:1px solid rgba(200,168,75,.3);min-width:190px;padding:6px 0;z-index:1000}
 .nav-dd.open .nav-dd-menu{display:block}
-.nav-dd-menu a{display:block;padding:11px 20px;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:#555560;text-decoration:none;border-bottom:1px solid #1a1a22;transition:color .15s,background .15s}
+.nav-dd-menu a{display:block;padding:11px 20px;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:#555560;text-decoration:none;border-bottom:1px solid #1a1a22;transition:color .15s,background .15s}
 .nav-dd-menu a:last-child{border-bottom:none}
 .nav-dd-menu a:hover{color:#e8d080;background:#111116}
-.nav-cart-btn{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.12em;color:rgba(240,237,232,.8);background:none;border:1px solid rgba(240,237,232,.2);padding:7px 18px;cursor:pointer;text-transform:uppercase;transition:border-color .2s,color .2s;white-space:nowrap}
+.nav-cart-btn{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.12em;color:rgba(240,237,232,.8);background:none;border:1px solid rgba(240,237,232,.18);padding:7px 18px;cursor:pointer;text-transform:uppercase;transition:border-color .2s,color .2s;white-space:nowrap}
 .nav-cart-btn:hover{border-color:#c8a84b;color:#e8d080}
 .nav-ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
 .nav-ham span{display:block;width:24px;height:1px;background:#f0ede8}
-.mob-menu{display:none;position:fixed;top:62px;left:0;right:0;background:#060608;border-bottom:1px solid rgba(200,168,75,.12);z-index:890;padding:8px 0}
+.mob-menu{display:none;position:fixed;top:66px;left:0;right:0;background:#060608;border-bottom:1px solid rgba(200,168,75,.12);z-index:890;padding:8px 0}
 .mob-menu.open{display:block}
 .mob-menu a{display:flex;align-items:center;gap:12px;padding:14px 24px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.1em;color:#f0ede8;text-decoration:none;border-bottom:1px solid #1a1a22}
 .mob-menu a:hover{color:#e8d080;background:#0a0a0d}
 
-/* COMING SOON HERO */
-@keyframes cs-glow{0%,100%{opacity:.35;filter:blur(60px)}50%{opacity:.7;filter:blur(80px)}}
-@keyframes cs-fade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-@keyframes cs-pulse{0%,100%{box-shadow:0 0 0 0 rgba(200,168,75,0)}50%{box-shadow:0 0 0 6px rgba(200,168,75,.08)}}
-.coming-section{
-  position:relative;min-height:calc(100vh - 62px);
-  display:flex;align-items:center;justify-content:center;
-  background:#000;overflow:hidden;
+/* CINEMATIC HERO / MAIN SECTION */
+.tp-hero{
+  position:relative;min-height:calc(100vh - 66px);
+  display:flex;flex-direction:column;justify-content:center;
+  overflow:hidden;background:#000;
 }
-.cs-glow{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-55%);
-  width:600px;height:280px;
-  background:radial-gradient(ellipse,rgba(200,168,75,.5),rgba(100,70,10,.25) 40%,transparent 70%);
-  animation:cs-glow 5s ease-in-out infinite;pointer-events:none;
-}
-.cs-noise{
+.tp-bg-img{
   position:absolute;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  background-size:200px 200px;opacity:.5;pointer-events:none;
+  background-image:url('imgs/jeans-grey-cargo.jpg');
+  background-size:cover;background-position:center;
+  filter:brightness(.18) saturate(.4);
+  transform:scale(1.04);
 }
-.cs-vignette{
-  position:absolute;inset:0;
-  background:radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,.7) 100%);
-  pointer-events:none;
+.tp-smoke-1{position:absolute;width:700px;height:500px;border-radius:50%;filter:blur(90px);mix-blend-mode:screen;background:radial-gradient(ellipse,rgba(50,30,6,.6),transparent 70%);top:-10%;left:-10%;animation:k-smoke-a 11s ease-in-out infinite;pointer-events:none}
+.tp-smoke-2{position:absolute;width:600px;height:440px;border-radius:50%;filter:blur(80px);mix-blend-mode:screen;background:radial-gradient(ellipse,rgba(35,18,3,.5),transparent 70%);bottom:-5%;right:-5%;animation:k-smoke-b 14s ease-in-out -4s infinite;pointer-events:none}
+.tp-glow{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(200,168,75,.5),rgba(100,70,10,.2) 45%,transparent 70%);animation:k-glow-pulse 5s ease-in-out infinite;pointer-events:none}
+.tp-scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,168,75,.12),transparent);animation:k-scan 9s linear infinite;pointer-events:none;z-index:2}
+.tp-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.5) 0%,rgba(0,0,0,.15) 40%,rgba(0,0,0,.7) 100%)}
+.tp-inner{
+  position:relative;z-index:3;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:60px 24px;max-width:800px;margin:0 auto;
+  animation:k-fade-up 1.2s cubic-bezier(.16,1,.3,1) forwards;
 }
-.cs-inner{
-  position:relative;z-index:2;text-align:center;padding:40px 24px;max-width:680px;
-  animation:cs-fade 1.2s cubic-bezier(.16,1,.3,1) forwards;
+.tp-eyebrow{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.45em;color:rgba(200,168,75,.55);text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;justify-content:center;gap:14px}
+.tp-eyebrow::before,.tp-eyebrow::after{content:'';width:32px;height:1px;background:rgba(200,168,75,.25)}
+.tp-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,14vw,140px);letter-spacing:.03em;color:#fff;line-height:.88;margin-bottom:8px;text-shadow:0 0 80px rgba(200,168,75,.12)}
+.tp-title-sub{font-family:'Space Mono',monospace;font-size:clamp(9px,2vw,13px);letter-spacing:.35em;color:rgba(200,168,75,.45);text-transform:uppercase;margin-bottom:32px}
+.tp-tagline{font-family:'Barlow Condensed',sans-serif;font-size:clamp(17px,2.8vw,24px);color:rgba(240,237,232,.5);letter-spacing:.08em;line-height:1.65;max-width:520px;margin-bottom:52px}
+.tp-tagline strong{color:#e8d080;font-weight:400}
+
+/* COUNTDOWN */
+.tp-timer{display:flex;justify-content:center;gap:12px;margin-bottom:48px}
+.timer-box{
+  text-align:center;border:1px solid rgba(200,168,75,.2);
+  padding:18px 22px;background:rgba(6,6,8,.85);backdrop-filter:blur(8px);
+  min-width:80px;
+  animation:k-pulse-border 4s ease-in-out infinite;
+  transition:border-color .3s;
 }
-.cs-eyebrow{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.45em;color:rgba(200,168,75,.5);text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;justify-content:center;gap:14px}
-.cs-eyebrow::before,.cs-eyebrow::after{content:'';width:36px;height:1px;background:rgba(200,168,75,.2)}
-.cs-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,12vw,110px);letter-spacing:.04em;color:#fff;line-height:.9;margin-bottom:20px;text-shadow:0 0 60px rgba(200,168,75,.15)}
-.cs-sub{font-family:'Space Mono',monospace;font-size:clamp(9px,1.8vw,12px);color:#555560;letter-spacing:.2em;text-transform:uppercase;margin-bottom:48px;line-height:1.8}
-.cs-sub strong{color:#e8d080;font-weight:400}
-/* Notify form */
-.cs-notify{display:flex;gap:0;max-width:400px;margin:0 auto 32px;border:1px solid #1e1e26}
-.cs-notify input{
+.timer-box:hover{border-color:rgba(200,168,75,.45)}
+.timer-num{font-family:'Bebas Neue',sans-serif;font-size:44px;color:#e8d080;letter-spacing:.04em;line-height:1;display:block}
+.timer-lbl{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.25em;color:#555560;text-transform:uppercase;margin-top:5px;display:block}
+@media(max-width:480px){.tp-timer{gap:8px}.timer-box{padding:14px 14px;min-width:66px}.timer-num{font-size:34px}}
+
+/* NOTIFY FORM */
+.tp-notify{
+  display:flex;gap:0;max-width:420px;width:100%;margin:0 auto 32px;
+  border:1px solid #1e1e26;
+  transition:border-color .3s;
+}
+.tp-notify:focus-within{border-color:rgba(200,168,75,.35)}
+.tp-notify input{
   flex:1;background:#0a0a0d;border:none;outline:none;
-  padding:14px 18px;font-family:'Space Mono',monospace;font-size:9px;
-  letter-spacing:.12em;color:#f0ede8;text-transform:uppercase;
+  padding:15px 18px;font-family:'Space Mono',monospace;font-size:9px;
+  letter-spacing:.12em;color:#f0ede8;
 }
-.cs-notify input::placeholder{color:#3a3a44}
-.cs-notify button{
+.tp-notify input::placeholder{color:#3a3a44}
+.tp-notify button{
   background:#c8ff00;color:#000;border:none;
   font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.15em;
-  padding:14px 22px;cursor:pointer;text-transform:uppercase;
-  transition:background .2s;white-space:nowrap;flex-shrink:0;
+  padding:15px 22px;cursor:pointer;text-transform:uppercase;
+  transition:background .2s;flex-shrink:0;
 }
-.cs-notify button:hover{background:#fff}
-.cs-back{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.2em;color:#3a3a44;text-decoration:none;text-transform:uppercase;transition:color .2s}
-.cs-back:hover{color:#e8d080}
-/* countdown boxes */
-.cs-timer{display:flex;justify-content:center;gap:16px;margin-bottom:40px}
-.timer-box{text-align:center;border:1px solid #1e1e26;padding:16px 20px;background:#0a0a0d;animation:cs-pulse 3s ease-in-out infinite;min-width:72px}
-.timer-num{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#e8d080;letter-spacing:.05em;line-height:1;display:block}
-.timer-lbl{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.2em;color:#3a3a44;text-transform:uppercase;margin-top:4px;display:block}
-.site-footer{background:#000;border-top:1px solid #1a1a22;padding:40px 48px 32px;text-align:center}
-.footer-logo-img{height:36px;width:auto;object-fit:contain;opacity:.6;margin-bottom:20px}
-.footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:20px;flex-wrap:wrap}
+.tp-notify button:hover{background:#fff}
+.tp-back{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.2em;
+  color:#3a3a44;text-decoration:none;text-transform:uppercase;
+  transition:color .2s;
+}
+.tp-back:hover{color:#e8d080}
+.tp-back::before{content:'←';transition:transform .2s}
+.tp-back:hover::before{transform:translateX(-3px)}
+
+/* FEATURES GRID */
+.tp-features{background:#060608;padding:72px 32px}
+.tp-features h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,5vw,52px);letter-spacing:.1em;color:#fff;text-align:center;margin-bottom:8px}
+.tp-features-sub{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.28em;color:#555560;text-transform:uppercase;text-align:center;margin-bottom:48px}
+.tp-feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:960px;margin:0 auto}
+@media(max-width:600px){.tp-feat-grid{grid-template-columns:1fr}}
+.tp-feat-card{background:#0a0a0d;border:1px solid #1e1e26;padding:32px 28px;transition:border-color .3s}
+.tp-feat-card:hover{border-color:rgba(200,168,75,.25)}
+.tp-feat-num{font-family:'Bebas Neue',sans-serif;font-size:48px;color:rgba(200,168,75,.2);letter-spacing:.04em;display:block;margin-bottom:8px}
+.tp-feat-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.1em;color:#fff;margin-bottom:10px}
+.tp-feat-body{font-family:'Barlow Condensed',sans-serif;font-size:15px;color:#555560;line-height:1.6}
+
+/* PREVIEW STRIP */
+.tp-preview{background:#000;padding:0;display:grid;grid-template-columns:1fr 1fr;min-height:420px}
+@media(max-width:600px){.tp-preview{grid-template-columns:1fr}}
+.tp-prev-img{position:relative;overflow:hidden;min-height:320px}
+.tp-prev-img img{width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(.5) saturate(.6);transition:filter .4s,transform .6s}
+.tp-prev-img:hover img{filter:brightness(.65) saturate(.75);transform:scale(1.04)}
+.tp-prev-text{display:flex;flex-direction:column;justify-content:center;padding:52px 48px;background:#060608;border-left:1px solid #1e1e26}
+@media(max-width:600px){.tp-prev-text{padding:36px 28px}}
+.tp-prev-eyebrow{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.35em;color:rgba(200,168,75,.55);text-transform:uppercase;margin-bottom:16px}
+.tp-prev-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,6vw,60px);letter-spacing:.07em;color:#fff;line-height:.95;margin-bottom:20px}
+.tp-prev-body{font-family:'Barlow Condensed',sans-serif;font-size:17px;color:rgba(240,237,232,.5);line-height:1.7;margin-bottom:28px}
+.tp-prev-body strong{color:#e8d080;font-weight:400}
+.tp-prev-cta{
+  display:inline-block;font-family:'Bebas Neue',sans-serif;
+  font-size:13px;letter-spacing:.2em;color:rgba(240,237,232,.5);
+  border:1px solid rgba(240,237,232,.15);padding:11px 28px;
+  text-decoration:none;text-transform:uppercase;
+  transition:color .2s,border-color .2s;width:fit-content;
+}
+.tp-prev-cta:hover{color:#e8d080;border-color:rgba(200,168,75,.4)}
+
+/* FOOTER */
+.site-footer{background:#000;border-top:1px solid #1a1a22;padding:60px 48px 40px;text-align:center}
+.footer-logo-img{height:44px;width:auto;object-fit:contain;opacity:.7;margin-bottom:28px}
+.footer-links{display:flex;justify-content:center;gap:28px;margin-bottom:28px;flex-wrap:wrap}
 .footer-links a{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.2em;color:#3a3a44;text-decoration:none;text-transform:uppercase;transition:color .2s}
 .footer-links a:hover{color:#e8d080}
-.footer-copy{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.2em;color:#1e1e26;text-transform:uppercase}
+.footer-copy{font-family:'Space Mono',monospace;font-size:7px;letter-spacing:.2em;color:#222228;text-transform:uppercase}
 .k-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#0a0a0d;border:1px solid rgba(200,168,75,.28);color:#e8d080;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.2em;padding:12px 24px;text-transform:uppercase;transition:transform .4s cubic-bezier(.16,1,.3,1);z-index:2000;white-space:nowrap}
 .k-toast.show{transform:translateX(-50%) translateY(0)}
 </style>
@@ -106,12 +166,12 @@ nav{position:fixed;top:0;left:0;right:0;height:62px;background:rgba(6,6,8,.97);b
 <nav>
   <a href="index.html"><img class="nav-logo-img" src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA"></a>
   <div class="nav-center">
-    <div class="nav-dd" id="shopDd"><span class="nav-dd-label">SHOP ▾</span><div class="nav-dd-menu"><a href="men.html">Men's Collection</a><a href="women.html">Women's Collection</a><a href="jeans.html">All Jeans</a><a href="t-shirts.html">T-Shirts</a><a href="track-pants.html">Track Pants</a></div></div>
+    <div class="nav-dd" id="shopDd"><span class="nav-dd-label">SHOP ▾</span><div class="nav-dd-menu"><a href="men.html">Men's Collection</a><a href="women.html">Women's Collection</a><a href="t-shirts.html">T-Shirts</a><a href="track-pants.html">Track Pants</a></div></div>
     <a class="nav-lnk" href="men.html">MEN</a>
     <a class="nav-lnk" href="women.html">WOMEN</a>
-    <a class="nav-lnk" href="jeans.html">JEANS</a>
     <a class="nav-lnk" href="t-shirts.html">T-SHIRTS</a>
     <a class="nav-lnk active" href="track-pants.html">TRACK PANTS</a>
+    <a class="nav-lnk" href="index.html#k-size-guide">SIZE GUIDE</a>
   </div>
   <div style="display:flex;align-items:center;gap:12px">
     <button class="nav-cart-btn" id="cartBtn">BAG (<span id="cartCount">0</span>)</button>
@@ -119,50 +179,92 @@ nav{position:fixed;top:0;left:0;right:0;height:62px;background:rgba(6,6,8,.97);b
   </div>
 </nav>
 <div class="mob-menu" id="mobMenu">
-  <a href="index.html">🏠 HOME</a><a href="men.html">👖 MEN</a><a href="women.html">👗 WOMEN</a><a href="jeans.html">🔥 JEANS</a><a href="t-shirts.html">👕 T-SHIRTS</a><a href="track-pants.html">⚡ TRACK PANTS</a>
+  <a href="index.html">🏠 HOME</a><a href="men.html">👖 MEN</a><a href="women.html">👗 WOMEN</a><a href="t-shirts.html">👕 T-SHIRTS</a><a href="track-pants.html">⚡ TRACK PANTS</a>
 </div>
 
-<!-- COMING SOON -->
-<section class="coming-section">
-  <div class="cs-glow"></div>
-  <div class="cs-noise"></div>
-  <div class="cs-vignette"></div>
-  <div class="cs-inner">
-    <div class="cs-eyebrow">Incoming Drop</div>
-    <div class="cs-title">TRACK<br>PANTS</div>
-    <p class="cs-sub">
-      <strong>Drop 002 — Coming Soon</strong><br>
+<!-- CINEMATIC HERO -->
+<section class="tp-hero">
+  <div class="tp-bg-img"></div>
+  <div class="tp-smoke-1"></div>
+  <div class="tp-smoke-2"></div>
+  <div class="tp-glow"></div>
+  <div class="tp-scan"></div>
+  <div class="tp-overlay"></div>
+  <div class="tp-inner">
+    <div class="tp-eyebrow">Incoming — Drop 002</div>
+    <div class="tp-title">TRACK<br>PANTS</div>
+    <div class="tp-title-sub">Coming Soon — 2026</div>
+    <p class="tp-tagline">
       Technical gothic streetwear.<br>
-      Premium hardware. Engineered movement.<br>
-      Limited pieces. No restocks.
+      <strong>Premium hardware. Engineered movement.</strong><br>
+      Built for those who operate in the dark.
     </p>
-    <div class="cs-timer" id="csTimer">
+    <div class="tp-timer" id="tpTimer">
       <div class="timer-box"><span class="timer-num" id="tDays">00</span><span class="timer-lbl">Days</span></div>
       <div class="timer-box"><span class="timer-num" id="tHrs">00</span><span class="timer-lbl">Hours</span></div>
       <div class="timer-box"><span class="timer-num" id="tMin">00</span><span class="timer-lbl">Mins</span></div>
       <div class="timer-box"><span class="timer-num" id="tSec">00</span><span class="timer-lbl">Secs</span></div>
     </div>
-    <div class="cs-notify">
-      <input type="email" id="notifyEmail" placeholder="Your email address">
+    <div class="tp-notify">
+      <input type="email" id="notifyEmail" placeholder="Enter your email for early access">
       <button onclick="notifyMe()">Notify Me</button>
     </div>
-    <a class="cs-back" href="index.html">← Back to Shop</a>
+    <a class="tp-back" href="index.html">Back to Shop</a>
   </div>
 </section>
 
+<!-- WHAT'S COMING -->
+<section class="tp-features">
+  <h2>WHAT'S COMING</h2>
+  <p class="tp-features-sub">Drop 002 — Technical Details</p>
+  <div class="tp-feat-grid">
+    <div class="tp-feat-card">
+      <span class="tp-feat-num">01</span>
+      <div class="tp-feat-title">Technical Fabric</div>
+      <p class="tp-feat-body">Premium heavyweight tech fabric. Four-way stretch. Engineered for movement and presence simultaneously.</p>
+    </div>
+    <div class="tp-feat-card">
+      <span class="tp-feat-num">02</span>
+      <div class="tp-feat-title">Gothic Hardware</div>
+      <p class="tp-feat-body">Custom metal hardware throughout. Black chrome finishes. Every detail carries the Kryptaa signature.</p>
+    </div>
+    <div class="tp-feat-card">
+      <span class="tp-feat-num">03</span>
+      <div class="tp-feat-title">Limited Drop</div>
+      <p class="tp-feat-body">Strictly limited units. No restocks. No compromises. First-access for the notify list only.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PREVIEW SPLIT -->
+<div class="tp-preview">
+  <div class="tp-prev-img">
+    <img src="imgs/jeans-grey-cargo.jpg" alt="Kryptaa Track Pants Preview" loading="lazy">
+  </div>
+  <div class="tp-prev-text">
+    <div class="tp-prev-eyebrow">Drop 002 Preview</div>
+    <h2 class="tp-prev-title">ENGINEERED<br>FOR THE<br>UNDERGROUND</h2>
+    <p class="tp-prev-body">
+      While you wait, explore the current drop.<br>
+      <strong>Men's and Women's denim collections are live now.</strong>
+    </p>
+    <a class="tp-prev-cta" href="men.html">Shop Drop 001</a>
+  </div>
+</div>
+
 <footer class="site-footer">
   <img class="footer-logo-img" src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA">
-  <div class="footer-links"><a href="index.html">Home</a><a href="men.html">Men</a><a href="women.html">Women</a><a href="jeans.html">Jeans</a><a href="t-shirts.html">T-Shirts</a></div>
+  <div class="footer-links"><a href="index.html">Home</a><a href="men.html">Men</a><a href="women.html">Women</a><a href="t-shirts.html">T-Shirts</a><a href="track-pants.html">Track Pants</a></div>
   <p class="footer-copy">© 2026 Kryptaa. All rights reserved.</p>
 </footer>
 <div class="k-toast" id="kToast"></div>
 
 <script>
-// Countdown — set drop date here
-var dropDate = new Date('2026-06-01T00:00:00');
+// Countdown to Drop 002
+var dropDate=new Date('2026-09-01T00:00:00');
 function updateTimer(){
   var now=new Date(),diff=dropDate-now;
-  if(diff<=0){document.getElementById('csTimer').innerHTML='<div style="font-family:\'Bebas Neue\',sans-serif;font-size:28px;color:#c8ff00;letter-spacing:.1em">DROPPING NOW</div>';return;}
+  if(diff<=0){document.getElementById('tpTimer').innerHTML='<div style="font-family:\'Bebas Neue\',sans-serif;font-size:28px;color:#c8ff00;letter-spacing:.1em;text-align:center;padding:20px">DROPPING NOW</div>';return;}
   var d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
   document.getElementById('tDays').textContent=String(d).padStart(2,'0');
   document.getElementById('tHrs').textContent=String(h).padStart(2,'0');
@@ -174,15 +276,17 @@ setInterval(updateTimer,1000);updateTimer();
 function notifyMe(){
   var email=document.getElementById('notifyEmail').value.trim();
   if(!email||!email.includes('@')){showToast('Enter a valid email');return;}
-  showToast('You\'re on the list ✓');
+  showToast("You're on the list ✓");
   document.getElementById('notifyEmail').value='';
 }
 function showToast(msg){var t=document.getElementById('kToast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2400);}
 
-// Nav
+// Cart count from localStorage
 var cartCount=0;try{cartCount=JSON.parse(localStorage.getItem('kryptaa_cart')||'[]').reduce(function(s,i){return s+i.qty},0);}catch(e){}
 document.getElementById('cartCount').textContent=cartCount||'0';
 document.getElementById('cartBtn').addEventListener('click',function(){location.href='index.html';});
+
+// Nav
 var mobMenu=document.getElementById('mobMenu');
 document.getElementById('hamBtn').addEventListener('click',function(e){e.stopPropagation();mobMenu.classList.toggle('open');});
 document.addEventListener('click',function(e){if(!mobMenu.contains(e.target)&&e.target.id!=='hamBtn')mobMenu.classList.remove('open');});
