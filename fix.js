@@ -188,7 +188,7 @@ VS.textContent=`
   .v-sub{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.35em;color:rgba(200,168,75,.4);text-transform:uppercase}
 `;
 document.head.appendChild(VS);
-var videoHTML='<section id="k-video-section"><div class="v-bg"></div><div class="v-smoke-1"></div><div class="v-smoke-2"></div><div class="v-smoke-3"></div><video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.65;z-index:1" src="Launching_promo.mp4" type="video/mp4"></video><div class="v-overlay"></div><div class="v-scan-line"></div><div class="v-content"><div class="v-eyebrow">\u2014 Drop 001 \u2014</div><div class="v-title">ENTER<br>THE SYSTEM</div><div class="v-divider-line"></div><div class="v-sub">Kryptaa \u2014 SS26</div></div></section>';
+var videoHTML='<section id="k-video-section"><video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1" src="imgs/Background.mp4"></video><div class="v-overlay"></div><div class="v-scan-line"></div><div class="v-content"><div class="v-eyebrow">\u2014 Drop 001 \u2014</div><div class="v-title">ENTER<br>THE SYSTEM</div><div class="v-divider-line"></div><div class="v-sub">Kryptaa \u2014 SS26</div></div></section>';
 
 // ═══════════════════════════════════════════════════
 // § 6  CATEGORY GRID — 4 cards
