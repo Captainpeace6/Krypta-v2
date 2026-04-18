@@ -84,6 +84,9 @@ G.textContent = `
   }
 `;
 document.head.appendChild(G);
+
+// Force nav logo size
+(function(){var ns=document.createElement('style');ns.textContent='.nav-logo{height:88px!important;display:flex!important;align-items:center!important;}.nav-logo img,.nav-logo-img{height:88px!important;width:auto!important;max-height:none!important;display:block!important;}';document.head.appendChild(ns);})();
 // ─── NAV LOGO HEIGHT OVERRIDE ───
 (function(){
   var logoFix = document.createElement('style');
@@ -188,7 +191,7 @@ if (nav && !document.querySelector('.k-nav-center')) {
   var el=null;
   for(var i=0;i<sels.length;i++){var e=document.querySelector(sels[i]);if(e){el=e;break;}}
   if(el){
-    if(el.tagName==='IMG'){el.src='imgs/kryptaa-logo-gold.png';el.alt='KRYPTAA';el.style.cssText='height:88px;width:auto;object-fit:contain;filter:drop-shadow(0 0 12px rgba(200,168,75,.2));';}
+    if(el.tagName==='IMG'){el.src='imgs/kryptaa-logo-gold.png';el.alt='KRYPTAA';el.style.cssText='height:88px;width:auto;object-fit:contain;display:block;filter:drop-shadow(0 0 12px rgba(200,168,75,.2));';}
     else{var img=document.createElement('img');img.src='imgs/kryptaa-logo-gold.png';img.alt='KRYPTAA';img.style.cssText='height:44px;width:auto;object-fit:contain;display:block;';el.innerHTML='';el.appendChild(img);}
   }
   var fi=document.querySelector('footer img[alt="KRYPTAA"]')||document.querySelector('footer img');
