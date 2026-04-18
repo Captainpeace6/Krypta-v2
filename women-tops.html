@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Women Tops — KRYPTAA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c8a000;--green:#c8ff00;--bg:#060608;--surface:#0a0a0d;--border:#1e1e26;--text:#f0ede8;--muted:#555560;}
+body{background:var(--bg);color:var(--text);font-family:'Barlow Condensed',sans-serif;min-height:100vh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:62px;background:rgba(6,6,8,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;}
+.nav-logo{display:flex;align-items:center;}
+.nav-logo img{height:88px;width:auto;object-fit:contain;filter:drop-shadow(0 0 12px rgba(200,168,75,.2));}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.nav-links a:hover{color:var(--green);}
+.nav-actions{display:flex;align-items:center;gap:16px;}
+.cart-btn{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.12em;color:var(--text);cursor:pointer;background:none;border:1px solid var(--border);padding:6px 16px;transition:border-color .2s,color .2s;}
+.cart-btn:hover{border-color:var(--green);color:var(--green);}
+.page-hero{padding:140px 40px 60px;text-align:center;border-bottom:1px solid var(--border);}
+.page-eyebrow{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.25em;color:var(--muted);text-transform:uppercase;margin-bottom:12px;}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,8vw,96px);letter-spacing:.04em;line-height:.9;color:var(--text);}
+.page-title span{color:#c8a000;}
+.page-sub{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.15em;margin-top:16px;}
+.filters{display:flex;gap:10px;padding:24px 40px;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+.filter-btn{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;padding:8px 18px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .2s;}
+.filter-btn.active,.filter-btn:hover{border-color:var(--green);color:var(--green);}
+.products-section{padding:40px;}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2px;}
+.p-card{position:relative;background:var(--surface);overflow:hidden;cursor:pointer;}
+.p-card-img{position:relative;aspect-ratio:3/4;overflow:hidden;}
+.p-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.25,.46,.45,.94);}
+.p-card:hover .p-card-img img{transform:scale(1.06);}
+.p-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%);opacity:0;transition:opacity .3s;}
+.p-card:hover .p-card-overlay{opacity:1;}
+.p-badge{position:absolute;top:12px;left:12px;font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;background:var(--green);color:#000;}
+.p-card-body{padding:16px 18px 20px;}
+.p-card-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.06em;color:var(--text);margin-bottom:4px;}
+.p-card-desc{font-family:'Space Mono',monospace;font-size:.5rem;color:var(--muted);letter-spacing:.1em;margin-bottom:14px;}
+.p-card-footer{display:flex;align-items:center;justify-content:space-between;}
+.p-price{font-family:'Bebas Neue',sans-serif;font-size:22px;color:#c8a000;letter-spacing:.04em;}
+.p-price span{font-size:11px;font-family:'Space Mono',monospace;color:var(--muted);letter-spacing:.08em;margin-left:2px;}
+.size-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.sz{font-family:'Space Mono',monospace;font-size:.5rem;padding:5px 9px;border:1px solid var(--border);background:none;color:var(--muted);cursor:pointer;transition:all .15s;}
+.sz:hover,.sz.active{border-color:var(--green);color:var(--green);}
+.add-btn{width:100%;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.14em;padding:11px;background:var(--green);color:#000;border:none;cursor:pointer;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);transition:background .2s,transform .15s;}
+.add-btn:hover{background:#fff;transform:scaleX(1.01);}
+#k-video-section{position:relative;height:520px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin:60px 0 0;}
+#k-video-section .bg-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;}
+#k-video-section .v-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.7) 0%,rgba(10,5,20,.5) 100%);}
+#k-video-section .v-scan-line{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.06) 2px,rgba(0,0,0,.06) 4px);pointer-events:none;}
+#k-video-section .v-content{position:relative;z-index:2;text-align:center;}
+#k-video-section .v-eyebrow{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;margin-bottom:20px;}
+#k-video-section .v-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,10vw,120px);line-height:.85;letter-spacing:.04em;color:var(--text);}
+#k-video-section .v-divider-line{width:60px;height:1px;background:#c8a000;margin:24px auto;}
+#k-video-section .v-sub{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;color:var(--muted);}
+footer{border-top:1px solid var(--border);padding:48px 40px 32px;margin-top:0;}
+.footer-inner{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:32px;margin-bottom:32px;}
+.footer-brand img{height:120px;width:auto;object-fit:contain;display:block;margin:0 auto;}
+.footer-links{display:flex;flex-direction:column;gap:10px;}
+.footer-links a{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--green);}
+.footer-bottom{border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-copy{font-family:'Space Mono',monospace;font-size:.5rem;color:var(--muted);letter-spacing:.1em;}
+.cart-sidebar{position:fixed;right:-400px;top:0;width:380px;height:100vh;background:#0d0d10;border-left:1px solid var(--border);z-index:1000;transition:right .35s cubic-bezier(.25,.46,.45,.94);overflow-y:auto;display:flex;flex-direction:column;}
+.cart-sidebar.open{right:0;}
+.cart-head{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--border);}
+.cart-head h2{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.1em;}
+.cart-close{background:none;border:none;color:var(--text);font-size:24px;cursor:pointer;}
+.cart-items{flex:1;padding:16px 24px;}
+.cart-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);}
+.cart-item img{width:60px;height:80px;object-fit:cover;}
+.cart-item-info{flex:1;}
+.cart-item-name{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.06em;}
+.cart-item-meta{font-family:'Space Mono',monospace;font-size:.5rem;color:var(--muted);margin-top:2px;}
+.cart-item-price{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#c8a000;}
+.cart-item-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:0;}
+.cart-item-remove:hover{color:#ff4444;}
+.cart-qty{display:flex;align-items:center;gap:10px;margin-top:8px;}
+.qty-btn{background:none;border:1px solid var(--border);color:var(--text);width:24px;height:24px;cursor:pointer;font-size:14px;transition:border-color .15s;}
+.qty-btn:hover{border-color:var(--green);}
+.cart-footer{padding:20px 24px;border-top:1px solid var(--border);}
+.cart-total{display:flex;justify-content:space-between;margin-bottom:16px;}
+.cart-total-label{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;color:var(--muted);}
+.cart-total-val{font-family:'Bebas Neue',sans-serif;font-size:24px;color:#c8a000;}
+.cart-checkout{width:100%;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.16em;padding:15px;background:var(--green);color:#000;border:none;cursor:pointer;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);}
+.cart-checkout:hover{background:#fff;}
+.cart-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;}
+.cart-overlay.open{display:block;}
+@media(max-width:768px){
+  .products-grid{grid-template-columns:repeat(2,1fr);}
+  .products-section{padding:24px 16px;}
+  .page-hero{padding:100px 20px 40px;}
+  .filters{padding:16px;}
+}
+</style>
+</head>
+<body>
+
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-head"><h2>YOUR CART</h2><button class="cart-close" onclick="closeCart()">✕</button></div>
+  <div class="cart-items" id="cartItems"><p style="font-family:'Space Mono',monospace;font-size:.55rem;color:#555560;padding:20px 0;">Your cart is empty.</p></div>
+  <div class="cart-footer">
+    <div class="cart-total"><span class="cart-total-label">TOTAL</span><span class="cart-total-val" id="cartTotal">$0</span></div>
+    <button class="cart-checkout" id="cartCheckoutBtn">CHECKOUT</button>
+  </div>
+</div>
+
+<nav>
+  <a class="nav-logo" href="index.html"><img src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA"/></a>
+  <ul class="nav-links">
+    <li><a href="men.html">Men</a></li>
+    <li><a href="women.html">Women</a></li>
+    <li><a href="t-shirts.html">T-Shirts</a></li>
+    <li><a href="women-tops.html" style="color:#c8ff00">Tops</a></li>
+    <li><a href="track-pants.html">Track Pants</a></li>
+    <li><a href="anime.html">Anime</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="cart-btn" onclick="openCart()">CART (<span id="cartCount">0</span>)</button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-eyebrow">The Collection</div>
+  <div class="page-title">WOMEN<br><span>TOPS</span></div>
+  <div class="page-sub">Editorial cuts for the dark feminine aesthetic</div>
+</div>
+
+<div class="filters">
+  <button class="filter-btn active">All</button>
+  <button class="filter-btn">XS</button>
+  <button class="filter-btn">S</button>
+  <button class="filter-btn">M</button>
+  <button class="filter-btn">L</button>
+  <button class="filter-btn">XL</button>
+</div>
+
+<section class="products-section">
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<section id="k-video-section" class="k-panel entering">
+  <video class="bg-vid" autoplay muted loop playsinline preload="metadata" src="imgs/Background.mp4"></video>
+  <div class="v-overlay"></div>
+  <div class="v-scan-line"></div>
+  <div class="v-content">
+    <div class="v-eyebrow">— Drop 001 —</div>
+    <div class="v-title">ENTER<br>THE SYSTEM</div>
+    <div class="v-divider-line"></div>
+    <div class="v-sub">Kryptaa — SS26</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand"><a href="index.html"><img src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA"/></a></div>
+    <div class="footer-links">
+      <a href="men.html">Men's Collection</a>
+      <a href="women.html">Women's Collection</a>
+      <a href="anime.html">Anime Denim</a>
+      <a href="t-shirts.html">T-Shirts</a>
+      <a href="track-pants.html">Track Pants</a>
+      <a href="women-tops.html">Women Tops</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 KRYPTAA. ALL RIGHTS RESERVED.</span>
+    <span class="footer-copy">GOTHIC &amp; STREETWEAR — SS26</span>
+  </div>
+</footer>
+
+<script>
+var TOPS_PRODUCTS = [
+  {id:101,name:'Angel Tee',price:45,img:'imgs/img-angel.png',desc:'Oversized Gothic Drop'},
+  {id:102,name:'Broken Mirror',price:48,img:'imgs/img-broken.png',desc:'Dark Surrealist Print'},
+  {id:103,name:'Crime Scene',price:42,img:'imgs/img-crime.png',desc:'Limited Edition'},
+  {id:104,name:'Glorious',price:50,img:'imgs/img-glorious.png',desc:'Gold Foil Detail'},
+  {id:105,name:'Money Moves',price:46,img:'imgs/img-money.png',desc:'Streetwear Statement'}
+];
+var SIZES = ['XS','S','M','L','XL'];
+var cart = [];
+try{cart=JSON.parse(localStorage.getItem('kryptaa_cart')||'[]');}catch(e){}
+
+function renderProducts(){
+  var grid = document.getElementById('productsGrid');
+  grid.innerHTML = TOPS_PRODUCTS.map(function(p){
+    return '<div class="p-card"><div class="p-card-img"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"/><div class="p-card-overlay"></div><div class="p-badge">NEW</div></div><div class="p-card-body"><div class="p-card-name">'+p.name+'</div><div class="p-card-desc">'+p.desc+'</div><div class="size-row">'+SIZES.map(function(s){return '<button class="sz" onclick="selectSize(this,\''+p.id+'\')">'+s+'</button>';}).join('')+'</div><div class="p-card-footer"><div class="p-price">$'+p.price+'<span>USD</span></div></div><button class="add-btn" onclick="addToCart('+p.id+',this)">ADD TO CART</button></div></div>';
+  }).join('');
+}
+
+function selectSize(btn, pid){
+  var row = btn.closest('.size-row');
+  row.querySelectorAll('.sz').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  btn.closest('.p-card').dataset.selectedSize = btn.textContent;
+}
+
+function addToCart(pid, btn){
+  var card = btn.closest('.p-card');
+  var size = card.dataset.selectedSize;
+  if(!size){alert('Please select a size first.');return;}
+  var product = TOPS_PRODUCTS.find(function(p){return p.id===pid;});
+  var key = pid+'-'+size;
+  var existing = cart.find(function(i){return i.key===key;});
+  if(existing){existing.qty++;}
+  else{cart.push({key:key,id:pid,name:product.name,price:product.price,img:product.img,size:size,qty:1});}
+  localStorage.setItem('kryptaa_cart',JSON.stringify(cart));
+  updateCartUI();
+  openCart();
+}
+
+function updateCartUI(){
+  var count = cart.reduce(function(a,i){return a+i.qty;},0);
+  var total = cart.reduce(function(a,i){return a+i.price*i.qty;},0);
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('cartTotal').textContent = '$'+total;
+  var items = document.getElementById('cartItems');
+  if(cart.length===0){items.innerHTML='<p style="font-family:\'Space Mono\',monospace;font-size:.55rem;color:#555560;padding:20px 0;">Your cart is empty.</p>';return;}
+  items.innerHTML = cart.map(function(item){
+    return '<div class="cart-item"><img src="'+item.img+'" alt="'+item.name+'"/><div class="cart-item-info"><div class="cart-item-name">'+item.name+'</div><div class="cart-item-meta">SIZE: '+item.size+'</div><div class="cart-qty"><button class="qty-btn" onclick="changeQty(\''+item.key+'\',-1)">−</button><span style="font-family:\'Space Mono\',monospace;font-size:.6rem;">'+item.qty+'</span><button class="qty-btn" onclick="changeQty(\''+item.key+'\',1)">+</button></div><div class="cart-item-price">$'+(item.price*item.qty)+'</div></div><button class="cart-item-remove" onclick="removeItem(\''+item.key+'\')">✕</button></div>';
+  }).join('');
+}
+
+function changeQty(key,delta){
+  var item=cart.find(function(i){return i.key===key;});
+  if(!item)return;
+  item.qty+=delta;
+  if(item.qty<=0)cart=cart.filter(function(i){return i.key!==key;});
+  localStorage.setItem('kryptaa_cart',JSON.stringify(cart));
+  updateCartUI();
+}
+function removeItem(key){cart=cart.filter(function(i){return i.key!==key;});localStorage.setItem('kryptaa_cart',JSON.stringify(cart));updateCartUI();}
+function openCart(){document.getElementById('cartSidebar').classList.add('open');document.getElementById('cartOverlay').classList.add('open');}
+function closeCart(){document.getElementById('cartSidebar').classList.remove('open');document.getElementById('cartOverlay').classList.remove('open');}
+document.getElementById('cartCheckoutBtn').addEventListener('click',function(){localStorage.setItem('kryptaa_cart',JSON.stringify(cart));window.location.href='checkout.html';});
+
+renderProducts();
+updateCartUI();
+</script>
+</body>
+</html>
