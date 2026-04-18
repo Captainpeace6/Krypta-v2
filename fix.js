@@ -84,6 +84,13 @@ G.textContent = `
   }
 `;
 document.head.appendChild(G);
+// ─── NAV LOGO HEIGHT OVERRIDE ───
+(function(){
+  var logoFix = document.createElement('style');
+  logoFix.textContent = '.nav-logo{height:auto!important;display:flex!important;align-items:center!important;overflow:visible!important;} .nav-logo img,.nav-logo-img{height:88px!important;min-height:88px!important;width:auto!important;max-height:none!important;}';
+  document.head.appendChild(logoFix);
+})();
+
 
 // ─────────────────────────────────────────────────
 // § 2  NAV
