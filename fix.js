@@ -181,11 +181,11 @@ if (nav && !document.querySelector('.k-nav-center')) {
   var el=null;
   for(var i=0;i<sels.length;i++){var e=document.querySelector(sels[i]);if(e){el=e;break;}}
   if(el){
-    if(el.tagName==='IMG'){el.src='imgs/kryptaa-logo-gold.png';el.alt='KRYPTAA';el.style.cssText='height:44px;width:auto;object-fit:contain;filter:drop-shadow(0 0 12px rgba(200,168,75,.2));';}
+    if(el.tagName==='IMG'){el.src='imgs/kryptaa-logo-gold.png';el.alt='KRYPTAA';el.style.cssText='height:88px;width:auto;object-fit:contain;filter:drop-shadow(0 0 12px rgba(200,168,75,.2));';}
     else{var img=document.createElement('img');img.src='imgs/kryptaa-logo-gold.png';img.alt='KRYPTAA';img.style.cssText='height:44px;width:auto;object-fit:contain;display:block;';el.innerHTML='';el.appendChild(img);}
   }
   var fi=document.querySelector('footer img[alt="KRYPTAA"]')||document.querySelector('footer img');
-  if(fi){fi.src='imgs/kryptaa-logo-gold.png';fi.alt='KRYPTAA';fi.style.cssText='height:50px;width:auto;object-fit:contain;display:block;margin:0 auto;';}
+  if(fi){fi.src='imgs/kryptaa-logo-gold.png';fi.alt='KRYPTAA';fi.style.cssText='height:120px;width:auto;object-fit:contain;display:block;margin:0 auto;';}
 })();
 
 // ─────────────────────────────────────────────────
@@ -405,6 +405,7 @@ var catHTML = '<section id="k-categories" class="k-panel">' +
       makeCatCard('t-shirts.html','imgs/img-glorious.png','Category','T-Shirts','rgba(10,15,30,.5)') +
       makeCatCard('track-pants.html','imgs/jeans-dual-dragon.jpg','Drop 002','Track Pants','rgba(5,20,10,.5)') +
       makeCatCard('men.html','imgs/anime-gojo.jpg','Category','Anime','rgba(20,5,30,.5)') +
+      makeCatCard('women-tops.html','imgs/img-angel.png','Collection','Women Tops','rgba(30,5,20,.5)') +
     '</div>' +
   '</div>' +
   '</section>';
