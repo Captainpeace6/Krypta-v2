@@ -92,7 +92,7 @@ var NAV = document.createElement('style');
 NAV.textContent = `
   nav{
     position:fixed!important;top:0;left:0;right:0;
-    height:66px!important;
+    height:100px!important;
     background:rgba(6,6,8,.97)!important;
     backdrop-filter:blur(16px)!important;
     border-bottom:1px solid rgba(200,168,75,.1)!important;
@@ -130,9 +130,9 @@ NAV.textContent = `
     border-bottom:1px solid #1a1a22!important;transition:color .15s,background .15s!important;}
   .k-nav-dd-menu a:last-child{border-bottom:none!important}
   .k-nav-dd-menu a:hover{color:#e8d080!important;background:#111116!important}
-  @media(min-width:901px){body{padding-top:66px!important}#hamburgerBtn{display:none!important}#mobileMenu{display:none!important}}
-  @media(max-width:900px){.k-nav-center{display:none!important}body{padding-top:66px!important}}
-  #mobileMenu{display:none;position:fixed!important;top:66px;left:0;right:0;
+  @media(min-width:901px){body{padding-top:118px!important}#hamburgerBtn{display:none!important}#mobileMenu{display:none!important}}
+  @media(max-width:900px){.k-nav-center{display:none!important}body{padding-top:118px!important}}
+  #mobileMenu{display:none;position:fixed!important;top:100px;left:0;right:0;
     background:#060608!important;z-index:500!important;padding:8px 0!important;
     border-bottom:1px solid rgba(200,168,75,.12);max-height:calc(100vh - 66px);overflow-y:auto;}
   #mobileMenu a{display:flex!important;align-items:center!important;gap:14px!important;
