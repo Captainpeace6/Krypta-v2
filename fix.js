@@ -222,29 +222,36 @@ if (isHome) {
   }
 
   // ── Brand story ──
-  var brandHTML = '<section id="k-brand-story" style="padding:80px 40px;text-align:center;border-top:1px solid #1e1e26;border-bottom:1px solid #1e1e26;background:#060608;"><div style="max-width:700px;margin:0 auto;"><div style="font-family:\'Space Mono\',monospace;font-size:.52rem;letter-spacing:.32em;color:#555560;text-transform:uppercase;margin-bottom:20px;">The World of KRYPTAA</div><h2 style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(38px,6vw,76px);letter-spacing:.06em;color:#f0ede8;line-height:.88;margin-bottom:28px;">Built for those<br><span style="color:#c8a000;">who refuse</span><br>to disappear</h2><p style="font-family:\'Space Mono\',monospace;font-size:.58rem;color:#555560;letter-spacing:.08em;line-height:2;max-width:540px;margin:0 auto;">Gothic roots. Streetwear edge. Every piece is made for the ones who move in silence but hit different when they walk in. SS26 Drop 001 — limited, intentional, unapologetic.</p></div></section>';
+  var brandHTML = '<section id="k-brand-story" style="padding:80px 40px;text-align:center;border-top:1px solid #1e1e26;border-bottom:1px solid #1e1e26;background:#060608;"><div style="max-width:700px;margin:0 auto;"><div style="font-family:\'Space Mono\',monospace;font-size:.52rem;letter-spacing:.32em;color:#555560;text-transform:uppercase;margin-bottom:20px;">The World of KRYPTAA</div><h2 style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(38px,6vw,76px);letter-spacing:.06em;color:#f0ede8;line-height:.88;margin-bottom:28px;">Built for those<br><span style="color:#c8a000;">who refuse</span><br>to disappear</h2><p style="font-family:\'Space Mono\',monospace;font-size:.58rem;color:#555560;letter-spacing:.08em;line-height:2;max-width:540px;margin:0 auto;">Gothic roots. Streetwear edge. Every piece is made for the ones who move in silence but hit different when they walk in. SS26 Drop 001 — limited. Intentional. Unapologetic.</p></div></section>';
 
   // ── Fix 3+4: Category rows — full editorial, all 8 categories ──
-  function makeCatRow(link, imgSrc, eyebrow, title, accentColor, flip) {
-    var fdir = flip ? 'row-reverse' : 'row';
-    var gdir = flip ? 'to left' : 'to right';
-    return '<a href="' + link + '" style="display:flex;flex-direction:' + fdir + ';align-items:stretch;min-height:260px;overflow:hidden;border-bottom:1px solid #1e1e26;text-decoration:none;background:#060608;transition:background .3s;">' +
-      '<div style="width:42%;position:relative;overflow:hidden;flex-shrink:0;">' +
+  function makeCatRow(link, imgSrc, eyebrow, title, accentColor, reverse) {
+    var flexDir = reverse ? 'row-reverse' : 'row';
+    var gradDir = reverse ? 'to left' : 'to right';
+    var rightBg = reverse ? 'linear-gradient(to right, #060608 0%, #0d0a00 60%, #141008 100%)' : 'linear-gradient(to left, #060608 0%, #0d0a00 60%, #141008 100%)';
+    return '<a href="' + link + '" style="display:flex;flex-direction:' + flexDir + ';align-items:stretch;min-height:320px;overflow:hidden;border-bottom:1px solid #1e1e26;text-decoration:none;position:relative;background:#060608;transition:background .3s;">' +
+      '<div style="width:48%;position:relative;overflow:hidden;flex-shrink:0;">' +
         '<video autoplay muted loop playsinline preload="none" src="imgs/Background.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45;"></video>' +
-        '<div style="position:absolute;inset:0;background-image:url(\'' + imgSrc + '\');background-size:cover;background-position:center;transition:transform .6s ease;"></div>' +
-        '<div style="position:absolute;inset:0;background:linear-gradient(' + gdir + ',rgba(6,6,8,.92) 0%,transparent 65%);"></div>' +
+        '<div style="position:absolute;inset:0;background-image:url('' + imgSrc + '');background-size:cover;background-position:center top;transition:transform .6s ease;"></div>' +
+        '<div style="position:absolute;inset:0;background:linear-gradient(' + gradDir + ',rgba(6,6,8,.85) 0%,transparent 55%);"></div>' +
       '</div>' +
-      '<div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 52px;">' +
-        '<div style="font-family:\'Space Mono\',monospace;font-size:.46rem;letter-spacing:.28em;text-transform:uppercase;color:#555560;margin-bottom:14px;">' + eyebrow + '</div>' +
-        '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(38px,5vw,68px);letter-spacing:.05em;color:#f0ede8;line-height:.88;margin-bottom:22px;">' + title + '</div>' +
-        '<div style="display:inline-flex;align-items:center;gap:14px;font-family:\'Space Mono\',monospace;font-size:.48rem;letter-spacing:.22em;color:' + accentColor + ';text-transform:uppercase;">Shop Now <span style="width:32px;height:1px;background:' + accentColor + ';display:inline-block;"></span></div>' +
+      '<div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:48px 52px;background:' + rightBg + ';position:relative;">' +
+        '<div style="position:absolute;inset:0;background:url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'4\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.03\'/%3E%3C/svg%3E') center/180px;opacity:.4;pointer-events:none;"></div>' +
+        '<div style="position:relative;z-index:1;">' +
+          '<div style="font-family:\'Space Mono\',monospace;font-size:.48rem;letter-spacing:.28em;text-transform:uppercase;color:#555560;margin-bottom:14px;border-left:2px solid ' + accentColor + ';padding-left:12px;">' + eyebrow + '</div>' +
+          '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(44px,5.5vw,80px);letter-spacing:.04em;color:#f0ede8;line-height:.88;margin-bottom:24px;text-shadow:0 2px 40px rgba(0,0,0,.8);">' + title + '</div>' +
+          '<div style="display:inline-flex;align-items:center;gap:14px;font-family:\'Space Mono\',monospace;font-size:.5rem;letter-spacing:.22em;color:' + accentColor + ';text-transform:uppercase;border-top:1px solid #1e1e26;padding-top:18px;margin-top:4px;">Shop Now <span style="width:40px;height:1px;background:' + accentColor + ';display:inline-block;"></span></div>' +
+        '</div>' +
       '</div>' +
     '</a>';
   }
 
   var catHTML = '<section id="k-categories" style="border-top:1px solid #1e1e26;">' +
-    '<div style="padding:40px;border-bottom:1px solid #1e1e26;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;">' +
-      '<div><div style="font-family:\'Space Mono\',monospace;font-size:.5rem;letter-spacing:.32em;color:#555560;text-transform:uppercase;margin-bottom:10px;">The Collection</div>' +
+    '<div style="padding:60px 40px 40px;border-bottom:1px solid #1e1e26;text-align:center;">' +
+      '<div style="font-family:\'Space Mono\',monospace;font-size:.52rem;letter-spacing:.32em;color:#555560;text-transform:uppercase;margin-bottom:16px;">The Collection — SS26</div>' +
+      '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(52px,7vw,100px);letter-spacing:.06em;color:#f0ede8;line-height:.88;margin-bottom:20px;">SHOP THE DROP</div>' +
+      '<div style="width:80px;height:2px;background:linear-gradient(to right,transparent,#c8a000,transparent);margin:0 auto;"></div>' +
+    '</div>' +
       '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(36px,6vw,76px);letter-spacing:.05em;color:#f0ede8;line-height:.88;">SHOP THE DROP</div></div>' +
       '<div style="font-family:\'Space Mono\',monospace;font-size:.46rem;letter-spacing:.15em;color:#555560;">SS26 — 8 Categories</div>' +
     '</div>' +
