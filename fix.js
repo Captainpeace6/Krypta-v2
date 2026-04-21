@@ -372,4 +372,67 @@ setTimeout(function() {
   if (fLogo) fLogo.style.cssText = 'width:200px!important;height:auto!important;display:block!important;margin:0 auto 24px!important;object-fit:contain!important;';
 }, 500);
 
+
+
+// ─────────────────────────────────────────────────
+// TARGETED FIXES — Logo swap, announce bar, nav links
+// ─────────────────────────────────────────────────
+(function applyTargetedFixes() {
+  var delay = 0;
+  function run() {
+
+    // FIX 1 & 2: Swap nav logo from base64 → kryptaa-logo-gold.png
+    var navImg = document.querySelector('.nav-logo-img, .nav-logo img');
+    if (navImg) {
+      navImg.src = 'imgs/kryptaa-logo-gold.png';
+      navImg.style.cssText = 'width:180px!important;height:auto!important;max-height:none!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 16px rgba(200,168,75,.4))!important;';
+      var navLogoWrap = navImg.parentElement;
+      if (navLogoWrap) navLogoWrap.style.cssText += 'height:auto!important;overflow:visible!important;';
+    }
+
+    // FIX 1b: Hide old text-based logo if it exists
+    var navText = document.querySelector('.nav-logo-text');
+    if (navText) navText.style.display = 'none';
+
+    // FIX 2: Swap footer logo from base64 → kryptaa-logo-gold.png
+    var footerImgs = document.querySelectorAll('footer img');
+    footerImgs.forEach(function(img) {
+      img.src = 'imgs/kryptaa-logo-gold.png';
+      img.style.cssText = 'width:220px!important;height:auto!important;display:block!important;margin:0 auto 20px!important;object-fit:contain!important;filter:drop-shadow(0 0 16px rgba(200,168,75,.3))!important;';
+    });
+
+    // FIX 3: Announcement bar — bigger text, more height
+    var annBar = document.querySelector('.announcement-bar,[class*="announce"],[class*="ticker"]');
+    if (annBar) {
+      annBar.style.cssText += 'font-size:13px!important;height:auto!important;padding:10px 0!important;letter-spacing:.18em!important;';
+      // Also bump child elements
+      annBar.querySelectorAll('span,p,div,a').forEach(function(el) {
+        el.style.fontSize = '13px';
+        el.style.letterSpacing = '.16em';
+      });
+    }
+
+    // FIX 4: Nav category links — bigger, readable, no overlap
+    // Fix the nav height and link sizes
+    var navEl = document.querySelector('nav');
+    if (navEl) {
+      // Force nav to not clip
+      navEl.style.overflow = 'visible';
+    }
+    // All nav links bigger
+    document.querySelectorAll('.nav-links a, nav .nav-cat > a, nav ul a').forEach(function(a) {
+      a.style.cssText += 'font-size:11px!important;letter-spacing:.18em!important;';
+    });
+    // Fix category strip links
+    document.querySelectorAll('.nav-cat-strip a').forEach(function(a) {
+      a.style.cssText += 'font-size:10px!important;padding:10px 16px!important;';
+    });
+  }
+
+  run();
+  setTimeout(run, 300);
+  setTimeout(run, 800);
+  setTimeout(run, 1500);
+})();
+
 }); // end DOMContentLoaded
