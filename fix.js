@@ -376,149 +376,113 @@ setTimeout(function() {
 
 
 
-// ═══════════════════════════════════════════════════
-// TARGETED UI FIXES — All 5 changes
-// ═══════════════════════════════════════════════════
-(function kryptaaUIFixes() {
+}); // end DOMContentLoaded
 
-  // ── Inject override CSS ──
+// ═══════════════════════════════════════════════════
+// KRYPTAA — CLEAN TARGETED FIXES v4
+// ═══════════════════════════════════════════════════
+(function kryptaaFixes() {
+
+  // ── CSS ──
   var css = document.createElement('style');
   css.textContent = `
-    /* 1. Announcement bar — bigger, readable */
-    .announcement-bar, [class*="announce"], [class*="ticker"] {
-      font-size: 13px !important;
-      height: auto !important;
-      padding: 11px 0 !important;
-      letter-spacing: .16em !important;
-    }
-    .announcement-bar *, [class*="announce"] *, [class*="ticker"] * {
-      font-size: 13px !important;
-    }
+    /* Announcement bar .ticker */
+    .ticker { font-size: 14px !important; padding: 10px 0 !important; height: auto !important; min-height: 36px !important; }
+    .ticker * { font-size: 14px !important; }
+    .proof-bar { font-size: 14px !important; padding: 10px 0 !important; }
 
-    /* 4. Kill duplicate top category strip on desktop */
-    @media(min-width: 769px) {
-      .nav-cat-strip { display: none !important; }
-    }
-    /* On mobile keep it but fix its top offset */
-    @media(max-width: 768px) {
-      .nav-cat-strip {
-        top: 100px !important;
-        font-size: 10px !important;
-        display: flex !important;
-      }
-      .nav-cat-strip a { font-size: 10px !important; padding: 10px 14px !important; }
-    }
+    /* Nav — taller to fit logo */
+    nav { min-height: 120px !important; }
+    nav > div, nav > .nav-inner, nav > .container { min-height: 120px !important; align-items: center !important; }
 
-    /* 2. Nav logo — show full gothic logo properly */
-    .nav-logo, .nav-logo a { height: auto !important; overflow: visible !important; }
+    /* Nav logo — wide so portrait image is visible */
+    .nav-logo, .nav-logo a { height: auto !important; overflow: visible !important; display: flex !important; align-items: center !important; }
     .nav-logo img, .nav-logo-img {
-      width: auto !important;
-      height: 72px !important;
+      width: 120px !important;
+      height: auto !important;
       max-height: none !important;
-      object-fit: contain !important;
-      object-position: bottom center !important;
       display: block !important;
-      filter: drop-shadow(0 0 12px rgba(200,168,75,.4)) !important;
-    }
-
-    /* 3. Footer logo — centered, large */
-    .footer-logo-wrap {
-      display: flex !important;
-      justify-content: center !important;
-      width: 100% !important;
-      padding: 20px 0 32px !important;
-    }
-    .footer-logo-wrap img {
-      width: 280px !important;
-      height: auto !important;
-      display: block !important;
-      margin: 0 auto !important;
       object-fit: contain !important;
-      filter: drop-shadow(0 0 20px rgba(200,168,75,.25)) !important;
+      filter: drop-shadow(0 0 14px rgba(200,168,75,.45)) !important;
     }
 
-    /* 5. Brand section logo in footer — centered, big */
-    .footer-brand-logo {
-      display: flex !important;
-      justify-content: center !important;
-      margin-bottom: 28px !important;
-    }
-    .footer-brand-logo img {
-      width: 300px !important;
-      height: auto !important;
-      object-fit: contain !important;
-      filter: drop-shadow(0 0 24px rgba(200,168,75,.3)) !important;
-    }
+    /* Hide desktop cat strip */
+    @media(min-width:769px) { .nav-cat-strip { display: none !important; } }
 
-    /* Nav links slightly bigger */
-    .nav-links a, nav ul li a { font-size: 11px !important; }
+    /* Footer brand logo — single, centered, big */
+    .k-footer-brand { text-align: center; padding: 40px 20px 24px; }
+    .k-footer-brand img { width: 260px; height: auto; display: block; margin: 0 auto 24px; object-fit: contain; filter: drop-shadow(0 0 24px rgba(200,168,75,.3)); }
   `;
   document.head.appendChild(css);
 
-  function applyFixes() {
+  function run() {
 
-    // ── FIX 1: Announcement bar bigger ──
-    var ann = document.querySelector('.announcement-bar,[class*="announce"],[class*="ticker"]');
-    if (ann) {
-      ann.style.cssText += 'font-size:13px!important;padding:11px 0!important;height:auto!important;';
-    }
+    // ── 1. Announcement bar — .ticker ──
+    document.querySelectorAll('.ticker, .proof-bar').forEach(function(el) {
+      el.style.cssText += 'font-size:14px!important;padding:10px 0!important;min-height:36px!important;height:auto!important;';
+    });
 
-    // ── FIX 2: Nav logo → swap to kryptaa-logo-gold.png ──
+    // ── 2. Nav logo — swap src + make wide ──
     var navImg = document.querySelector('.nav-logo-img, .nav-logo img');
     if (navImg) {
       navImg.src = 'imgs/kryptaa-logo-gold.png';
-      // Show full logo: use height so portrait image shows from bottom (KRYPTAA text)
-      navImg.style.cssText = 'height:72px!important;width:auto!important;max-height:none!important;object-fit:contain!important;object-position:bottom center!important;display:block!important;filter:drop-shadow(0 0 12px rgba(200,168,75,.4))!important;';
+      navImg.style.cssText = 'width:120px!important;height:auto!important;max-height:none!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 14px rgba(200,168,75,.45))!important;';
+      var wrap = navImg.parentElement;
+      if (wrap) wrap.style.cssText += 'height:auto!important;overflow:visible!important;';
     }
-    // Hide any text logo
-    var navText = document.querySelector('.nav-logo-text');
-    if (navText) navText.style.display = 'none';
 
-    // ── FIX 3 & 5: Footer logo — centered + big ──
+    // ── 3. Footer — remove ALL existing footer logos + inject ONE centered logo ──
     var footer = document.querySelector('footer');
     if (footer) {
-      // Find the logo image in footer and fix it
-      var fImg = footer.querySelector('img');
-      if (fImg) {
-        fImg.src = 'imgs/kryptaa-logo-gold.png';
-        // Wrap in centered div if not already
-        if (!fImg.closest('.footer-logo-wrap')) {
-          var wrap = document.createElement('div');
-          wrap.className = 'footer-logo-wrap';
-          fImg.parentNode.insertBefore(wrap, fImg);
-          wrap.appendChild(fImg);
-        }
-        fImg.style.cssText = 'width:280px!important;height:auto!important;display:block!important;margin:0 auto!important;object-fit:contain!important;filter:drop-shadow(0 0 20px rgba(200,168,75,.25))!important;';
-      }
 
-      // ── FIX 5: Find the brand text section and add big logo above it ──
-      // Look for the text "Streetwear from the underground" 
-      var allEls = footer.querySelectorAll('p, div, span');
-      var brandEl = null;
-      allEls.forEach(function(el) {
-        if (el.children.length === 0 && el.textContent.indexOf('Streetwear') !== -1) {
-          brandEl = el.closest('div') || el.parentElement;
+      // Remove any previously injected brand logo divs
+      footer.querySelectorAll('.footer-brand-logo, .footer-logo-wrap, .k-footer-brand').forEach(function(el) {
+        el.parentNode.removeChild(el);
+      });
+
+      // Find the "Streetwear from the underground" text node
+      var streetwearEl = null;
+      Array.from(footer.querySelectorAll('*')).forEach(function(el) {
+        if (el.children.length === 0 && el.textContent.indexOf('Streetwear from') !== -1) {
+          streetwearEl = el;
         }
       });
-      if (brandEl && !brandEl.querySelector('.footer-brand-logo')) {
-        var logoDiv = document.createElement('div');
-        logoDiv.className = 'footer-brand-logo';
-        logoDiv.innerHTML = '<img src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA" style="width:300px;height:auto;display:block;margin:0 auto;object-fit:contain;filter:drop-shadow(0 0 24px rgba(200,168,75,.3));"/>';
-        brandEl.insertBefore(logoDiv, brandEl.firstChild);
+
+      if (streetwearEl) {
+        // Find the section container holding this text
+        var container = streetwearEl.closest('div') || streetwearEl.parentElement;
+        // Walk up to get a proper column/section container
+        while (container && container !== footer && container.offsetWidth < 200) {
+          container = container.parentElement;
+        }
+
+        if (container && container !== footer) {
+          // Build the centered logo block
+          var logoBlock = document.createElement('div');
+          logoBlock.className = 'k-footer-brand';
+          logoBlock.innerHTML = '<img src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA"/>';
+          // Insert at the very start of this container
+          container.insertBefore(logoBlock, container.firstChild);
+        }
+      }
+
+      // Hide the ORIGINAL footer logo image (it was the old base64 one we don't want)
+      var origFooterImg = footer.querySelector(':not(.k-footer-brand) > img, :not(.k-footer-brand) img:not(.k-footer-brand img)');
+      if (origFooterImg && !origFooterImg.closest('.k-footer-brand')) {
+        origFooterImg.style.display = 'none';
       }
     }
 
-    // ── FIX 4: Kill the extra duplicate category bar on desktop ──
+    // ── 4. Kill desktop duplicate strip ──
     if (window.innerWidth >= 769) {
       var strip = document.querySelector('.nav-cat-strip');
       if (strip) strip.style.display = 'none';
     }
   }
 
-  applyFixes();
-  setTimeout(applyFixes, 400);
-  setTimeout(applyFixes, 1000);
-  window.addEventListener('resize', applyFixes);
+  run();
+  setTimeout(run, 500);
+  setTimeout(run, 1200);
 
 })();
 
