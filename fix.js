@@ -494,3 +494,77 @@ setTimeout(function() {
 })();
 
 }); // end DOMContentLoaded
+
+
+// ─────────────────────────────────────────────────
+// NAV LINK FIX — point to correct separate pages
+// ─────────────────────────────────────────────────
+(function fixNavLinks() {
+
+  // Map anchor hrefs → correct page files
+  var linkMap = {
+    '#tees':       't-shirts.html',
+    '#mens':       'men.html',
+    '#womens':     'women.html',
+    '#womenstops': 'women-tops.html',
+    '#anime':      'anime.html',
+    '#track':      'track-pants.html',
+    '#trackpants': 'track-pants.html',
+    '#jeans':      'jeans.html',
+    '#sizeguide':  'men.html',
+    '#size-guide': 'men.html',
+  };
+
+  function fix() {
+    // Fix all anchor links in nav
+    document.querySelectorAll('a[href]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (!href) return;
+      // Skip if already pointing to a .html file
+      if (href.indexOf('.html') !== -1) return;
+      // Check if it matches our map
+      var key = href.toLowerCase().replace(/s/g,'');
+      if (linkMap[key]) {
+        a.href = linkMap[key];
+      }
+    });
+
+    // Also add full nav with correct links if missing
+    var nav = document.querySelector('nav');
+    if (nav && !nav.querySelector('a[href="men.html"]')) {
+      // Inject proper nav links
+      var existingLinks = nav.querySelector('.nav-links, ul');
+      if (existingLinks) {
+        existingLinks.innerHTML = [
+          '<li><a href="men.html">Men's Jeans</a></li>',
+          '<li><a href="women.html">Women's Jeans</a></li>',
+          '<li><a href="t-shirts.html">T-Shirts</a></li>',
+          '<li><a href="women-tops.html">Women Tops</a></li>',
+          '<li><a href="anime.html">Anime</a></li>',
+          '<li><a href="track-pants.html">Track Pants</a></li>',
+        ].join('');
+        // Style the links
+        existingLinks.querySelectorAll('a').forEach(function(a) {
+          a.style.cssText = 'font-family:"Space Mono",monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#888;text-decoration:none;transition:color .2s;';
+          a.addEventListener('mouseenter', function(){this.style.color='#c8ff00';});
+          a.addEventListener('mouseleave', function(){this.style.color='#888';});
+        });
+      }
+    }
+
+    // Fix mobile menu too
+    var mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenu) {
+      mobileMenu.querySelectorAll('a[href]').forEach(function(a) {
+        var href = a.getAttribute('href');
+        if (!href || href.indexOf('.html') !== -1) return;
+        var key = href.toLowerCase().replace(/s/g,'');
+        if (linkMap[key]) a.href = linkMap[key];
+      });
+    }
+  }
+
+  fix();
+  setTimeout(fix, 500);
+  setTimeout(fix, 1500);
+})();
