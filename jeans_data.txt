@@ -1,0 +1,88 @@
+var ALL_PRODUCTS = [
+  // Men's jeans
+  {id:101,name:"Gold Dragon Denim",price:75,img:"imgs/jeans-gold-dragon.jpg",badge:"DROP 001",cat:"mens"},
+  {id:102,name:"Dual Dragon Denim",price:98,img:"imgs/jeans-dual-dragon.jpg",badge:"SIGNATURE",cat:"mens"},
+  {id:103,name:"Flame Cut Denim",price:77,img:"imgs/jeans-flame.jpg",badge:"",cat:"mens"},
+  {id:104,name:"Floral Gothic",price:70,img:"imgs/jeans-flower-full.jpg",badge:"",cat:"mens"},
+  {id:105,name:"Red Dragon Denim",price:62,img:"imgs/jeans-red-dragon.jpg",badge:"",cat:"mens"},
+  {id:106,name:"Skull Denim",price:68,img:"imgs/jeans-skull.jpg",badge:"",cat:"mens"},
+  {id:107,name:"Grey Cargo Denim",price:65,img:"imgs/jeans-grey-cargo.jpg",badge:"",cat:"mens"},
+  // Anime jeans
+  {id:108,name:"Gojo Denim",price:69,img:"imgs/anime-gojo.jpg",badge:"ANIME",cat:"anime"},
+  {id:109,name:"JJK Vol.1",price:59,img:"imgs/anime-jjk1.jpg",badge:"ANIME",cat:"anime"},
+  {id:110,name:"JJK Vol.2",price:60,img:"imgs/anime-jjk2.jpg",badge:"ANIME",cat:"anime"},
+  {id:111,name:"Baki Denim",price:70,img:"imgs/anime-baki.jpg",badge:"ANIME",cat:"anime"},
+  {id:112,name:"Death Note Denim",price:67,img:"imgs/anime-deathnote.jpg",badge:"ANIME",cat:"anime"},
+  {id:113,name:"One Piece Denim",price:77,img:"imgs/anime-one-piece.jpg",badge:"ANIME",cat:"anime"},
+  {id:114,name:"Horror Anime Denim",price:64,img:"imgs/anime-horror.jpg",badge:"LIMITED",cat:"anime"},
+  {id:115,name:"Gojo Vol.2",price:70,img:"imgs/anime-gojo2.jpg",badge:"ANIME",cat:"anime"},
+  {id:116,name:"Black Red Denim",price:65,img:"imgs/anime-blackred.jpg",badge:"",cat:"anime"},
+  // Women's jeans
+  {id:201,name:"Vintage Dragon",price:70,img:"imgs/w-vintage-dragon.jpg",badge:"",cat:"womens"},
+  {id:202,name:"White Dragon",price:77,img:"imgs/w-white-dragon.jpg",badge:"",cat:"womens"},
+  {id:203,name:"Blue Split Denim",price:65,img:"imgs/w-blue-split.jpg",badge:"",cat:"womens"},
+  {id:204,name:"Butterfly Gothic",price:69,img:"imgs/w-butterfly.jpg",badge:"",cat:"womens"},
+  {id:205,name:"Cargo Denim",price:70,img:"imgs/w-cargo.jpg",badge:"",cat:"womens"},
+  {id:206,name:"Distressed Denim",price:62,img:"imgs/w-distressed.jpg",badge:"",cat:"womens"},
+  {id:207,name:"Grey Baggy Denim",price:65,img:"imgs/w-grey-baggy.jpg",badge:"",cat:"womens"},
+  {id:208,name:"Pink Skull Denim",price:68,img:"imgs/w-pink-skull.jpg",badge:"LIMITED",cat:"womens"},
+  {id:209,name:"Side Rip Denim",price:67,img:"imgs/w-side-rip.jpg",badge:"",cat:"womens"},
+];
+var SIZES = ["28","30","32","34","36"];
+var cart=[];try{cart=JSON.parse(localStorage.getItem('kryptaa_cart')||'[]');}catch(e){}
+var selectedSizes={};
+var currentFilter='all';
+
+function saveCart(){localStorage.setItem('kryptaa_cart',JSON.stringify(cart));}
+function updateCount(){document.getElementById('cartCount').textContent=cart.reduce(function(s,i){return s+i.qty},0)||'0';}
+function renderCartItems(){
+  var el=document.getElementById('cartItems'),tot=document.getElementById('cartTotal');
+  if(!el)return;
+  if(!cart.length){el.innerHTML='<div class="cart-empty">Your bag is empty</div>';if(tot)tot.textContent='0';return;}
+  var total=0;
+  el.innerHTML=cart.map(function(item,idx){total+=item.price*item.qty;return '<div class="cart-item"><img src="'+item.img+'" alt="'+item.name+'"><div class="cart-item-info"><div class="ci-name">'+item.name+'</div><div class="ci-meta">Size: '+item.size+' · Qty: '+item.qty+'</div><div class="ci-price">$'+item.price+'</div></div><button class="ci-remove" onclick="removeItem('+idx+')">×</button></div>';}).join('');
+  if(tot)tot.textContent=total;
+}
+function removeItem(idx){cart.splice(idx,1);saveCart();updateCount();renderCartItems();}
+function addToCart(p,size){
+  if(!size){showToast('Select a size first');return;}
+  var key=p.id+'-'+size,ex=cart.find(function(i){return i.key===key});
+  if(ex)ex.qty++;else cart.push({key:key,id:p.id,name:p.name,price:p.price,img:p.img,size:size,qty:1});
+  saveCart();updateCount();renderCartItems();showToast('Added to bag ✓');
+}
+function showToast(msg){var t=document.getElementById('kToast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2400);}
+function openCart(){document.getElementById('cartSidebar').classList.add('open');document.getElementById('cartOverlay').classList.add('open');renderCartItems();}
+function closeCart(){document.getElementById('cartSidebar').classList.remove('open');document.getElementById('cartOverlay').classList.remove('open');}
+document.getElementById('cartBtn').addEventListener('click',openCart);
+document.getElementById('cartClose').addEventListener('click',closeCart);
+document.getElementById('cartOverlay').addEventListener('click',closeCart);
+document.getElementById('checkoutBtn').addEventListener('click',function(){if(!cart.length){showToast('Your bag is empty');return;}saveCart();location.href='checkout.html';});
+var mobMenu=document.getElementById('mobMenu');
+document.getElementById('hamBtn').addEventListener('click',function(e){e.stopPropagation();mobMenu.classList.toggle('open');});
+document.addEventListener('click',function(e){if(!mobMenu.contains(e.target)&&e.target.id!=='hamBtn')mobMenu.classList.remove('open');});
+var shopDd=document.getElementById('shopDd');
+shopDd.querySelector('.nav-dd-label').addEventListener('click',function(e){e.stopPropagation();shopDd.classList.toggle('open');});
+document.addEventListener('click',function(e){if(!shopDd.contains(e.target))shopDd.classList.remove('open');});
+
+function filterProducts(cat,btn){
+  currentFilter=cat;
+  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  renderProducts();
+}
+function renderProducts(){
+  var prods=currentFilter==='all'?ALL_PRODUCTS:ALL_PRODUCTS.filter(function(p){return p.cat===currentFilter});
+  var grid=document.getElementById('productsGrid'),countEl=document.getElementById('productCount');
+  if(!grid)return;
+  if(countEl)countEl.textContent=prods.length+' pieces';
+  grid.innerHTML=prods.map(function(p){
+    var badgeClass=p.cat==='anime'?'anime':'';
+    return '<div class="product-card" id="card-'+p.id+'"><div class="product-img-wrap">'+(p.badge?'<div class="product-badge '+badgeClass+'">'+p.badge+'</div>':'')+'<img src="'+p.img+'" alt="'+p.name+'" loading="lazy"></div><div class="product-info"><div class="product-name">'+p.name+'</div><div class="product-price">$'+p.price+'</div><div class="product-sizes" id="sizes-'+p.id+'">'+SIZES.map(function(s){return '<button class="size-btn" onclick="selectSize('+p.id+',\''+s+'\',this)">'+s+'</button>';}).join('')+'</div><button class="atc-btn" onclick="doAddToCart('+p.id+')">Add to Bag</button></div></div>';
+  }).join('');
+}
+function selectSize(pid,size,btn){selectedSizes[pid]=size;document.querySelectorAll('#sizes-'+pid+' .size-btn').forEach(function(b){b.classList.remove('selected')});btn.classList.add('selected');}
+function doAddToCart(pid){var p=ALL_PRODUCTS.find(function(x){return x.id===pid});if(!p)return;addToCart(p,selectedSizes[pid]);}
+renderProducts();updateCount();
+</script>
+</body>
+</html>
