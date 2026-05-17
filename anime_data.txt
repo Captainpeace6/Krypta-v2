@@ -1,0 +1,73 @@
+var ANIME_PRODUCTS = [
+  {id:19,name:'Gojo Vol.1',price:59,img:'imgs/anime-gojo.jpg',desc:'Domain Expansion Edition'},
+  {id:33,name:'Gojo Vol.2',price:69,img:'imgs/anime-gojo2.jpg',desc:'Hollow Purple Drop'},
+  {id:20,name:'Horror Anime',price:64,img:'imgs/anime-horror.jpg',desc:'Dark Series'},
+  {id:21,name:'JJK Vol.1',price:70,img:'imgs/anime-jjk1.jpg',desc:'Jujutsu Kaisen Drop'},
+  {id:22,name:'JJK Vol.2',price:65,img:'imgs/anime-jjk2.jpg',desc:'Season 2 Edition'},
+  {id:23,name:'Baki',price:67,img:'imgs/anime-baki.jpg',desc:'Hanma Strength Series'},
+  {id:24,name:'Death Note',price:69,img:'imgs/anime-deathnote.jpg',desc:'L vs Light Edit'},
+  {id:25,name:'One Piece',price:70,img:'imgs/anime-one-piece.jpg',desc:'Straw Hat Crew'},
+  {id:34,name:'Black Red',price:65,img:'imgs/anime-blackred.jpg',desc:'Contrast Series'}
+];
+var SIZES = ['28','30','32','34','36'];
+var cart = [];
+try{cart=JSON.parse(localStorage.getItem('kryptaa_cart')||'[]');}catch(e){}
+
+function renderProducts(){
+  var grid = document.getElementById('productsGrid');
+  grid.innerHTML = ANIME_PRODUCTS.map(function(p){
+    return '<div class="p-card"><div class="p-card-img"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"/><div class="p-card-overlay"></div><div class="p-badge">NEW</div></div><div class="p-card-body"><div class="p-card-name">'+p.name+'</div><div class="p-card-desc">'+p.desc+'</div><div class="size-row">'+SIZES.map(function(s){return '<button class="sz" onclick="selectSize(this,\''+p.id+'\')">'+s+'</button>';}).join('')+'</div><div class="p-card-footer"><div class="p-price">$'+p.price+'<span>USD</span></div></div><button class="add-btn" onclick="addToCart('+p.id+',this)">ADD TO CART</button></div></div>';
+  }).join('');
+}
+
+function selectSize(btn, pid){
+  var row = btn.closest('.size-row');
+  row.querySelectorAll('.sz').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  btn.closest('.p-card').dataset.selectedSize = btn.textContent;
+}
+
+function addToCart(pid, btn){
+  var card = btn.closest('.p-card');
+  var size = card.dataset.selectedSize;
+  if(!size){alert('Please select a size first.');return;}
+  var product = ANIME_PRODUCTS.find(function(p){return p.id===pid;});
+  var key = pid+'-'+size;
+  var existing = cart.find(function(i){return i.key===key;});
+  if(existing){existing.qty++;}
+  else{cart.push({key:key,id:pid,name:product.name,price:product.price,img:product.img,size:size,qty:1});}
+  localStorage.setItem('kryptaa_cart',JSON.stringify(cart));
+  updateCartUI();
+  openCart();
+}
+
+function updateCartUI(){
+  var count = cart.reduce(function(a,i){return a+i.qty;},0);
+  var total = cart.reduce(function(a,i){return a+i.price*i.qty;},0);
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('cartTotal').textContent = '$'+total;
+  var items = document.getElementById('cartItems');
+  if(cart.length===0){items.innerHTML='<p style="font-family:\'Space Mono\',monospace;font-size:.55rem;color:#555560;padding:20px 0;">Your cart is empty.</p>';return;}
+  items.innerHTML = cart.map(function(item){
+    return '<div class="cart-item"><img src="'+item.img+'" alt="'+item.name+'"/><div class="cart-item-info"><div class="cart-item-name">'+item.name+'</div><div class="cart-item-meta">SIZE: '+item.size+'</div><div class="cart-qty"><button class="qty-btn" onclick="changeQty(\''+item.key+'\',-1)">−</button><span style="font-family:\'Space Mono\',monospace;font-size:.6rem;">'+item.qty+'</span><button class="qty-btn" onclick="changeQty(\''+item.key+'\',1)">+</button></div><div class="cart-item-price">$'+(item.price*item.qty)+'</div></div><button class="cart-item-remove" onclick="removeItem(\''+item.key+'\')">✕</button></div>';
+  }).join('');
+}
+
+function changeQty(key,delta){
+  var item=cart.find(function(i){return i.key===key;});
+  if(!item)return;
+  item.qty+=delta;
+  if(item.qty<=0)cart=cart.filter(function(i){return i.key!==key;});
+  localStorage.setItem('kryptaa_cart',JSON.stringify(cart));
+  updateCartUI();
+}
+function removeItem(key){cart=cart.filter(function(i){return i.key!==key;});localStorage.setItem('kryptaa_cart',JSON.stringify(cart));updateCartUI();}
+function openCart(){document.getElementById('cartSidebar').classList.add('open');document.getElementById('cartOverlay').classList.add('open');}
+function closeCart(){document.getElementById('cartSidebar').classList.remove('open');document.getElementById('cartOverlay').classList.remove('open');}
+document.getElementById('cartCheckoutBtn').addEventListener('click',function(){localStorage.setItem('kryptaa_cart',JSON.stringify(cart));window.location.href='checkout.html';});
+
+renderProducts();
+updateCartUI();
+</script>
+</body>
+</html>

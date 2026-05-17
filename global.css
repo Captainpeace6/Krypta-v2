@@ -1,0 +1,220 @@
+:root {
+  --k-black: #000000;
+  --k-void: #050505;
+  --k-surface: #0a0a0a;
+  --k-border: #1a1a1a;
+  --k-gold: #c8a84b;
+  --k-white: #ffffff;
+  --k-muted: #666666;
+  --f-primary: 'Cinzel', serif;
+  --f-secondary: 'Inter', sans-serif;
+  --f-mono: 'Space Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--k-black);
+  color: var(--k-white);
+  font-family: var(--f-secondary);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--f-primary);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* GRAIN */
+.k-grain {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.05;
+  background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+}
+
+/* CURSOR */
+#k-cursor {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: var(--k-gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  z-index: 1000;
+  transition: all 0.5s ease;
+  border-bottom: 1px solid transparent;
+}
+
+nav.scrolled {
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid var(--k-border);
+}
+
+.nav-brand img {
+  height: 40px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  font-family: var(--f-mono);
+  font-size: 0.65rem;
+  color: var(--k-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: var(--k-gold);
+}
+
+/* BUTTONS */
+.k-btn-gold {
+  background: var(--k-gold);
+  color: var(--k-black);
+  border: none;
+  padding: 12px 24px;
+  font-family: var(--f-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.k-btn-gold:hover {
+  background: var(--k-white);
+  transform: translateY(-2px);
+}
+
+/* CART DRAWER */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1100;
+  transition: opacity 0.4s ease;
+}
+
+.cart-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.cart-drawer {
+  position: fixed;
+  top: 0; right: -450px;
+  width: 450px;
+  height: 100vh;
+  background: var(--k-black);
+  border-left: 1px solid var(--k-border);
+  z-index: 1200;
+  padding: 40px;
+  transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-drawer.open {
+  right: 0;
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.cart-close-btn {
+  background: none;
+  border: none;
+  color: var(--k-muted);
+  font-family: var(--f-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+}
+
+.cart-item {
+  display: flex;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--k-border);
+}
+
+.cart-item img {
+  width: 80px;
+  height: 100px;
+  object-fit: cover;
+  background: var(--k-surface);
+}
+
+.cart-item-info {
+  flex: 1;
+}
+
+.cart-item-name {
+  font-family: var(--f-primary);
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.cart-item-meta {
+  font-family: var(--f-mono);
+  font-size: 0.6rem;
+  color: var(--k-muted);
+}
+
+.cart-footer {
+  margin-top: auto;
+  padding-top: 30px;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--f-primary);
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+}
+
+@media (max-width: 768px) {
+  .cart-drawer {
+    width: 100%;
+    right: -100%;
+  }
+}

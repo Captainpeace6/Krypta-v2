@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Details — KRYPTAA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="global.css">
+<style>
+  .detail-page {
+    padding-top: 120px;
+    background: var(--k-black);
+    min-height: 100vh;
+  }
+
+  .detail-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 100px;
+  }
+
+  /* GALLERY */
+  .detail-gallery {
+    position: sticky;
+    top: 120px;
+    height: calc(100vh - 160px);
+  }
+
+  .main-stage {
+    width: 100%;
+    height: 100%;
+    background: var(--k-surface);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--k-border);
+  }
+
+  .main-stage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.1);
+  }
+
+  /* INFO */
+  .detail-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .p-tag {
+    font-family: var(--f-mono);
+    font-size: 0.6rem;
+    color: var(--k-gold);
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .p-title {
+    font-size: clamp(2.5rem, 4vw, 4.5rem);
+    line-height: 0.95;
+    margin-bottom: 30px;
+    letter-spacing: -0.02em;
+  }
+
+  .p-price {
+    font-family: var(--f-mono);
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+    color: var(--k-white);
+  }
+
+  .p-desc-main {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 50px;
+    max-width: 500px;
+  }
+
+  /* SPECS EXPLANATION */
+  .p-specs {
+    border-top: 1px solid var(--k-border);
+    margin-top: 40px;
+  }
+
+  .spec-row {
+    padding: 25px 0;
+    border-bottom: 1px solid var(--k-border);
+  }
+
+  .spec-label {
+    font-family: var(--f-primary);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 15px;
+    display: block;
+    color: var(--k-gold);
+  }
+
+  .spec-value {
+    font-size: 0.9rem;
+    color: var(--k-muted);
+    line-height: 1.6;
+  }
+
+  /* BUYING */
+  .buy-zone {
+    margin-top: 50px;
+    padding: 40px;
+    background: var(--k-surface);
+    border: 1px solid var(--k-border);
+  }
+
+  .size-selector {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .size-chip {
+    width: 60px;
+    height: 60px;
+    border: 1px solid var(--k-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--f-mono);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .size-chip:hover {
+    border-color: var(--k-gold);
+    color: var(--k-gold);
+  }
+
+  .size-chip.active {
+    background: var(--k-gold);
+    color: var(--k-black);
+    border-color: var(--k-gold);
+  }
+
+  .atc-btn-large {
+    width: 100%;
+    padding: 25px;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 1024px) {
+    .detail-container { grid-template-columns: 1fr; gap: 60px; }
+    .detail-gallery { position: relative; top: 0; height: 60vh; }
+  }
+</style>
+</head>
+<body>
+
+<div class="k-grain"></div>
+
+<nav id="navbar" class="scrolled">
+  <a href="index.html" class="nav-brand">
+    <img src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA">
+  </a>
+  <div class="nav-links">
+    <a href="men.html">Men</a>
+    <a href="women.html">Women</a>
+    <a href="jeans.html">Jeans</a>
+    <a href="t-shirts.html">T-Shirts</a>
+  </div>
+  <button class="k-btn-gold" onclick="openCart()">Bag (<span id="cartCountNav">0</span>)</button>
+</nav>
+
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>BAG (<span id="cartCount">0</span>)</h3>
+    <button class="cart-close-btn" onclick="closeCart()">CLOSE</button>
+  </div>
+  <div class="cart-body" id="cartItemsList"></div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>TOTAL</span>
+      <span>$<span id="cartTotalAmount">0</span></span>
+    </div>
+    <button class="k-btn-gold" style="width: 100%;">Checkout Now</button>
+  </div>
+</div>
+
+<main class="detail-page">
+  <div class="detail-container" id="detailContent">
+    <!-- Content Injected -->
+  </div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/dist/lenis.min.js"></script>
+<script src="products.js"></script>
+<script src="motion.js"></script>
+<script>
+  let selectedSize = null;
+
+  function initDetail() {
+    const params = new URLSearchParams(window.location.search);
+    const pid = params.get('id');
+    const product = getProductById(pid);
+
+    if (!product) {
+       window.location.href = 'index.html';
+       return;
+    }
+
+    const container = document.getElementById('detailContent');
+    container.innerHTML = `
+      <div class="detail-gallery">
+        <div class="main-stage">
+          <img id="mainImg" src="${product.img}" alt="${product.name}">
+        </div>
+      </div>
+      <div class="detail-info">
+        <span class="p-tag">Limited Drop // SS26</span>
+        <h1 class="p-title">${product.name}</h1>
+        <div class="p-price">$${product.price}.00</div>
+
+        <p class="p-desc-main">${product.desc}</p>
+
+        <div class="p-specs">
+          <div class="spec-row">
+            <span class="spec-label">Construction</span>
+            <div class="spec-value">Engineered from premium heavy-gauge denim and reinforced with industrial-grade stitching. Every seam is double-locked for longevity in the urban void.</div>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Artistry</span>
+            <div class="spec-value">Featuring high-definition digital transfers and hand-applied distress patterns. The artwork is curated to evolve with wear, gaining character as you inhabit the piece.</div>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Fit & Silhouette</span>
+            <div class="spec-value">Boxy, architectural fit designed to stack perfectly over technical footwear. True to size for a modern luxury drape.</div>
+          </div>
+          <div class="spec-row">
+            <span class="spec-label">Shipping & Aura</span>
+            <div class="spec-value">Ships in premium eco-conscious packaging within 2-3 weeks. Every order includes a membership token for the Underground.</div>
+          </div>
+        </div>
+
+        <div class="buy-zone">
+          <span style="font-family: var(--f-mono); font-size: 0.6rem; color: var(--k-gold); display: block; margin-bottom: 20px;">SELECT SIZE</span>
+          <div class="size-selector">
+            ${product.sizes.map(s => `<div class="size-chip" onclick="selectSize(this, '${s}')">${s}</div>`).join('')}
+          </div>
+          <button class="k-btn-gold atc-btn-large" onclick="handleAddToCart(${product.id})">ADD TO BAG</button>
+        </div>
+      </div>
+    `;
+
+    // Animations
+    gsap.to("#mainImg", { opacity: 1, scale: 1, duration: 1.5, ease: "power4.out" });
+    gsap.from(".detail-info > *", { opacity: 0, x: 50, duration: 1, stagger: 0.1, ease: "power3.out", delay: 0.5 });
+  }
+
+  function selectSize(el, s) {
+    document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    selectedSize = s;
+  }
+
+  function handleAddToCart(pid) {
+    if (!selectedSize) {
+      alert('Please select a size');
+      return;
+    }
+    addToCart(pid, selectedSize);
+  }
+
+  window.addEventListener('load', initDetail);
+</script>
+</body>
+</html>

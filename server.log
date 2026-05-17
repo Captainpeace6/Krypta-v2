@@ -1,0 +1,55 @@
+127.0.0.1 - - [14/May/2026 16:08:19] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:19] code 404, message File not found
+127.0.0.1 - - [14/May/2026 16:08:19] "GET /cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js HTTP/1.1" 404 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /products.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /fix.js HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/img-crime.png HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/img-glorious.png HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/img-angel.png HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/img-money.png HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/img-broken.png HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/jeans-grey-cargo.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/jeans-flower-full.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/jeans-red-dragon.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/jeans-flame.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/jeans-gold-dragon.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/jeans-skull.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/jeans-dual-dragon.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/anime-one-piece.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/anime-horror.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/anime-jjk1.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/anime-jjk2.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/anime-deathnote.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/anime-gojo2.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/anime-baki.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/anime-blackred.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:20] "GET /imgs/anime-gojo.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:22] "GET /product-detail.html?id=1 HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 60996)
+127.0.0.1 - - [14/May/2026 16:08:22] "GET /product-detail.html?id=1 HTTP/1.1" 200 -
+Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.13/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/home/jules/.pyenv/versions/3.12.13/lib/python3.12/http/server.py", line 1326, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "/home/jules/.pyenv/versions/3.12.13/lib/python3.12/http/server.py", line 676, in __init__
+    super().__init__(*args, **kwargs)
+  File "/home/jules/.pyenv/versions/3.12.13/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/home/jules/.pyenv/versions/3.12.13/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/home/jules/.pyenv/versions/3.12.13/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/home/jules/.pyenv/versions/3.12.13/lib/python3.12/http/server.py", line 683, in do_GET
+    self.copyfile(f, self.wfile)
+  File "/home/jules/.pyenv/versions/3.12.13/lib/python3.12/http/server.py", line 882, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "/home/jules/.pyenv/versions/3.12.13/lib/python3.12/shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "/home/jules/.pyenv/versions/3.12.13/lib/python3.12/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+127.0.0.1 - - [14/May/2026 16:08:22] "GET /imgs/kryptaa-logo-gold.png HTTP/1.1" 200 -
+127.0.0.1 - - [14/May/2026 16:08:24] "GET /men.html HTTP/1.1" 200 -
