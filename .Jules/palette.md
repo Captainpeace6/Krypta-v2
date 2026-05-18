@@ -1,0 +1,3 @@
+## 2025-05-18 - [Accessibility & Focus Visibility]
+**Learning:** In highly customized dark-themed UIs (especially those using `cursor:none`), standard browser focus indicators are often suppressed or invisible. A global `:focus-visible` rule with high contrast (using the theme's accent color) is essential for keyboard accessibility. Descriptive `aria-label`s for icon-only buttons (like "✕", "‹", "›") are crucial for screen reader users to understand navigation and destructive actions.
+**Action:** Always check for focus visibility when a custom cursor is implemented and ensure all icon-only buttons have explicit ARIA labels.

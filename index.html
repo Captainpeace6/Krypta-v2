@@ -37,6 +37,7 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
 body { background:var(--black); color:var(--white); font-family:'Barlow Condensed',sans-serif; overflow-x:hidden; cursor:none; }
+:focus-visible { outline: 2px solid var(--accent) !important; outline-offset: 2px !important; }
 
 /* CURSOR */
 .cur { position:fixed; width:12px; height:12px; background:var(--accent); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width 0.2s,height 0.2s; mix-blend-mode:exclusion; }
@@ -924,7 +925,7 @@ nav { top: 28px !important; }
   <div class="popup-box" onclick="event.stopPropagation()">
     <div class="popup-acid-bar"></div>
     <div class="popup-inner">
-      <button class="popup-close" onclick="closeEmailPopup()">✕</button>
+      <button class="popup-close" onclick="closeEmailPopup()" aria-label="Close">✕</button>
       <div class="popup-tag">Drop 001 · Early Access</div>
       <div class="popup-title">ENTER<br><span>THE VOID</span></div>
       <div class="popup-sub">First access. No noise. Just drops.ases.</div>
@@ -942,7 +943,7 @@ nav { top: 28px !important; }
 <div class="cart-panel" id="cartPanel">
   <div class="cart-head">
     <div class="cart-head-title">YOUR BAG</div>
-    <button class="cart-x" onclick="closeCart()">✕</button>
+    <button class="cart-x" onclick="closeCart()" aria-label="Close bag">✕</button>
   </div>
   <div class="cart-list" id="cartList"><div class="cart-empty">Your bag is empty</div></div>
   <div class="cart-foot">
@@ -957,7 +958,7 @@ nav { top: 28px !important; }
 <!-- QUICK VIEW -->
 <div class="qv-bg" id="qvBg">
   <div class="qv-box">
-    <button class="qv-close" onclick="closeQV()">✕</button>
+    <button class="qv-close" onclick="closeQV()" aria-label="Close quick view">✕</button>
     <div class="qv-left" id="qvLeft"></div>
     <div class="qv-right" id="qvRight"></div>
   </div>
@@ -969,7 +970,7 @@ nav { top: 28px !important; }
   <div class="size-modal" onclick="event.stopPropagation()">
     <div class="sm-acid"></div>
     <div class="sm-inner">
-      <button class="sm-close" onclick="closeSizeGuide()">✕</button>
+      <button class="sm-close" onclick="closeSizeGuide()" aria-label="Close size guide">✕</button>
       <div class="sm-title">SIZE GUIDE</div>
       <div class="sm-sub">Garment measurements. When between sizes, size up.</div>
 
@@ -1632,8 +1633,8 @@ nav { top: 28px !important; }
   <div class="slider-wrap" style="padding:0 20px;">
     <div class="section-tag" style="margin-bottom:12px;">More Tees →</div>
     <div class="slider" id="teesSlider"></div>
-    <button class="slider-btn slider-prev" onclick="slide('teesSlider',-1)">‹</button>
-    <button class="slider-btn slider-next" onclick="slide('teesSlider',1)">›</button>
+    <button class="slider-btn slider-prev" onclick="slide('teesSlider',-1)" aria-label="Previous slide">‹</button>
+    <button class="slider-btn slider-next" onclick="slide('teesSlider',1)" aria-label="Next slide">›</button>
   </div>
 </section>
 
@@ -1652,8 +1653,8 @@ nav { top: 28px !important; }
   <div class="slider-wrap" style="padding:0 20px;margin-top:16px;">
     <div class="section-tag" style="margin-bottom:12px;">More Styles →</div>
     <div class="slider" id="mensSlider"></div>
-    <button class="slider-btn slider-prev" onclick="slide('mensSlider',-1)">‹</button>
-    <button class="slider-btn slider-next" onclick="slide('mensSlider',1)">›</button>
+    <button class="slider-btn slider-prev" onclick="slide('mensSlider',-1)" aria-label="Previous slide">‹</button>
+    <button class="slider-btn slider-next" onclick="slide('mensSlider',1)" aria-label="Next slide">›</button>
   </div>
 </section>
 
@@ -1783,8 +1784,8 @@ nav { top: 28px !important; }
   <div class="slider-wrap" style="padding:0 20px;margin-top:16px;">
     <div class="section-tag" style="margin-bottom:12px;">More Jeans →</div>
     <div class="slider" id="womensSlider"></div>
-    <button class="slider-btn slider-prev" onclick="slide('womensSlider',-1)">‹</button>
-    <button class="slider-btn slider-next" onclick="slide('womensSlider',1)">›</button>
+    <button class="slider-btn slider-prev" onclick="slide('womensSlider',-1)" aria-label="Previous slide">‹</button>
+    <button class="slider-btn slider-next" onclick="slide('womensSlider',1)" aria-label="Next slide">›</button>
   </div>
 </section>
 
@@ -1798,8 +1799,8 @@ nav { top: 28px !important; }
   <div class="grid-5" id="topsGrid"></div>
   <div class="slider-wrap" style="padding:0 20px;margin-top:16px;">
     <div class="slider" id="topsSlider"></div>
-    <button class="slider-btn slider-prev" onclick="slide('topsSlider',-1)">‹</button>
-    <button class="slider-btn slider-next" onclick="slide('topsSlider',1)">›</button>
+    <button class="slider-btn slider-prev" onclick="slide('topsSlider',-1)" aria-label="Previous slide">‹</button>
+    <button class="slider-btn slider-next" onclick="slide('topsSlider',1)" aria-label="Next slide">›</button>
   </div>
 </div>
 
@@ -2100,7 +2101,7 @@ function cardHTML(p) {
   var soldOut = !!p.soldOut;
   var isTee = p.price === 58 && p.sizes.indexOf('XL') >= 0;
   var imgTag = hasImg
-    ? '<img src="' + p.img + '" alt="" loading="lazy" style="' + (isTee ? 'background:#fff;' : '') + '">'
+    ? '<img src="' + p.img + '" alt="' + p.name + '" loading="lazy" style="' + (isTee ? 'background:#fff;' : '') + '">'
     : '<div class="card-img-ph"><svg viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="1.5"><path d="M30 20 L10 40 L25 45 L25 80 L75 80 L75 45 L90 40 L70 20 L55 30 L45 30 Z"/></svg></div>';
   var badgeCls = soldOut ? 'card-badge sold-out-badge' : 'card-badge';
   var badgeTxt = soldOut ? 'SOLD OUT' : 'PRE-ORDER';
@@ -2229,15 +2230,15 @@ function syncCart() {
   document.getElementById('cartTotalVal').textContent = '$' + total + ' USD';
   if (!cart.length) { document.getElementById('cartList').innerHTML = '<div class="cart-empty">Your bag is empty</div>'; return; }
   document.getElementById('cartList').innerHTML = cart.map(function(item) {
-    var thumb = item.img ? '<img src="' + item.img + '" alt="">' : '';
+    var thumb = item.img ? '<img src="' + item.img + '" alt="' + item.name + '">' : '';
     var k = item.key;
     return '<div class="cart-row"><div class="cart-thumb">' + thumb + '</div>'
       + '<div class="cart-info"><div class="cart-rname">' + item.name + '</div>'
       + '<div class="cart-rmeta">SIZE: ' + item.size + ' - PRE-ORDER</div>'
       + '<div class="cart-qty">'
-      + '<button class="qty-b" data-key="' + k + '" data-d="-1" onclick="chQty(this.dataset.key,parseInt(this.dataset.d))">-</button>'
+      + '<button class="qty-b" data-key="' + k + '" data-d="-1" onclick="chQty(this.dataset.key,parseInt(this.dataset.d))" aria-label="Decrease quantity">-</button>'
       + '<span class="qty-n">' + item.qty + '</span>'
-      + '<button class="qty-b" data-key="' + k + '" data-d="1" onclick="chQty(this.dataset.key,parseInt(this.dataset.d))">+</button>'
+      + '<button class="qty-b" data-key="' + k + '" data-d="1" onclick="chQty(this.dataset.key,parseInt(this.dataset.d))" aria-label="Increase quantity">+</button>'
       + '</div></div><div class="cart-rprice">$' + ((parseFloat(item.price)||0)*(parseInt(item.qty)||1)) + '</div></div>';
   }).join('');
 }
