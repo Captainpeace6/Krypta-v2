@@ -14,7 +14,7 @@
   --k-cyber: #65f2d0;
   --k-cyber-dim: rgba(101, 242, 208, 0.18);
   --f-primary: "Cinzel", serif;
-  --f-secondary: "Inter", sans-serif;
+  --f-secondary: "Rajdhani", "Inter", sans-serif;
   --f-mono: "Space Mono", monospace;
   --nav-h: 108px;
   --ease-lux: cubic-bezier(0.16, 1, 0.3, 1);
@@ -42,6 +42,8 @@ body {
     linear-gradient(180deg, #050505 0%, #020202 48%, #070604 100%);
   color: var(--k-bone);
   font-family: var(--f-secondary);
+  font-size: 17px;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: geometricPrecision;
 }
@@ -737,7 +739,7 @@ body.menu-open .mobile-menu {
 }
 
 .section-shell {
-  width: min(1500px, calc(100% - clamp(32px, 7vw, 96px)));
+  width: min(1600px, calc(100% - clamp(20px, 3.5vw, 56px)));
   margin: 0 auto;
 }
 
@@ -869,7 +871,7 @@ body.menu-open .mobile-menu {
 .hero-copy {
   position: relative;
   z-index: 2;
-  width: min(1200px, calc(100% - clamp(24px, 5vw, 80px)));
+  width: min(1600px, calc(100% - clamp(20px, 3.5vw, 56px)));
   margin: 0 auto;
   padding: 0 0 clamp(58px, 10vh, 110px);
   transform: translateY(calc(var(--scroll-y, 0) * 0.035px)) scale(calc(1 - min(var(--scroll-y, 0) / 11000, 0.07)));
@@ -911,7 +913,7 @@ body.menu-open .mobile-menu {
 .hero-wordmark-img {
   display: block;
   width: 100%;
-  max-width: 1060px;
+  max-width: 1500px;
   height: auto;
   filter: drop-shadow(0 0 60px rgba(210,174,91,0.45)) brightness(1.15) contrast(1.1);
   image-rendering: -webkit-optimize-contrast;
