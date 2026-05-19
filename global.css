@@ -904,12 +904,13 @@ body.menu-open .mobile-menu {
 }
 
 .hero-title {
-  font-family: 'Cinzel Decorative', 'Cinzel', serif;
+  font-family: 'Cinzel', serif;
   font-weight: 900;
+  font-variant: small-caps;
   margin: 18px 0 20px;
-  font-size: clamp(3.8rem, 12vw, 10rem);
+  font-size: clamp(4rem, 13vw, 11rem);
   line-height: 0.9;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   background: linear-gradient(
     168deg,
     #fffce0 0%,
