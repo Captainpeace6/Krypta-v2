@@ -96,6 +96,45 @@
     <div class="scroll-mark">Scroll</div>
   </section>
 
+  <!-- Marquee ticker -->
+  <div class="k-marquee" aria-hidden="true">
+    <div class="k-marquee-track">
+      <span>Drop 001</span><span class="mk-sep">✦</span>
+      <span>Driven By Aura</span><span class="mk-sep">✦</span>
+      <span>Defined By Power</span><span class="mk-sep">✦</span>
+      <span>Gothic Streetwear</span><span class="mk-sep">✦</span>
+      <span>SS26 Collection</span><span class="mk-sep">✦</span>
+      <span>Limited Units</span><span class="mk-sep">✦</span>
+      <span>Dragon Denim</span><span class="mk-sep">✦</span>
+      <span>Heavyweight Tees</span><span class="mk-sep">✦</span>
+      <span>Drop 001</span><span class="mk-sep">✦</span>
+      <span>Driven By Aura</span><span class="mk-sep">✦</span>
+      <span>Defined By Power</span><span class="mk-sep">✦</span>
+      <span>Gothic Streetwear</span><span class="mk-sep">✦</span>
+      <span>SS26 Collection</span><span class="mk-sep">✦</span>
+      <span>Limited Units</span><span class="mk-sep">✦</span>
+      <span>Dragon Denim</span><span class="mk-sep">✦</span>
+      <span>Heavyweight Tees</span><span class="mk-sep">✦</span>
+    </div>
+  </div>
+
+  <!-- Countdown -->
+  <section class="countdown-section">
+    <div class="cd-inner">
+      <div class="cd-label">Drop 001 — SS26 Launch</div>
+      <div class="cd-timer" id="cdTimer">
+        <div class="cd-unit"><span class="cd-num" id="cdDays">00</span><span class="cd-tag">Days</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><span class="cd-num" id="cdHours">00</span><span class="cd-tag">Hours</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><span class="cd-num" id="cdMins">00</span><span class="cd-tag">Mins</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><span class="cd-num" id="cdSecs">00</span><span class="cd-tag">Secs</span></div>
+      </div>
+      <div class="cd-sub">Limited units. No restock. No regret.</div>
+    </div>
+  </section>
+
   <section class="home-section">
     <div class="section-shell editorial-split">
       <div class="editorial-copy reveal">
@@ -167,6 +206,22 @@
   </section>
 </main>
 
+<!-- Join The Drop -->
+<section class="join-drop-section">
+  <div class="jd-glow" aria-hidden="true"></div>
+  <div class="section-shell jd-inner">
+    <div class="jd-eyebrow reveal">— Early Access —</div>
+    <h2 class="jd-headline reveal">Join The Drop</h2>
+    <p class="jd-sub reveal">First to know. First to cop. No spam — just signal.</p>
+    <form class="jd-form reveal" id="joinDropForm">
+      <input type="email" class="jd-input" placeholder="enter your email" required autocomplete="email">
+      <button type="submit" class="k-btn-gold jd-btn">Lock In</button>
+    </form>
+    <p class="jd-fine reveal">Drop 001 · Limited Units · SS26</p>
+    <div class="jd-success" id="jdSuccess" aria-live="polite"></div>
+  </div>
+</section>
+
 <!-- Footer -->
 <footer class="site-footer">
   <div class="footer-top">
@@ -215,5 +270,29 @@
     <span class="footer-tagline">Driven By Aura / Defined By Power</span>
   </div>
 </footer>
+<script>
+(function(){
+  var target = new Date('2026-06-19T00:00:00');
+  function tick(){
+    var now = new Date(), diff = target - now;
+    if(diff <= 0){ document.getElementById('cdTimer').innerHTML='<span class="cd-launched">The Drop Is Live</span>'; return; }
+    var d=Math.floor(diff/864e5), h=Math.floor((diff%864e5)/36e5), m=Math.floor((diff%36e5)/6e4), s=Math.floor((diff%6e4)/1e3);
+    document.getElementById('cdDays').textContent=String(d).padStart(2,'0');
+    document.getElementById('cdHours').textContent=String(h).padStart(2,'0');
+    document.getElementById('cdMins').textContent=String(m).padStart(2,'0');
+    document.getElementById('cdSecs').textContent=String(s).padStart(2,'0');
+  }
+  tick(); setInterval(tick,1000);
+})();
+</script>
+<script>
+document.getElementById('joinDropForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var email = this.querySelector('input').value;
+  document.getElementById('jdSuccess').textContent = '✓ You\'re on the list. Drop 001 is coming.';
+  document.getElementById('jdSuccess').style.opacity = '1';
+  this.querySelector('input').value = '';
+});
+</script>
 </body>
 </html>
