@@ -55,8 +55,7 @@
     body.insertAdjacentHTML("afterbegin", `
       <nav id="navbar" class="site-nav">
         <a class="nav-brand" href="index.html" aria-label="KRYPTAA home">
-          <span class="nav-mark">A</span>
-          <span class="nav-wordmark">KRYPTAA</span>
+          <img src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA" class="nav-logo-img">
         </a>
         <div class="nav-links" id="desktopNav">${navLinks()}</div>
         <div class="nav-actions">
