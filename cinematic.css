@@ -1,0 +1,516 @@
+/* ═══════════════════════════════════════════════════════════
+   KRYPTAA — Cinematic Experience Engine
+   cinematic.css — Preloader · Entry · Grain · Scroll · Typing
+═══════════════════════════════════════════════════════════ */
+
+/* ── Gold token ── */
+:root {
+  --kg: #c8a000;
+  --kg-lite: #e8c840;
+  --kg-dim: rgba(200,160,0,0.35);
+  --kg-glow: rgba(200,160,0,0.18);
+}
+
+/* ────────────────────────────────────────────
+   GLOBAL GRAIN OVERLAY
+──────────────────────────────────────────── */
+#k-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 88888;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px;
+  opacity: 0.032;
+  animation: kGrainShift 0.75s steps(1) infinite;
+  mix-blend-mode: overlay;
+}
+@keyframes kGrainShift {
+  0%   { background-position:   0px   0px; }
+  25%  { background-position: -32px -18px; }
+  50%  { background-position:  22px  44px; }
+  75%  { background-position: -44px  12px; }
+}
+
+
+/* ────────────────────────────────────────────
+   PRELOADER
+──────────────────────────────────────────── */
+#k-preloader {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.k-pre-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 220px;
+  opacity: 0.055;
+  animation: kGrainShift 0.65s steps(1) infinite;
+  pointer-events: none;
+}
+.k-pre-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -58%);
+  width: 520px;
+  height: 200px;
+  background: radial-gradient(ellipse at center,
+    rgba(200,160,0,0.22) 0%,
+    rgba(140,100,0,0.08) 50%,
+    transparent 75%
+  );
+  pointer-events: none;
+  animation: kGlowBreathe 3.5s ease-in-out infinite;
+}
+@keyframes kGlowBreathe {
+  0%,100% { opacity:0.55; transform: translate(-50%,-58%) scale(1); }
+  50%     { opacity:1;    transform: translate(-50%,-58%) scale(1.1); }
+}
+/* Scanline sweep */
+.k-pre-scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,0.08) 3px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  opacity: 0.6;
+}
+.k-pre-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 20px;
+  width: 100%;
+  max-width: 580px;
+}
+.k-pre-logo {
+  width: clamp(200px, 48vw, 400px);
+  height: auto;
+  margin-bottom: 36px;
+  opacity: 0;
+  filter: drop-shadow(0 0 0px rgba(200,160,0,0));
+  animation: kLogoEmerge 1.1s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
+}
+@keyframes kLogoEmerge {
+  to {
+    opacity: 1;
+    filter: drop-shadow(0 0 36px rgba(200,160,0,0.28));
+  }
+}
+.k-pre-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 32px;
+  min-height: 72px;
+}
+.k-pre-line {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(8px, 1.4vw, 10px);
+  letter-spacing: 0.26em;
+  color: rgba(200,160,0,0.45);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  white-space: nowrap;
+}
+.k-pre-line.k-lit {
+  opacity: 1;
+  transform: translateX(0);
+}
+.k-pre-line.k-active {
+  color: rgba(200,160,0,0.75);
+}
+.k-pre-bottom {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: clamp(200px, 50vw, 340px);
+}
+.k-pre-bar {
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+  overflow: hidden;
+  position: relative;
+}
+.k-pre-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, rgba(200,160,0,0.3), #c8a000, #e8c840);
+  transition: width 0.08s linear;
+  box-shadow: 0 0 6px rgba(200,160,0,0.6);
+}
+.k-pre-pct {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(9px, 1.5vw, 11px);
+  letter-spacing: 0.18em;
+  color: rgba(200,160,0,0.6);
+  min-width: 42px;
+  text-align: right;
+}
+
+/* ── Preloader fade-out ── */
+#k-preloader.k-out {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.55s ease;
+}
+
+
+/* ────────────────────────────────────────────
+   ENTRY SCREEN
+──────────────────────────────────────────── */
+#k-entry {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 99998;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+#k-entry.k-show {
+  display: flex;
+}
+#k-entry.k-visible {
+  opacity: 1;
+}
+.k-entry-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 220px;
+  opacity: 0.065;
+  animation: kGrainShift 0.6s steps(1) infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.k-entry-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 640px;
+  height: 260px;
+  background: radial-gradient(ellipse at center,
+    rgba(200,160,0,0.16) 0%,
+    rgba(150,100,0,0.06) 50%,
+    transparent 72%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: kEntryGlow 2.8s ease-in-out infinite;
+}
+@keyframes kEntryGlow {
+  0%,100% { opacity:0.65; transform:translate(-50%,-50%) scale(1); }
+  50%     { opacity:1;    transform:translate(-50%,-50%) scale(1.14); }
+}
+.k-entry-scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(0,0,0,0.07) 3px, rgba(0,0,0,0.07) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+/* Canvas for shatter particles */
+#k-shatter-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  display: none;
+}
+/* Void expansion circle */
+#k-void-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border-radius: 50%;
+  background: #000;
+  transform: scale(1);
+  z-index: 9;
+  display: none;
+  pointer-events: none;
+}
+#k-void-ring.k-expand {
+  transition: transform 0.72s cubic-bezier(0.36,0,0.66,1);
+  transform: scale(150) !important;
+}
+.k-entry-inner {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  gap: 0;
+}
+.k-entry-logo {
+  width: clamp(240px, 54vw, 460px);
+  height: auto;
+  filter: drop-shadow(0 0 44px rgba(200,160,0,0.22));
+  animation: kEntryFloat 4.2s ease-in-out infinite;
+  margin-bottom: 36px;
+}
+@keyframes kEntryFloat {
+  0%,100% { transform: translateY(0px); }
+  50%     { transform: translateY(-7px); }
+}
+.k-enter-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(10px, 1.6vw, 13px);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: #000;
+  background: var(--kg);
+  border: none;
+  padding: 17px 56px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: background 0.25s ease, transform 0.18s ease, opacity 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  margin-bottom: 20px;
+}
+.k-enter-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 55%);
+  pointer-events: none;
+}
+.k-enter-btn:hover {
+  background: var(--kg-lite);
+  transform: scale(1.05);
+}
+.k-enter-btn:active {
+  transform: scale(0.96);
+}
+.k-enter-btn.k-clicked {
+  opacity: 0;
+}
+/* Pulse ring around button */
+.k-enter-btn::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 1px solid rgba(200,160,0,0.3);
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  animation: kBtnPulse 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes kBtnPulse {
+  0%,100% { opacity:0.4; transform:scale(1); }
+  50%     { opacity:0;   transform:scale(1.12); }
+}
+.k-entry-hint {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(7px, 1.2vw, 9px);
+  letter-spacing: 0.26em;
+  color: rgba(255,255,255,0.18);
+  text-transform: uppercase;
+}
+
+
+/* ────────────────────────────────────────────
+   CINEMATIC SCROLL REVEALS
+──────────────────────────────────────────── */
+.k-reveal {
+  opacity: 0;
+  transform: translateY(48px);
+  transition: opacity 1s cubic-bezier(0.16,1,0.3,1),
+              transform 1s cubic-bezier(0.16,1,0.3,1);
+}
+.k-reveal.k-vis {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Stagger children */
+.k-reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+              transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.k-reveal-stagger.k-vis > *:nth-child(1) { opacity:1; transform:none; transition-delay:0s; }
+.k-reveal-stagger.k-vis > *:nth-child(2) { opacity:1; transform:none; transition-delay:0.1s; }
+.k-reveal-stagger.k-vis > *:nth-child(3) { opacity:1; transform:none; transition-delay:0.2s; }
+.k-reveal-stagger.k-vis > *:nth-child(4) { opacity:1; transform:none; transition-delay:0.3s; }
+.k-reveal-stagger.k-vis > *:nth-child(5) { opacity:1; transform:none; transition-delay:0.4s; }
+.k-reveal-stagger.k-vis > *:nth-child(6) { opacity:1; transform:none; transition-delay:0.5s; }
+
+
+/* ────────────────────────────────────────────
+   TYPING TEXT SECTION (injected by cinematic.js)
+──────────────────────────────────────────── */
+#k-typing-section {
+  padding: clamp(60px,10vw,100px) clamp(20px,5vw,60px);
+  background: #000;
+  border-top: 1px solid rgba(30,30,38,0.8);
+  border-bottom: 1px solid rgba(30,30,38,0.8);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#k-typing-section .k-ts-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px;
+  opacity: 0.04;
+  pointer-events: none;
+}
+.k-type-hero {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 10vw, 120px);
+  letter-spacing: 0.04em;
+  color: rgba(240,237,232,0.88);
+  line-height: 0.88;
+  margin-bottom: 24px;
+  min-height: 0.9em;
+}
+.k-type-tag {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(9px, 1.8vw, 12px);
+  letter-spacing: 0.28em;
+  color: rgba(200,160,0,0.6);
+  text-transform: uppercase;
+  line-height: 2.4;
+  min-height: 1.6em;
+}
+
+/* Cursor blink on active typing line */
+.k-typing-cursor::after {
+  content: '▮';
+  font-size: 0.75em;
+  color: rgba(200,160,0,0.7);
+  animation: kBlink 0.7s step-end infinite;
+  margin-left: 2px;
+}
+@keyframes kBlink {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0; }
+}
+
+
+/* ────────────────────────────────────────────
+   HERO PARALLAX
+──────────────────────────────────────────── */
+#kryptaa-hero-v2 {
+  will-change: transform;
+}
+#kryptaa-hero-v2 .hero-inner {
+  will-change: transform, opacity;
+  transition: none; /* let GSAP handle it */
+}
+
+
+/* ────────────────────────────────────────────
+   CATEGORY ROWS — cinematic entry
+──────────────────────────────────────────── */
+#k-categories > div > a {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1),
+              transform 0.85s cubic-bezier(0.16,1,0.3,1);
+}
+#k-categories > div > a.k-cat-vis {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ────────────────────────────────────────────
+   VIDEO SECTION — cinematic scale
+──────────────────────────────────────────── */
+#k-video-section > div:last-child {
+  will-change: transform, opacity;
+}
+
+
+/* ────────────────────────────────────────────
+   SECTION OVERLAY TRANSITIONS
+   A sticky dark grad that creates depth between sections
+──────────────────────────────────────────── */
+.k-depth-fade {
+  height: 80px;
+  background: linear-gradient(to bottom, #000 0%, transparent 100%);
+  pointer-events: none;
+  margin-bottom: -80px;
+  position: relative;
+  z-index: 2;
+}
+.k-depth-fade.k-df-bottom {
+  background: linear-gradient(to top, #060608 0%, transparent 100%);
+  margin-bottom: 0;
+  margin-top: -80px;
+}
+
+
+/* ────────────────────────────────────────────
+   MOBILE
+──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .k-pre-glow      { width: 300px; height: 140px; }
+  .k-entry-glow    { width: 340px; height: 160px; }
+  .k-entry-logo    { margin-bottom: 28px; }
+  .k-enter-btn     { padding: 16px 44px; }
+  #k-typing-section { padding: 52px 20px; }
+  .k-type-hero     { font-size: clamp(44px, 12vw, 80px); }
+}
+
+
+/* ────────────────────────────────────────────
+   REDUCED MOTION
+──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .k-pre-logo,
+  .k-entry-logo,
+  .k-pre-glow,
+  .k-entry-glow,
+  #k-grain,
+  .k-pre-noise,
+  .k-entry-noise {
+    animation: none !important;
+  }
+  .k-reveal,
+  .k-reveal-stagger > *,
+  #k-categories > div > a {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .k-enter-btn::after { animation: none !important; }
+}

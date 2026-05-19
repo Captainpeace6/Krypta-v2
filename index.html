@@ -913,11 +913,75 @@ nav { top: 28px !important; }
 .sakura-jumper { animation:jumpBounce 1.2s ease-in-out infinite; }
 
 </style>
+
+<!-- Cinematic CSS -->
+<link rel="stylesheet" href="cinematic.css">
+
+<!-- GSAP + ScrollTrigger (CDN) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" crossorigin="anonymous"></script>
+
+<!-- Lenis smooth scroll (CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" crossorigin="anonymous"></script>
+
+<!-- Failsafe: if cinematic.js stalls, clear overlays after 6 seconds -->
+<script>
+(function(){
+  setTimeout(function(){
+    var p=document.getElementById('k-preloader'),e=document.getElementById('k-entry');
+    if(p&&p.style.display!=='none'){p.style.display='none';}
+    if(e&&e.style.display==='flex'){e.style.display='none';}
+    document.body.style.overflow='';
+  },6000);
+})();
+</script>
+
+<!-- Preloader instant-visible style (before cinematic.css loads) -->
+<style>
+#k-preloader{position:fixed;inset:0;background:#000;z-index:99999;display:flex;align-items:center;justify-content:center;}
+#k-entry{position:fixed;inset:0;background:#000;z-index:99998;display:none;}
+</style>
 </head>
 <body>
 
 <div class="cur" id="cur"></div>
 <div class="cur-ring" id="curR"></div>
+
+<!-- ═══ KRYPTAA PRELOADER ═══ -->
+<div id="k-preloader" aria-hidden="true">
+  <div class="k-pre-noise"></div>
+  <div class="k-pre-glow"></div>
+  <div class="k-pre-scan"></div>
+  <div class="k-pre-inner">
+    <img class="k-pre-logo" src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA" loading="eager">
+    <div class="k-pre-lines">
+      <span class="k-pre-line">{KRYPTAA SYSTEM}</span>
+      <span class="k-pre-line">{INITIALIZING AURA}</span>
+      <span class="k-pre-line">{LOADING UNDERGROUND SIGNAL}</span>
+      <span class="k-pre-line">{SYNCING COLLECTION DATA}</span>
+      <span class="k-pre-line">{CALIBRATING DROP 001}</span>
+      <span class="k-pre-line">{DEFINED BY POWER}</span>
+    </div>
+    <div class="k-pre-bottom">
+      <div class="k-pre-bar"><div class="k-pre-fill" id="k-pre-fill"></div></div>
+      <div class="k-pre-pct" id="k-pre-pct">0%</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ KRYPTAA ENTRY SCREEN ═══ -->
+<div id="k-entry" aria-hidden="true">
+  <canvas id="k-shatter-canvas"></canvas>
+  <div id="k-void-ring"></div>
+  <div class="k-entry-noise"></div>
+  <div class="k-entry-glow"></div>
+  <div class="k-entry-scan"></div>
+  <div class="k-entry-inner">
+    <img class="k-entry-logo" id="k-entry-logo" src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA" loading="eager">
+    <button id="k-enter-btn" class="k-enter-btn">CLICK TO ENTER</button>
+    <p class="k-entry-hint">{HEADPHONES RECOMMENDED}</p>
+  </div>
+</div>
 
 <!-- EMAIL POPUP -->
 <div class="email-popup" id="emailPopup" onclick="closeEmailPopup()">
@@ -2697,5 +2761,6 @@ function getSizeTab(p) {
 
 </script>
 <script src="fix.js"></script>
+<script src="cinematic.js"></script>
 </body>
 </html>
