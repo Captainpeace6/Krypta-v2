@@ -92,6 +92,44 @@
           <a class="k-btn-gold" href="checkout.html" style="display:block;text-align:center;">Checkout</a>
         </div>
       </aside>
+
+      <div class="size-guide-overlay" id="sizeGuideOverlay" data-sg-close></div>
+      <aside class="size-guide-panel" id="sizeGuidePanel" aria-label="Size guide">
+        <div class="sg-header">
+          <h3 class="sg-title">Size Guide</h3>
+          <button class="sg-close" type="button" data-sg-close aria-label="Close size guide">✕</button>
+        </div>
+        <div class="sg-body">
+          <div class="sg-eyebrow">Oversized T-Shirt — US Standard</div>
+          <div class="sg-table-wrap">
+            <table class="sg-table">
+              <thead><tr><th>SIZE</th><th>CHEST (in)</th><th>WAIST (in)</th><th>ARM LENGTH (in)</th><th>NECKLINE (in)</th></tr></thead>
+              <tbody>
+                <tr><td class="sg-size">XS</td><td>34″–36″</td><td>30″–32″</td><td>25″–25½</td><td>14″–14½</td></tr>
+                <tr class="sg-highlight"><td class="sg-size">S</td><td>38″–40″</td><td>33″–35″</td><td>25½–26</td><td>14½–15</td></tr>
+                <tr><td class="sg-size">M</td><td>42″–44″</td><td>36″–38″</td><td>26″–26½</td><td>15″–15¼</td></tr>
+                <tr><td class="sg-size">L</td><td>46″–48″</td><td>39″–41″</td><td>26½–27</td><td>15½–16</td></tr>
+                <tr><td class="sg-size">XL</td><td>50″–52″</td><td>42″–44″</td><td>27–27½</td><td>16½–16½</td></tr>
+                <tr><td class="sg-size">XXL</td><td>54″–56″</td><td>45″–47″</td><td>27⅔–28</td><td>16½–17</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="sg-note">All measurements in inches. This is an oversized fit — size down for a more structured look, size up for a dramatic shoulder.</p>
+          <div class="sg-measurements">
+            <div class="sg-meas"><span class="sg-meas-dot" style="background:#d2ae5b"></span>Chest Width</div>
+            <div class="sg-meas"><span class="sg-meas-dot" style="background:#e87722"></span>Waist Width</div>
+            <div class="sg-meas"><span class="sg-meas-dot" style="background:#65f2d0"></span>Arm Length</div>
+            <div class="sg-meas"><span class="sg-meas-dot" style="background:#9b59b6"></span>Neckline</div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="sticky-drop-bar" id="stickyDropBar">
+        <img src="imgs/kryptaa-sigil.png" alt="" class="sdb-sigil">
+        <span class="sdb-text">Drop 001 — SS26 · Limited Units</span>
+        <a class="k-btn-gold sdb-btn" href="men.html">Shop Now</a>
+        <button class="sdb-close" type="button" id="sdbClose" aria-label="Dismiss">✕</button>
+      </div>
     `);
     markActiveNav();
   }
@@ -129,6 +167,17 @@
     };
     updateScrollState();
     window.addEventListener("scroll", updateScrollState, { passive: true });
+
+    // Sticky drop bar
+    const stickyBar = doc.getElementById("stickyDropBar");
+    let sdbDismissed = false;
+    const sdbCloseBtn = doc.getElementById("sdbClose");
+    if (sdbCloseBtn) sdbCloseBtn.addEventListener("click", () => { sdbDismissed = true; stickyBar?.classList.remove("visible"); });
+    window.addEventListener("scroll", () => {
+      if (sdbDismissed || !stickyBar) return;
+      const heroH = (doc.querySelector(".v3-hero")?.offsetHeight || window.innerHeight) * 0.6;
+      stickyBar.classList.toggle("visible", window.scrollY > heroH);
+    }, { passive: true });
 
     initRevealObserver();
     initCursor();
@@ -207,13 +256,59 @@
       const cartClose = event.target.closest("[data-cart-close]");
       const qtyButton = event.target.closest("[data-cart-qty]");
       const removeButton = event.target.closest("[data-cart-remove]");
+      const sgOpen = event.target.closest("[data-size-guide]");
+      const sgClose = event.target.closest("[data-sg-close]");
+      const quickSize = event.target.closest(".quick-size-btn");
+      const quickAdd = event.target.closest(".quick-add-btn");
 
       if (menuToggle) body.classList.toggle("menu-open");
       if (cartOpen) openCart();
       if (cartClose) closeCart();
       if (qtyButton) updateCartQty(qtyButton.dataset.cartQty, Number(qtyButton.dataset.delta));
       if (removeButton) removeFromCart(removeButton.dataset.cartRemove);
+      if (sgOpen) { event.preventDefault(); openSizeGuide(); }
+      if (sgClose) closeSizeGuide();
+      if (quickSize) { event.preventDefault(); event.stopPropagation(); handleQuickSize(quickSize); }
+      if (quickAdd) { event.preventDefault(); event.stopPropagation(); handleQuickAdd(quickAdd); }
     });
+  }
+
+  function openSizeGuide() {
+    doc.getElementById("sizeGuidePanel")?.classList.add("open");
+    doc.getElementById("sizeGuideOverlay")?.classList.add("open");
+    body.classList.add("sg-open");
+  }
+
+  function closeSizeGuide() {
+    doc.getElementById("sizeGuidePanel")?.classList.remove("open");
+    doc.getElementById("sizeGuideOverlay")?.classList.remove("open");
+    body.classList.remove("sg-open");
+  }
+
+  function handleQuickSize(btn) {
+    const card = btn.closest(".product-card");
+    card.querySelectorAll(".quick-size-btn").forEach((b) => b.classList.remove("selected"));
+    btn.classList.add("selected");
+    const addBtn = card.querySelector(".quick-add-btn");
+    if (addBtn) { addBtn.dataset.selectedSize = btn.dataset.size; addBtn.classList.add("ready"); }
+  }
+
+  function handleQuickAdd(btn) {
+    const size = btn.dataset.selectedSize;
+    if (!size) {
+      btn.textContent = "Pick a size ↑";
+      setTimeout(() => { btn.textContent = "Add to Bag"; }, 1400);
+      return;
+    }
+    addToCart(btn.dataset.productId, size);
+    btn.textContent = "✓ Added";
+    btn.classList.add("added");
+    setTimeout(() => {
+      btn.textContent = "Add to Bag";
+      btn.classList.remove("added", "ready");
+      btn.closest(".product-card").querySelectorAll(".quick-size-btn").forEach((b) => b.classList.remove("selected"));
+      delete btn.dataset.selectedSize;
+    }, 2000);
   }
 
   function openCart() {
@@ -322,6 +417,7 @@
   }
 
   function productCard(product) {
+    const isTee = product.category === "tees" || product.category === "tops";
     return `
       <article class="product-card reveal">
         <a class="product-card-link" href="product-detail.html?id=${product.id}" aria-label="View ${product.name}">
@@ -339,6 +435,13 @@
             </div>
           </div>
         </a>
+        <div class="product-card-quick">
+          <div class="quick-sizes">
+            ${product.sizes.map((s) => `<button class="quick-size-btn" type="button" data-size="${s}" data-product="${product.id}">${s}</button>`).join("")}
+            ${isTee ? `<button class="quick-sg-btn" type="button" data-size-guide title="Size Guide">?</button>` : ""}
+          </div>
+          <button class="quick-add-btn" type="button" data-product-id="${product.id}">Add to Bag</button>
+        </div>
       </article>
     `;
   }
