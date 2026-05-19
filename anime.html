@@ -119,7 +119,7 @@ footer{border-top:1px solid var(--border);padding:48px 40px 32px;margin-top:0;}
 
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
-  <div class="cart-head"><h2>YOUR CART</h2><button class="cart-close" onclick="closeCart()">✕</button></div>
+  <div class="cart-head"><h2>YOUR CART</h2><button class="cart-close" onclick="closeCart()" aria-label="Close cart">✕</button></div>
   <div class="cart-items" id="cartItems"><p style="font-family:'Space Mono',monospace;font-size:.55rem;color:#555560;padding:20px 0;">Your cart is empty.</p></div>
   <div class="cart-footer">
     <div class="cart-total"><span class="cart-total-label">TOTAL</span><span class="cart-total-val" id="cartTotal">$0</span></div>
@@ -243,7 +243,7 @@ function updateCartUI(){
   var items = document.getElementById('cartItems');
   if(cart.length===0){items.innerHTML='<p style="font-family:\'Space Mono\',monospace;font-size:.55rem;color:#555560;padding:20px 0;">Your cart is empty.</p>';return;}
   items.innerHTML = cart.map(function(item){
-    return '<div class="cart-item"><img src="'+item.img+'" alt="'+item.name+'"/><div class="cart-item-info"><div class="cart-item-name">'+item.name+'</div><div class="cart-item-meta">SIZE: '+item.size+'</div><div class="cart-qty"><button class="qty-btn" onclick="changeQty(\''+item.key+'\',-1)">−</button><span style="font-family:\'Space Mono\',monospace;font-size:.6rem;">'+item.qty+'</span><button class="qty-btn" onclick="changeQty(\''+item.key+'\',1)">+</button></div><div class="cart-item-price">$'+(item.price*item.qty)+'</div></div><button class="cart-item-remove" onclick="removeItem(\''+item.key+'\')">✕</button></div>';
+    return '<div class="cart-item"><img src="'+item.img+'" alt="'+item.name+'"/><div class="cart-item-info"><div class="cart-item-name">'+item.name+'</div><div class="cart-item-meta">SIZE: '+item.size+'</div><div class="cart-qty"><button class="qty-btn" onclick="changeQty(\''+item.key+'\',-1)">−</button><span style="font-family:\'Space Mono\',monospace;font-size:.6rem;">'+item.qty+'</span><button class="qty-btn" onclick="changeQty(\''+item.key+'\',1)">+</button></div><div class="cart-item-price">$'+(item.price*item.qty)+'</div></div><button class="cart-item-remove" aria-label="Remove item" onclick="removeItem(\''+item.key+'\')">✕</button></div>';
   }).join('');
 }
 

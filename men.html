@@ -133,7 +133,7 @@ nav{position:fixed;top:0;left:0;right:0;height:62px;background:rgba(6,6,8,.97);b
   </div>
   <div style="display:flex;align-items:center;gap:12px">
     <button class="nav-cart-btn" id="cartBtn">BAG (<span id="cartCount">0</span>)</button>
-    <button class="nav-ham" id="hamBtn"><span></span><span></span><span></span></button>
+    <button class="nav-ham" id="hamBtn" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
@@ -188,7 +188,7 @@ nav{position:fixed;top:0;left:0;right:0;height:62px;background:rgba(6,6,8,.97);b
 <div class="cart-sidebar" id="cartSidebar">
   <div class="cart-sidebar-hdr">
     <h3>YOUR BAG</h3>
-    <button class="cart-close" id="cartClose">×</button>
+    <button class="cart-close" id="cartClose" aria-label="Close cart">×</button>
   </div>
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-ftr">
@@ -241,7 +241,7 @@ function renderCartItems() {
   var total = 0;
   el.innerHTML = cart.map(function(item,idx){
     total += item.price * item.qty;
-    return '<div class="cart-item"><img src="'+item.img+'" alt="'+item.name+'"><div class="cart-item-info"><div class="ci-name">'+item.name+'</div><div class="ci-meta">Size: '+item.size+' · Qty: '+item.qty+'</div><div class="ci-price">$'+item.price+'</div></div><button class="ci-remove" onclick="removeItem('+idx+')">×</button></div>';
+    return '<div class="cart-item"><img src="'+item.img+'" alt="'+item.name+'"><div class="cart-item-info"><div class="ci-name">'+item.name+'</div><div class="ci-meta">Size: '+item.size+' · Qty: '+item.qty+'</div><div class="ci-price">$'+item.price+'</div></div><button class="ci-remove" onclick="removeItem('+idx+')" aria-label="Remove item">×</button></div>';
   }).join('');
   if (tot) tot.textContent = total;
 }
