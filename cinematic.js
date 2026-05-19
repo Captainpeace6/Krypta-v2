@@ -268,6 +268,7 @@
     });
 
     document.body.style.overflow = '';
+    document.body.classList.add('is-loaded');
 
     // Save session so returning from shop skips the preloader
     try { sessionStorage.setItem('k_entered', '1'); } catch (e) {}
@@ -275,8 +276,7 @@
     // Give the page a beat to paint before init scroll effects
     setTimeout(function () {
       if (IS_HOME) {
-        initLenis();
-        waitForSections(function () {
+        waitForHome(function () {
           injectTypingSection();
           initScrollEffects();
         });
@@ -285,45 +285,27 @@
   }
 
   /* ─────────────────────────────────────────────
-     7. LENIS SMOOTH SCROLL
+     7. LENIS SMOOTH SCROLL (motion.js handles it; this is a no-op backup)
   ───────────────────────────────────────────── */
   function initLenis() {
-    if (REDUCE || MOBILE) return; // keep native on iOS Safari
-    if (typeof Lenis === 'undefined') return;
-
-    try {
-      var lenis = new Lenis({
-        duration: 1.15,
-        easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
-        smooth: true,
-        smoothTouch: false
-      });
-
-      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
-        gsap.ticker.lagSmoothing(0);
-      } else {
-        (function raf(time) {
-          lenis.raf(time);
-          requestAnimationFrame(raf);
-        })(0);
-      }
-    } catch (e) { /* Lenis failed — silent fallback */ }
+    /* Lenis is already started by motion.js initMotion(). No-op here. */
   }
 
   /* ─────────────────────────────────────────────
-     8. WAIT FOR FIX.JS SECTIONS
+     8. WAIT FOR CODEX HOME SECTIONS
   ───────────────────────────────────────────── */
-  function waitForSections(cb) {
+  function waitForHome(cb) {
     var tries = 0;
     function check() {
-      var hero = document.getElementById('kryptaa-hero-v2');
-      var cats = document.getElementById('k-categories');
-      if (hero && cats) {
+      // Codex homepage uses .v3-hero and #collectionGrid (rendered by motion.js renderHome)
+      var hero = document.querySelector('.v3-hero');
+      var grid = document.getElementById('collectionGrid');
+      if (hero && grid && grid.children.length > 0) {
         cb();
-      } else if (tries++ < 30) {
+      } else if (tries++ < 40) {
         setTimeout(check, 80);
+      } else {
+        cb(); // give up waiting, run anyway
       }
     }
     check();
@@ -335,8 +317,10 @@
   function injectTypingSection() {
     if (document.getElementById('k-typing-section')) return;
 
-    var videoSec = document.getElementById('k-video-section');
-    if (!videoSec) return;
+    // Insert after the last .home-section (featured products section)
+    var sections = document.querySelectorAll('.home-section');
+    var anchor   = sections.length ? sections[sections.length - 1] : null;
+    if (!anchor) return;
 
     var lines = [
       { cls: 'k-type-hero', text: 'NO APOLOGIES' },
@@ -355,7 +339,7 @@
              + inner
              + '</section>';
 
-    videoSec.insertAdjacentHTML('afterend', html);
+    anchor.insertAdjacentHTML('afterend', html);
   }
 
   /* ─────────────────────────────────────────────
@@ -371,17 +355,17 @@
     initTypingText();
   }
 
-  /* ── GSAP path ── */
+  /* ── GSAP path — targets Codex homepage selectors ── */
   function initGSAPEffects() {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Hero inner — subtle upward drift + fade
-    var heroInner = document.querySelector('#kryptaa-hero-v2 .hero-inner');
-    if (heroInner) {
-      gsap.to(heroInner, {
-        y: -70, opacity: 0.25, ease: 'none',
+    // Hero copy — subtle upward drift
+    var heroCopy = document.querySelector('.v3-hero .hero-copy');
+    if (heroCopy) {
+      gsap.to(heroCopy, {
+        y: -60, opacity: 0.3, ease: 'none',
         scrollTrigger: {
-          trigger: '#kryptaa-hero-v2',
+          trigger: '.v3-hero',
           start: 'top top',
           end: 'bottom top',
           scrub: true
@@ -389,29 +373,31 @@
       });
     }
 
-    // Brand story — text rise
-    var brandH2 = document.querySelector('#k-brand-story h2');
-    if (brandH2) {
-      gsap.fromTo(brandH2,
+    // Editorial split — text rise
+    var editCopy = document.querySelector('.editorial-copy');
+    if (editCopy) {
+      gsap.fromTo(editCopy,
         { y: 50, opacity: 0 },
         { y: 0,  opacity: 1,
           scrollTrigger: {
-            trigger: '#k-brand-story',
-            start: 'top 78%',
+            trigger: '.editorial-split',
+            start: 'top 80%',
             end:   'top 30%',
             scrub: 1.2
           }
         }
       );
     }
-    var brandP = document.querySelector('#k-brand-story p');
-    if (brandP) {
-      gsap.fromTo(brandP,
-        { y: 35, opacity: 0 },
+
+    // Editorial image — parallax
+    var editImg = document.querySelector('.editorial-image');
+    if (editImg) {
+      gsap.fromTo(editImg,
+        { y: 30, opacity: 0 },
         { y: 0,  opacity: 1,
           scrollTrigger: {
-            trigger: '#k-brand-story',
-            start: 'top 70%',
+            trigger: '.editorial-split',
+            start: 'top 75%',
             end:   'top 20%',
             scrub: 1.4
           }
@@ -419,48 +405,24 @@
       );
     }
 
-    // Video section — text scale up
-    var vidText = document.querySelector('#k-video-section > div:last-child');
-    if (vidText) {
-      gsap.fromTo(vidText,
-        { scale: 0.86, opacity: 0 },
-        { scale: 1,    opacity: 1,
+    // Collection grid cards — stagger in
+    var catCards = document.querySelectorAll('.category-card');
+    if (catCards.length) {
+      gsap.fromTo(catCards,
+        { y: 40, opacity: 0 },
+        { y: 0,  opacity: 1, stagger: 0.1,
           scrollTrigger: {
-            trigger: '#k-video-section',
-            start: 'top 72%',
-            end:   'top 10%',
-            scrub: 1.5
+            trigger: '.category-grid',
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
           }
         }
       );
     }
-
-    // How-it-works — stagger steps
-    var steps = document.querySelectorAll('#k-how-it-works [style*="background:#060608;padding:40px"]');
-    steps.forEach(function (step, i) {
-      gsap.fromTo(step,
-        { y: 40, opacity: 0 },
-        { y: 0,  opacity: 1, duration: 0.7,
-          scrollTrigger: {
-            trigger: step,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
-          },
-          delay: i * 0.12
-        }
-      );
-    });
   }
 
   /* ── CSS IntersectionObserver fallback ── */
   function initCSSEffects() {
-    var targets = [
-      '#k-brand-story',
-      '#k-video-section',
-      '#k-how-it-works',
-      '#k-typing-section'
-    ];
-
     var obs = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -470,19 +432,16 @@
       });
     }, { threshold: 0.12 });
 
-    targets.forEach(function (sel) {
-      var el = document.querySelector(sel);
-      if (el) {
-        el.classList.add('k-reveal');
-        obs.observe(el);
-      }
+    document.querySelectorAll('.home-section, #k-typing-section').forEach(function (el) {
+      el.classList.add('k-reveal');
+      obs.observe(el);
     });
   }
 
-  /* ── Category rows appear one by one ── */
+  /* ── Category cards appear one by one ── */
   function initCategoryReveal() {
-    var rows = document.querySelectorAll('#k-categories > div > a');
-    if (!rows.length) return;
+    var cards = document.querySelectorAll('.category-card');
+    if (!cards.length) return;
 
     var obs = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -493,9 +452,9 @@
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-    rows.forEach(function (row, i) {
-      row.style.transitionDelay = (i * 0.06) + 's';
-      obs.observe(row);
+    cards.forEach(function (card, i) {
+      card.style.transitionDelay = (i * 0.06) + 's';
+      obs.observe(card);
     });
   }
 
@@ -565,10 +524,10 @@
       // Quick skip: hide overlays, show site, init scroll
       [pre, entry].forEach(function (el) { if (el) el.style.display = 'none'; });
       document.body.style.overflow = '';
+      document.body.classList.add('is-loaded');
       if (IS_HOME) {
         setTimeout(function () {
-          initLenis();
-          waitForSections(function () {
+          waitForHome(function () {
             injectTypingSection();
             initScrollEffects();
           });
