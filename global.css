@@ -1884,6 +1884,72 @@ body.menu-open .mobile-menu {
   color: rgba(255, 85, 0, 0.4);
 }
 
+/* ─── Nav Social Bar ─── */
+.nav-social-bar {
+  position: fixed;
+  top: 0;
+  right: clamp(18px, 4vw, 54px);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: var(--nav-h);
+  pointer-events: none; /* let nav handle its own clicks */
+}
+.nsb-label {
+  font-family: var(--f-mono);
+  font-size: 0.42rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(243, 239, 229, 0.28);
+  pointer-events: none;
+}
+.nsb-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: all;
+}
+.nsb-icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 85, 0, 0.2);
+  color: rgba(243, 239, 229, 0.45);
+  text-decoration: none;
+  transition: color 0.22s, border-color 0.22s, background 0.22s;
+}
+.nsb-icon:hover {
+  color: var(--k-gold);
+  border-color: var(--k-gold);
+  background: rgba(255, 85, 0, 0.08);
+}
+
+/* ─── Logo image rendering — sharp & glowing ─── */
+.nav-logo-img,
+.footer-logo,
+.k-pre-logo,
+.k-entry-logo {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+.nav-logo-img {
+  height: 42px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px rgba(255, 85, 0, 0.3)) brightness(1.08) contrast(1.05);
+  transition: filter 0.3s var(--ease-lux);
+}
+.nav-brand:hover .nav-logo-img {
+  filter: drop-shadow(0 0 24px rgba(255, 85, 0, 0.6)) brightness(1.15) contrast(1.08);
+}
+.footer-logo {
+  filter: drop-shadow(0 0 20px rgba(255, 85, 0, 0.28)) brightness(1.06) contrast(1.04);
+}
+
 /* ─── Responsive overrides ─── */
 @media (max-width: 900px) {
   .footer-top {
@@ -1895,6 +1961,9 @@ body.menu-open .mobile-menu {
   .brand-video-section {
     aspect-ratio: 4 / 3;
   }
+  .nsb-label {
+    display: none;
+  }
 }
 @media (max-width: 600px) {
   .footer-nav-block {
@@ -1905,6 +1974,9 @@ body.menu-open .mobile-menu {
     text-align: center;
   }
   .nav-logo-img {
-    height: 28px;
+    height: 32px;
+  }
+  .nav-social-bar {
+    display: none; /* social in footer on mobile */
   }
 }
