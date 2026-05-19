@@ -12,7 +12,7 @@ var st = document.createElement('style');
 st.textContent = [
   /* Fix 1+2: Nav logo — width-based */
   '.nav-logo{height:auto!important;display:flex!important;align-items:center!important;overflow:visible!important;}',
-  '.nav-logo img,.nav-logo-img{width:180px!important;height:auto!important;max-height:none!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 14px rgba(200,168,75,.35))!important;}',
+  '.nav-logo img,.nav-logo-img{width:180px!important;height:auto!important;max-height:none!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 14px rgba(255,85,0,.35))!important;}',
 
   /* Fix 7: Ticker — bigger font, no overlap */
   '.ticker{font-size:11px!important;letter-spacing:.2em!important;white-space:nowrap!important;overflow:hidden!important;line-height:1.4!important;}',
@@ -26,12 +26,12 @@ st.textContent = [
   '.nav-cat-strip{position:fixed!important;top:66px;left:0;right:0;z-index:400;display:flex!important;overflow-x:auto;background:#0a0a0d;border-bottom:1px solid #1e1e26;scrollbar-width:none;}',
   '.nav-cat-strip::-webkit-scrollbar{display:none;}',
   '.nav-cat-strip a{flex-shrink:0;padding:9px 14px;font-family:"Space Mono",monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:#555560;text-decoration:none;border-right:1px solid #1e1e26;white-space:nowrap;}',
-  '.nav-cat-strip a:hover{color:#c8ff00;background:#111116;}',
+  '.nav-cat-strip a:hover{color:#FF5500;background:#111116;}',
 
   /* Mobile menu */
-  '#mobileMenu{display:none;position:fixed!important;top:66px;left:0;right:0;background:#060608!important;z-index:500!important;padding:8px 0!important;border-bottom:2px solid #c8ff00;max-height:calc(100vh - 66px);overflow-y:auto;}',
+  '#mobileMenu{display:none;position:fixed!important;top:66px;left:0;right:0;background:#060608!important;z-index:500!important;padding:8px 0!important;border-bottom:2px solid #FF5500;max-height:calc(100vh - 66px);overflow-y:auto;}',
   '#mobileMenu a{display:flex!important;align-items:center!important;gap:12px!important;padding:16px 24px!important;font-family:"Bebas Neue",sans-serif!important;font-size:26px!important;letter-spacing:.1em!important;color:#f0ede8!important;text-decoration:none!important;border-bottom:1px solid #1e1e26!important;}',
-  '#mobileMenu a:hover{color:#c8ff00!important;background:#0a0a0d!important;}',
+  '#mobileMenu a:hover{color:#FF5500!important;background:#0a0a0d!important;}',
 
   /* Fix 9: How It Works redesign */
   '.how-section{background:#060608!important;border-top:1px solid #1e1e26!important;border-bottom:1px solid #1e1e26!important;}',
@@ -44,7 +44,7 @@ st.textContent = [
   '.nav-cat.js-dd.open .nav-dropdown{display:block!important;}',
   '.nav-dropdown{position:absolute;top:calc(100% + 4px);left:0;background:#0a0a0d;border:1px solid #1e1e26;min-width:180px;z-index:700;padding:4px 0;}',
   '.nav-dropdown a{display:block!important;padding:12px 18px!important;font-family:"Space Mono",monospace!important;font-size:.58rem!important;letter-spacing:.15em!important;text-transform:uppercase!important;color:#555560!important;text-decoration:none!important;border-bottom:1px solid #1e1e26!important;}',
-  '.nav-dropdown a:hover{color:#c8ff00!important;background:#111116!important;}',
+  '.nav-dropdown a:hover{color:#FF5500!important;background:#111116!important;}',
 
   /* Email signup */
   '.k-email-section{border-top:1px solid #1e1e26;padding:60px 40px;text-align:center;background:#060608;}',
@@ -53,8 +53,8 @@ st.textContent = [
   '.k-email-row{display:flex;max-width:460px;margin:0 auto;}',
   '.k-email-inp{flex:1;font-family:"Space Mono",monospace;font-size:.58rem;padding:14px 16px;background:#0a0a0d;border:1px solid #1e1e26;border-right:none;color:#f0ede8;outline:none;}',
   '.k-email-inp::placeholder{color:#333340;}',
-  '.k-email-inp:focus{border-color:#c8ff00;}',
-  '.k-email-btn{font-family:"Bebas Neue",sans-serif;font-size:14px;letter-spacing:.16em;padding:14px 26px;background:#c8ff00;color:#000;border:none;cursor:pointer;white-space:nowrap;transition:background .2s;}',
+  '.k-email-inp:focus{border-color:#FF5500;}',
+  '.k-email-btn{font-family:"Bebas Neue",sans-serif;font-size:14px;letter-spacing:.16em;padding:14px 26px;background:#FF5500;color:#000;border:none;cursor:pointer;white-space:nowrap;transition:background .2s;}',
   '.k-email-btn:hover{background:#fff;}',
 ].join('\n');
 document.head.appendChild(st);
@@ -66,7 +66,7 @@ document.head.appendChild(st);
   var apply = function() {
     var img = document.querySelector('.nav-logo-img, .nav-logo img');
     if (img) {
-      img.style.cssText = 'width:180px!important;height:auto!important;max-height:none!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 14px rgba(200,168,75,.35))!important;';
+      img.style.cssText = 'width:180px!important;height:auto!important;max-height:none!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 14px rgba(255,85,0,.35))!important;';
       var p = img.parentElement;
       if (p) p.style.cssText += 'height:auto!important;overflow:visible!important;';
     }
@@ -198,11 +198,11 @@ if (isHome) {
 
   // ── Hero CSS ──
   var hCSS = document.createElement('style');
-  hCSS.textContent = '@keyframes kfadeIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}@keyframes kglowPulse{0%,100%{opacity:.5;filter:blur(60px)}50%{opacity:.85;filter:blur(80px)}}@keyframes ktagIn{from{opacity:0;letter-spacing:.5em}to{opacity:1;letter-spacing:.2em}}@keyframes ksubIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}@keyframes kbtnIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}#kryptaa-hero-v2{position:relative;width:100%;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#000;overflow:hidden}#kryptaa-hero-v2::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.04\'/%3E%3C/svg%3E");background-size:180px;opacity:.45;pointer-events:none;z-index:0}.hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);width:560px;height:280px;background:radial-gradient(ellipse at center,#c8a000 0%,#7a5800 40%,transparent 75%);animation:kglowPulse 4s ease-in-out infinite;z-index:1;pointer-events:none}.hero-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 24px}.hero-logo{width:min(520px,82vw);height:auto;animation:kfadeIn 1.4s cubic-bezier(.16,1,.3,1) forwards;opacity:0;margin-bottom:28px;filter:drop-shadow(0 0 40px rgba(200,160,0,.3))}.hero-tagline{font-family:"Bebas Neue",sans-serif;font-size:clamp(18px,4vw,32px);color:#e8d080;letter-spacing:.2em;text-transform:uppercase;animation:ktagIn 1.2s cubic-bezier(.16,1,.3,1) .7s forwards;opacity:0;margin-bottom:10px}.hero-subtitle{font-family:"Space Mono",monospace;font-size:clamp(9px,1.8vw,13px);color:#555560;letter-spacing:.18em;text-transform:uppercase;animation:ksubIn 1s ease 1.1s forwards;opacity:0;margin-bottom:38px}.hero-cta{display:inline-block;font-family:"Bebas Neue",sans-serif;font-size:clamp(14px,2.5vw,18px);letter-spacing:.2em;color:#000;background:#c8ff00;border:none;padding:15px 48px;cursor:pointer;text-decoration:none;text-transform:uppercase;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);animation:kbtnIn 1s ease 1.4s forwards;opacity:0;transition:background .2s,transform .15s}.hero-cta:hover{background:#fff;transform:scale(1.04)}.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:ksubIn 1s ease 2s forwards;opacity:0}.hero-scroll-lbl{font-family:"Space Mono",monospace;font-size:.42rem;letter-spacing:.28em;color:#333340;text-transform:uppercase}.hero-scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,#c8a000,transparent)}';
+  hCSS.textContent = '@keyframes kfadeIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}@keyframes kglowPulse{0%,100%{opacity:.5;filter:blur(60px)}50%{opacity:.85;filter:blur(80px)}}@keyframes ktagIn{from{opacity:0;letter-spacing:.5em}to{opacity:1;letter-spacing:.2em}}@keyframes ksubIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}@keyframes kbtnIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}#kryptaa-hero-v2{position:relative;width:100%;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#000;overflow:hidden}#kryptaa-hero-v2::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.04\'/%3E%3C/svg%3E");background-size:180px;opacity:.45;pointer-events:none;z-index:0}.hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);width:560px;height:280px;background:radial-gradient(ellipse at center,rgba(255,85,0,0.55) 0%,rgba(180,40,0,0.2) 50%,transparent 76%);animation:kglowPulse 4s ease-in-out infinite;z-index:1;pointer-events:none}.hero-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 24px}.hero-logo{width:min(520px,82vw);height:auto;animation:kfadeIn 1.4s cubic-bezier(.16,1,.3,1) forwards;opacity:0;margin-bottom:28px;filter:drop-shadow(0 0 40px rgba(255,85,0,.3))}.hero-tagline{font-family:"Bebas Neue",sans-serif;font-size:clamp(18px,4vw,32px);color:#FF5500;letter-spacing:.2em;text-transform:uppercase;animation:ktagIn 1.2s cubic-bezier(.16,1,.3,1) .7s forwards;opacity:0;margin-bottom:10px}.hero-subtitle{font-family:"Space Mono",monospace;font-size:clamp(9px,1.8vw,13px);color:#555560;letter-spacing:.18em;text-transform:uppercase;animation:ksubIn 1s ease 1.1s forwards;opacity:0;margin-bottom:38px}.hero-cta{display:inline-block;font-family:"Bebas Neue",sans-serif;font-size:clamp(14px,2.5vw,18px);letter-spacing:.2em;color:#000;background:#FF5500;border:none;padding:15px 48px;cursor:pointer;text-decoration:none;text-transform:uppercase;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);animation:kbtnIn 1s ease 1.4s forwards;opacity:0;transition:background .2s,transform .15s}.hero-cta:hover{background:#fff;transform:scale(1.04)}.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;animation:ksubIn 1s ease 2s forwards;opacity:0}.hero-scroll-lbl{font-family:"Space Mono",monospace;font-size:.42rem;letter-spacing:.28em;color:#333340;text-transform:uppercase}.hero-scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,#FF5500,transparent)}';
   document.head.appendChild(hCSS);
 
   // ── Hero HTML (Fix 1: uses gold logo image in center) ──
-  var heroHTML = '<div id="kryptaa-hero-v2"><div class="hero-glow"></div><div class="hero-inner"><img class="hero-logo" src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA"/><div class="hero-tagline">Defined By Power</div><div class="hero-subtitle">Gothic &amp; Streetwear Collection &mdash; Since \'26</div><a class="hero-cta" href="#k-categories">Shop The Drop</a></div><div class="hero-scroll"><div class="hero-scroll-lbl">Scroll</div><div class="hero-scroll-line"></div></div></div>';
+  var heroHTML = '<div id="kryptaa-hero-v2"><div class="hero-glow"></div><div class="hero-inner"><img class="hero-logo" src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA"/><div class="hero-tagline">Driven By Aura</div><div class="hero-subtitle">Drop 001 &nbsp;&mdash;&nbsp; Gothic &amp; Streetwear &nbsp;&mdash;&nbsp; SS26</div><a class="hero-cta" href="#k-categories">Enter The Drop</a></div><div class="hero-scroll"><div class="hero-scroll-lbl">Scroll</div><div class="hero-scroll-line"></div></div></div>';
 
   // Replace existing hero
   var heroTries = ['.hero-section','#hero','.hero','[class*="hero"]'];
@@ -222,7 +222,7 @@ if (isHome) {
   }
 
   // ── Brand story ──
-  var brandHTML = '<section id="k-brand-story" style="padding:80px 40px;text-align:center;border-top:1px solid #1e1e26;border-bottom:1px solid #1e1e26;background:#060608;"><div style="max-width:700px;margin:0 auto;"><div style="font-family:\'Space Mono\',monospace;font-size:.52rem;letter-spacing:.32em;color:#555560;text-transform:uppercase;margin-bottom:20px;">The World of KRYPTAA</div><h2 style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(38px,6vw,76px);letter-spacing:.06em;color:#f0ede8;line-height:.88;margin-bottom:28px;">Built for those<br><span style="color:#c8a000;">who refuse</span><br>to disappear</h2><p style="font-family:\'Space Mono\',monospace;font-size:.58rem;color:#555560;letter-spacing:.08em;line-height:2;max-width:540px;margin:0 auto;">Gothic roots. Streetwear edge. Every piece is made for the ones who move in silence but hit different when they walk in. SS26 Drop 001 — limited. Intentional. Unapologetic.</p></div></section>';
+  var brandHTML = '<section id="k-brand-story" style="padding:100px 40px;text-align:center;border-top:1px solid rgba(255,85,0,0.12);border-bottom:1px solid rgba(255,85,0,0.12);background:#000;position:relative;overflow:hidden;"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:300px;background:radial-gradient(ellipse at center,rgba(255,85,0,0.06) 0%,transparent 70%);pointer-events:none;"></div><div style="max-width:720px;margin:0 auto;position:relative;z-index:1;"><div style="font-family:\'Space Mono\',monospace;font-size:.5rem;letter-spacing:.38em;color:rgba(255,85,0,0.6);text-transform:uppercase;margin-bottom:24px;border:1px solid rgba(255,85,0,0.2);display:inline-block;padding:6px 18px;">{KRYPTAA // SS26}</div><h2 style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(44px,7vw,88px);letter-spacing:.04em;color:#f0ede8;line-height:.86;margin-bottom:32px;">Not for<br><span style="color:#FF5500;">everyone.</span><br>Built for you.</h2><p style="font-family:\'Space Mono\',monospace;font-size:.58rem;color:#555560;letter-spacing:.1em;line-height:2;max-width:500px;margin:0 auto 36px;">Gothic roots. Streetwear edge. No compromises. Drop 001 is a limited signal — designed for those who move different.</p><a href="#k-categories" style="display:inline-block;font-family:\'Space Mono\',monospace;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:#FF5500;border:1px solid rgba(255,85,0,0.4);padding:12px 32px;text-decoration:none;transition:all .2s;">View The Drop &rsaquo;</a></div></section>';
 
   // ── Fix 3+4: Category rows — full editorial, all 8 categories ──
   function makeCatRow(link, imgSrc, eyebrow, title, accentColor, reverse) {
@@ -246,37 +246,34 @@ if (isHome) {
     '</a>';
   }
 
-  var catHTML = '<section id="k-categories" style="border-top:1px solid #1e1e26;">' +
-    '<div style="padding:60px 40px 40px;border-bottom:1px solid #1e1e26;text-align:center;">' +
-      '<div style="font-family:\'Space Mono\',monospace;font-size:.52rem;letter-spacing:.32em;color:#555560;text-transform:uppercase;margin-bottom:16px;">The Collection — SS26</div>' +
-      '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(52px,7vw,100px);letter-spacing:.06em;color:#f0ede8;line-height:.88;margin-bottom:20px;">SHOP THE DROP</div>' +
-      '<div style="width:80px;height:2px;background:linear-gradient(to right,transparent,#c8a000,transparent);margin:0 auto;"></div>' +
-    '</div>' +
-      '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(36px,6vw,76px);letter-spacing:.05em;color:#f0ede8;line-height:.88;">SHOP THE DROP</div></div>' +
-      '<div style="font-family:\'Space Mono\',monospace;font-size:.46rem;letter-spacing:.15em;color:#555560;">SS26 — 8 Categories</div>' +
+  var catHTML = '<section id="k-categories" style="border-top:1px solid rgba(255,85,0,0.12);">' +
+    '<div style="padding:72px 40px 52px;border-bottom:1px solid rgba(255,85,0,0.12);text-align:center;background:#000;">' +
+      '<div style="font-family:\'Space Mono\',monospace;font-size:.5rem;letter-spacing:.36em;color:rgba(255,85,0,0.6);text-transform:uppercase;margin-bottom:18px;">{The Collection — SS26}</div>' +
+      '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(52px,8vw,110px);letter-spacing:.04em;color:#f0ede8;line-height:.86;margin-bottom:24px;">THE DROP</div>' +
+      '<div style="width:60px;height:1px;background:#FF5500;margin:0 auto;box-shadow:0 0 12px rgba(255,85,0,0.6);"></div>' +
     '</div>' +
     '<div>' +
-      makeCatRow('men.html','imgs/jeans-gold-dragon.jpg','Mens Collection','MEN\'S<br>JEANS','#c8ff00', false) +
-      makeCatRow('women.html','imgs/w-vintage-dragon.jpg','Womens Collection','WOMEN\'S<br>JEANS','#c8a000', true) +
-      makeCatRow('t-shirts.html','imgs/img-angel.png','Drop 001','T-SHIRTS','#c8ff00', false) +
-      makeCatRow('women-tops.html','imgs/img-glorious.png','New Arrivals','WOMEN<br>TOPS','#c8a000', true) +
-      makeCatRow('anime.html','imgs/anime-gojo.jpg','Category Drop','ANIME<br>DENIM','#c8ff00', false) +
-      makeCatRow('track-pants.html','imgs/jeans-dual-dragon.jpg','Mens Drop 002','TRACK<br>PANTS','#c8a000', true) +
-      makeCatRow('women-track-pants.html','imgs/w-grey-baggy.jpg','Womens Drop 002','WOMEN<br>TRACK PANTS','#c8ff00', false) +
-      makeCatRow('anime.html','imgs/anime-jjk1.jpg','Limited Series','ANIME<br>COLLECTION','#c8a000', true) +
+      makeCatRow('men.html','imgs/jeans-gold-dragon.jpg','Mens Collection','MEN\'S<br>JEANS','#FF5500', false) +
+      makeCatRow('women.html','imgs/w-vintage-dragon.jpg','Womens Collection','WOMEN\'S<br>JEANS','#FF5500', true) +
+      makeCatRow('t-shirts.html','imgs/img-angel.png','Drop 001','T-SHIRTS','#FF5500', false) +
+      makeCatRow('women-tops.html','imgs/img-glorious.png','New Arrivals','WOMEN<br>TOPS','#FF5500', true) +
+      makeCatRow('anime.html','imgs/anime-gojo.jpg','Category Drop','ANIME<br>DENIM','#FF5500', false) +
+      makeCatRow('track-pants.html','imgs/jeans-dual-dragon.jpg','Mens Drop 002','TRACK<br>PANTS','#FF5500', true) +
+      makeCatRow('women-track-pants.html','imgs/w-grey-baggy.jpg','Womens Drop 002','WOMEN<br>TRACK PANTS','#FF5500', false) +
+      makeCatRow('anime.html','imgs/anime-jjk1.jpg','Limited Series','ANIME<br>COLLECTION','#FF5500', true) +
     '</div>' +
   '</section>';
 
   // ── Video section ──
-  var videoHTML = '<section id="k-video-section" style="position:relative;height:560px;overflow:hidden;display:flex;align-items:center;justify-content:center;">' +
-    '<video autoplay muted loop playsinline preload="metadata" src="imgs/Background.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;"></video>' +
-    '<div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.78) 0%,rgba(10,5,20,.55) 100%);"></div>' +
-    '<div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.06) 2px,rgba(0,0,0,.06) 4px);pointer-events:none;"></div>' +
-    '<div style="position:relative;z-index:2;text-align:center;">' +
-      '<div style="font-family:\'Space Mono\',monospace;font-size:.52rem;letter-spacing:.32em;color:#555560;text-transform:uppercase;margin-bottom:22px;">— Drop 001 —</div>' +
-      '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(68px,11vw,140px);line-height:.82;letter-spacing:.04em;color:#f0ede8;">ENTER<br>THE SYSTEM</div>' +
-      '<div style="width:60px;height:1px;background:#c8a000;margin:26px auto;"></div>' +
-      '<div style="font-family:\'Space Mono\',monospace;font-size:.58rem;letter-spacing:.22em;color:#555560;">Kryptaa — SS26</div>' +
+  var videoHTML = '<section id="k-video-section" style="position:relative;height:clamp(480px,60vw,680px);overflow:hidden;display:flex;align-items:center;justify-content:center;">' +
+    '<video autoplay muted loop playsinline preload="metadata" src="imgs/Background.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45;"></video>' +
+    '<div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.6) 0%,rgba(0,0,0,.82) 100%);"></div>' +
+    '<div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.05) 2px,rgba(0,0,0,.05) 4px);pointer-events:none;"></div>' +
+    '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:300px;background:radial-gradient(ellipse at center,rgba(255,85,0,0.1) 0%,transparent 68%);pointer-events:none;"></div>' +
+    '<div style="position:relative;z-index:2;text-align:center;padding:0 20px;">' +
+      '<div style="font-family:\'Space Mono\',monospace;font-size:.5rem;letter-spacing:.36em;color:rgba(255,85,0,0.55);text-transform:uppercase;margin-bottom:24px;border:1px solid rgba(255,85,0,0.18);display:inline-block;padding:5px 16px;">Drop 001 — Limited</div>' +
+      '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(72px,12vw,150px);line-height:.8;letter-spacing:.03em;color:#f0ede8;text-shadow:0 0 80px rgba(255,85,0,0.15);">NO<br>APOLOGIES</div>' +
+      '<div style="width:1px;height:48px;background:linear-gradient(to bottom,#FF5500,transparent);margin:28px auto 0;"></div>' +
     '</div>' +
   '</section>';
 
@@ -284,25 +281,25 @@ if (isHome) {
   var howHTML = '<section id="k-how-it-works" style="padding:80px 40px;background:#060608;border-top:1px solid #1e1e26;border-bottom:1px solid #1e1e26;">' +
     '<div style="max-width:900px;margin:0 auto;">' +
       '<div style="text-align:center;margin-bottom:60px;">' +
-        '<div style="font-family:\'Space Mono\',monospace;font-size:.5rem;letter-spacing:.32em;color:#555560;text-transform:uppercase;margin-bottom:14px;">The Process</div>' +
-        '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(40px,6vw,76px);letter-spacing:.05em;color:#f0ede8;line-height:.9;">HOW IT WORKS</div>' +
+        '<div style="font-family:\'Space Mono\',monospace;font-size:.5rem;letter-spacing:.36em;color:rgba(255,85,0,0.55);text-transform:uppercase;margin-bottom:14px;border:1px solid rgba(255,85,0,0.18);display:inline-block;padding:5px 16px;">{The Process}</div>' +
+        '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(40px,6vw,76px);letter-spacing:.05em;color:#f0ede8;line-height:.9;margin-top:18px;">HOW IT WORKS</div>' +
       '</div>' +
       '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1e1e26;">' +
         '<div style="background:#060608;padding:40px 32px;position:relative;">' +
           '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:72px;color:#1e1e26;line-height:1;margin-bottom:16px;">01</div>' +
-          '<div style="width:32px;height:1px;background:#c8a000;margin-bottom:20px;"></div>' +
+          '<div style="width:32px;height:1px;background:#FF5500;margin-bottom:20px;"></div>' +
           '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;letter-spacing:.1em;color:#f0ede8;margin-bottom:12px;">PICK YOUR DROP</div>' +
           '<div style="font-family:\'Space Mono\',monospace;font-size:.52rem;color:#555560;line-height:1.8;letter-spacing:.05em;">Browse the collection. Select your size. Every piece is limited — once it\'s gone, it\'s gone.</div>' +
         '</div>' +
         '<div style="background:#060608;padding:40px 32px;border-left:1px solid #1e1e26;border-right:1px solid #1e1e26;">' +
           '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:72px;color:#1e1e26;line-height:1;margin-bottom:16px;">02</div>' +
-          '<div style="width:32px;height:1px;background:#c8ff00;margin-bottom:20px;"></div>' +
+          '<div style="width:32px;height:1px;background:#FF5500;margin-bottom:20px;"></div>' +
           '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;letter-spacing:.1em;color:#f0ede8;margin-bottom:12px;">SECURE YOUR ORDER</div>' +
           '<div style="font-family:\'Space Mono\',monospace;font-size:.52rem;color:#555560;line-height:1.8;letter-spacing:.05em;">Checkout via Stripe. Fully encrypted. Straightforward — no accounts needed, just your piece.</div>' +
         '</div>' +
         '<div style="background:#060608;padding:40px 32px;">' +
           '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:72px;color:#1e1e26;line-height:1;margin-bottom:16px;">03</div>' +
-          '<div style="width:32px;height:1px;background:#c8a000;margin-bottom:20px;"></div>' +
+          '<div style="width:32px;height:1px;background:#FF5500;margin-bottom:20px;"></div>' +
           '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;letter-spacing:.1em;color:#f0ede8;margin-bottom:12px;">SHIPS TO YOU</div>' +
           '<div style="font-family:\'Space Mono\',monospace;font-size:.52rem;color:#555560;line-height:1.8;letter-spacing:.05em;">Pre-orders ship in 2–3 weeks. You get a tracking number. Free shipping over $75.</div>' +
         '</div>' +
@@ -313,10 +310,10 @@ if (isHome) {
   // ── Fix 8: Origin section — remove logo, keep only KRYPTAA symbol ──
   // Fix 2: Footer logo — same gold image, 200px wide
   var emailHTML = '<div class="k-email-section">' +
-    '<div class="k-email-title">JOIN THE UNDERGROUND</div>' +
-    '<div class="k-email-sub">Early access &nbsp;·&nbsp; Drop alerts &nbsp;·&nbsp; Members only</div>' +
+    '<div class="k-email-title">STAY IN THE SIGNAL</div>' +
+    '<div class="k-email-sub">Early drops &nbsp;·&nbsp; Exclusive access &nbsp;·&nbsp; No noise</div>' +
     '<div class="k-email-row"><input class="k-email-inp" type="email" placeholder="YOUR@EMAIL.COM"/>' +
-    '<button class="k-email-btn" onclick="(function(b){var i=b.previousElementSibling;if(i.value&&i.value.includes(\'@\')){b.textContent=\'JOINED ✓\';b.style.background=\'#c8a000\';i.disabled=true;b.disabled=true;}else{i.style.borderColor=\'#ff4444\';setTimeout(function(){i.style.borderColor=\'\';},1200);}})(this);">JOIN</button>' +
+    '<button class="k-email-btn" onclick="(function(b){var i=b.previousElementSibling;if(i.value&&i.value.includes(\'@\')){b.textContent=\'JOINED ✓\';b.style.background=\'#FF5500\';i.disabled=true;b.disabled=true;}else{i.style.borderColor=\'#ff4444\';setTimeout(function(){i.style.borderColor=\'\';},1200);}})(this);">JOIN</button>' +
     '</div></div>';
 
   // ── Inject all in order ──
@@ -410,7 +407,7 @@ setTimeout(function() {
       max-height: none !important;
       display: block !important;
       object-fit: contain !important;
-      filter: drop-shadow(0 0 14px rgba(200,168,75,.45)) !important;
+      filter: drop-shadow(0 0 14px rgba(255,85,0,.45)) !important;
     }
 
     /* Hide desktop cat strip */
@@ -418,7 +415,7 @@ setTimeout(function() {
 
     /* Footer brand logo — single, centered, big */
     .k-footer-brand { text-align: center; padding: 40px 20px 24px; }
-    .k-footer-brand img { width: 260px; height: auto; display: block; margin: 0 auto 24px; object-fit: contain; filter: drop-shadow(0 0 24px rgba(200,168,75,.3)); }
+    .k-footer-brand img { width: 260px; height: auto; display: block; margin: 0 auto 24px; object-fit: contain; filter: drop-shadow(0 0 24px rgba(255,85,0,.3)); }
   `;
   document.head.appendChild(css);
 
@@ -433,7 +430,7 @@ setTimeout(function() {
     var navImg = document.querySelector('.nav-logo-img, .nav-logo img');
     if (navImg) {
       navImg.src = 'imgs/kryptaa-logo-gold.png';
-      navImg.style.cssText = 'width:120px!important;height:auto!important;max-height:none!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 14px rgba(200,168,75,.45))!important;';
+      navImg.style.cssText = 'width:120px!important;height:auto!important;max-height:none!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 14px rgba(255,85,0,.45))!important;';
       var wrap = navImg.parentElement;
       if (wrap) wrap.style.cssText += 'height:auto!important;overflow:visible!important;';
     }
@@ -546,7 +543,7 @@ setTimeout(function() {
         // Style the links
         existingLinks.querySelectorAll('a').forEach(function(a) {
           a.style.cssText = 'font-family:"Space Mono",monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#888;text-decoration:none;transition:color .2s;';
-          a.addEventListener('mouseenter', function(){this.style.color='#c8ff00';});
+          a.addEventListener('mouseenter', function(){this.style.color='#FF5500';});
           a.addEventListener('mouseleave', function(){this.style.color='#888';});
         });
       }

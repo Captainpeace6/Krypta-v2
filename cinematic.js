@@ -158,7 +158,7 @@
 
     // Fragment colors: gold, silver, dark glass, bright shard
     var COLORS = [
-      '#c8a000','#d4b020','#e8c840','#a08020',
+      '#FF5500','#d4b020','#FF7733','#a08020',
       '#d0cdc0','#888880','#404038','#f8f0d8',
       '#1a1810','#c0b890'
     ];
@@ -339,11 +339,11 @@
     if (!videoSec) return;
 
     var lines = [
-      { cls: 'k-type-hero', text: 'DEFINED BY POWER' },
-      { cls: 'k-type-tag',  text: '{THE AURA IS LOADING}' },
-      { cls: 'k-type-tag',  text: '{GOTHIC & STREETWEAR COLLECTION — SINCE \'26}' },
-      { cls: 'k-type-tag',  text: '{ENTER THE SYSTEM}' },
-      { cls: 'k-type-tag',  text: '{CRAFTED FOR THE UNDERGROUND}' }
+      { cls: 'k-type-hero', text: 'NO APOLOGIES' },
+      { cls: 'k-type-tag',  text: '{DRIVEN BY AURA. DEFINED BY POWER.}' },
+      { cls: 'k-type-tag',  text: '{DROP 001 — LIMITED UNITS — SS26}' },
+      { cls: 'k-type-tag',  text: '{GOTHIC & STREETWEAR — BUILT DIFFERENT}' },
+      { cls: 'k-type-tag',  text: '{THE SIGNAL IS LIVE}' }
     ];
 
     var inner = lines.map(function (l) {
