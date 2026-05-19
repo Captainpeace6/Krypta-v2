@@ -1848,11 +1848,18 @@ body.menu-open .mobile-menu {
   flex-direction: column;
   gap: 20px;
 }
-.footer-logo {
-  width: clamp(100px, 18vw, 160px);
+.footer-wordmark {
+  width: clamp(160px, 22vw, 320px);
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 0 18px rgba(210, 174, 91, 0.22));
+  filter: drop-shadow(0 0 24px rgba(210, 174, 91, 0.4)) brightness(1.1);
+}
+
+.footer-sigil {
+  width: clamp(120px, 18vw, 220px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 30px rgba(210, 174, 91, 0.5)) brightness(1.12) contrast(1.08);
 }
 .footer-brand-desc {
   font-family: var(--f-secondary);
@@ -1932,12 +1939,12 @@ body.menu-open .mobile-menu {
   image-rendering: crisp-edges;
 }
 .nav-logo-img {
-  /* Logo is 2:3 portrait — at 92px height the width ≈ 61px, clearly visible */
-  height: 92px;
+  height: 72px;
   width: auto;
+  max-width: 260px;
   display: block;
   object-fit: contain;
-  filter: drop-shadow(0 0 18px rgba(212, 168, 67, 0.4)) brightness(1.1) contrast(1.06);
+  filter: drop-shadow(0 0 22px rgba(212, 168, 67, 0.55)) brightness(1.12) contrast(1.08);
   transition: filter 0.3s var(--ease-lux);
 }
 .nav-brand:hover .nav-logo-img {
