@@ -158,7 +158,7 @@
 
     // Fragment colors: gold, silver, dark glass, bright shard
     var COLORS = [
-      '#FF5500','#d4b020','#FF7733','#a08020',
+      '#d2ae5b','#d4b020','#f2d98b','#a08020',
       '#d0cdc0','#888880','#404038','#f8f0d8',
       '#1a1810','#c0b890'
     ];
