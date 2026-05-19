@@ -56,7 +56,6 @@
       <nav id="navbar" class="site-nav">
         <a class="nav-brand" href="index.html" aria-label="KRYPTAA home">
           <img src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA" class="nav-logo-img">
-          <span class="nav-wordmark">KRYPTAA</span>
         </a>
         <div class="nav-links" id="desktopNav">${navLinks()}</div>
         <div class="nav-social-icons">

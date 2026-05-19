@@ -1711,8 +1711,8 @@ body.menu-open .mobile-menu {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 24px;
-  padding: clamp(40px, 8vw, 96px) clamp(32px, 6vw, 80px);
+  gap: 32px;
+  padding: clamp(60px, 10vw, 120px) clamp(60px, 8vw, 120px);
   background: radial-gradient(ellipse at 20% 50%, rgba(255,85,0,0.05), transparent 65%),
               #020202;
 }
