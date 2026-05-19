@@ -210,10 +210,10 @@ p {
   font-family: var(--f-primary);
   font-weight: 900;
   line-height: 0.72;
-  background: linear-gradient(180deg, #FF8833 0%, #FF5500 46%, #CC3300 100%);
+  background: linear-gradient(180deg, #f8e89a 0%, #d4a843 42%, #8b6218 100%);
   -webkit-background-clip: text;
   background-clip: text;
-  text-shadow: 0 0 34px rgba(255, 85, 0, 0.14);
+  text-shadow: 0 0 34px rgba(212, 168, 67, 0.18);
 }
 
 .loader-mark {
@@ -221,7 +221,7 @@ p {
 }
 
 .loader-word {
-  color: rgba(255, 119, 51, 0.9);
+  color: rgba(242, 220, 140, 0.92);
   font-family: var(--f-primary);
   font-size: clamp(1.4rem, 4.2vw, 3.1rem);
   font-weight: 900;
@@ -306,20 +306,28 @@ body:not([data-page="home"]) .site-nav {
 }
 
 .nav-wordmark {
-  color: rgba(255, 119, 51, 0.95);
   font-family: var(--f-primary);
-  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
   font-weight: 900;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  text-shadow: 0 0 22px rgba(255, 85, 0, 0.28);
-  transition: font-size 0.5s var(--ease-lux), letter-spacing 0.5s var(--ease-lux);
   white-space: nowrap;
+  /* Real gold metallic gradient — same treatment as the logo sigil */
+  background: linear-gradient(180deg, #f8e89a 0%, #d4a843 42%, #8b6218 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 14px rgba(212, 168, 67, 0.35));
+  transition: font-size 0.5s var(--ease-lux), letter-spacing 0.5s var(--ease-lux), filter 0.3s;
+}
+
+.nav-brand:hover .nav-wordmark {
+  filter: drop-shadow(0 0 22px rgba(212, 168, 67, 0.65));
 }
 
 .site-nav.scrolled .nav-wordmark {
-  font-size: clamp(1rem, 1.6vw, 1.2rem);
-  letter-spacing: 0.16em;
+  font-size: clamp(1rem, 1.7vw, 1.3rem);
+  letter-spacing: 0.18em;
 }
 
 /* Social icons inside nav — between links and actions */
@@ -1670,20 +1678,25 @@ body.menu-open .mobile-menu {
   filter: drop-shadow(0 0 22px rgba(255, 85, 0, 0.55));
 }
 
-/* ─── Brand Video Section — portrait video, 2-col layout ─── */
+/* ─── Brand Video Section — portrait video (2:3), side-by-side ─── */
 .brand-video-section {
-  background: #000;
+  background: #020202;
   border-top: 1px solid rgba(255, 85, 0, 0.1);
   border-bottom: 1px solid rgba(255, 85, 0, 0.1);
 }
 .bv-inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 80vh;
+  /* video column auto-sizes to its natural portrait ratio; text fills the rest */
+  grid-template-columns: auto 1fr;
+  align-items: stretch;
 }
 .bv-video-col {
+  /* Lock to the video's 2:3 natural ratio so nothing is cut off */
+  width: clamp(280px, 38vw, 560px);
+  aspect-ratio: 2 / 3;
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 }
 .bv-player {
   position: absolute;
@@ -1691,7 +1704,7 @@ body.menu-open .mobile-menu {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center;
   display: block;
 }
 .bv-text-col {
@@ -1700,7 +1713,7 @@ body.menu-open .mobile-menu {
   justify-content: center;
   gap: 24px;
   padding: clamp(40px, 8vw, 96px) clamp(32px, 6vw, 80px);
-  background: radial-gradient(ellipse at 20% 50%, rgba(255,85,0,0.06), transparent 65%),
+  background: radial-gradient(ellipse at 20% 50%, rgba(255,85,0,0.05), transparent 65%),
               #020202;
 }
 .bv-eyebrow {
@@ -1957,12 +1970,11 @@ body.menu-open .mobile-menu {
   }
   .bv-inner {
     grid-template-columns: 1fr;
-    min-height: auto;
   }
   .bv-video-col {
-    height: 56vw;
-    min-height: 280px;
-    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;  /* full portrait on mobile */
+    max-height: 72vh;
   }
 }
 @media (max-width: 600px) {
@@ -1979,8 +1991,5 @@ body.menu-open .mobile-menu {
   .nav-wordmark {
     font-size: 1rem;
     letter-spacing: 0.14em;
-  }
-  .bv-video-col {
-    height: 70vw;
   }
 }
