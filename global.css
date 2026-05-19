@@ -904,27 +904,17 @@ body.menu-open .mobile-menu {
 }
 
 .hero-title {
-  font-family: 'Cinzel', serif;
-  font-weight: 900;
-  font-variant: small-caps;
   margin: 18px 0 20px;
-  font-size: clamp(4rem, 13vw, 11rem);
-  line-height: 0.9;
-  letter-spacing: 0.08em;
-  background: linear-gradient(
-    168deg,
-    #fffce0 0%,
-    #f8e07a 10%,
-    #d2ae5b 30%,
-    #a07820 50%,
-    #c9a44a 62%,
-    #7a4f10 78%,
-    #2e1800 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 4px 4px rgba(0,0,0,0.95)) drop-shadow(0 0 48px rgba(210,174,91,0.18));
+  line-height: 1;
+}
+
+.hero-wordmark-img {
+  display: block;
+  width: clamp(260px, 55vw, 780px);
+  height: auto;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 40px rgba(210,174,91,0.3));
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .hero-copy p {
