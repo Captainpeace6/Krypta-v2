@@ -263,7 +263,8 @@ body.is-loaded .lux-loader {
   z-index: 1000;
   height: var(--nav-h);
   display: grid;
-  grid-template-columns: 150px 1fr 158px;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 0 clamp(12px, 2vw, 28px);
   align-items: center;
   padding: 0 clamp(18px, 4vw, 54px);
   border-bottom: 1px solid transparent;
@@ -305,19 +306,44 @@ body:not([data-page="home"]) .site-nav {
 }
 
 .nav-wordmark {
-  color: rgba(255, 119, 51, 0.9);
+  color: rgba(255, 119, 51, 0.95);
   font-family: var(--f-primary);
-  font-size: 0.84rem;
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
   font-weight: 900;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  text-shadow: 0 0 16px rgba(255, 85, 0, 0.14);
+  text-shadow: 0 0 22px rgba(255, 85, 0, 0.28);
   transition: font-size 0.5s var(--ease-lux), letter-spacing 0.5s var(--ease-lux);
+  white-space: nowrap;
 }
 
 .site-nav.scrolled .nav-wordmark {
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  letter-spacing: 0.16em;
+}
+
+/* Social icons inside nav — between links and actions */
+.nav-social-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nsb-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 85, 0, 0.22);
+  color: rgba(243, 239, 229, 0.5);
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: color 0.22s, border-color 0.22s, background 0.22s;
+}
+.nsb-icon:hover {
+  color: var(--k-gold);
+  border-color: var(--k-gold);
+  background: rgba(255, 85, 0, 0.1);
 }
 
 .nav-links {
@@ -1644,19 +1670,20 @@ body.menu-open .mobile-menu {
   filter: drop-shadow(0 0 22px rgba(255, 85, 0, 0.55));
 }
 
-/* ─── Brand Video Section ─── */
+/* ─── Brand Video Section — portrait video, 2-col layout ─── */
 .brand-video-section {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 7;
-  min-height: 340px;
-  overflow: hidden;
   background: #000;
+  border-top: 1px solid rgba(255, 85, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 85, 0, 0.1);
 }
-.bv-wrapper {
+.bv-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 80vh;
+}
+.bv-video-col {
   position: relative;
-  width: 100%;
-  height: 100%;
+  overflow: hidden;
 }
 .bv-player {
   position: absolute;
@@ -1664,42 +1691,46 @@ body.menu-open .mobile-menu {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
   display: block;
 }
-.bv-overlay {
-  position: absolute;
-  inset: 0;
+.bv-text-col {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  text-align: center;
-  gap: 20px;
-  background: linear-gradient(to bottom,
-    rgba(0,0,0,0.55) 0%,
-    rgba(0,0,0,0.3) 50%,
-    rgba(0,0,0,0.7) 100%);
-  padding: clamp(24px, 6vw, 80px);
+  gap: 24px;
+  padding: clamp(40px, 8vw, 96px) clamp(32px, 6vw, 80px);
+  background: radial-gradient(ellipse at 20% 50%, rgba(255,85,0,0.06), transparent 65%),
+              #020202;
 }
 .bv-eyebrow {
   font-family: var(--f-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.36em;
+  font-size: 0.54rem;
+  letter-spacing: 0.38em;
   text-transform: uppercase;
   color: var(--k-gold);
-  border: 1px solid rgba(255, 85, 0, 0.35);
-  padding: 6px 18px;
+  border: 1px solid rgba(255, 85, 0, 0.3);
+  padding: 7px 18px;
+  display: inline-block;
+  width: fit-content;
 }
 .bv-headline {
   font-family: var(--f-primary);
-  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-size: clamp(2.2rem, 4.5vw, 5rem);
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--k-bone);
-  line-height: 0.95;
+  line-height: 0.92;
+}
+.bv-body {
+  font-family: var(--f-secondary);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: rgba(243, 239, 229, 0.55);
 }
 .bv-cta {
+  width: fit-content;
   margin-top: 8px;
 }
 
@@ -1884,48 +1915,7 @@ body.menu-open .mobile-menu {
   color: rgba(255, 85, 0, 0.4);
 }
 
-/* ─── Nav Social Bar ─── */
-.nav-social-bar {
-  position: fixed;
-  top: 0;
-  right: clamp(18px, 4vw, 54px);
-  z-index: 1001;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  height: var(--nav-h);
-  pointer-events: none; /* let nav handle its own clicks */
-}
-.nsb-label {
-  font-family: var(--f-mono);
-  font-size: 0.42rem;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: rgba(243, 239, 229, 0.28);
-  pointer-events: none;
-}
-.nsb-icons {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  pointer-events: all;
-}
-.nsb-icon {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 85, 0, 0.2);
-  color: rgba(243, 239, 229, 0.45);
-  text-decoration: none;
-  transition: color 0.22s, border-color 0.22s, background 0.22s;
-}
-.nsb-icon:hover {
-  color: var(--k-gold);
-  border-color: var(--k-gold);
-  background: rgba(255, 85, 0, 0.08);
-}
+/* nav-social-bar removed — icons now live inside the nav grid */
 
 /* ─── Logo image rendering — sharp & glowing ─── */
 .nav-logo-img,
@@ -1936,10 +1926,12 @@ body.menu-open .mobile-menu {
   image-rendering: crisp-edges;
 }
 .nav-logo-img {
-  height: 42px;
+  height: 52px;
   width: auto;
   display: block;
   object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
   filter: drop-shadow(0 0 14px rgba(255, 85, 0, 0.3)) brightness(1.08) contrast(1.05);
   transition: filter 0.3s var(--ease-lux);
 }
@@ -1951,6 +1943,11 @@ body.menu-open .mobile-menu {
 }
 
 /* ─── Responsive overrides ─── */
+@media (max-width: 1024px) {
+  .nav-social-icons {
+    display: none; /* hide from nav on tablet — still in footer */
+  }
+}
 @media (max-width: 900px) {
   .footer-top {
     grid-template-columns: 1fr;
@@ -1958,11 +1955,14 @@ body.menu-open .mobile-menu {
   .bs-stats {
     grid-template-columns: repeat(2, 1fr);
   }
-  .brand-video-section {
-    aspect-ratio: 4 / 3;
+  .bv-inner {
+    grid-template-columns: 1fr;
+    min-height: auto;
   }
-  .nsb-label {
-    display: none;
+  .bv-video-col {
+    height: 56vw;
+    min-height: 280px;
+    position: relative;
   }
 }
 @media (max-width: 600px) {
@@ -1976,7 +1976,11 @@ body.menu-open .mobile-menu {
   .nav-logo-img {
     height: 32px;
   }
-  .nav-social-bar {
-    display: none; /* social in footer on mobile */
+  .nav-wordmark {
+    font-size: 1rem;
+    letter-spacing: 0.14em;
+  }
+  .bv-video-col {
+    height: 70vw;
   }
 }
