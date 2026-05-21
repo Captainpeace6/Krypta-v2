@@ -142,7 +142,13 @@
   function markActiveNav() {
     const current = window.location.pathname.split("/").pop() || "index.html";
     doc.querySelectorAll("[data-nav]").forEach((link) => {
-      if (link.dataset.nav === current) link.classList.add("active");
+      if (link.dataset.nav === current) {
+        link.classList.add("active");
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.classList.remove("active");
+        link.removeAttribute("aria-current");
+      }
     });
   }
 
@@ -405,9 +411,9 @@
           <div class="cart-item-meta">Size ${item.size} / ${formatPrice(item.price)}</div>
           <div class="cart-row">
             <div class="qty-control" aria-label="Quantity">
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1">-</button>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1" aria-label="Decrease quantity">-</button>
               <span class="qty-val">${item.qty}</span>
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1">+</button>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1" aria-label="Increase quantity">+</button>
             </div>
             <button class="cart-line-remove" type="button" data-cart-remove="${item.key}">Remove</button>
           </div>
@@ -438,7 +444,7 @@
         <div class="product-card-quick">
           <div class="quick-sizes">
             ${product.sizes.map((s) => `<button class="quick-size-btn" type="button" data-size="${s}" data-product="${product.id}">${s}</button>`).join("")}
-            ${isTee ? `<button class="quick-sg-btn" type="button" data-size-guide title="Size Guide">?</button>` : ""}
+            ${isTee ? `<button class="quick-sg-btn" type="button" data-size-guide title="Size Guide" aria-label="Open size guide">?</button>` : ""}
           </div>
           <button class="quick-add-btn" type="button" data-product-id="${product.id}">Add to Bag</button>
         </div>
