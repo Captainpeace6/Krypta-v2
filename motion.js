@@ -393,7 +393,11 @@
     if (totalAmount) totalAmount.textContent = formatPrice(totalVal);
 
     if (!cart.length) {
-      container.innerHTML = `<div class="cart-empty">Your bag is empty</div>`;
+      container.innerHTML = `
+        <div class="cart-empty">
+          <div>Your bag is empty</div>
+          <a class="k-btn-gold" href="men.html">Shop The Drop</a>
+        </div>`;
       return;
     }
 
