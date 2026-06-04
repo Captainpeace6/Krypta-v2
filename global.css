@@ -122,6 +122,18 @@ p {
   color: var(--k-bone);
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 .k-grain {
   position: fixed;
   inset: 0;
@@ -623,8 +635,11 @@ body.menu-open .mobile-menu {
 
 .cart-empty {
   min-height: 260px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
   border: 1px solid var(--k-line-cold);
   color: var(--k-muted);
   font-family: var(--f-mono);
