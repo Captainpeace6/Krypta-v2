@@ -623,8 +623,11 @@ body.menu-open .mobile-menu {
 
 .cart-empty {
   min-height: 260px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
   border: 1px solid var(--k-line-cold);
   color: var(--k-muted);
   font-family: var(--f-mono);
@@ -632,6 +635,39 @@ body.menu-open .mobile-menu {
   letter-spacing: 0.18em;
   text-align: center;
   text-transform: uppercase;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.skip-link:focus {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 10001;
+  width: auto;
+  height: auto;
+  padding: 12px 20px;
+  background: var(--k-gold);
+  color: #070604;
+  clip: auto;
+  white-space: normal;
+  font-family: var(--f-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 0 28px rgba(210, 174, 91, 0.45);
 }
 
 .cart-item {
