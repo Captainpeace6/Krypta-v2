@@ -450,12 +450,56 @@
         break;
 
       /* ────────────────────────────────────────────
-         PANEL 6 — BRAND STORY
+         PANEL 6 — BLUEPRINT  "The Craft"
+         Grid fades in, drawings reveal, spec table stagger
+      ──────────────────────────────────────────── */
+      case 6:
+        if (bg) {
+          tl.fromTo(bg, { opacity: 0 }, { opacity: 1, duration: 1.2, ease: 'power2.out' }, 0);
+        }
+        if (cp) {
+          var bpHeader = cp.querySelector('.blueprint-header');
+          if (bpHeader) tl.fromTo(bpHeader, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.2);
+
+          var bpDrawings = cp.querySelectorAll('.blueprint-drawing');
+          if (bpDrawings.length) {
+            tl.fromTo(bpDrawings,
+              { opacity: 0, y: 30 },
+              { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: 'power2.out' },
+              0.5
+            );
+          }
+
+          /* Draw SVG lines progressively via stroke-dashoffset */
+          var paths = cp.querySelectorAll('path.bp-line-h, polyline.bp-line-h');
+          paths.forEach(function(p) {
+            var len = p.getTotalLength ? p.getTotalLength() : 200;
+            p.style.strokeDasharray = len;
+            p.style.strokeDashoffset = len;
+          });
+          if (paths.length) {
+            tl.to(paths, { strokeDashoffset: 0, duration: 1.4, stagger: 0.06, ease: 'power1.inOut' }, 0.8);
+          }
+
+          var specRows = cp.querySelectorAll('.bp-spec-table tr, .bp-notes li');
+          if (specRows.length) {
+            tl.fromTo(specRows,
+              { opacity: 0, x: -12 },
+              { opacity: 1, x: 0, duration: 0.4, stagger: 0.06, ease: 'power2.out' },
+              1.4
+            );
+          }
+        }
+        animHUD(panel, tl, 0.4);
+        break;
+
+      /* ────────────────────────────────────────────
+         PANEL 7 — BRAND STORY
          "NOT FOR EVERYONE" — letters blast in
          Stats count up with stagger
          CTA bounces in last
       ──────────────────────────────────────────── */
-      case 6:
+      case 7:
         if (bg) {
           tl.fromTo(bg, { opacity: 0, scale: 1.07 }, { opacity: 1, scale: 1, duration: 1.35, ease: 'power3.out' }, 0);
           tl.to(bg, { scale: 1.045, duration: 26, ease: 'none' }, 1.35);

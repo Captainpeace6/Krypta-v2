@@ -1012,3 +1012,296 @@ html.k-snap-active {
     font-size: clamp(3rem, 14vw, 6rem);
   }
 }
+
+
+/* ═══════════════════════════════════════════════════════════
+   BRAND VIDEO — force center on desktop too
+═══════════════════════════════════════════════════════════ */
+.bv-headline, .bv-eyebrow, .bv-body, .bv-cta {
+  text-align: center;
+  align-self: center;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PLEASANT COLORS — soften harsh pure blacks
+═══════════════════════════════════════════════════════════ */
+:root {
+  --k-black:  #0a0a0b;   /* barely-off-black — easier on eyes than #020202 */
+  --k-panel:  #111114;
+  --k-bone:   #f0ede6;   /* warm bone, less harsh than stark white */
+  --k-sub:    rgba(240,237,230,0.52);
+}
+
+body {
+  background: var(--k-black);
+  color: var(--k-bone);
+}
+
+/* Softer link hover */
+a { color: inherit; }
+
+/* ═══════════════════════════════════════════════════════════
+   JOIN THE CLUB POPUP MODAL
+═══════════════════════════════════════════════════════════ */
+#k-club-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+#k-club-modal.k-open {
+  opacity: 1;
+  pointer-events: all;
+}
+.k-club-box {
+  position: relative;
+  width: min(92vw, 560px);
+  background: #0f0f10;
+  border: 1px solid rgba(210,174,91,0.3);
+  box-shadow:
+    0 0 80px rgba(210,174,91,0.08),
+    inset 0 0 60px rgba(210,174,91,0.02);
+  padding: clamp(28px,5vw,52px) clamp(24px,5vw,48px);
+  text-align: center;
+  overflow: hidden;
+}
+.k-club-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(210,174,91,0.015) 3px, rgba(210,174,91,0.015) 4px
+  );
+  pointer-events: none;
+}
+/* Corner accents */
+.k-club-box::after {
+  content: '';
+  position: absolute;
+  top: 12px; left: 12px; right: 12px; bottom: 12px;
+  border: 1px solid rgba(210,174,91,0.1);
+  pointer-events: none;
+}
+.k-club-corner {
+  position: absolute;
+  width: 18px; height: 18px;
+  border-color: rgba(210,174,91,0.75);
+  border-style: solid;
+}
+.k-club-corner.tl { top: 6px; left: 6px; border-width: 1px 0 0 1px; }
+.k-club-corner.tr { top: 6px; right: 6px; border-width: 1px 1px 0 0; }
+.k-club-corner.bl { bottom: 6px; left: 6px; border-width: 0 0 1px 1px; }
+.k-club-corner.br { bottom: 6px; right: 6px; border-width: 0 1px 1px 0; }
+.k-club-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: none; border: none;
+  color: rgba(210,174,91,0.6);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  z-index: 2;
+}
+.k-club-close:hover { color: var(--k-gold,#d2ae5b); }
+.k-club-eyebrow {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.55rem;
+  letter-spacing: 0.32em;
+  color: rgba(210,174,91,0.7);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.k-club-title {
+  font-family: var(--f-primary, 'Cinzel', serif);
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #f0ede6;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.k-club-sub {
+  font-family: var(--f-secondary, 'Rajdhani', sans-serif);
+  font-size: 0.88rem;
+  color: rgba(240,237,230,0.5);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.k-club-form {
+  display: flex;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+}
+.k-club-input {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(210,174,91,0.25);
+  color: #f0ede6;
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  padding: 12px 16px;
+  outline: none;
+  transition: border-color 0.25s;
+}
+.k-club-input:focus { border-color: rgba(210,174,91,0.65); }
+.k-club-input::placeholder { color: rgba(240,237,230,0.3); }
+.k-club-btn {
+  background: #d2ae5b;
+  color: #000;
+  border: none;
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 12px 18px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+.k-club-btn:hover { background: #f2d98b; transform: scale(1.03); }
+.k-club-fine {
+  margin-top: 14px;
+  font-size: 0.6rem;
+  color: rgba(240,237,230,0.28);
+  letter-spacing: 0.1em;
+}
+.k-club-success {
+  color: #d2ae5b;
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  margin-top: 12px;
+  min-height: 1.2em;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   BLUEPRINT SNAP PANEL — technical garment construction
+═══════════════════════════════════════════════════════════ */
+.snap-blueprint {
+  background: #091523;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.snap-blueprint .layer-bg {
+  background:
+    linear-gradient(rgba(100,180,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100,180,255,0.04) 1px, transparent 1px),
+    #091523;
+  background-size: 40px 40px;
+}
+
+.blueprint-inner {
+  position: relative;
+  z-index: 2;
+  width: min(1400px, 96vw);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 4vw, 60px);
+  align-items: center;
+  padding: clamp(16px, 3vh, 32px) 0;
+}
+
+.blueprint-header {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-bottom: clamp(8px, 1.5vh, 20px);
+}
+
+.bp-eyebrow {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.52rem;
+  letter-spacing: 0.36em;
+  color: rgba(100,180,255,0.7);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.bp-title {
+  font-family: var(--f-primary, 'Cinzel', serif);
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* SVG blueprint drawings */
+.blueprint-drawing {
+  position: relative;
+}
+
+.blueprint-drawing svg {
+  width: 100%;
+  height: auto;
+  max-height: 55vh;
+}
+
+.bp-spec-table {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  border: 1px solid rgba(100,180,255,0.3);
+  width: 100%;
+  margin-top: 12px;
+}
+.bp-spec-table td {
+  padding: 5px 10px;
+  border-bottom: 1px solid rgba(100,180,255,0.15);
+  color: #fff;
+}
+.bp-spec-table td:first-child {
+  color: rgba(100,180,255,0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  width: 40%;
+  border-right: 1px solid rgba(100,180,255,0.15);
+}
+
+.bp-notes {
+  margin-top: 10px;
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.6rem;
+  color: rgba(100,180,255,0.6);
+  line-height: 1.8;
+}
+.bp-notes li { margin-left: 14px; }
+
+/* Blueprint label text style */
+.bp-label {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 9px;
+  fill: rgba(180,220,255,0.8);
+  letter-spacing: 0.08em;
+}
+.bp-dim-text {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 8px;
+  fill: rgba(180,220,255,0.65);
+  letter-spacing: 0.05em;
+}
+.bp-line   { stroke: rgba(100,180,255,0.55); stroke-width: 1; fill: none; }
+.bp-line-h { stroke: rgba(100,180,255,0.85); stroke-width: 1.2; fill: none; }
+.bp-dash   { stroke: rgba(100,180,255,0.38); stroke-width: 0.8; fill: none; stroke-dasharray: 4 3; }
+.bp-fill   { fill: rgba(100,180,255,0.1); }
+
+@media (max-width: 767px) {
+  .blueprint-inner { grid-template-columns: 1fr; }
+  .blueprint-header { margin-bottom: 8px; }
+}

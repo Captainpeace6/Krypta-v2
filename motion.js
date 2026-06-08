@@ -527,8 +527,8 @@
     const target = doc.getElementById("productDetail");
     if (!target) return;
 
-    const id = new URLSearchParams(window.location.search).get("id") || PRODUCTS[0].id;
-    const product = getProductById(id);
+    const id = new URLSearchParams(window.location.search).get("id");
+    const product = id ? getProductById(id) : null;
     if (!product) {
       window.location.href = "index.html";
       return;

@@ -925,7 +925,7 @@ body.menu-open .mobile-menu {
 .hero-wordmark-img {
   display: block;
   width: 100%;
-  max-width: 1500px;
+  max-width: clamp(320px, 58vw, 760px);
   height: auto;
   filter: drop-shadow(0 0 60px rgba(210,174,91,0.45)) brightness(1.15) contrast(1.1);
   image-rendering: -webkit-optimize-contrast;

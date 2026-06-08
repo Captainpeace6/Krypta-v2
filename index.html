@@ -87,6 +87,26 @@
 <!-- ░░ END INTRO OVERLAY ░░ -->
 
 <canvas id="k-particles" aria-hidden="true"></canvas>
+
+<!-- ░░ JOIN THE CLUB POPUP ░░ -->
+<div id="k-club-modal" role="dialog" aria-modal="true" aria-label="Join the Club">
+  <div class="k-club-box">
+    <div class="k-club-corner tl"></div>
+    <div class="k-club-corner tr"></div>
+    <div class="k-club-corner bl"></div>
+    <div class="k-club-corner br"></div>
+    <button class="k-club-close" id="kClubClose" aria-label="Close">✕</button>
+    <div class="k-club-eyebrow">Drop 001 · Early Access</div>
+    <div class="k-club-title">Join The Club</div>
+    <p class="k-club-sub">First to know. First to cop.<br>No spam — just signal from the underground.</p>
+    <form class="k-club-form" id="kClubForm">
+      <input class="k-club-input" type="email" placeholder="your@email.com" required autocomplete="email">
+      <button class="k-club-btn" type="submit">Lock In</button>
+    </form>
+    <div class="k-club-success" id="kClubSuccess"></div>
+    <p class="k-club-fine">Limited Units · SS26 · No Restock</p>
+  </div>
+</div>
 <div class="k-grain"></div>
 
 <main class="home-page">
@@ -217,7 +237,119 @@
     </div>
   </section>
 
-  <!-- ░░ PANEL 6 — BRAND STORY ░░ -->
+  <!-- ░░ PANEL 6 — BLUEPRINT ░░ -->
+  <section class="home-section snap-panel snap-blueprint">
+    <div class="layer-bg"></div>
+    <div class="blueprint-inner layer-copy">
+
+      <div class="blueprint-header">
+        <div class="bp-eyebrow">Technical Spec · Drop 001</div>
+        <div class="bp-title">The Craft</div>
+      </div>
+
+      <!-- T-SHIRT BLUEPRINT -->
+      <div class="blueprint-drawing">
+        <svg viewBox="0 0 320 380" xmlns="http://www.w3.org/2000/svg">
+          <!-- Corner brackets -->
+          <polyline class="bp-line-h" points="4,20 4,4 20,4"/>
+          <polyline class="bp-line-h" points="300,4 316,4 316,20"/>
+          <polyline class="bp-line-h" points="4,360 4,376 20,376"/>
+          <polyline class="bp-line-h" points="300,376 316,376 316,360"/>
+          <!-- FRONT VIEW label -->
+          <text class="bp-label" x="160" y="16" text-anchor="middle">FRONT VIEW</text>
+          <!-- Tee body -->
+          <path class="bp-line-h" d="M88,50 L60,62 L40,90 L62,100 L62,300 L258,300 L258,100 L280,90 L260,62 L232,50 Q210,44 200,50 Q185,65 160,65 Q135,65 120,50 Q110,44 88,50 Z"/>
+          <!-- Neck cut -->
+          <path class="bp-dash" d="M120,50 Q135,75 160,75 Q185,75 200,50"/>
+          <!-- Sleeve seam lines -->
+          <line class="bp-dash" x1="62" y1="100" x2="88" y2="50"/>
+          <line class="bp-dash" x1="258" y1="100" x2="232" y2="50"/>
+          <!-- Centre line -->
+          <line class="bp-dash" x1="160" y1="75" x2="160" y2="300"/>
+          <!-- PRINT AREA front panel -->
+          <rect class="bp-fill" x="95" y="115" width="130" height="155"/>
+          <rect class="bp-dash" style="stroke:rgba(100,180,255,0.6);stroke-width:1;fill:none;" x="95" y="115" width="130" height="155"/>
+          <text class="bp-label" x="160" y="200" text-anchor="middle">PRINT AREA</text>
+          <text class="bp-dim-text" x="160" y="214" text-anchor="middle">13" × 15.5"</text>
+          <!-- Width annotation -->
+          <line class="bp-line" x1="62" y1="316" x2="258" y2="316"/>
+          <line class="bp-line" x1="62" y1="310" x2="62" y2="322"/>
+          <line class="bp-line" x1="258" y1="310" x2="258" y2="322"/>
+          <text class="bp-dim-text" x="160" y="328" text-anchor="middle">22.5"</text>
+          <!-- Height annotation -->
+          <line class="bp-line" x1="18" y1="50" x2="18" y2="300"/>
+          <line class="bp-line" x1="12" y1="50" x2="24" y2="50"/>
+          <line class="bp-line" x1="12" y1="300" x2="24" y2="300"/>
+          <text class="bp-dim-text" x="10" y="178" text-anchor="middle" transform="rotate(-90,10,178)">28.5"</text>
+          <!-- BACK VIEW (small, right side) -->
+          <text class="bp-label" x="290" y="120" text-anchor="middle" font-size="7">BACK</text>
+          <!-- Spec labels -->
+          <text class="bp-label" x="160" y="348" text-anchor="middle">STYLE: OVERSIZED TEE · 300GSM COTTON</text>
+        </svg>
+        <table class="bp-spec-table">
+          <tr><td>Style</td><td>Heavyweight Oversized</td></tr>
+          <tr><td>Fabric</td><td>100% Cotton 300GSM</td></tr>
+          <tr><td>Print</td><td>DTF / Screen Print</td></tr>
+          <tr><td>Color</td><td>Jet Black</td></tr>
+          <tr><td>Fit</td><td>Boxy / Drop Shoulder</td></tr>
+        </table>
+      </div>
+
+      <!-- JEANS BLUEPRINT -->
+      <div class="blueprint-drawing">
+        <svg viewBox="0 0 320 380" xmlns="http://www.w3.org/2000/svg">
+          <!-- Corner brackets -->
+          <polyline class="bp-line-h" points="4,20 4,4 20,4"/>
+          <polyline class="bp-line-h" points="300,4 316,4 316,20"/>
+          <polyline class="bp-line-h" points="4,360 4,376 20,376"/>
+          <polyline class="bp-line-h" points="300,376 316,376 316,360"/>
+          <!-- FRONT VIEW label -->
+          <text class="bp-label" x="160" y="16" text-anchor="middle">FRONT VIEW</text>
+          <!-- Waistband -->
+          <rect class="bp-line-h" x="65" y="28" width="190" height="22"/>
+          <!-- Button + fly line -->
+          <circle class="bp-line" cx="160" cy="39" r="3" style="fill:rgba(100,180,255,0.2)"/>
+          <line class="bp-dash" x1="160" y1="50" x2="160" y2="95"/>
+          <!-- Coin pocket -->
+          <path class="bp-line" d="M230,50 Q252,50 252,68 Q252,80 238,80 L225,80 Z"/>
+          <!-- Main body -->
+          <path class="bp-line-h" d="M65,50 L65,175 Q65,185 110,195 L128,290 L155,290 L160,200 L165,290 L192,290 L210,195 Q255,185 255,175 L255,50"/>
+          <!-- Left leg graphic panel -->
+          <rect class="bp-fill" x="70" y="105" width="78" height="165"/>
+          <rect style="stroke:rgba(100,180,255,0.65);stroke-width:1;stroke-dasharray:3,2;fill:none;" x="70" y="105" width="78" height="165"/>
+          <text class="bp-label" x="109" y="158" text-anchor="middle" font-size="8">GRAPHIC</text>
+          <text class="bp-label" x="109" y="170" text-anchor="middle" font-size="8">PANEL</text>
+          <text class="bp-dim-text" x="109" y="184" text-anchor="middle">8"×21.5"</text>
+          <!-- Right leg graphic panel -->
+          <rect class="bp-fill" x="172" y="105" width="78" height="165"/>
+          <rect style="stroke:rgba(100,180,255,0.65);stroke-width:1;stroke-dasharray:3,2;fill:none;" x="172" y="105" width="78" height="165"/>
+          <text class="bp-label" x="211" y="158" text-anchor="middle" font-size="8">GRAPHIC</text>
+          <text class="bp-label" x="211" y="170" text-anchor="middle" font-size="8">PANEL</text>
+          <!-- Width annotation -->
+          <line class="bp-line" x1="65" y1="310" x2="255" y2="310"/>
+          <line class="bp-line" x1="65" y1="304" x2="65" y2="316"/>
+          <line class="bp-line" x1="255" y1="304" x2="255" y2="316"/>
+          <text class="bp-dim-text" x="160" y="325" text-anchor="middle">15.75"</text>
+          <!-- Height annotation -->
+          <line class="bp-line" x1="20" y1="28" x2="20" y2="290"/>
+          <line class="bp-line" x1="14" y1="28" x2="26" y2="28"/>
+          <line class="bp-line" x1="14" y1="290" x2="26" y2="290"/>
+          <text class="bp-dim-text" x="10" y="162" text-anchor="middle" transform="rotate(-90,10,162)">42.00"</text>
+          <!-- Spec label -->
+          <text class="bp-label" x="160" y="348" text-anchor="middle">STYLE: GRAPHIC DENIM · STRAIGHT LEG</text>
+        </svg>
+        <ul class="bp-notes">
+          <li>Screen print / sublimation on both legs</li>
+          <li>Panels placed on front leg only</li>
+          <li>Artwork: manga / gothic inspired</li>
+          <li>100% Cotton denim · Black · Silver hardware</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ░░ PANEL 8 — BRAND STORY ░░ -->
   <section class="brand-story-section snap-panel">
     <div class="bs-glow layer-bg" aria-hidden="true"></div>
     <div class="section-shell bs-inner layer-copy">
@@ -322,11 +454,65 @@
 <script>
 document.getElementById('joinDropForm').addEventListener('submit', function(e){
   e.preventDefault();
-  var email = this.querySelector('input').value;
   document.getElementById('jdSuccess').textContent = '✓ You\'re on the list. Drop 001 is coming.';
   document.getElementById('jdSuccess').style.opacity = '1';
   this.querySelector('input').value = '';
 });
+</script>
+<script>
+/* ── Join the Club Popup ── */
+(function() {
+  var modal   = document.getElementById('k-club-modal');
+  var closeBtn= document.getElementById('kClubClose');
+  var form    = document.getElementById('kClubForm');
+  var success = document.getElementById('kClubSuccess');
+  if (!modal) return;
+
+  /* Show after 4s if user hasn't dismissed this session */
+  var dismissed = false;
+  try { dismissed = sessionStorage.getItem('k_popup_done') === '1'; } catch(e) {}
+
+  function showModal() {
+    if (dismissed) return;
+    modal.classList.add('k-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function hideModal() {
+    modal.classList.remove('k-open');
+    document.body.style.overflow = '';
+    try { sessionStorage.setItem('k_popup_done', '1'); } catch(e) {}
+    dismissed = true;
+  }
+
+  /* Fire after 4s on initial site visit */
+  setTimeout(function() {
+    /* Only show after entry animation completes */
+    var check = setInterval(function() {
+      if (document.body.classList.contains('is-loaded')) {
+        clearInterval(check);
+        if (!dismissed) showModal();
+      }
+    }, 200);
+  }, 4000);
+
+  closeBtn && closeBtn.addEventListener('click', hideModal);
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) hideModal();
+  });
+
+  form && form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email = form.querySelector('input[type="email"]').value;
+    success.textContent = '✓ You\'re in. Drop 001 signal incoming.';
+    form.querySelector('input').value = '';
+    setTimeout(hideModal, 2200);
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') hideModal();
+  });
+})();
 </script>
 </body>
 </html>
