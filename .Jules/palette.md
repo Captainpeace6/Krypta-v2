@@ -1,0 +1,3 @@
+## 2025-05-14 - Centralized UX Injection in Static Cinematic Sites
+**Learning:** In highly cinematic, script-driven static websites where core UI components (header, cart, menus) are dynamically injected via a central JS file, accessibility features like 'Skip to content' and ARIA state synchronization must be implemented within that same central logic. This ensures that features targeting generated DOM structures (like a `#main-content` ID) are consistently present across all entry points, even when pages lack a traditional server-side template.
+**Action:** Use the site's primary UI controller (e.g., `motion.js`) to programmatically inject global accessibility anchors and manage real-time ARIA updates for all interactive overlays.

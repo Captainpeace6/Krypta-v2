@@ -122,6 +122,26 @@ p {
   color: var(--k-bone);
 }
 
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 20px;
+  z-index: 10001;
+  background: var(--k-gold);
+  color: var(--k-black);
+  padding: 12px 24px;
+  font-family: var(--f-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: top 0.3s var(--ease-lux);
+}
+
+.skip-link:focus {
+  top: 20px;
+}
+
 .k-grain {
   position: fixed;
   inset: 0;
@@ -623,8 +643,11 @@ body.menu-open .mobile-menu {
 
 .cart-empty {
   min-height: 260px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
   border: 1px solid var(--k-line-cold);
   color: var(--k-muted);
   font-family: var(--f-mono);
