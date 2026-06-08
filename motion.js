@@ -189,7 +189,8 @@
     initRevealObserver();
     initCursor();
 
-    if (!window.gsap.__fallback && !window.ScrollTrigger.__fallback) {
+    if (!window.gsap.__fallback && !window.ScrollTrigger.__fallback && !isHome) {
+      /* Skip on home — snap-scroll.js owns hero animations there */
       gsap.registerPlugin(ScrollTrigger);
       gsap.from(".hero-title, .shop-hero h1", {
         y: 56,

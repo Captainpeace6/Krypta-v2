@@ -527,14 +527,7 @@
 
 html.k-snap-active {
   scroll-snap-type: y mandatory;
-  overflow-y: scroll;
-  height: 100%;
-  scroll-behavior: smooth;
-}
-
-html.k-snap-active body {
-  height: 100%;
-  overflow: hidden;
+  /* No overflow/height changes — body still scrolls naturally */
 }
 
 /* ── Snap panel base ── */
@@ -831,5 +824,191 @@ html.k-snap-active body {
   .brand-video-section.snap-panel .bv-text-col.layer-copy {
     margin-left: 0;
     height: 60vh;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   WOW EDITION — Character animation · HUD · Particles · Collab
+═══════════════════════════════════════════════════════════ */
+
+/* ── Character spans for blast-in animation ── */
+.k-char {
+  display: inline-block;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+.k-char.k-sp {
+  display: inline;
+  width: 0.28em;
+}
+
+/* ── Ambient particle canvas ── */
+#k-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9;
+  opacity: 0.5;
+  mix-blend-mode: screen;
+}
+
+/* ── HUD corner brackets ── */
+.hud-corner {
+  position: absolute;
+  width: clamp(20px, 3vw, 36px);
+  height: clamp(20px, 3vw, 36px);
+  z-index: 10;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.hud-tl {
+  top:  clamp(68px, 10vh, 100px);
+  left: clamp(12px, 2vw, 38px);
+  border-top:  1px solid rgba(210,174,91,0.85);
+  border-left: 1px solid rgba(210,174,91,0.85);
+}
+.hud-tr {
+  top:   clamp(68px, 10vh, 100px);
+  right: clamp(12px, 2vw, 38px);
+  border-top:   1px solid rgba(210,174,91,0.85);
+  border-right: 1px solid rgba(210,174,91,0.85);
+}
+.hud-bl {
+  bottom: clamp(12px, 2vh, 32px);
+  left:   clamp(12px, 2vw, 38px);
+  border-bottom: 1px solid rgba(210,174,91,0.85);
+  border-left:   1px solid rgba(210,174,91,0.85);
+}
+.hud-br {
+  bottom: clamp(12px, 2vh, 32px);
+  right:  clamp(12px, 2vw, 38px);
+  border-bottom: 1px solid rgba(210,174,91,0.85);
+  border-right:  1px solid rgba(210,174,91,0.85);
+}
+
+/* ── Glow burst (created + removed by JS) ── */
+.k-glow-burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(240px, 40vw, 480px);
+  height: clamp(240px, 40vw, 480px);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(210,174,91,0.5) 0%,
+    rgba(210,174,91,0.12) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 4;
+  will-change: transform, opacity;
+}
+
+/* ── COLLAB / HEAVYWEIGHT TEES PANEL ── */
+.snap-collab {
+  display: flex;
+  align-items: center;
+  background: #020202;
+}
+
+.snap-collab .layer-bg {
+  background:
+    radial-gradient(ellipse at 65% 55%, rgba(150, 8, 8, 0.1), transparent 48%),
+    radial-gradient(ellipse at 30% 35%, rgba(210,174,91,0.07), transparent 50%),
+    #020202;
+}
+
+/* Three floating tee images */
+.collab-images {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 56%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.collab-img {
+  position: absolute;
+  object-fit: contain;
+  will-change: transform;
+}
+
+.collab-img.ci-1 {
+  height: clamp(260px, 52vh, 540px);
+  right: 24%;
+  bottom: 0;
+  transform-origin: bottom center;
+  z-index: 2;
+  filter: contrast(1.12) brightness(0.88) saturate(0.9);
+}
+.collab-img.ci-2 {
+  height: clamp(280px, 60vh, 620px);
+  right: 2%;
+  top: 4%;
+  z-index: 3;
+  filter: contrast(1.18) brightness(0.85) saturate(0.85);
+}
+.collab-img.ci-3 {
+  height: clamp(180px, 36vh, 380px);
+  right: 50%;
+  bottom: 8%;
+  z-index: 1;
+  opacity: 0.55;
+  filter: contrast(1.05) brightness(0.7);
+}
+
+/* Copy sits left of the images */
+.collab-copy.layer-copy {
+  position: relative;
+  z-index: 5;
+  padding: 0 0 0 clamp(20px, 5vw, 80px);
+  max-width: 48%;
+}
+
+/* Collab h2 — extra oversized */
+.snap-collab h2 {
+  font-size: clamp(3rem, 9vw, 10rem);
+  line-height: 0.88;
+  margin-top: 18px;
+}
+
+/* ── Oversized editorial h2 on editorial panel ── */
+.snap-editorial .editorial-copy h2 {
+  font-size: clamp(3.2rem, 8.5vw, 9.5rem);
+  line-height: 0.88;
+}
+
+/* ── Brand Story h2 ── */
+.brand-story-section .bs-headline {
+  font-size: clamp(2.8rem, 7.5vw, 8.5rem);
+  line-height: 0.88;
+}
+
+/* ── Wordmark idle glow (CSS, not GSAP — avoids filter-type mismatch) ── */
+@keyframes wm-glow {
+  0%, 100% { filter: drop-shadow(0 0 60px rgba(210,174,91,0.45)) brightness(1.15) contrast(1.1); }
+  50%       { filter: drop-shadow(0 0 100px rgba(210,174,91,0.72)) brightness(1.28) contrast(1.1); }
+}
+.wm-glow-active {
+  animation: wm-glow 3.2s ease-in-out infinite;
+}
+
+/* ── Mobile collab ── */
+@media (max-width: 767px) {
+  .collab-images {
+    width: 100%;
+    opacity: 0.22;
+  }
+  .collab-copy.layer-copy {
+    max-width: 100%;
+    padding: 0 clamp(16px, 4vw, 28px);
+    position: relative;
+    z-index: 5;
+  }
+  .snap-collab h2 {
+    font-size: clamp(3rem, 14vw, 6rem);
   }
 }

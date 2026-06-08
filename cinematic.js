@@ -349,6 +349,8 @@
      10. SCROLL EFFECTS
   ───────────────────────────────────────────── */
   function initScrollEffects() {
+    /* snap-scroll.js owns all home-page animations — skip to avoid conflicts */
+    if (IS_HOME) return;
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
       initGSAPEffects();
     } else {
@@ -528,6 +530,8 @@
       [pre, entry].forEach(function (el) { if (el) el.style.display = 'none'; });
       document.body.style.overflow = '';
       document.body.classList.add('is-loaded');
+      // Signal snap-scroll.js (same path as full entry)
+      document.dispatchEvent(new CustomEvent('kryptaa:revealed'));
       if (IS_HOME) {
         setTimeout(function () {
           waitForHome(function () {
