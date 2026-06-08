@@ -147,17 +147,24 @@
   }
 
   function initMotion() {
-    const lenis = new Lenis({
-      duration: 1.25,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true
-    });
+    const isHome = body.dataset.page === 'home';
 
-    function raf(time) {
-      lenis.raf(time);
+    /* Home page uses CSS scroll-snap (snap-scroll.js) — Lenis conflicts with it.
+       All other pages get Lenis smooth scrolling. */
+    if (!isHome) {
+      const lenis = new Lenis({
+        duration: 1.25,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true
+      });
+      window.kLenis = lenis;
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
       requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
 
     const nav = doc.getElementById("navbar");
     const updateScrollState = () => {

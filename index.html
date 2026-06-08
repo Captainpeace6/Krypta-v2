@@ -33,6 +33,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script defer src="motion.js"></script>
 <script defer src="cinematic.js"></script>
+<script defer src="snap-scroll.js"></script>
 <script>
   /* Failsafe: if cinematic.js stalls, clear the overlay after 8s */
   window.addEventListener('load', function () {
@@ -88,84 +89,74 @@
 <div class="k-grain"></div>
 
 <main class="home-page">
-  <section class="v3-hero" data-hero>
-    <video class="hero-video-bg" autoplay muted loop playsinline poster="imgs/kryptaa-brand-frame.jpg">
+  <!-- ░░ PANEL 0 — HERO ░░ -->
+  <section class="v3-hero snap-panel" data-hero>
+    <video class="hero-video-bg layer-bg" autoplay muted loop playsinline poster="imgs/kryptaa-brand-frame.jpg">
       <source src="imgs/Background.mp4" type="video/mp4">
     </video>
     <div class="hero-corner hero-corner-left">Driven By Aura</div>
     <div class="hero-corner hero-corner-right">Defined By Power</div>
     <div class="hero-rail hero-rail-left">Gothic And Street Wear Collection</div>
     <div class="hero-rail hero-rail-right">Gothic And Street Wear Collection</div>
-    <div class="hero-media" id="homeHeroMedia" aria-hidden="true"></div>
-    <div class="hero-copy">
-      <div class="hero-brand-lockup reveal" aria-hidden="true">
+    <div class="hero-media layer-figure" id="homeHeroMedia" aria-hidden="true"></div>
+    <div class="hero-copy layer-copy">
+      <div class="hero-brand-lockup" aria-hidden="true">
         <span class="brand-sigil">A</span>
         <span class="brand-line">Driven By Aura / Defined By Power</span>
       </div>
-      <div class="eyebrow reveal">Drop 001 / Cyber Gothic Launch</div>
+      <div class="eyebrow">Drop 001 / Cyber Gothic Launch</div>
       <h1 class="hero-title"><img src="imgs/kryptaa-wordmark-final.png" alt="KryptaA" class="hero-wordmark-img"></h1>
-      <p class="reveal">A darker uniform system for dragon denim, women's tops, motion pants, and anime artwork. Built with black-gold restraint, technical rhythm, and the quiet pressure of a luxury drop.</p>
-      <div class="hero-actions reveal">
+      <p>A darker uniform system for dragon denim, women's tops, motion pants, and anime artwork. Built with black-gold restraint, technical rhythm, and the quiet pressure of a luxury drop.</p>
+      <div class="hero-actions">
         <a class="k-btn-gold" href="men.html">Enter The Drop</a>
         <a class="k-btn-outline" href="women-track-pants.html">Women Track</a>
       </div>
     </div>
-    <div class="scroll-mark">Scroll</div>
-  </section>
-
-  <!-- Marquee ticker -->
-  <div class="k-marquee" aria-hidden="true">
-    <div class="k-marquee-track">
-      <span>Drop 001</span><span class="mk-sep">✦</span>
-      <span>Driven By Aura</span><span class="mk-sep">✦</span>
-      <span>Defined By Power</span><span class="mk-sep">✦</span>
-      <span>Gothic Streetwear</span><span class="mk-sep">✦</span>
-      <span>SS26 Collection</span><span class="mk-sep">✦</span>
-      <span>Limited Units</span><span class="mk-sep">✦</span>
-      <span>Dragon Denim</span><span class="mk-sep">✦</span>
-      <span>Heavyweight Tees</span><span class="mk-sep">✦</span>
-      <span>Drop 001</span><span class="mk-sep">✦</span>
-      <span>Driven By Aura</span><span class="mk-sep">✦</span>
-      <span>Defined By Power</span><span class="mk-sep">✦</span>
-      <span>Gothic Streetwear</span><span class="mk-sep">✦</span>
-      <span>SS26 Collection</span><span class="mk-sep">✦</span>
-      <span>Limited Units</span><span class="mk-sep">✦</span>
-      <span>Dragon Denim</span><span class="mk-sep">✦</span>
-      <span>Heavyweight Tees</span><span class="mk-sep">✦</span>
-    </div>
-  </div>
-
-  <!-- Countdown -->
-  <section class="countdown-section">
-    <div class="cd-inner">
-      <div class="cd-label">Drop 001 — SS26 Launch</div>
-      <div class="cd-timer" id="cdTimer">
-        <div class="cd-unit"><span class="cd-num" id="cdDays">00</span><span class="cd-tag">Days</span></div>
-        <div class="cd-sep">:</div>
-        <div class="cd-unit"><span class="cd-num" id="cdHours">00</span><span class="cd-tag">Hours</span></div>
-        <div class="cd-sep">:</div>
-        <div class="cd-unit"><span class="cd-num" id="cdMins">00</span><span class="cd-tag">Mins</span></div>
-        <div class="cd-sep">:</div>
-        <div class="cd-unit"><span class="cd-num" id="cdSecs">00</span><span class="cd-tag">Secs</span></div>
+    <!-- Marquee lives at bottom of hero panel -->
+    <div class="k-marquee" aria-hidden="true">
+      <div class="k-marquee-track">
+        <span>Drop 001</span><span class="mk-sep">✦</span>
+        <span>Driven By Aura</span><span class="mk-sep">✦</span>
+        <span>Defined By Power</span><span class="mk-sep">✦</span>
+        <span>Gothic Streetwear</span><span class="mk-sep">✦</span>
+        <span>SS26 Collection</span><span class="mk-sep">✦</span>
+        <span>Limited Units</span><span class="mk-sep">✦</span>
+        <span>Dragon Denim</span><span class="mk-sep">✦</span>
+        <span>Heavyweight Tees</span><span class="mk-sep">✦</span>
+        <span>Drop 001</span><span class="mk-sep">✦</span>
+        <span>Driven By Aura</span><span class="mk-sep">✦</span>
+        <span>Defined By Power</span><span class="mk-sep">✦</span>
+        <span>Gothic Streetwear</span><span class="mk-sep">✦</span>
+        <span>SS26 Collection</span><span class="mk-sep">✦</span>
+        <span>Limited Units</span><span class="mk-sep">✦</span>
+        <span>Dragon Denim</span><span class="mk-sep">✦</span>
+        <span>Heavyweight Tees</span><span class="mk-sep">✦</span>
       </div>
-      <div class="cd-sub">Limited units. No restock. No regret.</div>
     </div>
   </section>
 
-  <section class="home-section">
+  <!-- ░░ PANEL 1 — EDITORIAL ░░ -->
+  <section class="home-section snap-panel snap-editorial">
+    <div class="layer-bg"></div>
     <div class="section-shell editorial-split">
-      <div class="editorial-copy reveal">
+      <div class="editorial-copy layer-copy">
         <div class="eyebrow">Premium Gothic Uniform</div>
-        <h2>Defined By Power, Driven By Aura</h2>
+        <h2>Defined By Power,<br>Driven By Aura</h2>
         <p>Gothic roots. Streetwear edge. No compromises. Drop 001 is a limited signal — designed for those who move different, built for those who refuse to conform.</p>
+        <div style="margin-top:clamp(20px,3vw,36px);display:flex;gap:14px;flex-wrap:wrap;">
+          <a class="k-btn-gold" href="men.html">Shop Men</a>
+          <a class="k-btn-outline" href="women.html">Shop Women</a>
+        </div>
       </div>
-      <div class="editorial-image reveal" id="editorialImage"></div>
+      <div class="editorial-image layer-figure" id="editorialImage"></div>
     </div>
   </section>
 
-  <section class="home-section">
-    <div class="section-shell">
-      <div class="section-head reveal">
+  <!-- ░░ PANEL 2 — COLLECTIONS ░░ -->
+  <section class="home-section snap-panel snap-collections">
+    <div class="layer-bg"></div>
+    <div class="section-shell layer-copy">
+      <div class="section-head">
         <div>
           <div class="eyebrow">Collections</div>
           <h2>Choose The Signal</h2>
@@ -175,15 +166,15 @@
     </div>
   </section>
 
-  <!-- Brand Video -->
-  <section class="brand-video-section">
+  <!-- ░░ PANEL 3 — BRAND VIDEO ░░ -->
+  <section class="brand-video-section snap-panel">
     <div class="bv-inner">
-      <div class="bv-video-col">
+      <div class="bv-video-col layer-figure">
         <video class="bv-player" autoplay muted loop playsinline>
           <source src="imgs/brand-video.mp4" type="video/mp4">
         </video>
       </div>
-      <div class="bv-text-col">
+      <div class="bv-text-col layer-copy">
         <div class="bv-eyebrow">Drop 001 — SS26</div>
         <h2 class="bv-headline">The Uniform<br>for the<br>Underground</h2>
         <p class="bv-body">Gothic roots. Streetwear edge.<br>No compromises.</p>
@@ -192,9 +183,11 @@
     </div>
   </section>
 
-  <section class="home-section">
-    <div class="section-shell">
-      <div class="section-head reveal">
+  <!-- ░░ PANEL 4 — FEATURED PRODUCTS ░░ -->
+  <section class="home-section snap-panel snap-featured">
+    <div class="layer-bg"></div>
+    <div class="section-shell layer-copy">
+      <div class="section-head">
         <div>
           <div class="eyebrow">Featured Drop</div>
           <h2>First Contact Pieces</h2>
@@ -205,36 +198,39 @@
     </div>
   </section>
 
-  <!-- Brand Story -->
-  <section class="brand-story-section">
-    <div class="bs-glow" aria-hidden="true"></div>
-    <div class="section-shell bs-inner">
-      <div class="bs-tag reveal">— The Story —</div>
-      <h2 class="bs-headline reveal">Not For Everyone.<br><span>Built For You.</span></h2>
-      <p class="bs-body reveal">KRYPTAA was born from a refusal. A refusal to dress like everyone else, to follow trends, to water things down. Every piece in Drop 001 was designed with a single rule: if it doesn't feel like power, it doesn't ship.<br><br>Gothic architecture. Streetwear tension. Anime mythology. These aren't aesthetics we borrowed — they're the language we grew up in. The dragon denim, the heavyweight tees, the motion pants — each one is a uniform for people who've always stood apart.</p>
-      <div class="bs-stats reveal">
+  <!-- ░░ PANEL 5 — BRAND STORY ░░ -->
+  <section class="brand-story-section snap-panel">
+    <div class="bs-glow layer-bg" aria-hidden="true"></div>
+    <div class="section-shell bs-inner layer-copy">
+      <div class="bs-tag">— The Story —</div>
+      <h2 class="bs-headline">Not For Everyone.<br><span>Built For You.</span></h2>
+      <p class="bs-body">KRYPTAA was born from a refusal. A refusal to dress like everyone else, to follow trends, to water things down. Every piece in Drop 001 was designed with a single rule: if it doesn't feel like power, it doesn't ship.<br><br>Gothic architecture. Streetwear tension. Anime mythology. These aren't aesthetics we borrowed — they're the language we grew up in. The dragon denim, the heavyweight tees, the motion pants — each one is a uniform for people who've always stood apart.</p>
+      <div class="bs-stats">
         <div class="bs-stat"><span class="bs-num">001</span><span class="bs-label">Drop Number</span></div>
         <div class="bs-stat"><span class="bs-num">300<small>gsm</small></span><span class="bs-label">Tee Weight</span></div>
         <div class="bs-stat"><span class="bs-num">Ltd.</span><span class="bs-label">Every Unit</span></div>
         <div class="bs-stat"><span class="bs-num">SS26</span><span class="bs-label">Season</span></div>
       </div>
-      <a class="k-btn-gold reveal" href="men.html">Enter The Drop</a>
+      <a class="k-btn-gold" href="men.html">Enter The Drop</a>
     </div>
   </section>
 </main>
 
+<!-- ░░ PANEL 6 — JOIN DROP + FOOTER ░░ -->
+<div class="snap-panel snap-footer-panel">
+
 <!-- Join The Drop -->
 <section class="join-drop-section">
   <div class="jd-glow" aria-hidden="true"></div>
-  <div class="section-shell jd-inner">
-    <div class="jd-eyebrow reveal">— Early Access —</div>
-    <h2 class="jd-headline reveal">Join The Drop</h2>
-    <p class="jd-sub reveal">First to know. First to cop. No spam — just signal.</p>
-    <form class="jd-form reveal" id="joinDropForm">
+  <div class="section-shell jd-inner layer-copy">
+    <div class="jd-eyebrow">— Early Access —</div>
+    <h2 class="jd-headline">Join The Drop</h2>
+    <p class="jd-sub">First to know. First to cop. No spam — just signal.</p>
+    <form class="jd-form" id="joinDropForm">
       <input type="email" class="jd-input" placeholder="enter your email" required autocomplete="email">
       <button type="submit" class="k-btn-gold jd-btn">Lock In</button>
     </form>
-    <p class="jd-fine reveal">Drop 001 · Limited Units · SS26</p>
+    <p class="jd-fine">Drop 001 · Limited Units · SS26</p>
     <div class="jd-success" id="jdSuccess" aria-live="polite"></div>
   </div>
 </section>
@@ -287,6 +283,8 @@
     <span class="footer-tagline">Driven By Aura / Defined By Power</span>
   </div>
 </footer>
+
+</div><!-- /.snap-footer-panel -->
 <script>
 (function(){
   var target = new Date('2026-06-19T00:00:00');

@@ -273,6 +273,9 @@
     // Save session so returning from shop skips the preloader
     try { sessionStorage.setItem('k_entered', '1'); } catch (e) {}
 
+    // Signal snap-scroll.js that the site is live
+    document.dispatchEvent(new CustomEvent('kryptaa:revealed'));
+
     // Give the page a beat to paint before init scroll effects
     setTimeout(function () {
       if (IS_HOME) {
