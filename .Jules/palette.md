@@ -1,0 +1,3 @@
+## 2025-05-15 - [ARIA State Synchronization & Empty Cart CTA]
+**Learning:** In cinematic, script-driven static websites where core UI components are injected via a central JS file (e.g., 'motion.js'), accessibility features like ARIA state synchronization must be implemented within that same central logic to ensure consistent behavior across all entry points. Interactive panels (drawers/menus) must dynamically synchronize ARIA attributes (expanded, label, controls) on triggers in real-time. Empty states must avoid 'dead-ends' by providing actionable CTAs (e.g., 'Shop Now') that automatically close the current panel upon navigation.
+**Action:** Implement a central `syncUIStates` function for ARIA management and ensure every empty state includes a clear, actionable CTA.
