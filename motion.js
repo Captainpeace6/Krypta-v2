@@ -55,7 +55,7 @@
     body.insertAdjacentHTML("afterbegin", `
       <nav id="navbar" class="site-nav">
         <div class="nav-left">
-          <button class="nav-toggle" type="button" data-menu-toggle aria-label="Open menu"><span></span><span></span></button>
+          <button class="nav-toggle" type="button" data-menu-toggle aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
           <div class="nav-links" id="desktopNav">${navLinks()}</div>
         </div>
         <a class="nav-brand" href="index.html" aria-label="KRYPTAA home">
@@ -261,7 +261,11 @@
       const quickSize = event.target.closest(".quick-size-btn");
       const quickAdd = event.target.closest(".quick-add-btn");
 
-      if (menuToggle) body.classList.toggle("menu-open");
+      if (menuToggle) {
+        const isOpen = body.classList.toggle("menu-open");
+        menuToggle.setAttribute("aria-expanded", isOpen);
+        menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+      }
       if (cartOpen) openCart();
       if (cartClose) closeCart();
       if (qtyButton) updateCartQty(qtyButton.dataset.cartQty, Number(qtyButton.dataset.delta));
