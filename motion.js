@@ -249,6 +249,22 @@
     });
   }
 
+  function syncUIStates() {
+    const menuOpen = body.classList.contains("menu-open");
+    const cartOpen = body.classList.contains("cart-open");
+
+    doc.querySelectorAll("[data-menu-toggle]").forEach((el) => {
+      el.setAttribute("aria-expanded", menuOpen);
+      el.setAttribute("aria-label", menuOpen ? "Close menu" : "Open menu");
+      el.setAttribute("aria-controls", "mobileMenu");
+    });
+
+    doc.querySelectorAll("[data-cart-open]").forEach((el) => {
+      el.setAttribute("aria-expanded", cartOpen);
+      el.setAttribute("aria-controls", "cartDrawer");
+    });
+  }
+
   function bindChromeEvents() {
     body.addEventListener("click", (event) => {
       const menuToggle = event.target.closest("[data-menu-toggle]");
@@ -261,7 +277,7 @@
       const quickSize = event.target.closest(".quick-size-btn");
       const quickAdd = event.target.closest(".quick-add-btn");
 
-      if (menuToggle) body.classList.toggle("menu-open");
+      if (menuToggle) { body.classList.toggle("menu-open"); syncUIStates(); }
       if (cartOpen) openCart();
       if (cartClose) closeCart();
       if (qtyButton) updateCartQty(qtyButton.dataset.cartQty, Number(qtyButton.dataset.delta));
@@ -316,12 +332,14 @@
     doc.getElementById("cartOverlay")?.classList.add("open");
     body.classList.add("cart-open");
     renderCartContent();
+    syncUIStates();
   }
 
   function closeCart() {
     doc.getElementById("cartDrawer")?.classList.remove("open");
     doc.getElementById("cartOverlay")?.classList.remove("open");
     body.classList.remove("cart-open");
+    syncUIStates();
   }
 
   function addToCart(productId, size) {
@@ -393,7 +411,11 @@
     if (totalAmount) totalAmount.textContent = formatPrice(totalVal);
 
     if (!cart.length) {
-      container.innerHTML = `<div class="cart-empty">Your bag is empty</div>`;
+      container.innerHTML = `
+        <div class="cart-empty">
+          <p>Your bag is empty</p>
+          <a href="men.html" class="k-btn-gold" data-cart-close>Shop The Drop</a>
+        </div>`;
       return;
     }
 
@@ -405,9 +427,9 @@
           <div class="cart-item-meta">Size ${item.size} / ${formatPrice(item.price)}</div>
           <div class="cart-row">
             <div class="qty-control" aria-label="Quantity">
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1">-</button>
-              <span class="qty-val">${item.qty}</span>
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1">+</button>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1" aria-label="Decrease quantity">-</button>
+              <span class="qty-val" aria-live="polite">${item.qty}</span>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1" aria-label="Increase quantity">+</button>
             </div>
             <button class="cart-line-remove" type="button" data-cart-remove="${item.key}">Remove</button>
           </div>
@@ -640,6 +662,7 @@
     bindChromeEvents();
     initPage();
     renderCartContent();
+    syncUIStates();
     initMotion();
     /* is-loaded is set by cinematic.js after entry; set it here only on non-home pages */
     if (body.dataset.page !== "home") window.setTimeout(() => body.classList.add("is-loaded"), 520);
