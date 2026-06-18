@@ -55,7 +55,7 @@
     body.insertAdjacentHTML("afterbegin", `
       <nav id="navbar" class="site-nav">
         <div class="nav-left">
-          <button class="nav-toggle" type="button" data-menu-toggle aria-label="Open menu"><span></span><span></span></button>
+          <button class="nav-toggle" type="button" data-menu-toggle aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span></button>
           <div class="nav-links" id="desktopNav">${navLinks()}</div>
         </div>
         <a class="nav-brand" href="index.html" aria-label="KRYPTAA home">
@@ -76,14 +76,14 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </a>
           </div>
-          <button class="cart-trigger" type="button" data-cart-open><span>Bag</span><span class="cart-count-pill" id="cartCountNav">0</span></button>
+          <button class="cart-trigger" type="button" data-cart-open aria-expanded="false" aria-controls="cartDrawer"><span>Bag</span><span class="cart-count-pill" id="cartCountNav" aria-live="polite">0</span></button>
         </div>
       </nav>
       <div class="mobile-menu" id="mobileMenu">${navLinks()}</div>
       <div class="cart-overlay" id="cartOverlay" data-cart-close></div>
       <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping bag">
         <div class="cart-header">
-          <h3>Bag (<span id="cartCount">0</span>)</h3>
+          <h3>Bag (<span id="cartCount" aria-live="polite">0</span>)</h3>
           <button class="cart-close-btn" type="button" data-cart-close>Close</button>
         </div>
         <div class="cart-body" id="cartItemsList"></div>
@@ -261,7 +261,11 @@
       const quickSize = event.target.closest(".quick-size-btn");
       const quickAdd = event.target.closest(".quick-add-btn");
 
-      if (menuToggle) body.classList.toggle("menu-open");
+      if (menuToggle) {
+        const isOpen = body.classList.toggle("menu-open");
+        menuToggle.setAttribute("aria-expanded", isOpen.toString());
+        menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+      }
       if (cartOpen) openCart();
       if (cartClose) closeCart();
       if (qtyButton) updateCartQty(qtyButton.dataset.cartQty, Number(qtyButton.dataset.delta));
@@ -315,6 +319,7 @@
     doc.getElementById("cartDrawer")?.classList.add("open");
     doc.getElementById("cartOverlay")?.classList.add("open");
     body.classList.add("cart-open");
+    doc.querySelectorAll("[data-cart-open]").forEach(btn => btn.setAttribute("aria-expanded", "true"));
     renderCartContent();
   }
 
@@ -322,6 +327,7 @@
     doc.getElementById("cartDrawer")?.classList.remove("open");
     doc.getElementById("cartOverlay")?.classList.remove("open");
     body.classList.remove("cart-open");
+    doc.querySelectorAll("[data-cart-open]").forEach(btn => btn.setAttribute("aria-expanded", "false"));
   }
 
   function addToCart(productId, size) {
@@ -393,7 +399,11 @@
     if (totalAmount) totalAmount.textContent = formatPrice(totalVal);
 
     if (!cart.length) {
-      container.innerHTML = `<div class="cart-empty">Your bag is empty</div>`;
+      container.innerHTML = `
+        <div class="cart-empty">
+          <span>Your bag is empty</span>
+          <a class="k-btn-gold" href="men.html" data-cart-close>Shop The Drop</a>
+        </div>`;
       return;
     }
 
@@ -404,10 +414,10 @@
           <div class="cart-item-name">${item.name}</div>
           <div class="cart-item-meta">Size ${item.size} / ${formatPrice(item.price)}</div>
           <div class="cart-row">
-            <div class="qty-control" aria-label="Quantity">
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1">-</button>
-              <span class="qty-val">${item.qty}</span>
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1">+</button>
+            <div class="qty-control">
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1" aria-label="Decrease quantity">-</button>
+              <span class="qty-val" aria-live="polite">${item.qty}</span>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1" aria-label="Increase quantity">+</button>
             </div>
             <button class="cart-line-remove" type="button" data-cart-remove="${item.key}">Remove</button>
           </div>

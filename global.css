@@ -98,7 +98,7 @@ button {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 1px solid var(--k-gold-bright);
+  outline: 2px solid var(--k-gold-bright);
   outline-offset: 3px;
 }
 
@@ -623,8 +623,11 @@ body.menu-open .mobile-menu {
 
 .cart-empty {
   min-height: 260px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
   border: 1px solid var(--k-line-cold);
   color: var(--k-muted);
   font-family: var(--f-mono);
