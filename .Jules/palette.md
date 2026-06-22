@@ -1,0 +1,3 @@
+## 2025-05-14 - [A11y Foundations & Dynamic State Sync]
+**Learning:** In a dynamic vanilla JS application, ARIA attributes like 'aria-expanded', 'aria-label', and 'aria-current' must be manually synced during state transitions (menu toggles, navigation, cart updates) to remain accessible. Providing descriptive 'aria-label' for icon-only buttons in lists (like a cart) by including the item name (e.g., "Remove [Item Name]") significantly improves screen reader context.
+**Action:** Always include state sync logic (setAttribute) when toggling UI elements and use template literals to inject item-specific context into ARIA labels.
