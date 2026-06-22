@@ -1,11 +1,13 @@
 {
   "cleanUrls": false,
+  "directoryListing": false,
   "rewrites": [
-    { "source": "/men",            "destination": "/men.html" },
-    { "source": "/women",          "destination": "/women.html" },
-    { "source": "/t-shirts",       "destination": "/t-shirts.html" },
-    { "source": "/checkout",       "destination": "/checkout.html" },
-    { "source": "/product-detail", "destination": "/product-detail.html" },
-    { "source": "/anime",          "destination": "/anime.html" }
+    { "source": "/",              "destination": "/index.html" },
+    { "source": "/men",           "destination": "/men.html" },
+    { "source": "/women",         "destination": "/women.html" },
+    { "source": "/t-shirts",      "destination": "/t-shirts.html" },
+    { "source": "/checkout",      "destination": "/checkout.html" },
+    { "source": "/product-detail","destination": "/product-detail.html" },
+    { "source": "/anime",         "destination": "/anime.html" }
   ]
 }
