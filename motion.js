@@ -135,7 +135,7 @@
   }
 
   function navLinks() {
-    const configs = ["men", "women", "tops", "women_track", "all_jeans", "tees", "anime"].map((key) => window.CATEGORY_CONFIGS[key]);
+    const configs = ["men", "women", "tees", "anime"].map((key) => window.CATEGORY_CONFIGS[key]);
     return configs.map((item) => `<a href="${item.href}" data-nav="${item.href}">${item.nav}</a>`).join("");
   }
 
