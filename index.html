@@ -190,15 +190,17 @@
 
   <!-- ░░ PANEL 3 — BRAND VIDEO ░░ -->
   <section class="brand-video-section snap-panel">
-    <div class="bv-inner">
-      <div class="bv-video-col layer-figure">
-        <video class="bv-player" autoplay muted loop playsinline poster="imgs/brand-editorial-poster.jpg">
-          <source src="imgs/brand-editorial.mp4" type="video/mp4">
-          <source src="imgs/brand-video.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="bv-text-col layer-copy">
+    <video class="bv-video-full layer-figure" autoplay muted loop playsinline poster="imgs/brand-editorial-poster.jpg">
+      <source src="imgs/brand-editorial.mp4" type="video/mp4">
+      <source src="imgs/brand-video.mp4" type="video/mp4">
+    </video>
+    <div class="bv-overlay-scrim"></div>
+    <div class="bv-overlay-copy layer-copy">
+      <div class="bv-corner-tl">
         <div class="bv-eyebrow">Drop 001 — SS26</div>
+        <div class="bv-eyebrow" style="margin-top:6px;opacity:0.55;">/ The Uniform for the Underground</div>
+      </div>
+      <div class="bv-corner-br">
         <h2 class="bv-headline">The Uniform<br>for the<br>Underground</h2>
         <p class="bv-body">Gothic roots. Streetwear edge.<br>No compromises.</p>
         <a class="k-btn-gold bv-cta" href="men.html">Shop The Drop</a>
@@ -221,30 +223,22 @@
     </div>
   </section>
 
-  <!-- ░░ PANEL 5 — COLLAB / HEAVYWEIGHT TEES ░░ -->
-  <section class="home-section snap-panel snap-collab">
-    <div class="layer-bg"></div>
-    <div class="collab-images layer-figure">
-      <img class="collab-img ci-1" src="imgs/img-angel.png" alt="">
-      <img class="collab-img ci-2" src="imgs/img-money.png" alt="">
-      <img class="collab-img ci-3" src="imgs/img-crime.png" alt="">
-    </div>
-    <div class="collab-copy layer-copy">
-      <div class="eyebrow">Collab 001 — Drop 001</div>
-      <h2>Wear The<br>Statement</h2>
-      <p>300gsm. Artwork that hits harder than trends.<br>Built for the ones who never needed to explain.</p>
-      <a class="k-btn-gold" href="t-shirts.html">View Tees</a>
-    </div>
-  </section>
-
-  <!-- ░░ PANEL 6 — BLUEPRINT ░░ -->
+  <!-- ░░ PANEL 5 — BLUEPRINT ░░ -->
   <section class="home-section snap-panel snap-blueprint">
     <div class="layer-bg"></div>
     <div class="blueprint-inner layer-copy">
 
       <div class="blueprint-header">
-        <div class="bp-eyebrow">Technical Spec · Drop 001</div>
-        <div class="bp-title">The Craft</div>
+        <div>
+          <div class="bp-eyebrow">Technical Spec · Drop 001</div>
+          <div class="bp-title">The Craft</div>
+        </div>
+        <div class="blueprint-collab-badge">
+          <div class="bcb-eyebrow">Collab 001 — Drop 001</div>
+          <div class="bcb-title">Wear The Statement</div>
+          <div class="bcb-spec">300GSM · DTF Print · Gothic Artwork</div>
+          <a class="bcb-link" href="t-shirts.html">View Tees →</a>
+        </div>
       </div>
 
       <!-- T-SHIRT BLUEPRINT -->

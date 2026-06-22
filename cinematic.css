@@ -526,7 +526,7 @@
 ═══════════════════════════════════════════════════════════ */
 
 html.k-snap-active {
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
   /* No overflow/height changes — body still scrolls naturally */
 }
 
@@ -659,33 +659,64 @@ html.k-snap-active {
   max-height: 62vh;
 }
 
-/* ── Brand Video panel ── */
+/* ── Brand Video panel — full screen ── */
 .brand-video-section.snap-panel {
-  align-items: stretch;
+  position: relative;
+  overflow: hidden;
 }
 
-.brand-video-section.snap-panel .bv-inner {
+/* Full-bleed video */
+.bv-video-full.layer-figure {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  grid-template-columns: clamp(200px, 34vw, 480px) 1fr;
-  align-items: stretch;
+  object-fit: cover;
+  pointer-events: none;
 }
 
-.brand-video-section.snap-panel .bv-video-col.layer-figure {
+/* Gradient scrim for legibility */
+.bv-overlay-scrim {
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: clamp(200px, 34vw, 480px);
-  height: 100%;
-  aspect-ratio: unset;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.82) 100%),
+    linear-gradient(to right, rgba(0,0,0,0.55) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* Overlay copy container */
+.bv-overlay-copy.layer-copy {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(28px, 5vw, 60px);
+  pointer-events: none;
+}
+
+/* Top-left: eyebrow label */
+.bv-corner-tl {
+  align-self: flex-start;
+  pointer-events: none;
+}
+
+/* Bottom-right: headline + body + CTA */
+.bv-corner-br {
+  align-self: flex-end;
+  text-align: right;
+  max-width: clamp(280px, 44vw, 600px);
   pointer-events: auto;
 }
 
-.brand-video-section.snap-panel .bv-text-col.layer-copy {
-  margin-left: clamp(200px, 34vw, 480px);
-  height: 100%;
-  justify-content: center;
+.bv-headline {
+  font-size: clamp(2.4rem, 6vw, 7rem);
+  line-height: 0.9;
+  margin-top: 10px;
+  margin-bottom: 18px;
 }
 
 /* ── Featured Products panel ── */
@@ -813,17 +844,13 @@ html.k-snap-active {
     grid-template-columns: repeat(2, 1fr);
     max-height: 72vh;
   }
-  .brand-video-section.snap-panel .bv-inner {
-    grid-template-columns: 1fr;
+  .bv-corner-br {
+    align-self: flex-end;
+    text-align: left;
+    max-width: 92vw;
   }
-  .brand-video-section.snap-panel .bv-video-col.layer-figure {
-    position: relative;
-    width: 100%;
-    height: 40vh;
-  }
-  .brand-video-section.snap-panel .bv-text-col.layer-copy {
-    margin-left: 0;
-    height: 60vh;
+  .bv-headline {
+    font-size: clamp(2rem, 10vw, 4rem);
   }
 }
 
@@ -977,14 +1004,14 @@ html.k-snap-active {
 
 /* ── Oversized editorial h2 on editorial panel ── */
 .snap-editorial .editorial-copy h2 {
-  font-size: clamp(3.2rem, 8.5vw, 9.5rem);
-  line-height: 0.88;
+  font-size: clamp(1.4rem, 2.2vw, 2.6rem);
+  line-height: 1.08;
 }
 
 /* ── Brand Story h2 ── */
 .brand-story-section .bs-headline {
-  font-size: clamp(2.8rem, 7.5vw, 8.5rem);
-  line-height: 0.88;
+  font-size: clamp(1.5rem, 2.8vw, 3.2rem);
+  line-height: 1.05;
 }
 
 /* ── Wordmark idle glow (CSS, not GSAP — avoids filter-type mismatch) ── */
@@ -1014,13 +1041,7 @@ html.k-snap-active {
 }
 
 
-/* ═══════════════════════════════════════════════════════════
-   BRAND VIDEO — force center on desktop too
-═══════════════════════════════════════════════════════════ */
-.bv-headline, .bv-eyebrow, .bv-body, .bv-cta {
-  text-align: center;
-  align-self: center;
-}
+/* bv-eyebrow is top-left, bv-* copy lives in .bv-corner-br */
 
 /* ═══════════════════════════════════════════════════════════
    PLEASANT COLORS — soften harsh pure blacks
@@ -1301,7 +1322,74 @@ a { color: inherit; }
 .bp-dash   { stroke: rgba(100,180,255,0.38); stroke-width: 0.8; fill: none; stroke-dasharray: 4 3; }
 .bp-fill   { fill: rgba(100,180,255,0.1); }
 
+/* ── Blueprint header: flex row to fit collab badge ── */
+.blueprint-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: clamp(12px, 2vw, 28px);
+}
+
+/* ── Collab corner badge inside blueprint ── */
+.blueprint-collab-badge {
+  padding: 14px 18px;
+  border: 1px solid rgba(100,180,255,0.22);
+  border-left: 3px solid rgba(100,180,255,0.6);
+  background: rgba(100,180,255,0.05);
+  text-align: right;
+  flex-shrink: 0;
+  max-width: 260px;
+}
+
+.bcb-eyebrow {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: rgba(100,180,255,0.7);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.bcb-title {
+  font-family: var(--f-primary, 'Cinzel', serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #d2ae5b;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.bcb-spec {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: rgba(100,180,255,0.55);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.bcb-link {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: rgba(210,174,91,0.8);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.bcb-link:hover { color: #d2ae5b; }
+
 @media (max-width: 767px) {
   .blueprint-inner { grid-template-columns: 1fr; }
-  .blueprint-header { margin-bottom: 8px; }
+  .blueprint-header {
+    flex-direction: column;
+    margin-bottom: 8px;
+  }
+  .blueprint-collab-badge {
+    max-width: 100%;
+    text-align: left;
+    border-left: 3px solid rgba(100,180,255,0.55);
+  }
 }

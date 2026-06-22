@@ -5,14 +5,10 @@ const RAW_PRODUCTS = [
   { id: 4, name: "Broken Mirror Surrealist Tee", price: 37, sizes: ["S", "M", "L", "XL"], img: "imgs/img-broken.png", category: "tees", collection: "Heavyweight / Drop 001", tags: ["Surreal", "Premium Print", "Box Fit"], availability: "Low quantity", desc: "A fractured identity graphic rendered with a dark surrealist finish and a dense premium hand feel." },
   { id: 5, name: "Money Moves Typo Tee", price: 37, sizes: ["S", "M", "L", "XL"], img: "imgs/img-money.png", category: "tees", collection: "Heavyweight / Drop 001", tags: ["Type Graphic", "Street", "Box Fit"], availability: "In production", desc: "A direct typographic strike built for quiet confidence and hard silhouettes." },
 
-  { id: 10, name: "Shadow Tech Cargo Jeans", price: 98, sizes: ["28", "30", "32", "34", "36"], img: "imgs/jeans-grey-cargo.jpg", category: "men", collection: "Men's Denim / Drop 001", tags: ["14oz Denim", "Cargo", "Wide Leg"], availability: "Limited pre-order", desc: "Technical grey cargo denim with utility pockets, custom hardware energy, and a stacked wide-leg profile." },
-  { id: 11, name: "Sakura Blossom Wide-Leg Denim", price: 118, sizes: ["28", "30", "32", "34", "36"], img: "imgs/jeans-flower-full.jpg", category: "men", collection: "Men's Denim / Drop 001", tags: ["Sakura", "Wide Leg", "Bleached Art"], availability: "Low quantity", desc: "Black denim carrying a full-leg sakura treatment that reads soft from distance and dangerous up close." },
-  { id: 12, name: "Crimson Dragon Painted Denim", price: 77, sizes: ["28", "30", "32", "34", "36"], img: "imgs/jeans-red-dragon.jpg", category: "men", collection: "Men's Denim / Drop 001", tags: ["Dragon", "Crimson", "Washed"], availability: "Limited pre-order", desc: "A red dragon graphic locked onto deep black denim with a hard streetwear stance." },
-  { id: 14, name: "Imperial Gold Dragon Denim", price: 75, sizes: ["28", "30", "32", "34", "36"], img: "imgs/jeans-gold-dragon.jpg", category: "men", collection: "Men's Denim / Drop 001", tags: ["Gold Dragon", "Signature", "Straight Leg"], availability: "Never restocked", desc: "The flagship dragon piece: gold artwork, jet-black ground, and a straight cut that stacks cleanly over footwear." },
-  { id: 16, name: "Dual Dragon Signature Baggy", price: 98, sizes: ["28", "30", "32", "34", "36"], img: "imgs/jeans-dual-dragon.jpg", category: "men", collection: "Men's Denim / Drop 001", tags: ["Dual Dragon", "Baggy", "Signature"], availability: "Limited pre-order", desc: "Symmetric dragon motifs on a baggy black denim shape built for volume and presence." },
-  { id: 17, name: "Midnight Sakura Detail Denim", price: 72, sizes: ["28", "30", "32", "34", "36"], img: "imgs/jeans-flower-detail.jpg", category: "men", collection: "Men's Denim / Drop 001", tags: ["Sakura Detail", "Black Denim", "Wide Leg"], availability: "Archive pulled from GitHub", desc: "A closer, sharper sakura placement from the original KRYPTAA archive, rebuilt into the v3 luxury product system." },
-  { id: 103, name: "Hellfire Distressed Jeans", price: 77, sizes: ["28", "30", "32", "34", "36"], img: "imgs/jeans-flame.jpg", category: "men", collection: "Men's Denim / Drop 001", tags: ["Distressed", "Flame", "Wide Leg"], availability: "In production", desc: "Flame-cut details and distressed texture for a worn-in, aggressive denim story." },
-  { id: 106, name: "Cranial Void Gothic Jeans", price: 68, sizes: ["28", "30", "32", "34", "36"], img: "imgs/jeans-skull.jpg", category: "men", collection: "Men's Denim / Drop 001", tags: ["Skull", "Gothic", "Straight Leg"], availability: "Limited pre-order", desc: "A skull motif integrated into black denim for a cleaner gothic uniform piece." },
+  { id: 10, name: "Vintage Distressed Wide-Leg", price: 95, sizes: ["28", "30", "32", "34", "36"], img: "imgs/pants/mens-pant-1.jpg", category: "men", collection: "Men's Denim / Drop 001", tags: ["Sand Wash", "Heavy Rips", "Wide Leg"], availability: "Limited Drop", desc: "Sand-washed wide-leg denim with aggressive side rips and a broken-in vintage soul. Baggy stacked fit made for presence." },
+  { id: 11, name: "Red Gothic Embroidery Denim", price: 115, sizes: ["28", "30", "32", "34", "36"], img: "imgs/pants/mens-pant-2.jpg", category: "men", collection: "Men's Denim / Drop 001", tags: ["Gothic Embroidery", "Studded Hem", "Statement"], availability: "Limited Drop", desc: "Black denim with full-leg red gothic snake embroidery and studded raw hem. The loudest piece in the Drop 001 arsenal." },
+  { id: 12, name: "Acid Rust Patchwork Jeans", price: 98, sizes: ["28", "30", "32", "34", "36"], img: "imgs/pants/mens-pant-3.jpg", category: "men", collection: "Men's Denim / Drop 001", tags: ["Acid Wash", "Patchwork", "KRYPTAA HW"], availability: "Limited Drop", desc: "Dark indigo denim with copper acid wash bleed, raw patchwork layers, and a custom KRYPTAA hardware button." },
+  { id: 14, name: "Ice Cargo Wide-Leg Denim", price: 88, sizes: ["28", "30", "32", "34", "36"], img: "imgs/pants/mens-pant-4.jpg", category: "men", collection: "Men's Denim / Drop 001", tags: ["Ice Wash", "Cargo", "Ripped"], availability: "Limited Drop", desc: "Light ice-wash cargo denim with utility pockets and strategic ripping across the thigh. Volume without noise." },
 
   { id: 108, name: "Six Eyes Gojo Satoru Denim", price: 69, sizes: ["28", "30", "32", "34", "36"], img: "imgs/anime-gojo.jpg", category: "anime", collection: "Anime Denim / Drop 001", tags: ["Anime", "Sublimated", "Straight"], availability: "Limited pre-order", desc: "Gojo artwork printed with high-fidelity contrast on a clean straight denim base." },
   { id: 109, name: "Cursed Energy JJK Collage", price: 59, sizes: ["28", "30", "32", "34", "36"], img: "imgs/anime-jjk1.jpg", category: "anime", collection: "Anime Denim / Drop 001", tags: ["JJK", "Collage", "Black Denim"], availability: "In production", desc: "A dense cursed-energy collage composed across black denim for movement and impact." },
@@ -24,15 +20,9 @@ const RAW_PRODUCTS = [
   { id: 115, name: "Six Eyes Gojo Vol. 2", price: 69, sizes: ["28", "30", "32", "34", "36"], img: "imgs/anime-gojo2.jpg", category: "anime", collection: "Anime Denim / Drop 001", tags: ["Gojo", "Vol. 2", "Cobalt"], availability: "Archive pulled from GitHub", desc: "A second Gojo denim with cooler tones and high-contrast artwork for stronger movement." },
   { id: 116, name: "Black Red Anime Denim", price: 65, sizes: ["28", "30", "32", "34", "36"], img: "imgs/anime-blackred.jpg", category: "anime", collection: "Anime Denim / Drop 001", tags: ["Black Red", "Anime", "Statement"], availability: "Archive pulled from GitHub", desc: "Red-on-black anime artwork made for a sharper, club-lit color hit inside the denim line." },
 
-  { id: 30, name: "Architectural Split-Hem Jeans", price: 88, sizes: ["XS", "S", "M", "L"], img: "imgs/w-blue-split.jpg", category: "women", collection: "Women's Denim / Drop 001", tags: ["Split Hem", "High Waist", "Panelled"], availability: "Limited pre-order", desc: "Mid-wash denim with split hems and architectural paneling for a sharp feminine shape." },
-  { id: 31, name: "Butterfly Web Wide-Leg", price: 115, sizes: ["XS", "S", "M", "L"], img: "imgs/w-butterfly.jpg", category: "women", collection: "Women's Denim / Drop 001", tags: ["Butterfly", "Wide Leg", "Laser Detail"], availability: "Low quantity", desc: "Spiderweb and butterfly art across a high-waisted wide-leg cut with editorial tension." },
-  { id: 201, name: "Vintage Dragon High-Waist", price: 70, sizes: ["XS", "S", "M", "L"], img: "imgs/w-vintage-dragon.jpg", category: "women", collection: "Women's Denim / Drop 001", tags: ["Dragon", "Vintage Wash", "High Waist"], availability: "In production", desc: "Vintage-wash denim with dragon art wrapping the waist and leg for an old-soul gothic read." },
-  { id: 202, name: "Lunar White Dragon Denim", price: 77, sizes: ["XS", "S", "M", "L"], img: "imgs/w-white-dragon.jpg", category: "women", collection: "Women's Denim / Drop 001", tags: ["White Denim", "Dragon", "Contrast"], availability: "Limited pre-order", desc: "White denim cut against black dragon artwork for the brightest piece in the void." },
-  { id: 205, name: "Gothic Utility Cargo Jeans", price: 70, sizes: ["XS", "S", "M", "L"], img: "imgs/w-cargo.jpg", category: "women", collection: "Women's Denim / Drop 001", tags: ["Cargo", "Utility", "Adjustable"], availability: "Limited pre-order", desc: "A utility cargo shape with oversized pockets and a dark feminine technical edge." },
-  { id: 206, name: "Distressed Ritual Denim", price: 62, sizes: ["XS", "S", "M", "L"], img: "imgs/w-distressed.jpg", category: "women", collection: "Women's Denim / Drop 001", tags: ["Distressed", "Relaxed", "Washed"], availability: "Archive pulled from GitHub", desc: "A distressed black wash with a softer fall, pulled back into the site so the women's drop feels complete." },
-  { id: 207, name: "Grey Baggy Motion Denim", price: 65, sizes: ["XS", "S", "M", "L"], img: "imgs/w-grey-baggy.jpg", category: "women", collection: "Women's Denim / Drop 001", tags: ["Grey Wash", "Baggy", "Motion"], availability: "Archive pulled from GitHub", desc: "Grey baggy denim with an easy stacked leg, useful as the bridge between streetwear utility and track energy." },
-  { id: 208, name: "Pink Skull Gothic Denim", price: 68, sizes: ["XS", "S", "M", "L"], img: "imgs/w-pink-skull.jpg", category: "women", collection: "Women's Denim / Drop 001", tags: ["Skull", "Pink Detail", "High Waist"], availability: "Archive pulled from GitHub", desc: "A softer color strike over gothic skull language for the women's denim archive." },
-  { id: 209, name: "Side Rip Black Denim", price: 67, sizes: ["XS", "S", "M", "L"], img: "imgs/w-side-rip.jpg", category: "women", collection: "Women's Denim / Drop 001", tags: ["Side Rip", "Black Wash", "Stacked"], availability: "Archive pulled from GitHub", desc: "Side-rip detailing gives this black denim a more aggressive, movement-led shape." },
+  { id: 30, name: "Gothic Skull Wide-Leg", price: 95, sizes: ["XS", "S", "M", "L"], img: "imgs/pants/womens-pant-5.jpg", category: "women", collection: "Women's Denim / Drop 001", tags: ["Pink Skull", "Wide Leg", "Gothic Art"], availability: "Limited Drop", desc: "Black wide-leg denim with full pink gothic skull and angelic script print across the back. High-waist silhouette with a dramatic floor-length stack." },
+  { id: 31, name: "Gold Baroque Wide-Leg", price: 105, sizes: ["XS", "S", "M", "L"], img: "imgs/pants/womens-pant-6.jpg", category: "women", collection: "Women's Denim / Drop 001", tags: ["Gold Baroque", "Wide Leg", "Ornamental"], availability: "Limited Drop", desc: "Black wide-leg denim with full gold baroque ornamental print. Opulent gothic energy from waist to hem." },
+  { id: 32, name: "Creature Graphic Wide-Leg", price: 98, sizes: ["XS", "S", "M", "L", "XL"], img: "imgs/pants/unisex-pant-7.jpg", category: "women", collection: "Women's Denim / Drop 001", tags: ["Creature Print", "Wide Leg", "Unisex"], availability: "Limited Drop", desc: "Black wide-leg denim with scattered white creature graphic across both legs. Unisex cut with a bold underground statement." },
 
   { id: 301, name: "Angel Oversized Top", price: 45, sizes: ["XS", "S", "M", "L"], img: "imgs/img-angel.png", category: "tops", collection: "Women's Tops / Drop 001", tags: ["Angel Graphic", "Oversized", "Black Cotton"], availability: "Archive pulled from GitHub", desc: "The Angel graphic brought into the women's tops system with a roomy streetwear shoulder and dark altar artwork." },
   { id: 302, name: "Broken Mirror Top", price: 48, sizes: ["XS", "S", "M", "L"], img: "imgs/img-broken.png", category: "tops", collection: "Women's Tops / Drop 001", tags: ["Surreal", "Mirror", "Box Fit"], availability: "Archive pulled from GitHub", desc: "A fractured surrealist graphic with a clean black body and sharper fashion-editorial tension." },
@@ -53,27 +43,27 @@ const CATEGORY_CONFIGS = {
     label: "Shadow Denim",
     nav: "Men",
     href: "men.html",
-    description: "Utility denim, dragon graphics, and black-volume silhouettes engineered for presence.",
-    heroIds: [14, 10, 11, 17, 16],
-    featuredIds: [14, 10, 11, 17]
+    description: "Vintage washes, gothic embroidery, acid distressing and cargo silhouettes — engineered for presence.",
+    heroIds: [11, 10, 12, 14],
+    featuredIds: [11, 10, 12, 14]
   },
   women: {
     title: "Women",
     label: "Dark Feminine",
     nav: "Women",
     href: "women.html",
-    description: "High-waist denim, split hems, and gothic detailing cut with an editorial eye.",
-    heroIds: [31, 202, 207, 30, 205],
-    featuredIds: [31, 202, 207, 208]
+    description: "Wide-leg gothic denim with skull prints, baroque gold, and creature art — cut for the underground.",
+    heroIds: [30, 31, 32],
+    featuredIds: [30, 31, 32]
   },
   all_jeans: {
     title: "Jeans",
     label: "Denim Archive",
     nav: "Jeans",
     href: "jeans.html",
-    description: "The complete denim field: dragon work, anime panels, utility cargos, and architectural women's cuts.",
-    heroIds: [14, 31, 108, 202, 17],
-    featuredIds: [14, 31, 108, 202]
+    description: "Men's and women's denim — gothic embroidery, acid wash, skull prints, baroque gold, and creature art.",
+    heroIds: [11, 30, 31, 12, 32],
+    featuredIds: [11, 30, 12, 31]
   },
   tees: {
     title: "T-Shirts",
@@ -122,7 +112,7 @@ const CATEGORY_CONFIGS = {
   }
 };
 
-const HOME_FEATURE_IDS = [14, 31, 301, 401, 108, 202, 17, 304];
+const HOME_FEATURE_IDS = [11, 30, 12, 31, 108, 14, 32, 304];
 
 const STORY_DEFAULTS = {
   tees: {

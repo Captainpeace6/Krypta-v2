@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout - KRYPTAA</title>
+<title>Checkout — KRYPTAA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -13,28 +13,650 @@
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script defer src="motion.js"></script>
+<style>
+/* ── Checkout page overrides ── */
+.checkout-page {
+  padding: calc(var(--nav-h) + 56px) 0 100px;
+  min-height: 100vh;
+}
+
+/* Section headings */
+.co-section-label {
+  font-family: var(--f-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--k-gold);
+  margin-bottom: 22px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--k-line);
+}
+
+/* Form grid */
+.co-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.co-field-full { grid-column: 1 / -1; }
+
+/* Inputs */
+.co-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.co-field label {
+  font-family: var(--f-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--k-muted);
+}
+
+.co-field input,
+.co-field select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--k-line-cold);
+  color: var(--k-white);
+  font-family: var(--f-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.co-field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+.co-field select option { background: #0a0a0a; }
+
+.co-field input:focus,
+.co-field select:focus {
+  border-color: var(--k-gold);
+}
+
+.co-field input::placeholder { color: rgba(255,255,255,0.2); }
+
+/* Card row */
+.co-card-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* Payment brand icons */
+.co-card-icons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.co-card-icon {
+  height: 22px;
+  padding: 3px 8px;
+  border: 1px solid var(--k-line-cold);
+  background: rgba(255,255,255,0.04);
+  font-family: var(--f-mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--k-muted);
+  display: flex;
+  align-items: center;
+}
+
+/* Secure badge */
+.co-secure {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-family: var(--f-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+}
+
+.co-secure::before {
+  content: "🔒";
+  font-size: 0.7rem;
+}
+
+/* Form sections spacing */
+.co-section { margin-bottom: 38px; }
+
+/* Submit button */
+.co-submit {
+  width: 100%;
+  padding: 18px 28px;
+  background: var(--k-gold);
+  border: none;
+  color: #060606;
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.co-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+.co-submit:active { transform: translateY(0); }
+.co-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* Summary panel enhancements */
+.checkout-panel {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+  align-self: start;
+}
+
+.co-summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.co-summary-count {
+  font-family: var(--f-mono);
+  font-size: 0.52rem;
+  color: var(--k-muted);
+  letter-spacing: 0.12em;
+}
+
+.checkout-item {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--k-line);
+}
+
+.checkout-item:last-child { border-bottom: none; }
+
+.co-qty-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: rgba(210,174,91,0.18);
+  border: 1px solid var(--k-gold);
+  font-family: var(--f-mono);
+  font-size: 0.58rem;
+  color: var(--k-gold);
+  flex-shrink: 0;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+}
+
+.checkout-item-thumb {
+  position: relative;
+  width: 76px;
+  height: 96px;
+  flex-shrink: 0;
+}
+
+.checkout-item-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 1px solid var(--k-line-cold);
+  display: block;
+}
+
+/* Subtotals row */
+.co-subtotals {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+  font-family: var(--f-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--k-muted);
+}
+
+.co-subtotal-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.co-subtotal-row.shipping-row span:last-child { color: #7dba7d; }
+
+/* Success overlay */
+.co-success {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(2,2,2,0.97);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+}
+
+.co-success.active { display: flex; }
+
+.co-success-icon {
+  width: 72px;
+  height: 72px;
+  border: 2px solid var(--k-gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 32px;
+}
+
+.co-success h2 {
+  font-family: var(--f-primary);
+  font-size: clamp(1.6rem, 4vw, 2.8rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--k-white);
+  margin-bottom: 16px;
+}
+
+.co-success p {
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--k-muted);
+  max-width: 440px;
+  line-height: 1.9;
+  margin-bottom: 40px;
+}
+
+.co-order-ref {
+  font-family: var(--f-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: var(--k-gold);
+  padding: 10px 20px;
+  border: 1px solid var(--k-line);
+  margin-bottom: 40px;
+}
+
+/* Empty bag CTA */
+.co-empty {
+  padding: 48px 0;
+  text-align: center;
+}
+
+.co-empty p {
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--k-muted);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+/* Validation error */
+.co-field.has-error input,
+.co-field.has-error select { border-color: #e05555; }
+
+.co-field-error {
+  font-family: var(--f-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  color: #e05555;
+  margin-top: 4px;
+}
+
+@media (max-width: 880px) {
+  .co-form-grid { grid-template-columns: 1fr; }
+  .co-card-row { grid-template-columns: 1fr; }
+  .checkout-panel { position: static; }
+  .checkout-grid { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 <body data-page="checkout">
 <div class="k-grain"></div>
+
+<!-- ── Success Overlay ── -->
+<div class="co-success" id="coSuccess">
+  <div class="co-success-icon">✓</div>
+  <h2>Order Confirmed</h2>
+  <p>Your order has been received. You will receive a confirmation email shortly at the address you provided. We'll notify you once your drop ships.</p>
+  <div class="co-order-ref" id="coOrderRef">ORDER #KR-000000</div>
+  <a class="k-btn-gold" href="index.html">Return Home</a>
+</div>
+
 <main class="checkout-page">
   <div class="section-shell checkout-grid">
-    <section class="reveal">
-      <div class="eyebrow">Secure Preview</div>
-      <h1 class="checkout-title">Checkout</h1>
-      <p>This local checkout preview keeps the bag flow intact while the payment layer is still outside this static build. The presentation stays premium so the final commerce step matches the rest of the launch.</p>
-      <div class="hero-actions">
-        <a class="k-btn-outline" href="men.html">Continue Shopping</a>
+
+    <!-- ── LEFT: Form ── -->
+    <div id="coFormWrap">
+      <!-- Empty bag state -->
+      <div class="co-empty" id="coEmptyState" style="display:none;">
+        <p>Your bag is empty</p>
+        <a class="k-btn-outline" href="men.html">Shop Men</a>
+        &nbsp;
+        <a class="k-btn-outline" href="women.html">Shop Women</a>
       </div>
-    </section>
-    <aside class="checkout-panel reveal">
-      <div class="eyebrow">Order Summary</div>
+
+      <!-- Checkout form -->
+      <form id="coForm" novalidate>
+
+        <!-- Contact -->
+        <div class="co-section">
+          <div class="co-section-label">01 — Contact</div>
+          <div class="co-form-grid">
+            <div class="co-field" id="field-firstName">
+              <label for="firstName">First Name</label>
+              <input type="text" id="firstName" name="firstName" placeholder="First name" autocomplete="given-name">
+            </div>
+            <div class="co-field" id="field-lastName">
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" name="lastName" placeholder="Last name" autocomplete="family-name">
+            </div>
+            <div class="co-field co-field-full" id="field-email">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email">
+            </div>
+            <div class="co-field co-field-full" id="field-phone">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="+91 00000 00000" autocomplete="tel">
+            </div>
+          </div>
+        </div>
+
+        <!-- Shipping -->
+        <div class="co-section">
+          <div class="co-section-label">02 — Shipping Address</div>
+          <div class="co-form-grid">
+            <div class="co-field co-field-full" id="field-address">
+              <label for="address">Street Address</label>
+              <input type="text" id="address" name="address" placeholder="123 Street, Apt / Floor" autocomplete="street-address">
+            </div>
+            <div class="co-field" id="field-city">
+              <label for="city">City</label>
+              <input type="text" id="city" name="city" placeholder="Mumbai" autocomplete="address-level2">
+            </div>
+            <div class="co-field" id="field-state">
+              <label for="state">State / Province</label>
+              <input type="text" id="state" name="state" placeholder="Maharashtra" autocomplete="address-level1">
+            </div>
+            <div class="co-field" id="field-zip">
+              <label for="zip">PIN / ZIP</label>
+              <input type="text" id="zip" name="zip" placeholder="400001" autocomplete="postal-code">
+            </div>
+            <div class="co-field" id="field-country">
+              <label for="country">Country</label>
+              <select id="country" name="country" autocomplete="country">
+                <option value="">Select country</option>
+                <option value="IN" selected>India</option>
+                <option value="US">United States</option>
+                <option value="GB">United Kingdom</option>
+                <option value="CA">Canada</option>
+                <option value="AU">Australia</option>
+                <option value="SG">Singapore</option>
+                <option value="AE">United Arab Emirates</option>
+                <option value="DE">Germany</option>
+                <option value="FR">France</option>
+                <option value="JP">Japan</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment -->
+        <div class="co-section">
+          <div class="co-section-label">03 — Payment</div>
+          <div class="co-card-icons">
+            <span class="co-card-icon">Visa</span>
+            <span class="co-card-icon">MC</span>
+            <span class="co-card-icon">Amex</span>
+            <span class="co-card-icon">UPI</span>
+          </div>
+          <div class="co-form-grid">
+            <div class="co-field co-field-full" id="field-cardNumber">
+              <label for="cardNumber">Card Number</label>
+              <input type="text" id="cardNumber" name="cardNumber" placeholder="0000  0000  0000  0000" maxlength="19" autocomplete="cc-number" inputmode="numeric">
+            </div>
+            <div class="co-field co-field-full" id="field-cardName">
+              <label for="cardName">Name on Card</label>
+              <input type="text" id="cardName" name="cardName" placeholder="As it appears on your card" autocomplete="cc-name">
+            </div>
+          </div>
+          <div class="co-card-row" style="margin-top:14px;">
+            <div class="co-field" id="field-expiry">
+              <label for="expiry">Expiry</label>
+              <input type="text" id="expiry" name="expiry" placeholder="MM / YY" maxlength="7" autocomplete="cc-exp" inputmode="numeric">
+            </div>
+            <div class="co-field" id="field-cvv">
+              <label for="cvv">CVV</label>
+              <input type="text" id="cvv" name="cvv" placeholder="•••" maxlength="4" autocomplete="cc-csc" inputmode="numeric">
+            </div>
+          </div>
+          <div class="co-secure">SSL encrypted — your payment info is never stored</div>
+        </div>
+
+        <button type="submit" class="co-submit" id="coSubmit">Confirm &amp; Place Order</button>
+
+      </form>
+    </div>
+
+    <!-- ── RIGHT: Order Summary ── -->
+    <aside class="checkout-panel">
+      <div class="co-summary-header">
+        <div class="eyebrow" style="margin-bottom:0;">Order Summary</div>
+        <span class="co-summary-count" id="coItemCount"></span>
+      </div>
       <div class="checkout-items" id="checkoutItems"></div>
+
+      <div class="co-subtotals">
+        <div class="co-subtotal-row">
+          <span>Subtotal</span>
+          <span id="coSubtotal">$0.00</span>
+        </div>
+        <div class="co-subtotal-row shipping-row">
+          <span>Shipping</span>
+          <span>Free</span>
+        </div>
+        <div class="co-subtotal-row">
+          <span>Taxes</span>
+          <span>Calculated at delivery</span>
+        </div>
+      </div>
+
       <div class="checkout-total">
         <span>Total</span>
         <span id="checkoutTotal">$0.00</span>
       </div>
     </aside>
+
   </div>
 </main>
+
+<script>
+(function () {
+  /* ── Card number formatting ── */
+  var cardInput = document.getElementById("cardNumber");
+  if (cardInput) {
+    cardInput.addEventListener("input", function () {
+      var v = this.value.replace(/\D/g, "").slice(0, 16);
+      this.value = v.replace(/(\d{4})(?=\d)/g, "$1  ");
+    });
+  }
+
+  /* ── Expiry formatting ── */
+  var expiryInput = document.getElementById("expiry");
+  if (expiryInput) {
+    expiryInput.addEventListener("input", function () {
+      var v = this.value.replace(/\D/g, "").slice(0, 4);
+      if (v.length > 2) v = v.slice(0, 2) + " / " + v.slice(2);
+      this.value = v;
+    });
+  }
+
+  /* ── Validation ── */
+  function setError(fieldId, msg) {
+    var wrap = document.getElementById("field-" + fieldId);
+    if (!wrap) return;
+    wrap.classList.add("has-error");
+    var existing = wrap.querySelector(".co-field-error");
+    if (!existing) {
+      var err = document.createElement("div");
+      err.className = "co-field-error";
+      err.textContent = msg;
+      wrap.appendChild(err);
+    }
+  }
+
+  function clearErrors() {
+    document.querySelectorAll(".co-field.has-error").forEach(function (el) {
+      el.classList.remove("has-error");
+      var e = el.querySelector(".co-field-error");
+      if (e) e.remove();
+    });
+  }
+
+  function validateForm() {
+    var valid = true;
+    clearErrors();
+
+    function req(id, msg) {
+      var el = document.getElementById(id);
+      if (!el || !el.value.trim()) { setError(id, msg || "Required"); valid = false; }
+    }
+
+    req("firstName", "First name required");
+    req("lastName", "Last name required");
+
+    var emailEl = document.getElementById("email");
+    if (!emailEl || !emailEl.value.trim()) {
+      setError("email", "Email required"); valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(emailEl.value)) {
+      setError("email", "Enter a valid email"); valid = false;
+    }
+
+    req("address", "Address required");
+    req("city", "City required");
+    req("zip", "PIN / ZIP required");
+
+    var countryEl = document.getElementById("country");
+    if (!countryEl || !countryEl.value) { setError("country", "Select a country"); valid = false; }
+
+    var cardEl = document.getElementById("cardNumber");
+    var rawCard = cardEl ? cardEl.value.replace(/\s/g, "") : "";
+    if (rawCard.length < 16) { setError("cardNumber", "Enter a valid 16-digit card number"); valid = false; }
+
+    req("cardName", "Name on card required");
+
+    var expEl = document.getElementById("expiry");
+    if (!expEl || expEl.value.replace(/\s/g, "").replace("/", "").length < 4) {
+      setError("expiry", "Enter expiry (MM / YY)"); valid = false;
+    }
+
+    var cvvEl = document.getElementById("cvv");
+    if (!cvvEl || cvvEl.value.length < 3) { setError("cvv", "Enter CVV"); valid = false; }
+
+    return valid;
+  }
+
+  /* ── Order reference generator ── */
+  function makeOrderRef() {
+    var chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    var ref = "KR-";
+    for (var i = 0; i < 6; i++) ref += chars[Math.floor(Math.random() * chars.length)];
+    return ref;
+  }
+
+  /* ── Form submit ── */
+  var form = document.getElementById("coForm");
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!validateForm()) return;
+
+      var btn = document.getElementById("coSubmit");
+      if (btn) { btn.disabled = true; btn.textContent = "Processing…"; }
+
+      setTimeout(function () {
+        /* Clear cart */
+        try { localStorage.removeItem("kryptaa_cart"); } catch (ex) {}
+
+        /* Show success */
+        var overlay = document.getElementById("coSuccess");
+        var refEl = document.getElementById("coOrderRef");
+        if (refEl) refEl.textContent = "ORDER #" + makeOrderRef();
+        if (overlay) overlay.classList.add("active");
+      }, 1400);
+    });
+  }
+
+  /* ── Render summary ── */
+  function renderSummary() {
+    var cart;
+    try { cart = JSON.parse(localStorage.getItem("kryptaa_cart") || "[]"); } catch (e) { cart = []; }
+
+    var emptyEl = document.getElementById("coEmptyState");
+    var formEl = document.getElementById("coForm");
+    var btnEl = document.getElementById("coSubmit");
+    var listEl = document.getElementById("checkoutItems");
+    var totalEl = document.getElementById("checkoutTotal");
+    var subtotalEl = document.getElementById("coSubtotal");
+    var countEl = document.getElementById("coItemCount");
+
+    if (!cart.length) {
+      if (emptyEl) emptyEl.style.display = "";
+      if (formEl) formEl.style.display = "none";
+      if (listEl) listEl.innerHTML = '<div class="cart-empty">Your bag is empty</div>';
+      if (totalEl) totalEl.textContent = "$0.00";
+      if (btnEl) btnEl.disabled = true;
+      if (countEl) countEl.textContent = "";
+      return;
+    }
+
+    var totalQty = cart.reduce(function (s, i) { return s + i.qty; }, 0);
+    var totalVal = cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
+    var fmt = function (n) { return "$" + n.toFixed(2); };
+
+    if (countEl) countEl.textContent = totalQty + " ITEM" + (totalQty !== 1 ? "S" : "");
+    if (totalEl) totalEl.textContent = fmt(totalVal);
+    if (subtotalEl) subtotalEl.textContent = fmt(totalVal);
+
+    if (listEl) {
+      listEl.innerHTML = cart.map(function (item) {
+        return '<div class="checkout-item">' +
+          '<div class="checkout-item-thumb">' +
+            '<img src="' + (item.img || "") + '" alt="' + item.name + '" loading="lazy">' +
+            '<span class="co-qty-badge">' + item.qty + '</span>' +
+          '</div>' +
+          '<div>' +
+            '<div class="checkout-name">' + item.name + '</div>' +
+            '<div class="checkout-meta">Size ' + item.size + '</div>' +
+            '<div class="checkout-meta" style="margin-top:4px;color:var(--k-gold);">' + fmt(item.price * item.qty) + '</div>' +
+          '</div>' +
+        '</div>';
+      }).join("");
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", renderSummary);
+})();
+</script>
 </body>
 </html>

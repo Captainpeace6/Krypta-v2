@@ -528,9 +528,16 @@
     if (!target) return;
 
     const id = new URLSearchParams(window.location.search).get("id");
-    const product = id ? getProductById(id) : null;
+    const product = id && typeof getProductById === "function" ? getProductById(id) : null;
     if (!product) {
-      window.location.href = "index.html";
+      target.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:20px;padding:60px 24px;text-align:center;">
+          <div style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.3em;color:rgba(210,174,91,0.55);text-transform:uppercase;margin-bottom:8px;">Error 404</div>
+          <h2 style="font-size:clamp(1.4rem,4vw,2.8rem);color:#f0ede8;margin:0;">Product Not Found</h2>
+          <p style="font-family:'Space Mono',monospace;font-size:0.6rem;color:rgba(240,237,230,0.45);letter-spacing:0.08em;max-width:400px;">This piece may have sold out or the link has expired.</p>
+          <a href="men.html" style="display:inline-block;font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:#d2ae5b;border:1px solid rgba(210,174,91,0.35);padding:12px 28px;text-decoration:none;margin-top:8px;">Back to Shop</a>
+        </div>
+      `;
       return;
     }
 
@@ -640,7 +647,7 @@
     if (page === "home") renderHome();
     if (page === "shop") renderShop();
     if (page === "product") renderProductDetail();
-    if (page === "checkout") renderCheckoutSummary();
+    /* checkout page renders its own summary via inline script in checkout.html */
   }
 
   doc.addEventListener("DOMContentLoaded", () => {

@@ -326,34 +326,36 @@
         break;
 
       /* ────────────────────────────────────────────
-         PANEL 3 — BRAND VIDEO
-         Video col slams in from left with scale spring
-         Headline blasts, text reveals, CTA bounces in
+         PANEL 3 — BRAND VIDEO (full screen)
+         Video fades + zooms in, headline blasts from corner
       ──────────────────────────────────────────── */
       case 3:
         if (fig) {
-          tl.fromTo(fig, { opacity: 0, x: -90, scale: 0.85 }, { opacity: 1, x: 0, scale: 1, duration: 1.15, ease: 'power3.out' }, 0.1);
-          tl.to(fig, { scale: 1.025, duration: 9, ease: 'sine.inOut', yoyo: true, repeat: -1 }, 1.25);
+          /* Full-screen video: fade in + slow zoom */
+          tl.fromTo(fig, { opacity: 0, scale: 1.1 }, { opacity: 1, scale: 1, duration: 1.6, ease: 'power3.out' }, 0);
+          tl.to(fig, { scale: 1.04, duration: 14, ease: 'none' }, 1.6);
         }
         if (cp) {
-          var bvEye = cp.querySelector('.bv-eyebrow');
-          if (bvEye) tl.fromTo(bvEye, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 0.5);
+          /* Top-left eyebrow slides down */
+          var bvEyes = cp.querySelectorAll('.bv-eyebrow');
+          if (bvEyes.length) tl.fromTo(bvEyes, { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.12, ease: 'power2.out' }, 0.55);
 
+          /* Bottom-right headline blasts in */
           var bvH = cp.querySelector('.bv-headline');
           if (bvH) {
             var charsbv = splitChars(bvH);
             if (charsbv && charsbv.length) {
-              blastChars(charsbv, tl, 0.65, 0.52, 0.02);
+              blastChars(charsbv, tl, 0.7, 0.52, 0.02);
             } else {
-              tl.fromTo(bvH, { opacity: 0, scale: 0.78, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 0.65, ease: 'back.out(1.6)' }, 0.65);
+              tl.fromTo(bvH, { opacity: 0, scale: 0.78, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 0.65, ease: 'back.out(1.6)' }, 0.7);
             }
           }
 
           var bvBody = cp.querySelector('.bv-body');
-          if (bvBody) tl.fromTo(bvBody, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 1.35);
+          if (bvBody) tl.fromTo(bvBody, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 1.4);
 
           var bvCta = cp.querySelector('.bv-cta');
-          if (bvCta) tl.fromTo(bvCta, { opacity: 0, scale: 0.82 }, { opacity: 1, scale: 1, duration: 0.45, ease: 'back.out(1.7)' }, 1.6);
+          if (bvCta) tl.fromTo(bvCta, { opacity: 0, scale: 0.82 }, { opacity: 1, scale: 1, duration: 0.45, ease: 'back.out(1.7)' }, 1.65);
         }
         animHUD(panel, tl, 0.65);
         break;
@@ -392,68 +394,10 @@
         break;
 
       /* ────────────────────────────────────────────
-         PANEL 5 — COLLAB / HEAVYWEIGHT TEES
-         T-shirt images fly in from different angles
-         Headline blasts, extra particle burst
-      ──────────────────────────────────────────── */
-      case 5:
-        burstP(window.innerWidth * 0.65, window.innerHeight * 0.5, 45);
-
-        if (bg) {
-          tl.fromTo(bg, { opacity: 0, scale: 1.12 }, { opacity: 1, scale: 1, duration: 1.4, ease: 'power3.out' }, 0);
-          tl.to(bg, { scale: 1.06, duration: 28, ease: 'none' }, 1.4);
-        }
-        if (fig) {
-          var cimgs = fig.querySelectorAll('.collab-img');
-          if (cimgs.length) {
-            tl.fromTo(cimgs,
-              {
-                opacity: 0,
-                y: function (i) { return [100, -80, 120][i] || 80; },
-                x: function (i) { return [40, -30, 60][i] || 30; },
-                scale: 0.65,
-                rotation: function (i) { return [-6, 5, -8][i] || -4; }
-              },
-              {
-                opacity: 1, y: 0, x: 0, scale: 1, rotation: 0,
-                duration: 1.1, stagger: 0.15, ease: 'power3.out'
-              },
-              0.25
-            );
-            /* Idle: each tee floats at different phase */
-            cimgs.forEach(function (img, i) {
-              tl.to(img, { y: [-12, -18, -10][i] || -12, duration: 4 + i * 0.9, ease: 'sine.inOut', yoyo: true, repeat: -1 }, 1.35 + i * 0.3);
-            });
-          }
-        }
-        if (cp) {
-          var ceye = cp.querySelector('.eyebrow');
-          if (ceye) tl.fromTo(ceye, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.42, ease: 'power2.out' }, 0.5);
-
-          var ch2 = cp.querySelector('h2');
-          if (ch2) {
-            var charsc = splitChars(ch2);
-            if (charsc && charsc.length) {
-              blastChars(charsc, tl, 0.65, 0.56, 0.025);
-            } else {
-              tl.fromTo(ch2, { opacity: 0, scale: 0.76, y: 50 }, { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: 'back.out(1.6)' }, 0.65);
-            }
-          }
-
-          var cp5 = cp.querySelector('p');
-          if (cp5) tl.fromTo(cp5, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' }, 1.5);
-
-          var cbtn = cp.querySelector('.k-btn-gold');
-          if (cbtn) tl.fromTo(cbtn, { opacity: 0, scale: 0.82 }, { opacity: 1, scale: 1, duration: 0.46, ease: 'back.out(1.7)' }, 1.8);
-        }
-        animHUD(panel, tl, 0.75);
-        break;
-
-      /* ────────────────────────────────────────────
-         PANEL 6 — BLUEPRINT  "The Craft"
+         PANEL 5 — BLUEPRINT  "The Craft"
          Grid fades in, drawings reveal, spec table stagger
       ──────────────────────────────────────────── */
-      case 6:
+      case 5:
         if (bg) {
           tl.fromTo(bg, { opacity: 0 }, { opacity: 1, duration: 1.2, ease: 'power2.out' }, 0);
         }
@@ -494,45 +438,38 @@
         break;
 
       /* ────────────────────────────────────────────
-         PANEL 7 — BRAND STORY
+         PANEL 6 — BRAND STORY
          "NOT FOR EVERYONE" — letters blast in
          Stats count up with stagger
          CTA bounces in last
       ──────────────────────────────────────────── */
-      case 7:
+      case 6:
         if (bg) {
-          tl.fromTo(bg, { opacity: 0, scale: 1.07 }, { opacity: 1, scale: 1, duration: 1.35, ease: 'power3.out' }, 0);
-          tl.to(bg, { scale: 1.045, duration: 26, ease: 'none' }, 1.35);
+          tl.fromTo(bg, { opacity: 0 }, { opacity: 1, duration: 1.1, ease: 'power2.out' }, 0);
         }
         if (cp) {
           var bstag = cp.querySelector('.bs-tag');
-          if (bstag) tl.fromTo(bstag, { opacity: 0 }, { opacity: 1, duration: 0.38 }, 0.28);
+          if (bstag) tl.fromTo(bstag, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, 0.2);
 
           var bsh2 = cp.querySelector('.bs-headline');
           if (bsh2) {
-            var charsBs = splitChars(bsh2);
-            if (charsBs && charsBs.length) {
-              blastChars(charsBs, tl, 0.4, 0.56, 0.02);
-            } else {
-              /* Has nested spans/br — animate whole element with slam */
-              tl.fromTo(bsh2, { opacity: 0, scale: 0.75, y: 50 }, { opacity: 1, scale: 1, y: 0, duration: 0.7, ease: 'back.out(1.5)' }, 0.4);
-            }
+            tl.fromTo(bsh2, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out' }, 0.4);
           }
 
           var bsbody = cp.querySelector('.bs-body');
-          if (bsbody) tl.fromTo(bsbody, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 1.4);
+          if (bsbody) tl.fromTo(bsbody, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.75);
 
           var bsstats = cp.querySelectorAll('.bs-stat');
           if (bsstats.length) {
             tl.fromTo(bsstats,
-              { opacity: 0, y: 34, scale: 0.82 },
-              { opacity: 1, y: 0, scale: 1, duration: 0.52, stagger: 0.1, ease: 'back.out(1.5)' },
-              1.85
+              { opacity: 0, y: 16 },
+              { opacity: 1, y: 0, duration: 0.45, stagger: 0.09, ease: 'power2.out' },
+              1.1
             );
           }
 
           var bscta = cp.querySelector('.k-btn-gold');
-          if (bscta) tl.fromTo(bscta, { opacity: 0, scale: 0.78 }, { opacity: 1, scale: 1, duration: 0.44, ease: 'back.out(1.8)' }, 2.2);
+          if (bscta) tl.fromTo(bscta, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 1.55);
         }
         animHUD(panel, tl, 0.95);
         break;
@@ -580,7 +517,7 @@
         '.hero-actions a','.k-btn-gold','.k-btn-outline','.bv-eyebrow',
         '.bv-headline','.bv-body','.bv-cta','.bs-tag','.bs-headline',
         '.bs-body','.bs-stats','.bs-stat','.category-card','.product-card',
-        '.collab-img','.jd-eyebrow','.jd-headline','.jd-sub','.jd-form','.jd-fine'
+        '.jd-eyebrow','.jd-headline','.jd-sub','.jd-form','.jd-fine'
       ].join(',');
       var els = cp.querySelectorAll(sel);
       if (els.length) gsap.set(els, { opacity: 0, y: 20, x: 0, scale: 1, rotation: 0 });
