@@ -554,10 +554,28 @@
       ["Brand Connection", product.brandConnection]
     ];
 
+    const gallery = product.gallery && product.gallery.length ? product.gallery : [{src: product.hero || product.img, label: "Front"}];
+    const galleryHTML = `
+      <div class="pg-main-wrap">
+        <img class="pg-main-img" id="pgMainImg" src="${gallery[0].src}" alt="${product.name}">
+        <div class="pg-label" id="pgLabel">${gallery[0].label}</div>
+        <div class="pg-counter" id="pgCounter">1 / ${gallery.length}</div>
+        ${gallery.length > 1 ? `
+        <button class="pg-arrow pg-prev" id="pgPrev" aria-label="Previous view">&#8592;</button>
+        <button class="pg-arrow pg-next" id="pgNext" aria-label="Next view">&#8594;</button>
+        ` : ""}
+      </div>
+      ${gallery.length > 1 ? `
+      <div class="pg-thumbs" id="pgThumbs">
+        ${gallery.map((item, i) => `<button class="pg-thumb${i === 0 ? " active" : ""}" data-idx="${i}" aria-label="${item.label}"><img src="${item.src}" alt="${item.label}" loading="lazy"><span>${item.label}</span></button>`).join("")}
+      </div>
+      ` : ""}
+    `;
+
     target.innerHTML = `
       <section class="detail-hero section-shell">
-        <div class="detail-media reveal">
-          <img src="${product.hero}" alt="${product.name}">
+        <div class="detail-media pg-gallery reveal">
+          ${galleryHTML}
         </div>
         <div class="detail-copy reveal">
           <a class="eyebrow" href="${getCategoryConfig(product.category).href}">${product.collection}</a>
@@ -612,6 +630,46 @@
       }
       addToCart(product.id, selectedSize);
     });
+
+    /* ── Gallery slider ── */
+    if (gallery.length > 1) {
+      var pgIdx = 0;
+      var pgMain = doc.getElementById("pgMainImg");
+      var pgLbl = doc.getElementById("pgLabel");
+      var pgCtr = doc.getElementById("pgCounter");
+      var pgThumbs = doc.getElementById("pgThumbs");
+
+      function pgShow(idx) {
+        pgIdx = (idx + gallery.length) % gallery.length;
+        pgMain.style.opacity = "0";
+        setTimeout(function () {
+          pgMain.src = gallery[pgIdx].src;
+          pgMain.onload = function () { pgMain.style.opacity = "1"; };
+          pgMain.style.opacity = "1";
+        }, 120);
+        pgLbl.textContent = gallery[pgIdx].label;
+        pgCtr.textContent = (pgIdx + 1) + " / " + gallery.length;
+        doc.querySelectorAll(".pg-thumb").forEach(function (t, i) { t.classList.toggle("active", i === pgIdx); });
+        if (pgThumbs) {
+          var activeThumb = pgThumbs.querySelectorAll(".pg-thumb")[pgIdx];
+          if (activeThumb) activeThumb.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        }
+      }
+
+      doc.getElementById("pgPrev")?.addEventListener("click", function () { pgShow(pgIdx - 1); });
+      doc.getElementById("pgNext")?.addEventListener("click", function () { pgShow(pgIdx + 1); });
+      doc.querySelectorAll(".pg-thumb").forEach(function (t) {
+        t.addEventListener("click", function () { pgShow(Number(t.dataset.idx)); });
+      });
+
+      /* Swipe support */
+      var pgTouchX = 0;
+      pgMain.addEventListener("touchstart", function (e) { pgTouchX = e.touches[0].clientX; }, { passive: true });
+      pgMain.addEventListener("touchend", function (e) {
+        var diff = pgTouchX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) pgShow(pgIdx + (diff > 0 ? 1 : -1));
+      });
+    }
   }
 
   function renderCheckoutSummary() {
