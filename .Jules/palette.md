@@ -1,0 +1,3 @@
+## 2024-05-24 - Interactive Panel Accessibility & Flow
+**Learning:** In cinematic, script-driven UIs where navigation and drawers are controlled via central JavaScript (e.g., GSAP/Lenis), accessibility states (ARIA expanded, controls, and labels) often diverge from visual states. These must be explicitly synchronized within the opening/closing logic. Additionally, interactive panels like drawers should never be "dead ends"; providing an actionable CTA in empty states (like "Shop Now") that automatically triggers the panel's closure upon navigation significantly improves user flow.
+**Action:** Always verify ARIA synchronization in central event delegation functions and ensure empty states provide clear, actionable navigation paths that handle panel state cleanup.
