@@ -1,0 +1,3 @@
+## 2024-05-29 - Accessible Luxury Forms & Overlay Interactions
+**Learning:** In a luxury design aesthetic (Black & Gold, minimal UI), explicit form labels are often omitted for visual purity, creating a high barrier for screen readers. Additionally, the cinematic overlays and drawer-based navigation (Bag/Menu) can intercept pointer events in automated tests if not explicitly managed, mirroring potential real-world "stuck" states for users.
+**Action:** Always implement the `.sr-only` utility for visually hidden but accessible labels. Ensure automated tests explicitly close drawers/overlays before subsequent interactions to verify clean state transitions.
