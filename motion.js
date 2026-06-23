@@ -813,3 +813,81 @@
   window.removeFromCart = removeFromCart;
   window.renderCartContent = renderCartContent;
 })();
+
+/* ── Brand Story canvas particle animation ── */
+(function () {
+  var canvas = document.getElementById("bsCanvas");
+  if (!canvas) return;
+  var ctx = canvas.getContext("2d");
+  var particles = [];
+  var W, H;
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+
+  function makeParticle() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.4 + 0.3,
+      vx: (Math.random() - 0.5) * 0.28,
+      vy: (Math.random() - 0.5) * 0.28,
+      alpha: Math.random() * 0.5 + 0.1,
+      da: (Math.random() - 0.5) * 0.004
+    };
+  }
+
+  function init() {
+    resize();
+    particles = [];
+    var count = Math.floor((W * H) / 5800);
+    for (var i = 0; i < count; i++) particles.push(makeParticle());
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    var gold = "210,174,91";
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.alpha += p.da;
+      if (p.alpha <= 0.05 || p.alpha >= 0.65) p.da *= -1;
+      if (p.x < -4) p.x = W + 4;
+      if (p.x > W + 4) p.x = -4;
+      if (p.y < -4) p.y = H + 4;
+      if (p.y > H + 4) p.y = -4;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(" + gold + "," + p.alpha + ")";
+      ctx.fill();
+    }
+
+    /* faint connecting lines between close particles */
+    for (var a = 0; a < particles.length; a++) {
+      for (var b = a + 1; b < particles.length; b++) {
+        var dx = particles[a].x - particles[b].x;
+        var dy = particles[a].y - particles[b].y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 90) {
+          ctx.beginPath();
+          ctx.moveTo(particles[a].x, particles[a].y);
+          ctx.lineTo(particles[b].x, particles[b].y);
+          ctx.strokeStyle = "rgba(210,174,91," + (0.06 * (1 - dist / 90)) + ")";
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener("resize", function () { init(); });
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () { init(); draw(); });
+  } else {
+    init(); draw();
+  }
+})();
