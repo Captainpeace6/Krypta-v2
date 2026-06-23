@@ -592,6 +592,7 @@ document.getElementById('joinDropForm').addEventListener('submit', function(e){
 
   document.querySelectorAll('.blueprint-drawing').forEach(function(d) {
     d.addEventListener('mouseenter', function() { bpAnimate(d); });
+    d.addEventListener('touchstart', function() { bpAnimate(d); }, { passive: true });
   });
 })();
 </script>

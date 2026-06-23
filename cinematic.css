@@ -1475,8 +1475,22 @@ a { color: inherit; }
 }
 .bcb-link:hover { color: #d2ae5b; }
 
+/* Remove home-section padding from snap panels so 100vh fills correctly */
+.snap-blueprint.home-section,
+.snap-editorial.home-section {
+  padding: 0;
+}
+
 @media (max-width: 767px) {
-  .blueprint-inner { grid-template-columns: 1fr; }
+  .blueprint-inner {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr 0.8fr;
+    height: 100svh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .blueprint-inner::-webkit-scrollbar { display: none; }
   .blueprint-header {
     flex-direction: column;
     margin-bottom: 8px;

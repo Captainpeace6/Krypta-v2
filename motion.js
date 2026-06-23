@@ -455,7 +455,7 @@
   function renderHome() {
     const heroMedia = doc.getElementById("homeHeroMedia");
     if (heroMedia) {
-      heroMedia.innerHTML = getProductsByIds([14, 31, 401]).map((product) => `<img src="${product.img}" alt="">`).join("");
+      heroMedia.innerHTML = getProductsByIds([1, 14, 60]).map((product) => `<img src="${product.img}" alt="">`).join("");
     }
 
     const collectionGrid = doc.getElementById("collectionGrid");
@@ -571,6 +571,12 @@
     `;
 
     target.innerHTML = `
+      <div class="detail-back-row">
+        <a class="detail-back-btn" href="${getCategoryConfig(product.category).href}" aria-label="Back to shop">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
+          Back
+        </a>
+      </div>
       <section class="detail-hero section-shell">
         <div class="detail-media pg-gallery reveal">
           ${galleryHTML}
