@@ -393,7 +393,12 @@
     if (totalAmount) totalAmount.textContent = formatPrice(totalVal);
 
     if (!cart.length) {
-      container.innerHTML = `<div class="cart-empty">Your bag is empty</div>`;
+      container.innerHTML = `
+        <div class="cart-empty" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <p>Your bag is empty</p>
+          <a class="k-btn-gold" href="men.html" style="margin-top:20px;display:inline-block;">Shop The Drop</a>
+        </div>
+      `;
       return;
     }
 
@@ -405,9 +410,9 @@
           <div class="cart-item-meta">Size ${item.size} / ${formatPrice(item.price)}</div>
           <div class="cart-row">
             <div class="qty-control" aria-label="Quantity">
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1">-</button>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1" aria-label="Decrease quantity">-</button>
               <span class="qty-val">${item.qty}</span>
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1">+</button>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1" aria-label="Increase quantity">+</button>
             </div>
             <button class="cart-line-remove" type="button" data-cart-remove="${item.key}">Remove</button>
           </div>
@@ -438,7 +443,7 @@
         <div class="product-card-quick">
           <div class="quick-sizes">
             ${product.sizes.map((s) => `<button class="quick-size-btn" type="button" data-size="${s}" data-product="${product.id}">${s}</button>`).join("")}
-            ${isTee ? `<button class="quick-sg-btn" type="button" data-size-guide title="Size Guide">?</button>` : ""}
+            ${isTee ? `<button class="quick-sg-btn" type="button" data-size-guide title="Size Guide" aria-label="Open size guide">?</button>` : ""}
           </div>
           <button class="quick-add-btn" type="button" data-product-id="${product.id}">Add to Bag</button>
         </div>
