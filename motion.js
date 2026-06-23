@@ -142,7 +142,12 @@
   function markActiveNav() {
     const current = window.location.pathname.split("/").pop() || "index.html";
     doc.querySelectorAll("[data-nav]").forEach((link) => {
-      if (link.dataset.nav === current) link.classList.add("active");
+      if (link.dataset.nav === current) {
+        link.classList.add("active");
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
     });
   }
 
@@ -261,7 +266,11 @@
       const quickSize = event.target.closest(".quick-size-btn");
       const quickAdd = event.target.closest(".quick-add-btn");
 
-      if (menuToggle) body.classList.toggle("menu-open");
+      if (menuToggle) {
+        const isOpen = body.classList.toggle("menu-open");
+        menuToggle.setAttribute("aria-expanded", isOpen);
+        menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+      }
       if (cartOpen) openCart();
       if (cartClose) closeCart();
       if (qtyButton) updateCartQty(qtyButton.dataset.cartQty, Number(qtyButton.dataset.delta));
@@ -405,9 +414,9 @@
           <div class="cart-item-meta">Size ${item.size} / ${formatPrice(item.price)}</div>
           <div class="cart-row">
             <div class="qty-control" aria-label="Quantity">
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1">-</button>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1" aria-label="Decrease quantity">-</button>
               <span class="qty-val">${item.qty}</span>
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1">+</button>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1" aria-label="Increase quantity">+</button>
             </div>
             <button class="cart-line-remove" type="button" data-cart-remove="${item.key}">Remove</button>
           </div>
