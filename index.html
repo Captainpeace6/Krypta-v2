@@ -44,6 +44,10 @@
         pre.style.display = 'none';
         if (ent) ent.style.display = 'none';
         document.body.style.overflow = '';
+        if (!document.body.classList.contains('is-loaded')) {
+          document.body.classList.add('is-loaded');
+          document.dispatchEvent(new CustomEvent('kryptaa:revealed'));
+        }
       }
     }, 8000);
   });
@@ -566,7 +570,7 @@ document.getElementById('joinDropForm').addEventListener('submit', function(e){
 
   function bpAnimate(drawing) {
     var svg = drawing.querySelector('svg');
-    if (!svg || typeof gsap === 'undefined') return;
+    if (!svg || typeof gsap === 'undefined' || gsap.__fallback) return;
     var strokes = svg.querySelectorAll(HOVER_SEL);
     strokes.forEach(function(el) {
       var len = el.getTotalLength ? el.getTotalLength() : 300;

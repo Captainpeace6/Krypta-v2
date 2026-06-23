@@ -502,9 +502,20 @@
   /* ══════════════════════════════════════════════════════════
      INIT
   ══════════════════════════════════════════════════════════ */
+  function revealWithoutGsap() {
+    document.querySelectorAll('.snap-panel .layer-bg, .snap-panel .layer-figure').forEach(function(el) {
+      el.style.opacity = '1';
+    });
+    var heroVid = document.querySelector('.hero-video-bg');
+    if (heroVid) heroVid.style.opacity = '0.28';
+  }
+
   function initSnapScroll() {
     if (initiated) return;
-    if (typeof gsap === 'undefined' || gsap.__fallback) return;
+    if (typeof gsap === 'undefined' || gsap.__fallback) {
+      revealWithoutGsap();
+      return;
+    }
     initiated = true;
 
     panels = Array.from(document.querySelectorAll('.snap-panel'));

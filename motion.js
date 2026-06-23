@@ -423,6 +423,7 @@
 
   function productCard(product) {
     const isTee = product.category === "tees" || product.category === "tops";
+    const isAnime = product.category === "anime";
     return `
       <article class="product-card reveal">
         <a class="product-card-link" href="product-detail?id=${product.id}" aria-label="View ${product.name}">
@@ -435,7 +436,7 @@
             <p class="product-card-desc">${product.desc}</p>
             <div class="product-card-tags">${product.tags.slice(0, 3).map((tag) => `<span>${tag}</span>`).join("")}</div>
             <div class="product-card-footer">
-              <span class="product-price">${formatPrice(product.price)}</span>
+              ${isAnime ? `<span class="product-price preorder-badge">Preorder Only</span>` : `<span class="product-price">${formatPrice(product.price)}</span>`}
               <span class="tag-list">${product.availability}</span>
             </div>
           </div>
@@ -812,6 +813,13 @@
   window.addToCart = addToCart;
   window.removeFromCart = removeFromCart;
   window.renderCartContent = renderCartContent;
+
+  window.addEventListener('pageshow', function(e) {
+    if (e.persisted) {
+      cart = safeStorage.get("kryptaa_cart", "[]");
+      renderCartContent();
+    }
+  });
 })();
 
 /* ── Brand Story canvas particle animation ── */

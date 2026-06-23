@@ -272,6 +272,52 @@
   line-height: 1.6;
 }
 
+/* Coupon input */
+.co-coupon-wrap {
+  margin-bottom: 20px;
+}
+.co-coupon-row {
+  display: flex;
+  gap: 8px;
+}
+.co-coupon-input {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--k-line);
+  color: var(--k-bone);
+  font-family: var(--f-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.co-coupon-input::placeholder { color: rgba(255,255,255,0.2); }
+.co-coupon-input:focus { border-color: rgba(210,174,91,0.5); }
+.co-coupon-btn {
+  background: transparent;
+  border: 1px solid var(--k-line);
+  color: var(--k-muted);
+  font-family: var(--f-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 11px 16px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.co-coupon-btn:hover { border-color: rgba(210,174,91,0.5); color: var(--k-gold); }
+.co-coupon-msg {
+  margin-top: 8px;
+  font-family: var(--f-mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.1em;
+  min-height: 18px;
+}
+.co-coupon-msg.success { color: #7dba7d; }
+.co-coupon-msg.error   { color: #e07070; }
+
 /* Back to Drop button */
 .co-back-btn {
   display: inline-flex;
@@ -365,10 +411,23 @@
       </div>
       <div class="checkout-items" id="checkoutItems"></div>
 
+      <!-- Coupon code input -->
+      <div class="co-coupon-wrap" id="coCouponWrap">
+        <div class="co-coupon-row">
+          <input class="co-coupon-input" id="coCouponInput" type="text" placeholder="COUPON CODE" autocomplete="off" maxlength="20">
+          <button class="co-coupon-btn" id="coCouponBtn" type="button">Apply</button>
+        </div>
+        <div class="co-coupon-msg" id="coCouponMsg"></div>
+      </div>
+
       <div class="co-subtotals">
         <div class="co-subtotal-row">
           <span>Subtotal</span>
           <span id="coSubtotal">$0.00</span>
+        </div>
+        <div class="co-subtotal-row co-discount-row" id="coDiscountRow" style="display:none;">
+          <span>Discount (10% off)</span>
+          <span id="coDiscount" style="color:#7dba7d;">-$0.00</span>
         </div>
         <div class="co-subtotal-row shipping-row">
           <span>Shipping</span>
@@ -390,7 +449,10 @@
 </main>
 
 <script>
-/* ── Stripe checkout ── */
+/* ── Coupon state ── */
+var appliedCoupon = null; /* null or { code, discountRate } */
+var VALID_COUPONS = { 'KRYPTAA10': 0.10 };
+
 function goToStripe() {
   var cart;
   try { cart = JSON.parse(localStorage.getItem("kryptaa_cart") || "[]"); } catch (e) { cart = []; }
@@ -399,12 +461,14 @@ function goToStripe() {
   var btn = document.getElementById("coSubmit");
   if (btn) { btn.disabled = true; btn.textContent = "Redirecting to Stripe…"; }
 
-  var cartTotal = cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
+  var subtotal  = cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
+  var discount  = appliedCoupon ? subtotal * appliedCoupon.discountRate : 0;
+  var cartTotal = Math.round((subtotal - discount) * 100) / 100;
 
   fetch("https://kryptaa-backend.netlify.app/.netlify/functions/create-checkout", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ cart: cart, total: cartTotal })
+    body: JSON.stringify({ cart: cart, total: cartTotal, coupon: appliedCoupon ? appliedCoupon.code : null })
   })
   .then(function (r) { return r.json(); })
   .then(function (data) {
@@ -415,48 +479,60 @@ function goToStripe() {
       if (btn) { btn.disabled = false; btn.innerHTML = "🔒 &nbsp; Pay Now — " + document.getElementById("coPayBtnTotal").textContent; }
     }
   })
-  .catch(function (err) {
+  .catch(function () {
     alert("Network error. Please try again.");
     if (btn) { btn.disabled = false; btn.innerHTML = "🔒 &nbsp; Pay Now — " + document.getElementById("coPayBtnTotal").textContent; }
   });
 }
 
 (function () {
-  /* ── Render summary ── */
+  var fmt = function (n) { return "$" + n.toFixed(2); };
+
+  function getCart() {
+    try { return JSON.parse(localStorage.getItem("kryptaa_cart") || "[]"); } catch (e) { return []; }
+  }
+
+  function updateTotals(cart) {
+    var subtotal     = cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
+    var discount     = appliedCoupon ? Math.round(subtotal * appliedCoupon.discountRate * 100) / 100 : 0;
+    var total        = Math.round((subtotal - discount) * 100) / 100;
+    var totalQty     = cart.reduce(function (s, i) { return s + i.qty; }, 0);
+
+    var subtotalEl   = document.getElementById("coSubtotal");
+    var totalEl      = document.getElementById("checkoutTotal");
+    var amountEl     = document.getElementById("coTotalAmount");
+    var payBtnEl     = document.getElementById("coPayBtnTotal");
+    var countEl      = document.getElementById("coItemCount");
+    var discountRow  = document.getElementById("coDiscountRow");
+    var discountEl   = document.getElementById("coDiscount");
+
+    if (countEl)    countEl.textContent    = totalQty + " ITEM" + (totalQty !== 1 ? "S" : "");
+    if (subtotalEl) subtotalEl.textContent = fmt(subtotal);
+    if (totalEl)    totalEl.textContent    = fmt(total);
+    if (amountEl)   amountEl.textContent   = fmt(total);
+    if (payBtnEl)   payBtnEl.textContent   = fmt(total);
+
+    if (discountRow) discountRow.style.display = discount > 0 ? "" : "none";
+    if (discountEl)  discountEl.textContent    = "-" + fmt(discount);
+  }
+
   function renderSummary() {
-    var cart;
-    try { cart = JSON.parse(localStorage.getItem("kryptaa_cart") || "[]"); } catch (e) { cart = []; }
+    var cart = getCart();
 
     var emptyEl    = document.getElementById("coEmptyState");
     var stripeWrap = document.getElementById("coStripeWrap");
+    var couponWrap = document.getElementById("coCouponWrap");
     var btnEl      = document.getElementById("coSubmit");
     var listEl     = document.getElementById("checkoutItems");
-    var totalEl    = document.getElementById("checkoutTotal");
-    var subtotalEl = document.getElementById("coSubtotal");
-    var countEl    = document.getElementById("coItemCount");
-    var amountEl   = document.getElementById("coTotalAmount");
-    var payBtnEl   = document.getElementById("coPayBtnTotal");
 
     if (!cart.length) {
       if (emptyEl)    emptyEl.style.display = "";
       if (stripeWrap) stripeWrap.style.display = "none";
+      if (couponWrap) couponWrap.style.display = "none";
       if (listEl)     listEl.innerHTML = '<div class="cart-empty">Your bag is empty</div>';
-      if (totalEl)    totalEl.textContent = "$0.00";
       if (btnEl)      btnEl.disabled = true;
-      if (countEl)    countEl.textContent = "";
       return;
     }
-
-    var totalQty = cart.reduce(function (s, i) { return s + i.qty; }, 0);
-    var totalVal = cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
-    var fmt = function (n) { return "$" + n.toFixed(2); };
-    var fmtStr = fmt(totalVal);
-
-    if (countEl)    countEl.textContent    = totalQty + " ITEM" + (totalQty !== 1 ? "S" : "");
-    if (totalEl)    totalEl.textContent    = fmtStr;
-    if (subtotalEl) subtotalEl.textContent = fmtStr;
-    if (amountEl)   amountEl.textContent   = fmtStr;
-    if (payBtnEl)   payBtnEl.textContent   = fmtStr;
 
     if (listEl) {
       listEl.innerHTML = cart.map(function (item) {
@@ -473,9 +549,44 @@ function goToStripe() {
         '</div>';
       }).join("");
     }
+
+    updateTotals(cart);
   }
 
-  document.addEventListener("DOMContentLoaded", renderSummary);
+  function initCoupon() {
+    var input  = document.getElementById("coCouponInput");
+    var btn    = document.getElementById("coCouponBtn");
+    var msgEl  = document.getElementById("coCouponMsg");
+
+    if (!input || !btn) return;
+
+    function applyCoupon() {
+      var code = input.value.trim().toUpperCase();
+      if (!code) { msgEl.textContent = "Enter a coupon code."; msgEl.className = "co-coupon-msg error"; return; }
+      var rate = VALID_COUPONS[code];
+      if (!rate) {
+        msgEl.textContent = "Invalid coupon code.";
+        msgEl.className = "co-coupon-msg error";
+        appliedCoupon = null;
+      } else {
+        appliedCoupon = { code: code, discountRate: rate };
+        msgEl.textContent = "✓ " + Math.round(rate * 100) + "% discount applied!";
+        msgEl.className = "co-coupon-msg success";
+        input.disabled = true;
+        btn.textContent = "Applied";
+        btn.disabled = true;
+      }
+      updateTotals(getCart());
+    }
+
+    btn.addEventListener("click", applyCoupon);
+    input.addEventListener("keydown", function (e) { if (e.key === "Enter") applyCoupon(); });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    renderSummary();
+    initCoupon();
+  });
 })();
 </script>
 </body>
