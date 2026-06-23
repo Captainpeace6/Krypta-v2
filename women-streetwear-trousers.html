@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Women's Streetwear Trousers - KRYPTAA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="global.css">
+<script defer src="products.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script defer src="motion.js"></script>
+</head>
+<body data-page="shop" data-shop="women_st">
+<div class="k-grain"></div>
+<main class="shop-page">
+  <header class="shop-hero">
+    <div class="shop-hero-media" id="shopHeroMedia" aria-hidden="true"></div>
+    <div class="section-shell shop-hero-inner">
+      <div class="eyebrow reveal" id="shopLabel">KRYPTAA</div>
+      <h1 id="shopTitle">Shop</h1>
+      <p class="shop-hero-copy reveal" id="shopDescription"></p>
+    </div>
+  </header>
+  <section class="shop-toolbar">
+    <div class="section-shell shop-toolbar-inner">
+      <div class="layout-toggle" aria-label="Shop layout">
+        <button class="layout-btn active" type="button" data-layout="cinematic">Cinematic 02</button>
+        <button class="layout-btn" type="button" data-layout="dense">Dense 04</button>
+      </div>
+      <div class="toolbar-right-group">
+        <button class="size-chart-btn" type="button" id="sizeChartTrigger" aria-label="View size chart">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+          Size Chart
+        </button>
+        <div class="shop-count" id="shopCount">0 pieces</div>
+      </div>
+    </div>
+  </section>
+  <section class="products-grid is-cinematic" id="productsGrid"></section>
+</main>
+
+<!-- Size Chart Modal -->
+<div class="size-chart-modal" id="sizeChartModal" role="dialog" aria-modal="true" aria-label="Size Chart">
+  <div class="size-chart-backdrop" id="sizeChartBackdrop"></div>
+  <div class="size-chart-panel">
+    <button class="size-chart-close" id="sizeChartClose" aria-label="Close size chart">✕</button>
+    <div class="size-chart-eyebrow">Women's Streetwear Trousers — Drop 001</div>
+    <h3 class="size-chart-title">Size Guide</h3>
+    <img src="imgs/pants/womens-st-sizechart.png" alt="Size chart for Women's Streetwear Trousers" class="size-chart-img">
+  </div>
+</div>
+
+<script>
+(function() {
+  var modal = document.getElementById('sizeChartModal');
+  var trigger = document.getElementById('sizeChartTrigger');
+  var close = document.getElementById('sizeChartClose');
+  var backdrop = document.getElementById('sizeChartBackdrop');
+  function open() { modal.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
+  function shut() { modal.classList.remove('is-open'); document.body.style.overflow = ''; }
+  if (trigger) trigger.addEventListener('click', open);
+  if (close) close.addEventListener('click', shut);
+  if (backdrop) backdrop.addEventListener('click', shut);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') shut(); });
+})();
+</script>
+</body>
+</html>

@@ -63,16 +63,13 @@
         </a>
         <div class="nav-right">
           <div class="nav-social-icons">
-            <a class="nsb-icon" href="#" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram">
+            <a class="nsb-icon" href="https://www.instagram.com/kryptaa__/" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
             </a>
-            <a class="nsb-icon" href="#" data-social="tiktok" target="_blank" rel="noopener" aria-label="TikTok">
+            <a class="nsb-icon" href="https://www.tiktok.com/@kryptaa2426" data-social="tiktok" target="_blank" rel="noopener" aria-label="TikTok">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.77 1.52V6.75a4.85 4.85 0 01-1-.06z"/></svg>
             </a>
-            <a class="nsb-icon" href="#" data-social="twitter" target="_blank" rel="noopener" aria-label="X">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
-            <a class="nsb-icon" href="#" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook">
+            <a class="nsb-icon" href="https://www.facebook.com" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </a>
           </div>
@@ -127,7 +124,7 @@
       <div class="sticky-drop-bar" id="stickyDropBar">
         <img src="imgs/kryptaa-sigil.png" alt="" class="sdb-sigil">
         <span class="sdb-text">Drop 001 — SS26 · Limited Units</span>
-        <a class="k-btn-gold sdb-btn" href="men.html">Shop Now</a>
+        <a class="k-btn-gold sdb-btn" href="index.html">Shop Now</a>
         <button class="sdb-close" type="button" id="sdbClose" aria-label="Dismiss">✕</button>
       </div>
     `);
@@ -135,7 +132,7 @@
   }
 
   function navLinks() {
-    const configs = ["men", "women", "tees", "anime"].map((key) => window.CATEGORY_CONFIGS[key]);
+    const configs = ["men", "women", "women_st", "tees", "anime"].map((key) => window.CATEGORY_CONFIGS[key]);
     return configs.map((item) => `<a href="${item.href}" data-nav="${item.href}">${item.nav}</a>`).join("");
   }
 
@@ -428,7 +425,7 @@
     const isTee = product.category === "tees" || product.category === "tops";
     return `
       <article class="product-card reveal">
-        <a class="product-card-link" href="product-detail.html?id=${product.id}" aria-label="View ${product.name}">
+        <a class="product-card-link" href="product-detail?id=${product.id}" aria-label="View ${product.name}">
           <div class="product-card-media">
             <img src="${product.img}" alt="${product.name}" loading="lazy">
           </div>
@@ -462,7 +459,7 @@
 
     const collectionGrid = doc.getElementById("collectionGrid");
     if (collectionGrid) {
-      const keys = ["men", "women", "tops", "women_track", "all_jeans", "anime"];
+      const keys = ["men", "women", "tees"];
       collectionGrid.innerHTML = keys.map((key) => {
         const config = getCategoryConfig(key);
         const cover = getProductsByIds(config.heroIds)[0];
@@ -585,7 +582,10 @@
           <div class="detail-tags">${product.tags.map((tag) => `<span>${tag}</span>`).join("")}<span>${product.availability}</span></div>
           <div class="buy-panel">
             <div>
-              <div class="eyebrow">Select Size</div>
+              <div class="size-row-header">
+                <div class="eyebrow">Select Size</div>
+                ${product.sizeChart ? `<button class="inline-sc-btn" id="inlineSizeChartBtn" type="button">Size Chart</button>` : ""}
+              </div>
               <div class="size-selector" id="sizeSelector">
                 ${product.sizes.map((size) => `<button class="size-chip" type="button" data-size="${size}">${size}</button>`).join("")}
               </div>
@@ -631,6 +631,38 @@
       addToCart(product.id, selectedSize);
     });
 
+    /* ── Inline Size Chart Modal (all pants with sizeChart field) ── */
+    if (product.sizeChart) {
+      var existingScModal = doc.getElementById("pdSizeChartModal");
+      if (existingScModal) existingScModal.remove();
+
+      var scModal = doc.createElement("div");
+      scModal.id = "pdSizeChartModal";
+      scModal.className = "size-chart-modal";
+      scModal.setAttribute("role", "dialog");
+      scModal.setAttribute("aria-modal", "true");
+      scModal.innerHTML = `
+        <div class="size-chart-backdrop" id="pdSizeChartBackdrop"></div>
+        <div class="size-chart-panel">
+          <button class="size-chart-close" id="pdSizeChartClose" aria-label="Close size chart">✕</button>
+          <div class="size-chart-eyebrow">${product.name} — Drop 001</div>
+          <h3 class="size-chart-title">Size Guide</h3>
+          <img src="${product.sizeChart}" alt="Size chart for ${product.name}" class="size-chart-img">
+        </div>
+      `;
+      doc.body.appendChild(scModal);
+
+      function openScModal() { scModal.classList.add("is-open"); doc.body.style.overflow = "hidden"; }
+      function closeScModal() { scModal.classList.remove("is-open"); doc.body.style.overflow = ""; }
+
+      doc.getElementById("inlineSizeChartBtn")?.addEventListener("click", openScModal);
+      doc.getElementById("pdSizeChartClose")?.addEventListener("click", closeScModal);
+      doc.getElementById("pdSizeChartBackdrop")?.addEventListener("click", closeScModal);
+      doc.addEventListener("keydown", function scKey(e) {
+        if (e.key === "Escape") closeScModal();
+      });
+    }
+
     /* ── Gallery slider ── */
     if (gallery.length > 1) {
       var pgIdx = 0;
@@ -670,6 +702,63 @@
         if (Math.abs(diff) > 40) pgShow(pgIdx + (diff > 0 ? 1 : -1));
       });
     }
+
+    /* ── Magnifier Glass ── */
+    (function() {
+      var wrap = doc.querySelector('.pg-main-wrap');
+      var img  = doc.getElementById('pgMainImg');
+      if (!wrap || !img) return;
+      var lens = doc.createElement('div');
+      lens.className = 'pg-magnifier';
+      wrap.appendChild(lens);
+      var ZOOM = 2.6, SIZE = 140;
+      lens.style.cssText = 'display:none;position:absolute;width:'+SIZE+'px;height:'+SIZE+'px;border-radius:50%;border:2px solid rgba(210,174,91,0.85);box-shadow:0 0 0 1px rgba(210,174,91,0.25),0 0 20px rgba(210,174,91,0.18),0 8px 32px rgba(0,0,0,0.8);pointer-events:none;z-index:8;overflow:hidden;background-repeat:no-repeat;';
+      var overlay = doc.createElement('div');
+      overlay.style.cssText = 'position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.10),transparent 55%);pointer-events:none;z-index:1;';
+      lens.appendChild(overlay);
+
+      /* Calculate the actual rendered image bounds for object-fit: contain */
+      function getImgBounds() {
+        var wW = wrap.offsetWidth, wH = wrap.offsetHeight;
+        var nW = img.naturalWidth || wW, nH = img.naturalHeight || wH;
+        var scale = Math.min(wW / nW, wH / nH);
+        var rW = nW * scale, rH = nH * scale;
+        return { x: (wW - rW) / 2, y: (wH - rH) / 2, w: rW, h: rH, nW: nW, nH: nH };
+      }
+
+      function move(e) {
+        var rect = wrap.getBoundingClientRect();
+        var mx = (e.clientX - rect.left);
+        var my = (e.clientY - rect.top);
+        if (mx < 0 || my < 0 || mx > rect.width || my > rect.height) { lens.style.display='none'; return; }
+
+        /* Hide near left/right arrow zones (first/last 60px) */
+        if (mx < 64 || mx > rect.width - 64) { lens.style.display='none'; return; }
+
+        var b = getImgBounds();
+        /* Cursor must be over the actual image (not letterbox area) */
+        var ix = mx - b.x, iy = my - b.y;
+        if (ix < 0 || iy < 0 || ix > b.w || iy > b.h) { lens.style.display='none'; return; }
+
+        lens.style.display = 'block';
+        var lx = Math.min(Math.max(mx - SIZE/2, 0), rect.width - SIZE);
+        var ly = Math.min(Math.max(my - SIZE/2, 0), rect.height - SIZE);
+        lens.style.left = lx + 'px';
+        lens.style.top  = ly + 'px';
+
+        /* Map cursor → natural image coords → background-position */
+        var normX = ix / b.w;
+        var normY = iy / b.h;
+        var bgX = -(normX * b.nW * ZOOM - SIZE/2);
+        var bgY = -(normY * b.nH * ZOOM - SIZE/2);
+        lens.style.backgroundImage    = 'url(' + img.src + ')';
+        lens.style.backgroundSize     = (b.nW * ZOOM) + 'px ' + (b.nH * ZOOM) + 'px';
+        lens.style.backgroundPosition = bgX + 'px ' + bgY + 'px';
+      }
+      wrap.addEventListener('mousemove', move, { passive: true });
+      wrap.addEventListener('mouseleave', function() { lens.style.display='none'; });
+      wrap.style.cursor = 'crosshair';
+    })();
   }
 
   function renderCheckoutSummary() {

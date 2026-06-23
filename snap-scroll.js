@@ -361,43 +361,10 @@
         break;
 
       /* ────────────────────────────────────────────
-         PANEL 4 — FEATURED PRODUCTS
-         Product cards slam in staggered from bottom
-      ──────────────────────────────────────────── */
-      case 4:
-        if (bg) {
-          tl.fromTo(bg, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1, duration: 1.0, ease: 'power3.out' }, 0);
-        }
-        if (cp) {
-          var eye4 = cp.querySelector('.eyebrow');
-          if (eye4) tl.fromTo(eye4, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.38, ease: 'power2.out' }, 0.18);
-
-          var h2_4 = cp.querySelector('h2');
-          if (h2_4) {
-            var chars4 = splitChars(h2_4);
-            blastChars(chars4, tl, 0.32, 0.42, 0.015);
-          }
-
-          var sec4btn = cp.querySelector('.k-btn-outline');
-          if (sec4btn) tl.fromTo(sec4btn, { opacity: 0 }, { opacity: 1, duration: 0.32 }, 0.35);
-
-          var prods = cp.querySelectorAll('.product-card');
-          if (prods.length) {
-            tl.fromTo(prods,
-              { opacity: 0, y: 60, scale: 0.86, rotation: function (i) { return (i % 2 === 0 ? 1 : -1) * 2; } },
-              { opacity: 1, y: 0, scale: 1, rotation: 0, duration: 0.65, stagger: { each: 0.1, from: 'start' }, ease: 'power3.out' },
-              0.58
-            );
-          }
-        }
-        animHUD(panel, tl, 0.5);
-        break;
-
-      /* ────────────────────────────────────────────
-         PANEL 5 — BLUEPRINT  "The Craft"
+         PANEL 4 — BLUEPRINT  "The Craft"
          Grid fades in, drawings reveal, spec table stagger
       ──────────────────────────────────────────── */
-      case 5:
+      case 4:
         if (bg) {
           tl.fromTo(bg, { opacity: 0 }, { opacity: 1, duration: 1.2, ease: 'power2.out' }, 0);
         }
@@ -415,15 +382,20 @@
           }
 
           /* Draw SVG lines progressively via stroke-dashoffset */
-          var paths = cp.querySelectorAll('path.bp-line-h, polyline.bp-line-h');
+          var paths = cp.querySelectorAll('path.bp-line-h, polyline.bp-line-h, path.bp-draw, polyline.bp-draw, line.bp-draw, rect.bp-draw');
           paths.forEach(function(p) {
             var len = p.getTotalLength ? p.getTotalLength() : 200;
             p.style.strokeDasharray = len;
             p.style.strokeDashoffset = len;
+            p.style.opacity = '0';
           });
           if (paths.length) {
-            tl.to(paths, { strokeDashoffset: 0, duration: 1.4, stagger: 0.06, ease: 'power1.inOut' }, 0.8);
+            tl.to(paths, { strokeDashoffset: 0, opacity: 1, duration: 1.6, stagger: 0.08, ease: 'power1.inOut' }, 0.6);
           }
+          /* Trigger CSS draw animation class on baggy blueprint */
+          var drawDivs = cp.querySelectorAll('.bp-draw-animated');
+          drawDivs.forEach(function(d) { d.classList.add('bp-triggered'); });
+          panel.classList.add('is-active');
 
           var specRows = cp.querySelectorAll('.bp-spec-table tr, .bp-notes li');
           if (specRows.length) {
@@ -438,12 +410,12 @@
         break;
 
       /* ────────────────────────────────────────────
-         PANEL 6 — BRAND STORY
+         PANEL 5 — BRAND STORY
          "NOT FOR EVERYONE" — letters blast in
          Stats count up with stagger
          CTA bounces in last
       ──────────────────────────────────────────── */
-      case 6:
+      case 5:
         if (bg) {
           tl.fromTo(bg, { opacity: 0 }, { opacity: 1, duration: 1.1, ease: 'power2.out' }, 0);
         }

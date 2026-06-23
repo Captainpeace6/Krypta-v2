@@ -8,6 +8,7 @@
     { "source": "/t-shirts",      "destination": "/t-shirts.html" },
     { "source": "/checkout",      "destination": "/checkout.html" },
     { "source": "/product-detail","destination": "/product-detail.html" },
-    { "source": "/anime",         "destination": "/anime.html" }
+    { "source": "/anime",         "destination": "/anime.html" },
+    { "source": "/women-streetwear-trousers", "destination": "/women-streetwear-trousers.html" }
   ]
 }
