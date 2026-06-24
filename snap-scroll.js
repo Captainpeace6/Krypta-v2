@@ -508,6 +508,10 @@
     });
     var heroVid = document.querySelector('.hero-video-bg');
     if (heroVid) heroVid.style.opacity = '0.28';
+    document.querySelectorAll('.bp-svg-animated .bp-draw').forEach(function(el) {
+      el.style.strokeDashoffset = '0';
+      el.style.opacity = '1';
+    });
   }
 
   function initSnapScroll() {
@@ -547,7 +551,7 @@
         killHeroAnimation(prev);
         playHeroAnimation(idx);
       });
-    }, { threshold: 0.55 });
+    }, { threshold: MOBILE ? 0.3 : 0.55 });
 
     panels.forEach(function (p) { obs.observe(p); });
   }

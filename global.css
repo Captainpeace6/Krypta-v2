@@ -1579,6 +1579,14 @@ body.menu-open .mobile-menu {
 .products-grid.is-dense .product-card-tags {
   display: none;
 }
+.products-grid.is-dense .product-card-media {
+  min-height: 380px;
+}
+.products-grid.is-dense .product-card-media img {
+  object-fit: cover;
+  object-position: center top;
+  padding: 0;
+}
 
 .detail-back-row {
   width: min(1600px, calc(100% - clamp(20px, 3.5vw, 56px)));
@@ -1932,6 +1940,9 @@ body.menu-open .mobile-menu {
   }
   .products-grid.is-dense .product-card {
     min-height: 360px;
+  }
+  .products-grid.is-dense .product-card-media {
+    min-height: 240px;
   }
   .products-grid.is-dense .product-card-content {
     padding: 14px 12px;

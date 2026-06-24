@@ -1030,15 +1030,26 @@ html.k-snap-active {
 
 /* ── Oversized editorial h2 on editorial panel ── */
 .snap-editorial .editorial-copy h2 {
-  font-size: clamp(1.4rem, 2.2vw, 2.6rem);
-  line-height: 1.08;
+  font-size: clamp(2.2rem, 4.2vw, 5.5rem);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
   text-align: center;
+}
+.snap-editorial .editorial-copy.layer-copy {
+  padding: clamp(28px, 3.5vw, 56px) clamp(28px, 4vw, 64px);
 }
 .snap-editorial .editorial-copy .eyebrow {
   text-align: center;
+  font-size: 0.66rem;
+  letter-spacing: 0.3em;
+  margin-bottom: 20px;
 }
 .snap-editorial .editorial-copy p {
   text-align: center;
+  font-size: clamp(0.88rem, 1.1vw, 0.98rem);
+  line-height: 1.75;
+  max-width: 380px;
+  margin: 0 auto;
 }
 
 /* ── Brand Story h2 ── */
@@ -1411,8 +1422,7 @@ a { color: inherit; }
 }
 .bp-svg-animated .bp-draw {
   stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  opacity: 0;
+  /* stroke-dashoffset and opacity are set by GSAP before animating (snap-scroll.js case 4) */
 }
 /* Draw animation is handled entirely by GSAP in snap-scroll.js — no CSS animation conflicts */
 
@@ -1484,20 +1494,29 @@ a { color: inherit; }
 @media (max-width: 767px) {
   .blueprint-inner {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr 0.8fr;
+    grid-template-rows: auto 1fr 1fr;
     height: 100svh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    overflow-y: hidden;
+    padding: calc(var(--nav-h, 82px) + 4px) clamp(12px, 3vw, 20px) clamp(8px, 1.5vh, 14px);
+    gap: clamp(4px, 1vw, 10px);
   }
-  .blueprint-inner::-webkit-scrollbar { display: none; }
   .blueprint-header {
-    flex-direction: column;
-    margin-bottom: 8px;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(100,180,255,0.15);
   }
   .blueprint-collab-badge {
-    max-width: 100%;
-    text-align: left;
-    border-left: 3px solid rgba(100,180,255,0.55);
+    display: none;
+  }
+  .bp-spec-table,
+  .bp-notes {
+    display: none;
+  }
+  .blueprint-drawing svg {
+    width: 100%;
+    height: 100%;
+    flex: 1;
   }
 }
