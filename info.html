@@ -278,6 +278,120 @@
   margin: 64px 0 0;
 }
 
+/* ── Shipping rates table ── */
+.shipping-free-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, rgba(210,174,91,0.1), rgba(210,174,91,0.04));
+  border: 1px solid rgba(210,174,91,0.28);
+  padding: 18px 24px;
+  margin: 28px 0;
+}
+.shipping-free-banner svg {
+  flex-shrink: 0;
+  color: var(--k-gold, #d2ae5b);
+}
+.shipping-free-banner-text {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--k-gold, #d2ae5b);
+  line-height: 1.5;
+}
+.shipping-free-banner-text span {
+  display: block;
+  font-size: 0.58rem;
+  color: rgba(240,237,232,0.45);
+  letter-spacing: 0.12em;
+  text-transform: none;
+  margin-top: 3px;
+}
+
+.shipping-formula {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: rgba(240,237,232,0.5);
+  text-align: center;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  margin: 20px 0 28px;
+  text-transform: uppercase;
+}
+.shipping-formula strong {
+  color: rgba(240,237,232,0.82);
+}
+
+.rates-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 28px;
+  font-family: var(--f-body, 'Inter', sans-serif);
+  font-size: clamp(0.8rem, 1.1vw, 0.88rem);
+}
+.rates-table th {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.52rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--k-gold, #d2ae5b);
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(210,174,91,0.22);
+  background: rgba(210,174,91,0.05);
+  white-space: nowrap;
+}
+.rates-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: rgba(240,237,232,0.62);
+  vertical-align: top;
+  line-height: 1.6;
+}
+.rates-table tr:last-child td {
+  border-bottom: none;
+}
+.rates-table tr:hover td {
+  background: rgba(255,255,255,0.02);
+}
+.rates-table .td-method {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(240,237,232,0.75);
+  white-space: nowrap;
+}
+.rates-table .td-cost {
+  color: var(--k-gold, #d2ae5b);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.rates-table .td-time {
+  white-space: nowrap;
+  color: rgba(240,237,232,0.55);
+  font-size: 0.82rem;
+}
+.rates-table .td-area strong {
+  display: block;
+  color: rgba(240,237,232,0.82);
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+.rates-table .td-area small {
+  color: rgba(240,237,232,0.38);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+.rates-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid rgba(210,174,91,0.12);
+  margin: 0 0 28px;
+}
+
 /* ── Mobile ── */
 @media (max-width: 640px) {
   .info-tab {
@@ -329,6 +443,20 @@
       <div class="info-section-eyebrow">01 &nbsp;&nbsp;/&nbsp;&nbsp; Shipping</div>
       <h2>Shipping Policy</h2>
 
+      <!-- Free shipping banner -->
+      <div class="shipping-free-banner">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <div class="shipping-free-banner-text">
+          Free Shipping on orders over $150
+          <span>Applied automatically at checkout — no code needed</span>
+        </div>
+      </div>
+
+      <!-- Formula -->
+      <div class="shipping-formula">
+        <strong>Delivery Time</strong> &nbsp;=&nbsp; Process Time &nbsp;+&nbsp; Shipping Time
+      </div>
+
       <div class="info-timeline">
         <div class="info-timeline-cell">
           <div class="info-timeline-label">Processing</div>
@@ -336,16 +464,76 @@
         </div>
         <div class="info-timeline-cell">
           <div class="info-timeline-label">Shipping (US)</div>
-          <div class="info-timeline-value">5–10 Days</div>
+          <div class="info-timeline-value">7–14 Days</div>
         </div>
         <div class="info-timeline-cell">
           <div class="info-timeline-label">International</div>
-          <div class="info-timeline-value">10–21 Days</div>
+          <div class="info-timeline-value">10–20 Days</div>
         </div>
         <div class="info-timeline-cell">
           <div class="info-timeline-label">Tracking Update</div>
           <div class="info-timeline-value">1–2 Days</div>
         </div>
+      </div>
+
+      <!-- Rates table -->
+      <h3>Shipping Rates by Region</h3>
+      <p>All times are business days and begin after your order clears processing. Once a package leaves our facility we have limited control — delivery estimates are not guarantees.</p>
+      <div class="rates-table-wrap">
+        <table class="rates-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Cost</th>
+              <th>Delivery Time</th>
+              <th>Region / Area</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-method" rowspan="7">Standard Shipping</td>
+              <td class="td-cost">$9.99</td>
+              <td class="td-time">7–14 days</td>
+              <td class="td-area"><strong>United States</strong><small>(excl. AK, HI, PR, GU)</small></td>
+            </tr>
+            <tr>
+              <td class="td-cost">$12.99</td>
+              <td class="td-time">10–18 days</td>
+              <td class="td-area"><strong>North America</strong><small>Canada, Mexico</small></td>
+            </tr>
+            <tr>
+              <td class="td-cost">$14.99</td>
+              <td class="td-time">10–18 days</td>
+              <td class="td-area"><strong>Europe</strong><small>Austria, Belgium, Denmark, Finland, France, Germany, Greece, Ireland, Italy, Netherlands, Norway, Poland, Portugal, Spain, Sweden, Switzerland, UK + more</small></td>
+            </tr>
+            <tr>
+              <td class="td-cost">$14.99</td>
+              <td class="td-time">10–20 days</td>
+              <td class="td-area"><strong>Oceania</strong><small>Australia, New Zealand</small></td>
+            </tr>
+            <tr>
+              <td class="td-cost">$14.99</td>
+              <td class="td-time">10–18 days</td>
+              <td class="td-area"><strong>Asia</strong><small>India, Japan, South Korea, Singapore, Malaysia, Philippines, Thailand, Hong Kong, Vietnam + more</small></td>
+            </tr>
+            <tr>
+              <td class="td-cost">$16.99</td>
+              <td class="td-time">14–25 days</td>
+              <td class="td-area"><strong>South America</strong><small>Brazil, Chile, Colombia, Peru, Argentina</small></td>
+            </tr>
+            <tr>
+              <td class="td-cost">$18.99</td>
+              <td class="td-time">14–25 days</td>
+              <td class="td-area"><strong>Africa &amp; Middle East</strong><small>UAE, Saudi Arabia, Egypt, South Africa, Nigeria, Kenya + more</small></td>
+            </tr>
+            <tr>
+              <td class="td-method">Free Shipping</td>
+              <td class="td-cost" style="color:rgba(125,186,125,0.9);">$0.00</td>
+              <td class="td-time">Same as above</td>
+              <td class="td-area"><strong>Orders over $150</strong><small>All regions — applied automatically</small></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <h3>Order Confirmation</h3>
