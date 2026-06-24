@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shipping & Returns — KRYPTAA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="global.css">
+<script defer src="products.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script defer src="motion.js"></script>
+<style>
+/* ── Info page layout ── */
+.info-page {
+  min-height: 100vh;
+  padding-top: calc(var(--nav-h, 82px) + 48px);
+  padding-bottom: 120px;
+  background: var(--k-black, #030303);
+}
+
+/* ── Page hero ── */
+.info-hero {
+  text-align: center;
+  padding: 0 clamp(20px, 5vw, 60px) 60px;
+  border-bottom: 1px solid rgba(210,174,91,0.12);
+  margin-bottom: 0;
+}
+.info-hero-eyebrow {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.58rem;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--k-gold, #d2ae5b);
+  margin-bottom: 16px;
+}
+.info-hero h1 {
+  font-family: var(--f-primary, 'Cinzel', serif);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--k-bone, #f0ede8);
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+.info-hero-sub {
+  font-family: var(--f-body, 'Inter', sans-serif);
+  font-size: clamp(0.88rem, 1.2vw, 0.98rem);
+  color: rgba(240,237,232,0.45);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── Sticky tab nav ── */
+.info-tabs {
+  position: sticky;
+  top: var(--nav-h, 82px);
+  z-index: 50;
+  background: rgba(3,3,3,0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(210,174,91,0.14);
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.info-tabs::-webkit-scrollbar { display: none; }
+.info-tab {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(240,237,232,0.42);
+  padding: 18px 28px;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+.info-tab:hover,
+.info-tab.is-active {
+  color: var(--k-gold, #d2ae5b);
+  border-bottom-color: var(--k-gold, #d2ae5b);
+}
+
+/* ── Main body ── */
+.info-body {
+  width: min(880px, calc(100% - clamp(32px, 6vw, 120px)));
+  margin: 0 auto;
+  padding-top: 64px;
+}
+
+/* ── Section blocks ── */
+.info-section {
+  padding-top: 80px;
+  margin-top: -20px;
+  border-top: 1px solid rgba(210,174,91,0.08);
+  margin-bottom: 0;
+}
+.info-section:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.info-section-eyebrow {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.52rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--k-gold, #d2ae5b);
+  margin-bottom: 12px;
+}
+
+.info-section h2 {
+  font-family: var(--f-primary, 'Cinzel', serif);
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--k-bone, #f0ede8);
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(210,174,91,0.16);
+}
+
+.info-section h3 {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(210,174,91,0.85);
+  margin: 36px 0 14px;
+}
+
+.info-section p {
+  font-family: var(--f-body, 'Inter', sans-serif);
+  font-size: clamp(0.88rem, 1.2vw, 0.94rem);
+  line-height: 1.8;
+  color: rgba(240,237,232,0.62);
+  margin-bottom: 18px;
+}
+
+.info-section ul,
+.info-section ol {
+  margin: 0 0 20px 0;
+  padding-left: 24px;
+}
+.info-section li {
+  font-family: var(--f-body, 'Inter', sans-serif);
+  font-size: clamp(0.88rem, 1.2vw, 0.94rem);
+  line-height: 1.8;
+  color: rgba(240,237,232,0.62);
+  margin-bottom: 10px;
+}
+
+.info-section strong {
+  color: rgba(240,237,232,0.85);
+  font-weight: 600;
+}
+
+.info-section a {
+  color: var(--k-gold, #d2ae5b);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Callout box ── */
+.info-callout {
+  background: rgba(210,174,91,0.06);
+  border: 1px solid rgba(210,174,91,0.18);
+  border-left: 3px solid var(--k-gold, #d2ae5b);
+  padding: 20px 24px;
+  margin: 24px 0;
+  border-radius: 0;
+}
+.info-callout p {
+  margin: 0;
+  color: rgba(240,237,232,0.72);
+}
+
+/* ── Steps list ── */
+.info-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+  counter-reset: steps;
+}
+.info-steps li {
+  counter-increment: steps;
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.info-steps li::before {
+  content: counter(steps);
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.62rem;
+  color: var(--k-gold, #d2ae5b);
+  border: 1px solid rgba(210,174,91,0.3);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+/* ── Timeline row ── */
+.info-timeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1px;
+  background: rgba(210,174,91,0.12);
+  border: 1px solid rgba(210,174,91,0.12);
+  margin: 28px 0;
+}
+.info-timeline-cell {
+  background: var(--k-black, #030303);
+  padding: 22px 20px;
+  text-align: center;
+}
+.info-timeline-label {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.52rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(210,174,91,0.6);
+  margin-bottom: 8px;
+}
+.info-timeline-value {
+  font-family: var(--f-primary, 'Cinzel', serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--k-bone, #f0ede8);
+  letter-spacing: 0.04em;
+}
+
+/* ── Contact block ── */
+.info-contact-block {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(210,174,91,0.14);
+  padding: 32px;
+  margin-top: 60px;
+  text-align: center;
+}
+.info-contact-block h3 {
+  font-family: var(--f-primary, 'Cinzel', serif);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--k-bone, #f0ede8);
+  margin-bottom: 12px;
+}
+.info-contact-block p {
+  margin-bottom: 20px;
+}
+.info-contact-block a.k-btn-gold {
+  display: inline-flex;
+}
+
+/* ── Divider ── */
+.info-rule {
+  border: none;
+  border-top: 1px solid rgba(210,174,91,0.1);
+  margin: 64px 0 0;
+}
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .info-tab {
+    padding: 14px 18px;
+    font-size: 0.52rem;
+    letter-spacing: 0.16em;
+  }
+  .info-body {
+    padding-top: 48px;
+  }
+  .info-section {
+    padding-top: 56px;
+  }
+  .info-timeline {
+    grid-template-columns: 1fr 1fr;
+  }
+  .info-contact-block {
+    padding: 24px 20px;
+  }
+}
+</style>
+</head>
+<body data-page="info">
+<div class="k-grain"></div>
+
+<main class="info-page">
+
+  <!-- Hero -->
+  <div class="info-hero">
+    <div class="info-hero-eyebrow">KRYPTAA · Drop 001 · SS26</div>
+    <h1>Shipping &amp;<br>Returns</h1>
+    <p class="info-hero-sub">Everything you need to know about getting your order and what to do if something isn't right.</p>
+  </div>
+
+  <!-- Sticky Tab Nav -->
+  <nav class="info-tabs" aria-label="Policy sections">
+    <a href="#shipping" class="info-tab is-active">Shipping</a>
+    <a href="#returns" class="info-tab">Returns &amp; Refunds</a>
+    <a href="#exchange" class="info-tab">Exchange</a>
+    <a href="#cancellation" class="info-tab">Cancellation</a>
+    <a href="#contact" class="info-tab">Contact</a>
+  </nav>
+
+  <!-- Body -->
+  <div class="info-body">
+
+    <!-- ── SHIPPING ── -->
+    <section class="info-section" id="shipping">
+      <div class="info-section-eyebrow">01 &nbsp;&nbsp;/&nbsp;&nbsp; Shipping</div>
+      <h2>Shipping Policy</h2>
+
+      <div class="info-timeline">
+        <div class="info-timeline-cell">
+          <div class="info-timeline-label">Processing</div>
+          <div class="info-timeline-value">3–7 Days</div>
+        </div>
+        <div class="info-timeline-cell">
+          <div class="info-timeline-label">Shipping (US)</div>
+          <div class="info-timeline-value">5–10 Days</div>
+        </div>
+        <div class="info-timeline-cell">
+          <div class="info-timeline-label">International</div>
+          <div class="info-timeline-value">10–21 Days</div>
+        </div>
+        <div class="info-timeline-cell">
+          <div class="info-timeline-label">Tracking Update</div>
+          <div class="info-timeline-value">1–2 Days</div>
+        </div>
+      </div>
+
+      <h3>Order Confirmation</h3>
+      <p>A confirmation email will be sent once your order is placed and verified. We will begin preparing your order immediately. If you need to change or cancel your order, please contact us as early as possible — changes can only be made before the order enters processing.</p>
+
+      <h3>Tracking Information</h3>
+      <ul>
+        <li>After your order ships, you'll receive a tracking number via email. Please allow <strong>1–2 business days</strong> for tracking information to update in the carrier's system.</li>
+        <li>If the tracking status shows "Delivered" but you have not received your package, please contact the courier directly to investigate. <strong>KRYPTAA is not responsible for packages marked as delivered by the carrier.</strong></li>
+        <li>If the estimated delivery window has passed, feel free to reach out and we'll help investigate.</li>
+      </ul>
+
+      <h3>Customs &amp; Import Duties</h3>
+      <p>All applicable customs, import duties, taxes, and fees are the sole responsibility of the customer — even if you refuse the shipment upon delivery. If your order requires additional charges to clear customs, those must be paid by you. Refusal to pay will result in the package being sent back to us; in that case, a refund will be issued for the product cost minus any return shipping charges incurred.</p>
+
+      <h3>KRYPTAA Is Not Responsible For</h3>
+      <ul>
+        <li>Packages marked "Delivered" by the courier — please contact your local post office or carrier directly.</li>
+        <li>Wrong shipping address entered at checkout — double-check before placing your order.</li>
+        <li>Delays caused by customs processing or carrier backlogs beyond our control.</li>
+        <li>Lost or stolen packages after confirmed delivery.</li>
+      </ul>
+
+      <div class="info-callout">
+        <p><strong>Important:</strong> Orders returned to us due to an incorrect address, failed delivery attempts, or customer refusal to reschedule within 30 days of the first attempt will be refunded for the product cost only. Shipping charges are non-refundable in these cases.</p>
+      </div>
+    </section>
+
+    <hr class="info-rule">
+
+    <!-- ── RETURNS ── -->
+    <section class="info-section" id="returns">
+      <div class="info-section-eyebrow">02 &nbsp;&nbsp;/&nbsp;&nbsp; Returns &amp; Refunds</div>
+      <h2>Returns &amp; Refund Policy</h2>
+
+      <p>We hope you love your order. But if you're not completely satisfied, we accept returns for a full refund within <strong>30 days</strong> of the delivery date. Feel free to contact us at <a href="mailto:kryptaa.official@gmail.com">kryptaa.official@gmail.com</a> and we'll do our best to make it right.</p>
+
+      <h3>Return Requirements</h3>
+      <ul>
+        <li>Items must be returned within <strong>30 days</strong> of the confirmed delivery date.</li>
+        <li>Items must be unworn, unwashed, and in their original condition with all tags attached.</li>
+        <li>Due to hygiene concerns, the following items <strong>cannot</strong> be returned: intimates, accessories worn against the skin.</li>
+        <li>Customized or personalized pieces can only be returned if they are defective, damaged, or the wrong item was shipped.</li>
+        <li>KRYPTAA is not responsible for lost, missing, or stolen packages once they are marked as delivered by the carrier — orders will not be re-sent or refunded on that basis.</li>
+        <li>We cannot accept returns for damage caused during laundering, dry cleaning, or everyday wear (stains, tears, shrinkage, discoloration, iron damage, etc.).</li>
+      </ul>
+
+      <h3>How to Make a Return</h3>
+      <ol class="info-steps">
+        <li>Email us at <a href="mailto:kryptaa.official@gmail.com">kryptaa.official@gmail.com</a> with your order number, reason for return, and photos showing the issue (if applicable). You must receive return authorization before shipping anything back.</li>
+        <li>Pack your item(s) securely in the original packaging if possible. Ensure all KRYPTAA tags and hangtags are still attached.</li>
+        <li>Affix the return label we provide to the outside of your package. Drop it off with the return carrier within <strong>7 days</strong> of receiving the return label.</li>
+        <li>Once we receive and inspect the item, your refund will be issued to your original payment method within <strong>5–7 business days</strong>.</li>
+      </ol>
+
+      <div class="info-callout">
+        <p><strong>Kind reminder:</strong> Returns cannot be processed without prior written authorization. Items sent back without authorization are not eligible for a refund, exchange, or store credit, and may not be returned to you.</p>
+      </div>
+
+      <h3>Return Shipping Fees</h3>
+      <ul>
+        <li>If the return is due to a customer change of mind or sizing, the customer is responsible for the return shipping fee. The specific fee depends on your chosen carrier.</li>
+        <li>If the return is due to our error — wrong item shipped, defective product, or damage caused before delivery — KRYPTAA will cover the full return shipping cost.</li>
+      </ul>
+
+      <h3>Refund Timeline</h3>
+      <p>Once your return is received and inspected, we will issue the refund to your original payment method within <strong>5–7 business days</strong>. Depending on your bank or card issuer, it may take an additional few days to appear on your statement.</p>
+    </section>
+
+    <hr class="info-rule">
+
+    <!-- ── EXCHANGE ── -->
+    <section class="info-section" id="exchange">
+      <div class="info-section-eyebrow">03 &nbsp;&nbsp;/&nbsp;&nbsp; Exchange</div>
+      <h2>Exchange Policy</h2>
+
+      <p>At this time, all exchange requests are processed as <strong>refunds</strong>. We do not offer direct exchanges. If you wish to exchange an item for a different size or style, please follow these steps:</p>
+
+      <ol class="info-steps">
+        <li>Return your original item for a full refund following the return process above.</li>
+        <li>Once your refund is processed, place a new order for the item in the correct size or style.</li>
+      </ol>
+
+      <p>This process ensures you're not waiting on stock holds while your return is in transit. We know it's an extra step — we appreciate your patience as we build out a smoother exchange system for future drops.</p>
+    </section>
+
+    <hr class="info-rule">
+
+    <!-- ── CANCELLATION ── -->
+    <section class="info-section" id="cancellation">
+      <div class="info-section-eyebrow">04 &nbsp;&nbsp;/&nbsp;&nbsp; Cancellation</div>
+      <h2>Order Cancellation</h2>
+
+      <p>We put our best efforts into expediting processing, so the window for changes and cancellations is short.</p>
+
+      <div class="info-timeline">
+        <div class="info-timeline-cell">
+          <div class="info-timeline-label">Within 24 Hours</div>
+          <div class="info-timeline-value">Full Refund</div>
+        </div>
+        <div class="info-timeline-cell">
+          <div class="info-timeline-label">24 hrs – Pre-Ship</div>
+          <div class="info-timeline-value">15% Fee</div>
+        </div>
+        <div class="info-timeline-cell">
+          <div class="info-timeline-label">After Shipment</div>
+          <div class="info-timeline-value">Not Accepted</div>
+        </div>
+      </div>
+
+      <ul>
+        <li><strong>Within 24 hours of purchase:</strong> Your order will be fully refunded, no questions asked. Email us immediately at <a href="mailto:kryptaa.official@gmail.com">kryptaa.official@gmail.com</a> with your order number.</li>
+        <li><strong>After 24 hours but before shipment:</strong> A 15% cancellation fee applies to cover processing costs. The remaining balance will be refunded to your original payment method.</li>
+        <li><strong>After shipment:</strong> We cannot accept cancellation requests once the order has left our facility. You may initiate a return after delivery.</li>
+      </ul>
+
+      <p>If you need to change your shipping address, please contact us as soon as possible at <a href="mailto:kryptaa.official@gmail.com">kryptaa.official@gmail.com</a>. Address changes may not be possible once the order has been processed.</p>
+    </section>
+
+    <!-- ── CONTACT ── -->
+    <div class="info-contact-block" id="contact">
+      <h3>Still Have Questions?</h3>
+      <p>Our team is here to help. If you have any further questions or issues with your order, reach out directly.</p>
+      <p><strong><a href="mailto:kryptaa.official@gmail.com">kryptaa.official@gmail.com</a></strong></p>
+      <a class="k-btn-gold" href="mailto:kryptaa.official@gmail.com">Contact Us</a>
+    </div>
+
+  </div><!-- /.info-body -->
+
+</main>
+
+<script>
+/* Active tab highlight on scroll */
+(function () {
+  var sections = document.querySelectorAll('.info-section[id], .info-contact-block[id]');
+  var tabs = document.querySelectorAll('.info-tab');
+  function onScroll() {
+    var scrollY = window.scrollY + 160;
+    var active = null;
+    sections.forEach(function (s) {
+      if (s.offsetTop <= scrollY) active = s.id;
+    });
+    tabs.forEach(function (t) {
+      t.classList.toggle('is-active', t.getAttribute('href') === '#' + active);
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* Smooth scroll for tab clicks */
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function (e) {
+      e.preventDefault();
+      var target = document.querySelector(t.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+})();
+</script>
+</body>
+</html>
