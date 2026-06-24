@@ -186,35 +186,54 @@
 }
 
 /* ── Steps list ── */
-.info-steps {
+.info-section .info-steps {
   list-style: none;
   padding: 0;
   margin: 0 0 24px 0;
   counter-reset: steps;
 }
-.info-steps li {
+.info-section .info-steps li {
   counter-increment: steps;
   display: grid;
-  grid-template-columns: 36px 1fr;
-  gap: 14px;
+  grid-template-columns: 40px 1fr;
+  gap: 16px;
   align-items: flex-start;
-  margin-bottom: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  margin-bottom: 0;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-.info-steps li::before {
-  content: counter(steps);
+.info-section .info-steps li:first-child {
+  padding-top: 4px;
+}
+.info-section .info-steps li::before {
+  content: "0" counter(steps);
   font-family: var(--f-mono, 'Space Mono', monospace);
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   color: var(--k-gold, #d2ae5b);
-  border: 1px solid rgba(210,174,91,0.3);
-  width: 28px;
-  height: 28px;
+  border: 1px solid rgba(210,174,91,0.28);
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  margin-top: 4px;
+  margin-top: 2px;
+  letter-spacing: 0;
+}
+.info-section .info-steps li .step-title {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(240,237,232,0.75);
+  margin-bottom: 5px;
+}
+.info-section .info-steps li .step-desc {
+  font-family: var(--f-body, 'Inter', sans-serif);
+  font-size: clamp(0.84rem, 1.1vw, 0.9rem);
+  line-height: 1.75;
+  color: rgba(240,237,232,0.52);
+  margin: 0;
 }
 
 /* ── Timeline row ── */
@@ -583,10 +602,30 @@
 
       <h3>How to Make a Return</h3>
       <ol class="info-steps">
-        <li>Email us at <a href="mailto:kryptaa.official@gmail.com">kryptaa.official@gmail.com</a> with your order number, reason for return, and photos showing the issue (if applicable). You must receive return authorization before shipping anything back.</li>
-        <li>Pack your item(s) securely in the original packaging if possible. Ensure all KRYPTAA tags and hangtags are still attached.</li>
-        <li>Affix the return label we provide to the outside of your package. Drop it off with the return carrier within <strong>7 days</strong> of receiving the return label.</li>
-        <li>Once we receive and inspect the item, your refund will be issued to your original payment method within <strong>5–7 business days</strong>.</li>
+        <li>
+          <div>
+            <div class="step-title">Request Authorization</div>
+            <p class="step-desc">Email <a href="mailto:kryptaa.official@gmail.com">kryptaa.official@gmail.com</a> with your order number, reason for return, and photos if the item is defective. You must get approval before sending anything back.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="step-title">Pack Your Item</div>
+            <p class="step-desc">Pack securely in original packaging if possible. All KRYPTAA tags and hangtags must still be attached.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="step-title">Ship Within 7 Days</div>
+            <p class="step-desc">Attach the return label we send you and drop off with the carrier within <strong>7 days</strong> of receiving it.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="step-title">Refund Issued</div>
+            <p class="step-desc">Once received and inspected, your refund hits your original payment method within <strong>5–7 business days</strong>.</p>
+          </div>
+        </li>
       </ol>
 
       <div class="info-callout">
@@ -613,8 +652,18 @@
       <p>At this time, all exchange requests are processed as <strong>refunds</strong>. We do not offer direct exchanges. If you wish to exchange an item for a different size or style, please follow these steps:</p>
 
       <ol class="info-steps">
-        <li>Return your original item for a full refund following the return process above.</li>
-        <li>Once your refund is processed, place a new order for the item in the correct size or style.</li>
+        <li>
+          <div>
+            <div class="step-title">Return For Refund</div>
+            <p class="step-desc">Follow the return process above to send back your original item and receive a full refund.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <div class="step-title">Place A New Order</div>
+            <p class="step-desc">Once your refund is processed, place a fresh order in the correct size or style.</p>
+          </div>
+        </li>
       </ol>
 
       <p>This process ensures you're not waiting on stock holds while your return is in transit. We know it's an extra step — we appreciate your patience as we build out a smoother exchange system for future drops.</p>
