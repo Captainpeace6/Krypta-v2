@@ -559,7 +559,7 @@ function goToStripe() {
   .then(function (r) { return r.json(); })
   .then(function (data) {
     if (data.url) {
-      window.location.href = data.url;
+      window.location.replace(data.url);
     } else {
       alert("Payment error: " + (data.error || "Could not create checkout session"));
       if (btn) { btn.disabled = false; btn.innerHTML = "🔒 &nbsp; Pay Now — " + document.getElementById("coPayBtnTotal").textContent; }
@@ -672,6 +672,18 @@ function goToStripe() {
   document.addEventListener("DOMContentLoaded", function () {
     renderSummary();
     initCoupon();
+  });
+
+  /* Reset button if browser restores this page from BFCache after Stripe redirect */
+  window.addEventListener("pageshow", function (e) {
+    if (e.persisted) {
+      var btn = document.getElementById("coSubmit");
+      if (btn && btn.disabled) {
+        btn.disabled = false;
+        var payTotal = document.getElementById("coPayBtnTotal");
+        btn.innerHTML = "🔒 &nbsp; Pay Now" + (payTotal ? " — " + payTotal.textContent : "");
+      }
+    }
   });
 })();
 </script>
