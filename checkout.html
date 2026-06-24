@@ -458,7 +458,7 @@
           🔒 &nbsp; Pay Now — <span id="coPayBtnTotal">$0.00</span>
         </button>
 
-        <div class="co-secure">SSL encrypted · Powered by Stripe · 30-day returns</div>
+        <div class="co-secure">SSL encrypted · Powered by Stripe · 14-day returns</div>
       </div>
     </div>
 
@@ -497,7 +497,7 @@
         </div>
         <div class="co-subtotal-row shipping-row">
           <span>Shipping</span>
-          <span>Free</span>
+          <span>Calculated at checkout</span>
         </div>
         <div class="co-subtotal-row">
           <span>Taxes</span>
@@ -541,10 +541,20 @@ function goToStripe() {
   var discount  = appliedCoupon ? subtotal * appliedCoupon.discountRate : 0;
   var cartTotal = Math.round((subtotal - discount) * 100) / 100;
 
+  /* Bake the coupon discount into each item's unit price so Stripe
+     line items reflect the discounted amount, not the original. */
+  var checkoutCart = appliedCoupon
+    ? cart.map(function (item) {
+        return Object.assign({}, item, {
+          price: Math.round(item.price * (1 - appliedCoupon.discountRate) * 100) / 100
+        });
+      })
+    : cart;
+
   fetch("https://kryptaa-backend.netlify.app/.netlify/functions/create-checkout", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ cart: cart, total: cartTotal, coupon: appliedCoupon ? appliedCoupon.code : null })
+    body: JSON.stringify({ cart: checkoutCart, total: cartTotal, coupon: appliedCoupon ? appliedCoupon.code : null })
   })
   .then(function (r) { return r.json(); })
   .then(function (data) {
