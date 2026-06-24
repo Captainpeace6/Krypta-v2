@@ -216,19 +216,66 @@
   margin-bottom: 40px;
 }
 
-/* Empty bag CTA */
-.co-empty {
-  padding: 48px 0;
-  text-align: center;
+/* Phone hint */
+.co-phone-hint {
+  margin-top: 10px;
+  font-family: var(--f-secondary);
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.28);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
 }
 
-.co-empty p {
+/* Empty bag CTA — editorial */
+.co-empty {
+  padding: 56px 0 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.co-empty-glyph {
+  font-size: 3.2rem;
+  color: rgba(210,174,91,0.25);
+  font-family: var(--f-primary);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.co-empty-label {
   font-family: var(--f-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  color: var(--k-muted);
+  font-size: 0.52rem;
+  letter-spacing: 0.32em;
+  color: rgba(210,174,91,0.45);
   text-transform: uppercase;
-  margin-bottom: 24px;
+}
+
+.co-empty-headline {
+  font-family: var(--f-primary);
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  color: rgba(240,237,232,0.75);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.co-empty-sub {
+  font-family: var(--f-secondary);
+  font-size: 0.85rem;
+  color: var(--k-muted);
+  max-width: 280px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.co-empty-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 4px;
 }
 
 @media (max-width: 880px) {
@@ -438,10 +485,14 @@
 
       <!-- Empty bag state -->
       <div class="co-empty" id="coEmptyState" style="display:none;">
-        <p>Your bag is empty</p>
-        <a class="k-btn-outline" href="men.html">Shop Men</a>
-        &nbsp;
-        <a class="k-btn-outline" href="women.html">Shop Women</a>
+        <div class="co-empty-glyph">∅</div>
+        <div class="co-empty-label">Drop 001 · KRYPTAA</div>
+        <h2 class="co-empty-headline">Your Bag is Empty</h2>
+        <p class="co-empty-sub">Nothing selected yet. The drop is live — explore what's available.</p>
+        <div class="co-empty-actions">
+          <a class="k-btn-gold" href="men.html">Shop Men</a>
+          <a class="k-btn-outline" href="women.html">Shop Women</a>
+        </div>
       </div>
 
       <!-- Stripe Checkout panel -->
@@ -467,6 +518,7 @@
         </button>
 
         <div class="co-secure">SSL encrypted · Powered by Stripe · 14-day returns</div>
+        <div class="co-phone-hint">International customers: include your country code in the phone field (e.g. +91 for India).</div>
       </div>
     </div>
 

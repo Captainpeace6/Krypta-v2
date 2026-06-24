@@ -145,6 +145,20 @@
       </div>
     `);
     markActiveNav();
+
+    /* Mobile sticky bag bar — not shown on checkout page */
+    if (body.dataset.page !== "checkout") {
+      body.insertAdjacentHTML("beforeend", `
+        <div class="mobile-bag-bar" id="mobileBagBar" aria-label="Shopping bag summary">
+          <div class="mbb-left">
+            <span class="mbb-label">Bag</span>
+            <span class="mbb-count" id="mbbCount">0</span>
+            <span class="mbb-total" id="mbbTotal">$0.00</span>
+          </div>
+          <a class="mbb-cta" href="checkout.html">View Bag →</a>
+        </div>
+      `);
+    }
   }
 
   function navLinks() {
@@ -413,6 +427,16 @@
     if (countDrawer) countDrawer.textContent = totalQty;
     if (totalAmount) totalAmount.textContent = formatPrice(totalVal);
 
+    /* Sync mobile bag bar */
+    const bagBar = doc.getElementById("mobileBagBar");
+    const mbbCount = doc.getElementById("mbbCount");
+    const mbbTotal = doc.getElementById("mbbTotal");
+    if (bagBar) {
+      bagBar.classList.toggle("mbb-visible", totalQty > 0);
+      if (mbbCount) mbbCount.textContent = totalQty;
+      if (mbbTotal) mbbTotal.textContent = formatPrice(totalVal);
+    }
+
     if (!cart.length) {
       container.innerHTML = `<div class="cart-empty">Your bag is empty</div>`;
       return;
@@ -612,6 +636,7 @@
               <div class="size-selector" id="sizeSelector">
                 ${product.sizes.map((size) => `<button class="size-chip" type="button" data-size="${size}">${size}</button>`).join("")}
               </div>
+              <div class="size-tip">${product.fit ? product.fit.split(".")[0] + "." : "KRYPTAA fits true to oversized — size up for a more dramatic shoulder."}</div>
             </div>
             <button class="k-btn-gold" type="button" id="addToBagBtn">Add To Bag</button>
           </div>

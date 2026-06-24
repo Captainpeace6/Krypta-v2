@@ -1567,6 +1567,11 @@ body.menu-open .mobile-menu {
 .product-card-media img {
   object-fit: contain;
   padding: 8px;
+  transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.product-card:hover .product-card-media img {
+  transform: scale(1.04);
 }
 
 .product-card-media::after {
@@ -1794,6 +1799,15 @@ body.menu-open .mobile-menu {
 
 .sizes-required {
   animation: sizeShake 0.42s var(--ease-lux);
+}
+
+.size-tip {
+  margin-top: 8px;
+  font-family: var(--f-secondary);
+  font-size: 0.78rem;
+  color: rgba(240,237,232,0.38);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
 }
 
 @keyframes sizeShake {
@@ -2285,6 +2299,86 @@ body.menu-open .mobile-menu {
 }
 
 /* ─── Site Footer ─── */
+/* ── Mobile sticky bag bar ── */
+.mobile-bag-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 900;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: rgba(8, 6, 4, 0.96);
+  border-top: 1px solid rgba(210,174,91,0.22);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.mobile-bag-bar.mbb-visible {
+  transform: translateY(0);
+}
+
+.mbb-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mbb-label {
+  font-family: var(--f-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(240,237,232,0.55);
+}
+
+.mbb-count {
+  font-family: var(--f-mono);
+  font-size: 0.55rem;
+  min-width: 18px;
+  height: 18px;
+  display: inline-grid;
+  place-items: center;
+  background: rgba(210,174,91,0.14);
+  color: var(--k-gold-bright);
+  border: 1px solid rgba(210,174,91,0.28);
+  border-radius: 9px;
+  padding: 0 4px;
+}
+
+.mbb-total {
+  font-family: var(--f-primary);
+  font-size: 0.95rem;
+  color: var(--k-gold);
+  letter-spacing: 0.04em;
+}
+
+.mbb-cta {
+  font-family: var(--f-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #030303;
+  background: var(--k-gold);
+  border: none;
+  padding: 10px 18px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.mbb-cta:hover { background: var(--k-gold-bright); }
+
+@media (max-width: 880px) {
+  .mobile-bag-bar { display: flex; }
+}
+
 .site-footer {
   background: #020202;
   border-top: 1px solid rgba(210, 174, 91, 0.15);
@@ -2978,4 +3072,6 @@ body.menu-open .mobile-menu {
   /* Cap gallery to viewport-proportional height on mobile — overrides the 740px min */
   .detail-media.pg-gallery { position: relative; top: auto; min-height: 56vh; }
   .pg-main-wrap { height: 56vh; }
+  /* Extra bottom padding so mobile bag bar doesn't overlap footer */
+  body { padding-bottom: 68px; }
 }
