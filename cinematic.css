@@ -788,26 +788,17 @@ html.k-snap-active {
   padding-top: clamp(20px, 3vh, 40px);
   padding-bottom: clamp(20px, 3vh, 40px);
   max-height: 100vh;
-  overflow-y: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  overflow: hidden;
 }
 
-.brand-story-section.snap-panel .bs-inner.section-shell.layer-copy::-webkit-scrollbar {
-  display: none;
-}
 
 /* ── Last panel: Join Drop + Footer ── */
 .snap-footer-panel {
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow: hidden;
   background: #020202;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
-
-.snap-footer-panel::-webkit-scrollbar { display: none; }
 
 .snap-footer-panel .join-drop-section,
 .snap-footer-panel .site-footer {
@@ -1092,8 +1083,8 @@ html.k-snap-active {
 
 /* ── Brand Story h2 ── */
 .brand-story-section .bs-headline {
-  font-size: clamp(1.5rem, 2.8vw, 3.2rem);
-  line-height: 1.05;
+  font-size: clamp(2.8rem, 5.5vw, 6rem);
+  line-height: 1.02;
 }
 
 /* ── Wordmark idle glow (CSS, not GSAP — avoids filter-type mismatch) ── */
@@ -1530,10 +1521,13 @@ a { color: inherit; }
 }
 
 @media (max-width: 767px) {
+  .snap-blueprint.snap-panel {
+    height: 100svh;
+  }
   .blueprint-inner {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr 1fr;
-    height: 100svh;
+    height: 100%;
     overflow-y: hidden;
     padding: calc(var(--nav-h, 82px) + 4px) clamp(12px, 3vw, 20px) clamp(8px, 1.5vh, 14px);
     gap: clamp(4px, 1vw, 10px);
