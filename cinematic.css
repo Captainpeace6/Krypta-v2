@@ -584,6 +584,8 @@ html.k-snap-active {
 /* hero-copy is the copy layer */
 .v3-hero.snap-panel .hero-copy.layer-copy {
   z-index: 4; /* above the ::after overlay */
+  padding-left: clamp(24px, 5vw, 80px);
+  padding-right: clamp(24px, 5vw, 80px);
 }
 
 /* ── Editorial panel ── */
@@ -1516,7 +1518,7 @@ a { color: inherit; }
 
 /* Remove home-section padding from snap panels so 100vh fills correctly */
 .snap-blueprint.home-section {
-  padding: var(--nav-h, 82px) 0 0;
+  padding: var(--nav-h, 82px) 0;
   box-sizing: border-box;
 }
 .snap-editorial.home-section {
