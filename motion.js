@@ -155,7 +155,7 @@
             <span class="mbb-count" id="mbbCount">0</span>
             <span class="mbb-total" id="mbbTotal">$0.00</span>
           </div>
-          <a class="mbb-cta" href="checkout.html">View Bag →</a>
+          <button class="mbb-cta" type="button" data-cart-open>View Bag →</button>
         </div>
       `);
     }
