@@ -99,6 +99,7 @@
           <h3>Bag (<span id="cartCount">0</span>)</h3>
           <button class="cart-close-btn" type="button" data-cart-close>Close</button>
         </div>
+        <div class="cart-shipping-progress" id="cartShippingBar"></div>
         <div class="cart-body" id="cartItemsList"></div>
         <div class="cart-footer">
           <div class="cart-total"><span>Total</span><span id="cartTotalAmount">$0.00</span></div>
@@ -145,6 +146,10 @@
       </div>
     `);
     markActiveNav();
+
+    /* Scroll-to-top button */
+    body.insertAdjacentHTML("beforeend", `<button id="scrollTopBtn" aria-label="Back to top" title="Back to top">&#8593;</button>`);
+    doc.getElementById("scrollTopBtn")?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
     /* Mobile sticky bag bar — not shown on checkout page */
     if (body.dataset.page !== "checkout") {
@@ -194,10 +199,12 @@
     }
 
     const nav = doc.getElementById("navbar");
+    const scrollTopBtn = doc.getElementById("scrollTopBtn");
     const updateScrollState = () => {
       const y = window.scrollY || 0;
       doc.documentElement.style.setProperty("--scroll-y", y.toFixed(0));
       if (nav) nav.classList.toggle("scrolled", y > 34);
+      if (scrollTopBtn) scrollTopBtn.classList.toggle("visible", y > 320);
     };
     updateScrollState();
     window.addEventListener("scroll", updateScrollState, { passive: true });
@@ -359,13 +366,28 @@
     body.classList.remove("cart-open");
   }
 
-  function addToCart(productId, size) {
+  function showToast(msg) {
+    let toast = doc.getElementById("kToast");
+    if (!toast) {
+      toast = doc.createElement("div");
+      toast.id = "kToast";
+      toast.className = "k-toast";
+      doc.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove("show"), 2200);
+  }
+
+  function addToCart(productId, size, qty) {
+    qty = qty && qty > 0 ? qty : 1;
     const product = getProductById(productId);
     if (!product || !size) return;
 
     const key = `${product.id}-${size}`;
     const existing = cart.find((item) => item.key === key);
-    if (existing) existing.qty += 1;
+    if (existing) existing.qty += qty;
     else {
       cart.push({
         key,
@@ -374,12 +396,13 @@
         price: product.price,
         img: product.img,
         size,
-        qty: 1
+        qty
       });
     }
 
     persistCart();
     pulseCart();
+    showToast(`Added to bag ✓`);
     openCart();
     renderCheckoutSummary();
   }
@@ -437,6 +460,17 @@
       if (mbbTotal) mbbTotal.textContent = formatPrice(totalVal);
     }
 
+    /* Free-shipping progress bar (threshold matches backend: $75) */
+    const FREE_SHIP = 75;
+    const shippingBar = doc.getElementById("cartShippingBar");
+    if (shippingBar) {
+      const remaining = Math.max(0, FREE_SHIP - totalVal);
+      const pct = Math.min(100, (totalVal / FREE_SHIP) * 100).toFixed(1);
+      shippingBar.innerHTML = remaining > 0
+        ? `<div class="csp-text">Add <strong>$${remaining.toFixed(2)}</strong> more for free shipping</div><div class="csp-track"><div class="csp-fill" style="width:${pct}%"></div></div>`
+        : `<div class="csp-text" style="color:rgba(125,186,125,0.85)">✓ &nbsp;Free shipping unlocked</div><div class="csp-track"><div class="csp-fill" style="width:100%;background:rgba(125,186,125,0.7)"></div></div>`;
+    }
+
     if (!cart.length) {
       container.innerHTML = `<div class="cart-empty">Your bag is empty</div>`;
       return;
@@ -464,11 +498,14 @@
   function productCard(product) {
     const isTee = product.category === "tees" || product.category === "tops";
     const isAnime = product.category === "anime";
+    const isLowStock = /low.?quantity|low.?stock/i.test(product.availability);
+    const isSoldOut = /sold.?out|archive/i.test(product.availability);
     return `
-      <article class="product-card reveal">
+      <article class="product-card reveal${isSoldOut ? " is-sold-out" : ""}">
         <a class="product-card-link" href="product-detail?id=${product.id}" aria-label="View ${product.name}">
           <div class="product-card-media">
             <img src="${product.img}" alt="${product.name}" loading="lazy">
+            ${isSoldOut ? `<div class="sold-out-stamp">Archive</div>` : ""}
           </div>
           <div class="product-card-content">
             <div class="product-card-kicker">${product.collection}</div>
@@ -477,7 +514,7 @@
             <div class="product-card-tags">${product.tags.slice(0, 3).map((tag) => `<span>${tag}</span>`).join("")}</div>
             <div class="product-card-footer">
               ${isAnime ? `<span class="product-price preorder-badge">Preorder Only</span>` : `<span class="product-price">${formatPrice(product.price)}</span>`}
-              <span class="tag-list">${product.availability}</span>
+              ${isLowStock ? `<span class="low-stock-badge">Only a few left</span>` : `<span class="tag-list">${product.availability}</span>`}
             </div>
           </div>
         </a>
@@ -579,8 +616,21 @@
       return;
     }
 
-    doc.title = `${product.name} - KRYPTAA`;
+    doc.title = `${product.name} — KRYPTAA`;
     selectedSize = null;
+    let pdQty = 1;
+
+    /* #8 / #9 — Update meta description + OG tags for SEO */
+    const setMeta = (attr, key, val) => {
+      let tag = doc.querySelector(`meta[${attr}="${key}"]`);
+      if (!tag) { tag = doc.createElement("meta"); tag.setAttribute(attr, key); doc.head.appendChild(tag); }
+      tag.setAttribute("content", val);
+    };
+    setMeta("name", "description", product.desc);
+    setMeta("property", "og:title", `${product.name} — KRYPTAA`);
+    setMeta("property", "og:description", product.desc);
+    setMeta("property", "og:image", `https://www.kryptaa.com/${product.img}`);
+    setMeta("property", "og:url", `https://www.kryptaa.com/product-detail?id=${product.id}`);
 
     const storyCards = [
       ["Technical Details", product.technical],
@@ -626,7 +676,7 @@
           <h1 class="detail-title">${product.name}</h1>
           <div class="detail-price">${formatPrice(product.price)}</div>
           <p>${product.story}</p>
-          <div class="detail-tags">${product.tags.map((tag) => `<span>${tag}</span>`).join("")}<span>${product.availability}</span></div>
+          <div class="detail-tags">${product.tags.map((tag) => `<span>${tag}</span>`).join("")}${/low.?quantity|low.?stock/i.test(product.availability) ? `<span class="low-stock-badge">Only a few left</span>` : `<span>${product.availability}</span>`}</div>
           <div class="buy-panel">
             <div>
               <div class="size-row-header">
@@ -638,7 +688,14 @@
               </div>
               <div class="size-tip">${product.fit ? product.fit.split(".")[0] + "." : "KRYPTAA fits true to oversized — size up for a more dramatic shoulder."}</div>
             </div>
-            <button class="k-btn-gold" type="button" id="addToBagBtn">Add To Bag</button>
+            <div class="pdp-add-row">
+              <div class="qty-stepper" id="pdpQtyStepper">
+                <button type="button" id="pdpQtyMinus">−</button>
+                <span class="qty-stepper-val" id="pdpQtyVal">1</span>
+                <button type="button" id="pdpQtyPlus">+</button>
+              </div>
+              <button class="k-btn-gold" type="button" id="addToBagBtn">Add To Bag</button>
+            </div>
           </div>
         </div>
       </section>
@@ -661,6 +718,36 @@
           </div>
         </div>
       </section>
+      <section class="faq-section">
+        <div class="section-shell">
+          <div class="section-head reveal" style="margin-bottom:clamp(24px,4vw,48px)">
+            <div class="eyebrow">Need to know</div>
+            <h2>FAQ</h2>
+          </div>
+          <div class="faq-grid reveal">
+            <details class="faq-item">
+              <summary>What's your return policy?</summary>
+              <p class="faq-answer">We accept returns within 14 days of delivery on unworn items with original tags attached. Email us with your order number to start the process. Items marked as final sale or pre-order are non-refundable.</p>
+            </details>
+            <details class="faq-item">
+              <summary>How long does shipping take?</summary>
+              <p class="faq-answer">US: 5–7 business days. India: 10–15 business days. Rest of world: 10–18 business days. Tracking is sent automatically via Stripe after your order is confirmed.</p>
+            </details>
+            <details class="faq-item">
+              <summary>How do I pick the right size?</summary>
+              <p class="faq-answer">${product.fit || "KRYPTAA garments are cut oversized. For a structured silhouette go true to size; for a more dramatic drape size up. Use the Size Chart button above the selector for exact measurements."}</p>
+            </details>
+            <details class="faq-item">
+              <summary>Is this product in stock or pre-order?</summary>
+              <p class="faq-answer">This piece is currently listed as: <strong>${product.availability}</strong>. Pre-order items ship once production is complete — we'll email you with an update. In-stock items ship within 3 business days.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Do you ship to India?</summary>
+              <p class="faq-answer">Yes — India is fully supported at checkout. Enter your full address and use +91 in the phone field. Duties and taxes may apply on delivery depending on your state.</p>
+            </details>
+          </div>
+        </div>
+      </section>
     `;
 
     doc.querySelectorAll("[data-size]").forEach((button) => {
@@ -670,13 +757,22 @@
       });
     });
 
+    /* Qty stepper */
+    const qtyValEl = doc.getElementById("pdpQtyVal");
+    doc.getElementById("pdpQtyMinus")?.addEventListener("click", () => {
+      if (pdQty > 1) { pdQty--; if (qtyValEl) qtyValEl.textContent = pdQty; }
+    });
+    doc.getElementById("pdpQtyPlus")?.addEventListener("click", () => {
+      if (pdQty < 9) { pdQty++; if (qtyValEl) qtyValEl.textContent = pdQty; }
+    });
+
     doc.getElementById("addToBagBtn")?.addEventListener("click", () => {
       if (!selectedSize) {
         doc.getElementById("sizeSelector")?.classList.add("sizes-required");
         setTimeout(() => doc.getElementById("sizeSelector")?.classList.remove("sizes-required"), 450);
         return;
       }
-      addToCart(product.id, selectedSize);
+      addToCart(product.id, selectedSize, pdQty);
     });
 
     /* ── Inline Size Chart Modal (all pants with sizeChart field) ── */
