@@ -1,0 +1,3 @@
+## 2025-05-15 - ARIA State Synchronization and Empty State UX
+**Learning:** In script-driven UIs where panels (drawers/menus) are toggled via JavaScript, visual state changes often diverge from accessibility state. Interactive triggers must explicitly manage `aria-expanded` and `aria-controls` to be accessible. Empty states are "dead-ends" unless they provide a clear, actionable CTA that guides the user back into the primary flow.
+**Action:** Always synchronize `aria-expanded` on all triggers for a panel in real-time, and ensure empty states (like a cart or search) always include a "Shop Now" or equivalent navigation button.
