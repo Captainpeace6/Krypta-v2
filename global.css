@@ -2596,6 +2596,8 @@ body.menu-open .mobile-menu {
   padding: clamp(50px,7vw,90px) 0;
   text-align: center;
   overflow: hidden;
+  background: #020202;
+  z-index: 1;
 }
 .jd-glow {
   position: absolute;
@@ -2676,9 +2678,21 @@ body.menu-open .mobile-menu {
   transition: opacity 0.5s;
 }
 @media (max-width: 640px) {
-  .jd-form { flex-direction: column; gap: 10px; }
-  .jd-input { border-right: 1px solid rgba(210,174,91,0.3); border-bottom: none; }
-  .jd-btn { border-radius: 0; }
+  .jd-form {
+    flex-direction: column;
+    gap: 10px;
+    max-width: min(400px, calc(100% - 48px));
+    padding: 0;
+  }
+  .jd-input {
+    border-right: 1px solid rgba(210,174,91,0.3);
+    border-bottom: none;
+    width: 100%;
+  }
+  .jd-btn { border-radius: 0; width: 100%; }
+  .join-drop-section {
+    padding-bottom: clamp(80px, 14vw, 110px);
+  }
 }
 
 /* ─── Logo image rendering — sharp & glowing ─── */

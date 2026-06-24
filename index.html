@@ -563,6 +563,47 @@ document.getElementById('joinDropForm').addEventListener('submit', function(e){
 </script>
 
 <script>
+/* ── Mobile video autoplay fix — browsers ignore autoplay attr after scroll ── */
+(function () {
+  function tryPlay(video) {
+    if (!video || video.dataset.playAttempted) return;
+    video.dataset.playAttempted = '1';
+    var p = video.play();
+    if (p && p.catch) p.catch(function () {});
+  }
+  /* Attempt on load */
+  window.addEventListener('load', function () {
+    document.querySelectorAll('video[autoplay]').forEach(tryPlay);
+  });
+  /* Attempt again on first user interaction (iOS requirement) */
+  var played = false;
+  function onInteraction() {
+    if (played) return;
+    played = true;
+    document.querySelectorAll('video[autoplay]').forEach(function (v) {
+      delete v.dataset.playAttempted;
+      tryPlay(v);
+    });
+  }
+  document.addEventListener('touchstart', onInteraction, { once: true, passive: true });
+  document.addEventListener('click', onInteraction, { once: true });
+  /* IntersectionObserver: play when visible, pause when offscreen to save battery */
+  if ('IntersectionObserver' in window) {
+    var vObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var v = entry.target;
+        if (entry.isIntersecting) {
+          v.play && v.play().catch(function () {});
+        } else {
+          v.pause && v.pause();
+        }
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('video[autoplay]').forEach(function (v) { vObs.observe(v); });
+  }
+})();
+</script>
+<script>
 /* ── Blueprint hover draw animation — structural lines only (no annotation callouts) ── */
 (function() {
   /* Only animate garment silhouette lines: bp-line-h (outlines) + bp-dash (seams/internal lines)

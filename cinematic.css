@@ -743,6 +743,10 @@ html.k-snap-active {
   margin-top: 10px;
   margin-bottom: 18px;
 }
+/* Space between "No compromises." text and "Shop The Drop" button */
+.bv-corner-br .bv-cta {
+  margin-top: 24px;
+}
 
 /* ── Featured Products panel ── */
 .snap-featured {
@@ -892,6 +896,15 @@ html.k-snap-active {
   }
   .bv-headline {
     font-size: clamp(2rem, 10vw, 4rem);
+  }
+  /* Extra gap between body text and CTA on mobile */
+  .bv-corner-br .bv-cta {
+    margin-top: 28px;
+    pointer-events: auto;
+  }
+  /* Push bv copy up enough to clear the mobile bag bar */
+  .bv-overlay-copy.layer-copy {
+    padding-bottom: calc(clamp(28px, 5vw, 60px) + 76px);
   }
   /* Brand story: fix nested scroll conflicting with snap on iOS */
   .brand-story-section.snap-panel .bs-inner.section-shell.layer-copy {
