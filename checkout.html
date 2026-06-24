@@ -123,6 +123,8 @@
   width: 76px;
   height: 96px;
   flex-shrink: 0;
+  background: rgba(210,174,91,0.05);
+  border: 1px solid var(--k-line-cold);
 }
 
 .checkout-item-thumb img {
@@ -131,6 +133,12 @@
   object-fit: cover;
   border: 1px solid var(--k-line-cold);
   display: block;
+  transition: opacity 0.2s;
+}
+
+/* Hide broken/missing image icons gracefully */
+.checkout-item-thumb img.img-error {
+  opacity: 0;
 }
 
 /* Subtotals row */
@@ -265,10 +273,10 @@
 }
 
 .co-stripe-info-row {
-  font-family: var(--f-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.12em;
-  color: rgba(255,255,255,0.45);
+  font-family: var(--f-secondary);
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  color: rgba(255,255,255,0.55);
   line-height: 1.6;
 }
 
@@ -624,7 +632,7 @@ function goToStripe() {
       listEl.innerHTML = cart.map(function (item) {
         return '<div class="checkout-item">' +
           '<div class="checkout-item-thumb">' +
-            '<img src="' + (item.img || "") + '" alt="' + item.name + '" loading="lazy">' +
+            '<img src="' + (item.img || "") + '" alt="' + item.name + '" loading="lazy" onerror="this.classList.add(\'img-error\')">' +
             '<span class="co-qty-badge">' + item.qty + '</span>' +
           '</div>' +
           '<div>' +

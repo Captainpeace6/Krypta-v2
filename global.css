@@ -489,14 +489,16 @@ body.menu-open .nav-toggle span:last-child {
 }
 
 .cart-count-pill {
-  min-width: 20px;
-  height: 20px;
+  min-width: 18px;
+  height: 18px;
   display: inline-grid;
   place-items: center;
-  background: #060606;
+  background: rgba(210,174,91,0.14);
   color: var(--k-gold-bright);
-  border: 1px solid rgba(0,0,0,0.35);
-  font-size: 0.58rem;
+  border: 1px solid rgba(210,174,91,0.28);
+  font-size: 0.52rem;
+  border-radius: 9px;
+  padding: 0 4px;
 }
 
 .k-btn-outline {
@@ -1518,6 +1520,12 @@ body.menu-open .mobile-menu {
   transition: grid-template-columns 0.45s var(--ease-lux);
 }
 
+/* Prevent visual gap while JS renders product cards */
+.products-grid:empty {
+  min-height: 60vh;
+  background: #020202;
+}
+
 .products-grid.is-dense {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -1677,21 +1685,30 @@ body.menu-open .mobile-menu {
 .detail-back-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   font-family: var(--f-mono);
-  font-size: 0.58rem;
+  font-size: 0.56rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(210,174,91,0.7);
+  color: rgba(240,237,232,0.45);
   text-decoration: none;
-  border: 1px solid rgba(210,174,91,0.2);
-  padding: 9px 14px;
-  transition: color 0.2s, border-color 0.2s;
+  border: none;
+  padding: 6px 0;
+  transition: color 0.2s;
+  white-space: nowrap;
 }
 
 .detail-back-btn:hover {
   color: var(--k-gold);
-  border-color: rgba(210,174,91,0.55);
+}
+
+.detail-back-btn svg {
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.detail-back-btn:hover svg {
+  transform: translateX(-3px);
 }
 
 .detail-hero {
@@ -1929,6 +1946,10 @@ body.menu-open .mobile-menu {
   .checkout-grid {
     grid-template-columns: 1fr;
   }
+  .detail-hero {
+    min-height: auto;
+    padding-top: 10px;
+  }
   .detail-media {
     position: relative;
     top: auto;
@@ -1981,6 +2002,27 @@ body.menu-open .mobile-menu {
   }
   .hero-copy {
     padding-bottom: 54px;
+  }
+  /* Reduce body text size on mobile — less crowded hero */
+  .hero-copy p {
+    font-size: 0.88rem;
+    line-height: 1.65;
+  }
+  /* Full-width CTA buttons stacked on mobile */
+  .hero-actions {
+    flex-direction: column;
+  }
+  .hero-actions .k-btn-gold,
+  .hero-actions .k-btn-outline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+  }
+  /* Smaller product detail title on mobile */
+  .detail-title {
+    font-size: clamp(1.9rem, 7.5vw, 2.8rem);
   }
   .home-section {
     padding: 64px 0;
@@ -2933,4 +2975,7 @@ body.menu-open .mobile-menu {
   .pg-thumb { width: 60px; }
   .pg-thumb img { width: 60px; height: 75px; }
   .pg-arrow { width: 36px; height: 36px; font-size: 0.9rem; }
+  /* Cap gallery to viewport-proportional height on mobile — overrides the 740px min */
+  .detail-media.pg-gallery { position: relative; top: auto; min-height: 56vh; }
+  .pg-main-wrap { height: 56vh; }
 }
