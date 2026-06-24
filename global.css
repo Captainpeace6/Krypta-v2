@@ -549,27 +549,35 @@ body.menu-open .mobile-menu {
   margin-bottom: 4px;
   padding-bottom: 4px;
 }
-.mm-social-link {
+/* .mobile-menu .mm-social-link beats .mobile-menu a (0,2,0 vs 0,1,1) */
+.mobile-menu .mm-social-link {
   flex: 1;
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
   align-items: center;
   gap: 6px;
-  padding: 16px 8px;
+  padding: 14px 8px;
   border-bottom: none !important;
-  color: rgba(240,237,232,0.45);
+  color: rgba(240,237,232,0.55);
   text-decoration: none;
   transition: color 0.2s;
   font-family: var(--f-mono, 'Space Mono', monospace);
-  font-size: 0.46rem;
-  letter-spacing: 0.2em;
+  font-size: 0.5rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
-.mm-social-link:hover {
+.mobile-menu .mm-social-link:hover {
   color: var(--k-gold, #d2ae5b);
 }
-.mm-social-link + .mm-social-link {
+.mobile-menu .mm-social-link + .mm-social-link {
   border-left: 1px solid var(--k-line-cold);
+}
+.mobile-menu .mm-social-link::after {
+  display: none !important;
+}
+.mobile-menu .mm-social-link svg {
+  display: block;
+  flex-shrink: 0;
 }
 
 .cart-overlay {
@@ -1263,6 +1271,27 @@ body.menu-open .mobile-menu {
   justify-content: space-between;
   gap: 18px;
 }
+
+/* ── Back button in shop toolbar ── */
+.shop-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: rgba(240,237,232,0.5);
+  font-family: var(--f-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 6px 0;
+  transition: color 0.2s;
+  white-space: nowrap;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.shop-back-btn:hover { color: var(--k-gold, #d2ae5b); }
+.shop-back-btn svg { flex-shrink: 0; transition: transform 0.2s; }
+.shop-back-btn:hover svg { transform: translateX(-3px); }
 
 .layout-toggle {
   display: inline-flex;

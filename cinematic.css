@@ -862,6 +862,28 @@ html.k-snap-active {
     border-right: none;
     padding: clamp(28px, 6vw, 60px) clamp(20px, 5vw, 40px);
   }
+  /* Fill the editorial panel on mobile — bigger type, tighter line-height */
+  .snap-editorial .editorial-copy h2 {
+    font-size: clamp(3rem, 11.5vw, 4.8rem);
+    line-height: 0.96;
+    letter-spacing: -0.01em;
+  }
+  .snap-editorial .editorial-copy p {
+    font-size: clamp(0.92rem, 3.8vw, 1.05rem);
+    max-width: 100%;
+    margin-top: 20px;
+  }
+  .snap-editorial .editorial-copy .eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.32em;
+    margin-bottom: 28px;
+  }
+  /* Extra breathing room between text and buttons */
+  .snap-editorial .hero-actions,
+  .snap-editorial .editorial-actions {
+    margin-top: 36px;
+    gap: 12px;
+  }
   .snap-collections .category-grid {
     grid-template-columns: repeat(2, 1fr);
     max-height: 70vh;
@@ -877,6 +899,22 @@ html.k-snap-active {
   }
   .bv-headline {
     font-size: clamp(2rem, 10vw, 4rem);
+  }
+  /* Brand story: fix nested scroll conflicting with snap on iOS */
+  .brand-story-section.snap-panel .bs-inner.section-shell.layer-copy {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+  /* Footer/join panel: same nested scroll fix */
+  .snap-footer-panel {
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Join the Club modal: cap height on small phones */
+  .k-club-box {
+    max-height: 88dvh;
+    overflow-y: auto;
+    padding: 32px 20px 28px;
   }
 }
 
