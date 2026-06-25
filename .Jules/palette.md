@@ -1,0 +1,3 @@
+## 2025-05-14 - ARIA Synchronization in Script-Driven UIs
+**Learning:** In cinematic, script-driven static websites where core UI components (nav, cart) are injected via a central JS file, accessibility features like ARIA state synchronization must be implemented within the injection logic rather than static HTML to ensure consistency across all triggers (e.g., header cart vs. mobile sticky bag bar).
+**Action:** Always use centralized event delegation (like in `bindChromeEvents`) to update all instances of a trigger's accessibility state simultaneously using `querySelectorAll` to keep accessibility states (like `aria-expanded`) in sync across multiple visual representations of the same control.
