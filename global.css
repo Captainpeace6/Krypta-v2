@@ -3895,7 +3895,52 @@ details.faq-item[open] summary { color: #f0ede8; }
   transition: color 0.2s;
 }
 .k-qv-close:hover { color: #f0ede8; }
-.k-qv-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+.k-qv-gallery { position: relative; aspect-ratio: 3/4; overflow: hidden; background: #080706; }
+.k-qv-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.18s; }
+.k-qv-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(7,6,4,0.72);
+  border: 1px solid rgba(210,174,91,0.28);
+  color: rgba(210,174,91,0.85);
+  font-size: 1.5rem;
+  line-height: 1;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  padding: 0;
+}
+.k-qv-prev { left: 10px; }
+.k-qv-next { right: 10px; }
+.k-qv-arrow:hover { background: rgba(210,174,91,0.14); color: #d2ae5b; border-color: rgba(210,174,91,0.55); }
+.k-qv-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  z-index: 2;
+  pointer-events: none;
+}
+.k-qv-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(210,174,91,0.3);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  pointer-events: all;
+  transition: background 0.2s, transform 0.2s;
+}
+.k-qv-dot.active { background: rgba(210,174,91,0.9); transform: scale(1.35); }
 .k-qv-content { display: flex; flex-direction: column; justify-content: center; gap: 12px; }
 .k-qv-kicker { font-family: var(--f-mono); font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(210,174,91,0.6); }
 .k-qv-name { font-family: var(--f-serif, 'Cinzel Decorative', serif); font-size: clamp(1rem, 2.5vw, 1.5rem); color: #f0ede8; line-height: 1.2; }
@@ -3918,7 +3963,7 @@ details.faq-item[open] summary { color: #f0ede8; }
 .k-qv-view-full:hover { color: rgba(240,237,232,0.7); }
 @media (max-width: 640px) {
   .k-qv-modal { grid-template-columns: 1fr; padding: 20px; }
-  .k-qv-img { aspect-ratio: 4/3; }
+  .k-qv-gallery { aspect-ratio: 4/3; }
 }
 /* Quick-view button on card */
 .k-qv-btn {
@@ -3928,13 +3973,13 @@ details.faq-item[open] summary { color: #f0ede8; }
   right: 0;
   background: rgba(7,6,4,0.88);
   border: none;
-  border-top: 1px solid rgba(210,174,91,0.2);
+  border-top: 2px solid rgba(210,174,91,0.3);
   color: rgba(210,174,91,0.8);
   font-family: var(--f-mono);
-  font-size: 0.52rem;
-  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  padding: 9px;
+  padding: 14px;
   cursor: pointer;
   opacity: 0;
   transform: translateY(4px);

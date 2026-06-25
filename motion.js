@@ -205,7 +205,12 @@
       <div class="k-qv-overlay" id="kQvOverlay" role="dialog" aria-modal="true" aria-label="Quick view">
         <div class="k-qv-modal" id="kQvModal">
           <button class="k-qv-close" id="kQvClose" aria-label="Close">✕</button>
-          <img class="k-qv-img" id="kQvImg" src="" alt="">
+          <div class="k-qv-gallery" id="kQvGallery">
+            <img class="k-qv-img" id="kQvImg" src="" alt="">
+            <button class="k-qv-arrow k-qv-prev" id="kQvPrev" type="button" aria-label="Previous image">&#8249;</button>
+            <button class="k-qv-arrow k-qv-next" id="kQvNext" type="button" aria-label="Next image">&#8250;</button>
+            <div class="k-qv-dots" id="kQvDots"></div>
+          </div>
           <div class="k-qv-content">
             <div class="k-qv-kicker" id="kQvKicker"></div>
             <div class="k-qv-name" id="kQvName"></div>
@@ -430,6 +435,9 @@
       const qvBtn = event.target.closest("[data-qv]");
       const qvOverlay = event.target.closest("#kQvOverlay");
       const qvClose = event.target.closest("#kQvClose");
+      const qvPrev = event.target.closest("#kQvPrev");
+      const qvNext = event.target.closest("#kQvNext");
+      const qvDot = event.target.closest("[data-qv-dot]");
 
       if (menuToggle) body.classList.toggle("menu-open");
       if (cartOpen) openCart();
@@ -442,7 +450,25 @@
       if (quickAdd) { event.preventDefault(); event.stopPropagation(); handleQuickAdd(quickAdd); }
       if (qvBtn) { event.preventDefault(); event.stopPropagation(); openQuickView(Number(qvBtn.dataset.qv)); }
       if (qvClose || (qvOverlay && event.target === qvOverlay)) closeQuickView();
+      if (qvPrev) { event.stopPropagation(); qvShow(qvIdx - 1); }
+      if (qvNext) { event.stopPropagation(); qvShow(qvIdx + 1); }
+      if (qvDot) { event.stopPropagation(); qvShow(Number(qvDot.dataset.qvDot)); }
     });
+  }
+
+  let qvImages = [];
+  let qvIdx = 0;
+
+  function qvShow(idx) {
+    qvIdx = ((idx % qvImages.length) + qvImages.length) % qvImages.length;
+    const img = doc.getElementById("kQvImg");
+    if (img) img.src = qvImages[qvIdx];
+    doc.querySelectorAll(".k-qv-dot").forEach((d, i) => d.classList.toggle("active", i === qvIdx));
+    const hasMany = qvImages.length > 1;
+    const prev = doc.getElementById("kQvPrev");
+    const next = doc.getElementById("kQvNext");
+    if (prev) prev.style.display = hasMany ? "" : "none";
+    if (next) next.style.display = hasMany ? "" : "none";
   }
 
   function openQuickView(productId) {
@@ -450,8 +476,30 @@
     if (!product) return;
     const overlay = doc.getElementById("kQvOverlay");
     if (!overlay) return;
-    doc.getElementById("kQvImg").src = product.img;
-    doc.getElementById("kQvImg").alt = product.name;
+
+    qvImages = product.gallery ? product.gallery.map((g) => g.src) : [product.img];
+
+    const dotsEl = doc.getElementById("kQvDots");
+    if (dotsEl) {
+      dotsEl.innerHTML = qvImages.map((_, i) =>
+        `<button class="k-qv-dot${i === 0 ? " active" : ""}" type="button" data-qv-dot="${i}" aria-label="Image ${i + 1}"></button>`
+      ).join("");
+    }
+
+    const imgEl = doc.getElementById("kQvImg");
+    imgEl.alt = product.name;
+    if (imgEl && !imgEl._qvSwipe) {
+      imgEl._qvSwipe = true;
+      let sx = 0;
+      imgEl.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; }, { passive: true });
+      imgEl.addEventListener("touchend", (e) => {
+        const diff = sx - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 40) qvShow(qvIdx + (diff > 0 ? 1 : -1));
+      });
+    }
+
+    qvShow(0);
+
     doc.getElementById("kQvKicker").textContent = product.collection;
     doc.getElementById("kQvName").textContent = product.name;
     doc.getElementById("kQvPrice").textContent = formatPrice(product.price);
@@ -467,6 +515,9 @@
       });
     });
     const addBtn = doc.getElementById("kQvAddBtn");
+    addBtn.dataset.qvSize = "";
+    addBtn.dataset.qvProduct = product.id;
+    addBtn.textContent = "Add To Bag";
     addBtn.onclick = () => {
       const size = addBtn.dataset.qvSize;
       if (!size) { addBtn.textContent = "Pick a size first ↑"; setTimeout(() => { addBtn.textContent = "Add To Bag"; }, 1400); return; }
