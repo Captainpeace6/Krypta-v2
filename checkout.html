@@ -729,6 +729,24 @@ function goToStripe() {
     input.addEventListener("keydown", function (e) { if (e.key === "Enter") applyCoupon(); });
   }
 
+  /* ── Order success: Stripe redirects back with ?success=true ── */
+  (function () {
+    if (new URLSearchParams(window.location.search).get("success") !== "true") return;
+    /* Generate a readable order reference */
+    var ref = "KR-" + Date.now().toString(36).toUpperCase().slice(-6);
+    var refEl = document.getElementById("coOrderRef");
+    if (refEl) refEl.textContent = "ORDER #" + ref;
+    /* Show overlay */
+    var overlay = document.getElementById("coSuccess");
+    if (overlay) overlay.classList.add("active");
+    /* Clear cart so bag doesn't show stale items */
+    try { localStorage.removeItem("kryptaa_cart"); } catch (e) {}
+    /* Remove ?success=true from URL so refresh doesn't re-show */
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+  })();
+
   document.addEventListener("DOMContentLoaded", function () {
     renderSummary();
     initCoupon();

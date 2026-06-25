@@ -91,7 +91,7 @@
             <span>Facebook</span>
           </a>
         </div>
-        ${navLinks()}
+        ${mobileNavHTML()}
       </div>
       <div class="cart-overlay" id="cartOverlay" data-cart-close></div>
       <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping bag">
@@ -164,11 +164,78 @@
         </div>
       `);
     }
+
+    /* WhatsApp float button — replace +919999999999 with real number */
+    body.insertAdjacentHTML("beforeend", `
+      <a class="wa-float" href="https://wa.me/919999999999?text=Hi%20KRYPTAA%20%E2%80%94%20I%20have%20a%20question%20about%20my%20order" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="#fff">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </a>
+    `);
+
+    /* Cookie consent banner */
+    if (!safeStorage.get("k_cookie", '"pending"').replace(/"/g,'').match(/^(accepted|declined)$/)) {
+      body.insertAdjacentHTML("beforeend", `
+        <div class="k-cookie-bar" id="kCookieBar" role="dialog" aria-label="Cookie consent">
+          <p class="k-cookie-text">We use cookies to improve your experience. By continuing you accept our use of cookies. <a href="info.html" tabindex="-1">Learn more</a></p>
+          <div class="k-cookie-actions">
+            <button class="k-cookie-accept" id="kCookieAccept" type="button">Accept</button>
+            <button class="k-cookie-decline" id="kCookieDecline" type="button">Decline</button>
+          </div>
+        </div>
+      `);
+      setTimeout(function () {
+        var bar = doc.getElementById("kCookieBar");
+        if (bar) bar.classList.add("kcb-visible");
+      }, 2800);
+      function dismissCookie(choice) {
+        safeStorage.set("k_cookie", choice);
+        var bar = doc.getElementById("kCookieBar");
+        if (bar) { bar.classList.remove("kcb-visible"); setTimeout(() => bar.remove(), 500); }
+      }
+      doc.getElementById("kCookieAccept")?.addEventListener("click", () => dismissCookie("accepted"));
+      doc.getElementById("kCookieDecline")?.addEventListener("click", () => dismissCookie("declined"));
+    }
   }
 
   function navLinks() {
     const configs = ["men", "women", "women_st", "tees", "anime"].map((key) => window.CATEGORY_CONFIGS[key]);
     return configs.map((item) => `<a href="${item.href}" data-nav="${item.href}">${item.nav}</a>`).join("");
+  }
+
+  function mobileNavHTML() {
+    /* Category image tiles — Men / Women */
+    const menCfg = window.CATEGORY_CONFIGS.men;
+    const womenCfg = window.CATEGORY_CONFIGS.women;
+    const menImg = "imgs/jeans-dual-dragon.jpg";
+    const womenImg = "imgs/w-white-dragon.jpg";
+    return `
+      <div class="mm-nav-tiles">
+        <a class="mm-nav-tile" href="${menCfg.href}" data-nav="${menCfg.href}">
+          <img src="${menImg}" alt="Men's Collection" loading="lazy">
+          <div class="mm-tile-label">
+            <span class="mm-tile-eyebrow">Collection</span>
+            <span class="mm-tile-name">Men</span>
+          </div>
+        </a>
+        <a class="mm-nav-tile" href="${womenCfg.href}" data-nav="${womenCfg.href}">
+          <img src="${womenImg}" alt="Women's Collection" loading="lazy">
+          <div class="mm-tile-label">
+            <span class="mm-tile-eyebrow">Collection</span>
+            <span class="mm-tile-name">Women</span>
+          </div>
+        </a>
+      </div>
+      <div class="mm-nav-section-label">More</div>
+      <div class="mm-nav-wide">
+        <a href="t-shirts.html" data-nav="t-shirts.html">Heavyweight Tees</a>
+        <a href="anime.html" data-nav="anime.html">Anime Denim</a>
+        <a href="women-streetwear-trousers.html" data-nav="women-streetwear-trousers.html">Street Trousers</a>
+        <a href="checkout.html" data-nav="checkout.html">Bag &amp; Checkout</a>
+        <a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>
+      </div>
+    `;
   }
 
   function markActiveNav() {
@@ -632,6 +699,37 @@
     setMeta("property", "og:image", `https://www.kryptaa.com/${product.img}`);
     setMeta("property", "og:url", `https://www.kryptaa.com/product-detail?id=${product.id}`);
 
+    /* Canonical URL */
+    let canonicalTag = doc.querySelector("link[rel='canonical']");
+    if (!canonicalTag) {
+      canonicalTag = doc.createElement("link");
+      canonicalTag.rel = "canonical";
+      doc.head.appendChild(canonicalTag);
+    }
+    canonicalTag.href = `https://www.kryptaa.com/product-detail?id=${product.id}`;
+
+    /* JSON-LD Product structured data */
+    let ldTag = doc.getElementById("k-jsonld");
+    if (!ldTag) { ldTag = doc.createElement("script"); ldTag.id = "k-jsonld"; ldTag.type = "application/ld+json"; doc.head.appendChild(ldTag); }
+    ldTag.textContent = JSON.stringify({
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": product.name,
+      "description": product.desc,
+      "image": [`https://www.kryptaa.com/${product.img}`],
+      "brand": { "@type": "Brand", "name": "KRYPTAA" },
+      "offers": {
+        "@type": "Offer",
+        "url": `https://www.kryptaa.com/product-detail?id=${product.id}`,
+        "priceCurrency": "USD",
+        "price": product.price,
+        "availability": /sold.?out|archive/i.test(product.availability)
+          ? "https://schema.org/OutOfStock"
+          : "https://schema.org/InStock",
+        "seller": { "@type": "Organization", "name": "KRYPTAA" }
+      }
+    });
+
     const storyCards = [
       ["Technical Details", product.technical],
       ["Artistic Concept", product.artisticConcept],
@@ -748,6 +846,12 @@
           </div>
         </div>
       </section>
+      <section class="pdp-related" id="pdpRelated"></section>
+      <div class="pdp-sticky-bar" id="pdpStickyBar">
+        <span class="psb-name">${product.name}</span>
+        <span class="psb-price">${formatPrice(product.price)}</span>
+        <button class="k-btn-gold psb-btn" type="button" id="psbAddBtn">Add To Bag</button>
+      </div>
     `;
 
     doc.querySelectorAll("[data-size]").forEach((button) => {
@@ -774,6 +878,60 @@
       }
       addToCart(product.id, selectedSize, pdQty);
     });
+
+    /* ── Sticky PDP buy bar (mobile) — show when buy panel scrolls away ── */
+    (function () {
+      var stickyBar = doc.getElementById("pdpStickyBar");
+      var buyPanel = doc.querySelector(".buy-panel");
+      var psbBtn = doc.getElementById("psbAddBtn");
+      if (!stickyBar || !buyPanel) return;
+      psbBtn && psbBtn.addEventListener("click", function () {
+        if (!selectedSize) {
+          doc.getElementById("sizeSelector")?.classList.add("sizes-required");
+          setTimeout(() => doc.getElementById("sizeSelector")?.classList.remove("sizes-required"), 450);
+          /* Scroll buy panel back into view so user sees the size selector */
+          buyPanel.scrollIntoView({ behavior: "smooth", block: "center" });
+          return;
+        }
+        addToCart(product.id, selectedSize, pdQty);
+      });
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (entries) {
+          var visible = entries[0].isIntersecting;
+          stickyBar.classList.toggle("psb-visible", !visible);
+        }, { threshold: 0.15 }).observe(buyPanel);
+      }
+    })();
+
+    /* ── "You might also like" — same-category products ── */
+    (function () {
+      var relSection = doc.getElementById("pdpRelated");
+      if (!relSection || typeof getProductsByCategory !== "function") return;
+      var related = getProductsByCategory(product.category)
+        .filter(function (p) { return String(p.id) !== String(product.id); })
+        .slice(0, 4);
+      if (!related.length) { relSection.style.display = "none"; return; }
+      relSection.innerHTML = `
+        <div class="section-shell">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">Same Collection</div>
+              <h2>You Might Also Like</h2>
+            </div>
+          </div>
+          <div class="pdp-related-grid">
+            ${related.map(productCard).join("")}
+          </div>
+        </div>
+      `;
+      relSection.querySelectorAll(".reveal, .product-card").forEach(function (el, i) {
+        el.style.transitionDelay = (i * 55) + "ms";
+        var obs = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) { el.classList.add("is-visible"); obs.disconnect(); }
+        }, { threshold: 0.1 });
+        obs.observe(el);
+      });
+    })();
 
     /* ── Inline Size Chart Modal (all pants with sizeChart field) ── */
     if (product.sizeChart) {
