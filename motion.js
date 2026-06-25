@@ -2,6 +2,8 @@
   const doc = document;
   const body = doc.body;
 
+  const NEW_PRODUCT_IDS = new Set([108, 109, 111, 112, 113, 50, 51, 52, 60, 61, 62]);
+
   if (typeof window.gsap === "undefined") {
     window.gsap = {
       __fallback: true,
@@ -73,7 +75,7 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </a>
           </div>
-          <button class="cart-trigger" type="button" data-cart-open><svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="6.5" cy="3.5" r="2" stroke="currentColor" stroke-width="1.25"/><circle cx="11.5" cy="3.5" r="2" stroke="currentColor" stroke-width="1.25"/><path d="M5 6C5.5 6.6 7 7.2 9 7.2C11 7.2 12.5 6.6 13 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M4.5 7.5C2.5 9.5 1.5 12 1.5 14.5C1.5 18 4.8 21.5 9 21.5C13.2 21.5 16.5 18 16.5 14.5C16.5 12 15.5 9.5 13.5 7.5H4.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg><span class="cart-count-pill" id="cartCountNav">0</span></button>
+          <button class="cart-trigger" type="button" data-cart-open><svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 8V5.5C7 3.57 8.34 2 10 2C11.66 2 13 3.57 13 5.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M2.5 8H17.5L16 20H4L2.5 8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 13H13" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.4"/></svg><span class="cart-trigger-label">BAG</span><span class="cart-count-pill" id="cartCountNav">0</span></button>
         </div>
       </nav>
       <div class="mobile-menu" id="mobileMenu">
@@ -196,6 +198,61 @@
       }
       doc.getElementById("kCookieAccept")?.addEventListener("click", () => dismissCookie("accepted"));
       doc.getElementById("kCookieDecline")?.addEventListener("click", () => dismissCookie("declined"));
+    }
+
+    /* Quick-view modal */
+    body.insertAdjacentHTML("beforeend", `
+      <div class="k-qv-overlay" id="kQvOverlay" role="dialog" aria-modal="true" aria-label="Quick view">
+        <div class="k-qv-modal" id="kQvModal">
+          <button class="k-qv-close" id="kQvClose" aria-label="Close">✕</button>
+          <img class="k-qv-img" id="kQvImg" src="" alt="">
+          <div class="k-qv-content">
+            <div class="k-qv-kicker" id="kQvKicker"></div>
+            <div class="k-qv-name" id="kQvName"></div>
+            <div class="k-qv-price" id="kQvPrice"></div>
+            <div class="k-qv-sizes" id="kQvSizes"></div>
+            <button class="k-btn-gold k-qv-add" id="kQvAddBtn" type="button">Add To Bag</button>
+            <a class="k-qv-view-full" id="kQvLink" href="#">View Full Details →</a>
+          </div>
+        </div>
+      </div>
+    `);
+
+    /* Exit-intent popup */
+    if (!sessionStorage.getItem("k_exit_shown")) {
+      body.insertAdjacentHTML("beforeend", `
+        <div class="k-exit-popup" id="kExitPopup" role="dialog" aria-modal="true" aria-label="Join the drop">
+          <div class="k-exit-box">
+            <button class="k-exit-close" id="kExitClose" aria-label="Close">✕</button>
+            <div class="k-exit-eyebrow">— Wait —</div>
+            <div class="k-exit-heading">Don't Miss The Drop</div>
+            <div class="k-exit-sub">Every piece is limited. Get early access before they're gone.</div>
+            <form class="k-exit-form" action="https://formspree.io/f/mbljodbk" method="POST" id="kExitForm">
+              <input type="hidden" name="_subject" value="Exit-intent early access signup">
+              <input class="k-exit-input" type="email" name="email" placeholder="your@email.com" required>
+              <button class="k-exit-btn" type="submit">Lock In</button>
+            </form>
+            <button class="k-exit-no" id="kExitNo">No thanks, I'll miss out</button>
+          </div>
+        </div>
+      `);
+
+      const closeExitPopup = () => {
+        const p = doc.getElementById("kExitPopup");
+        if (p) { p.classList.remove("open"); setTimeout(() => p.remove(), 350); }
+      };
+      doc.getElementById("kExitClose")?.addEventListener("click", closeExitPopup);
+      doc.getElementById("kExitNo")?.addEventListener("click", closeExitPopup);
+      doc.getElementById("kExitForm")?.addEventListener("submit", () => { setTimeout(closeExitPopup, 800); });
+
+      let exitFired = false;
+      doc.addEventListener("mouseleave", (e) => {
+        if (!exitFired && e.clientY < 8) {
+          exitFired = true;
+          sessionStorage.setItem("k_exit_shown", "1");
+          setTimeout(() => doc.getElementById("kExitPopup")?.classList.add("open"), 200);
+        }
+      });
     }
   }
 
@@ -370,6 +427,9 @@
       const sgClose = event.target.closest("[data-sg-close]");
       const quickSize = event.target.closest(".quick-size-btn");
       const quickAdd = event.target.closest(".quick-add-btn");
+      const qvBtn = event.target.closest("[data-qv]");
+      const qvOverlay = event.target.closest("#kQvOverlay");
+      const qvClose = event.target.closest("#kQvClose");
 
       if (menuToggle) body.classList.toggle("menu-open");
       if (cartOpen) openCart();
@@ -380,7 +440,45 @@
       if (sgClose) closeSizeGuide();
       if (quickSize) { event.preventDefault(); event.stopPropagation(); handleQuickSize(quickSize); }
       if (quickAdd) { event.preventDefault(); event.stopPropagation(); handleQuickAdd(quickAdd); }
+      if (qvBtn) { event.preventDefault(); event.stopPropagation(); openQuickView(Number(qvBtn.dataset.qv)); }
+      if (qvClose || (qvOverlay && event.target === qvOverlay)) closeQuickView();
     });
+  }
+
+  function openQuickView(productId) {
+    const product = typeof getProductById === "function" ? getProductById(productId) : null;
+    if (!product) return;
+    const overlay = doc.getElementById("kQvOverlay");
+    if (!overlay) return;
+    doc.getElementById("kQvImg").src = product.img;
+    doc.getElementById("kQvImg").alt = product.name;
+    doc.getElementById("kQvKicker").textContent = product.collection;
+    doc.getElementById("kQvName").textContent = product.name;
+    doc.getElementById("kQvPrice").textContent = formatPrice(product.price);
+    doc.getElementById("kQvLink").href = `product-detail?id=${product.id}`;
+    const sizesEl = doc.getElementById("kQvSizes");
+    sizesEl.innerHTML = product.sizes.map((s) => `<button class="k-qv-size-btn" type="button" data-qv-size="${s}">${s}</button>`).join("");
+    sizesEl.querySelectorAll(".k-qv-size-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        sizesEl.querySelectorAll(".k-qv-size-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        doc.getElementById("kQvAddBtn").dataset.qvSize = btn.dataset.qvSize;
+        doc.getElementById("kQvAddBtn").dataset.qvProduct = product.id;
+      });
+    });
+    const addBtn = doc.getElementById("kQvAddBtn");
+    addBtn.onclick = () => {
+      const size = addBtn.dataset.qvSize;
+      if (!size) { addBtn.textContent = "Pick a size first ↑"; setTimeout(() => { addBtn.textContent = "Add To Bag"; }, 1400); return; }
+      addToCart(String(addBtn.dataset.qvProduct), size);
+      addBtn.textContent = "✓ Added";
+      setTimeout(() => { addBtn.textContent = "Add To Bag"; closeQuickView(); }, 1200);
+    };
+    overlay.classList.add("open");
+  }
+
+  function closeQuickView() {
+    doc.getElementById("kQvOverlay")?.classList.remove("open");
   }
 
   function openSizeGuide() {
@@ -422,10 +520,17 @@
   }
 
   function openCart() {
-    doc.getElementById("cartDrawer")?.classList.add("open");
+    const cartDrawer = doc.getElementById("cartDrawer");
+    cartDrawer?.classList.add("open");
     doc.getElementById("cartOverlay")?.classList.add("open");
     body.classList.add("cart-open");
     renderCartContent();
+    if (cartDrawer && !cartDrawer._swipeReady) {
+      cartDrawer._swipeReady = true;
+      let sx = 0;
+      cartDrawer.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; }, { passive: true });
+      cartDrawer.addEventListener("touchend", (e) => { if (e.changedTouches[0].clientX - sx > 60) closeCart(); });
+    }
   }
 
   function closeCart() {
@@ -569,12 +674,15 @@
     const isArchive = /archive/i.test(product.availability);
     const isLowStock = /low.?quantity|low.?stock/i.test(product.availability);
     const isSoldOut = !isAnime && isArchive;
+    const isNew = NEW_PRODUCT_IDS.has(product.id);
     return `
       <article class="product-card reveal${isSoldOut ? " is-sold-out" : ""}">
         <a class="product-card-link" href="product-detail?id=${product.id}" aria-label="View ${product.name}">
           <div class="product-card-media">
             <img src="${product.img}" alt="${product.name}" loading="lazy">
+            ${isNew ? `<div class="k-new-badge">New</div>` : ""}
             ${isSoldOut ? `<div class="sold-out-stamp">Archive</div>` : ""}
+            <button class="k-qv-btn" type="button" data-qv="${product.id}" aria-label="Quick view ${product.name}">Quick View</button>
           </div>
           <div class="product-card-content">
             <div class="product-card-kicker">${product.collection}</div>
@@ -587,6 +695,17 @@
             </div>
           </div>
         </a>
+        ${isArchive ? `
+          <div class="notify-strip">
+            <div class="notify-strip-label">Notify me when back</div>
+            <form class="notify-strip-row" action="https://formspree.io/f/mbljodbk" method="POST" data-notify-card>
+              <input type="hidden" name="_subject" value="Restock: ${product.name}">
+              <input type="hidden" name="product" value="${product.name}">
+              <input type="email" name="email" placeholder="your@email.com" required>
+              <button type="submit">Notify</button>
+            </form>
+          </div>
+        ` : `
         <div class="product-card-quick">
           <div class="quick-sizes">
             ${product.sizes.map((s) => `<button class="quick-size-btn" type="button" data-size="${s}" data-product="${product.id}">${s}</button>`).join("")}
@@ -594,6 +713,7 @@
           </div>
           <button class="quick-add-btn" type="button" data-product-id="${product.id}">Add to Bag</button>
         </div>
+        `}
       </article>
     `;
   }
@@ -760,7 +880,17 @@
       ` : ""}
     `;
 
+    const isArchivePDP = /archive/i.test(product.availability);
+    const isAnimePDP = product.category === "anime";
+
     target.innerHTML = `
+      <nav class="k-breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="bc-sep">›</span>
+        <a href="${getCategoryConfig(product.category).href}">${getCategoryConfig(product.category).nav}</a>
+        <span class="bc-sep">›</span>
+        <span class="bc-current">${product.name}</span>
+      </nav>
       <div class="detail-back-row">
         <a class="detail-back-btn" href="${getCategoryConfig(product.category).href}" aria-label="Back to shop">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
@@ -796,6 +926,23 @@
               </div>
               <button class="k-btn-gold" type="button" id="addToBagBtn">Add To Bag</button>
             </div>
+            ${isAnimePDP ? `
+            <div class="preorder-timeline">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <span>Est. Dispatch Aug – Sep 2026 · You&apos;ll be emailed when your piece ships</span>
+            </div>` : ``}
+            ${isArchivePDP ? `
+            <div class="notify-pdp-box">
+              <div class="notify-pdp-title">— Notify Me —</div>
+              <div class="notify-pdp-sub">This piece is currently unavailable. Drop your email and we&apos;ll reach out the moment it restocks.</div>
+              <form class="notify-pdp-row" action="https://formspree.io/f/mbljodbk" method="POST" id="notifyPdpForm">
+                <input type="hidden" name="_subject" value="Restock: ${product.name}">
+                <input type="hidden" name="product" value="${product.name}">
+                <input type="email" name="email" placeholder="your@email.com" required>
+                <button type="submit">Notify Me</button>
+              </form>
+              <div class="notify-sent" id="notifySent">✓ You&apos;re on the list — we&apos;ll let you know.</div>
+            </div>` : ``}
           </div>
         </div>
       </section>
@@ -879,6 +1026,17 @@
         return;
       }
       addToCart(product.id, selectedSize, pdQty);
+    });
+
+    doc.getElementById("notifyPdpForm")?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      fetch(e.target.action, { method: "POST", body: new FormData(e.target), headers: { Accept: "application/json" } })
+        .then(() => {
+          e.target.style.display = "none";
+          const sent = doc.getElementById("notifySent");
+          if (sent) sent.style.display = "block";
+        })
+        .catch(() => {});
     });
 
     /* ── Sticky PDP buy bar (mobile) — show when buy panel scrolls away ── */
