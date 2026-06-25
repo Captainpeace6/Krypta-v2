@@ -51,7 +51,27 @@
   };
 
   let cart = safeStorage.get("kryptaa_cart", "[]");
+  let wishlist = safeStorage.get("k_wishlist", "[]");
   let selectedSize = null;
+
+  function saveWishlist() { safeStorage.set("k_wishlist", wishlist); }
+  function toggleWishlist(id) {
+    const n = Number(id);
+    const idx = wishlist.indexOf(n);
+    if (idx === -1) wishlist.push(n); else wishlist.splice(idx, 1);
+    saveWishlist();
+    updateWishlistUI();
+  }
+  function updateWishlistUI() {
+    const count = wishlist.length;
+    const badge = doc.getElementById("kWishCount");
+    if (badge) { badge.textContent = count; badge.style.display = count > 0 ? "" : "none"; }
+    doc.querySelectorAll("[data-wish]").forEach((btn) => {
+      const active = wishlist.includes(Number(btn.dataset.wish));
+      btn.classList.toggle("k-wish-active", active);
+      btn.setAttribute("aria-label", active ? "Remove from wishlist" : "Save to wishlist");
+    });
+  }
 
   function mountChrome() {
     body.insertAdjacentHTML("afterbegin", `
@@ -75,6 +95,8 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </a>
           </div>
+          <button class="k-curr-toggle" type="button" id="kCurrToggle" aria-label="Switch currency"><span id="kCurrLabel">$ USD</span></button>
+          <button class="k-wish-nav" type="button" id="kWishNav" aria-label="Wishlist"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="k-wish-count" id="kWishCount" style="display:none">0</span></button>
           <button class="cart-trigger" type="button" data-cart-open><svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 8V5.5C7 3.57 8.34 2 10 2C11.66 2 13 3.57 13 5.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M2.5 8H17.5L16 20H4L2.5 8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 13H13" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.4"/></svg><span class="cart-trigger-label">BAG</span><span class="cart-count-pill" id="cartCountNav">0</span></button>
         </div>
       </nav>
@@ -294,7 +316,7 @@
       <div class="mm-nav-wide">
         <a href="t-shirts.html" data-nav="t-shirts.html">Heavyweight Tees</a>
         <a href="anime.html" data-nav="anime.html">Anime Denim</a>
-        <a href="women-streetwear-trousers.html" data-nav="women-streetwear-trousers.html">Street Trousers</a>
+        <a href="women-streetwear-trousers.html" data-nav="women-streetwear-trousers.html">Track Pants</a>
         <a href="checkout.html" data-nav="checkout.html">Bag &amp; Checkout</a>
         <a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>
       </div>
@@ -438,6 +460,8 @@
       const qvPrev = event.target.closest("#kQvPrev");
       const qvNext = event.target.closest("#kQvNext");
       const qvDot = event.target.closest("[data-qv-dot]");
+      const wishBtn = event.target.closest("[data-wish]");
+      const currToggle = event.target.closest("#kCurrToggle");
 
       if (menuToggle) body.classList.toggle("menu-open");
       if (cartOpen) openCart();
@@ -453,6 +477,14 @@
       if (qvPrev) { event.stopPropagation(); qvShow(qvIdx - 1); }
       if (qvNext) { event.stopPropagation(); qvShow(qvIdx + 1); }
       if (qvDot) { event.stopPropagation(); qvShow(Number(qvDot.dataset.qvDot)); }
+      if (wishBtn) { event.preventDefault(); event.stopPropagation(); toggleWishlist(wishBtn.dataset.wish); }
+      if (currToggle) {
+        try {
+          const curr = localStorage.getItem("k_currency") || "USD";
+          localStorage.setItem("k_currency", curr === "USD" ? "INR" : "USD");
+          window.location.reload();
+        } catch (e) {}
+      }
     });
   }
 
@@ -505,7 +537,7 @@
     doc.getElementById("kQvPrice").textContent = formatPrice(product.price);
     doc.getElementById("kQvLink").href = `product-detail?id=${product.id}`;
     const sizesEl = doc.getElementById("kQvSizes");
-    sizesEl.innerHTML = product.sizes.map((s) => `<button class="k-qv-size-btn" type="button" data-qv-size="${s}">${s}</button>`).join("");
+    sizesEl.innerHTML = product.sizes.map((s) => { const so = (product.soldOutSizes || []).includes(s); return `<button class="k-qv-size-btn${so ? " is-sold-out" : ""}" type="button" data-qv-size="${s}"${so ? " disabled" : ""}>${s}</button>`; }).join("");
     sizesEl.querySelectorAll(".k-qv-size-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
         sizesEl.querySelectorAll(".k-qv-size-btn").forEach((b) => b.classList.remove("active"));
@@ -733,6 +765,7 @@
             <img src="${product.img}" alt="${product.name}" loading="lazy">
             ${isNew ? `<div class="k-new-badge">New</div>` : ""}
             ${isSoldOut ? `<div class="sold-out-stamp">Archive</div>` : ""}
+            <button class="k-wish-btn${wishlist.includes(product.id) ? " k-wish-active" : ""}" type="button" data-wish="${product.id}" aria-label="${wishlist.includes(product.id) ? "Remove from wishlist" : "Save to wishlist"}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
             <button class="k-qv-btn" type="button" data-qv="${product.id}" aria-label="Quick view ${product.name}">Quick View</button>
           </div>
           <div class="product-card-content">
@@ -759,7 +792,7 @@
         ` : `
         <div class="product-card-quick">
           <div class="quick-sizes">
-            ${product.sizes.map((s) => `<button class="quick-size-btn" type="button" data-size="${s}" data-product="${product.id}">${s}</button>`).join("")}
+            ${product.sizes.map((s) => { const so = (product.soldOutSizes || []).includes(s); return `<button class="quick-size-btn${so ? " is-sold-out" : ""}" type="button" data-size="${s}" data-product="${product.id}"${so ? " disabled" : ""}>${s}</button>`; }).join("")}
             ${isTee ? `<button class="quick-sg-btn" type="button" data-size-guide title="Size Guide">?</button>` : ""}
           </div>
           <button class="quick-add-btn" type="button" data-product-id="${product.id}">Add to Bag</button>
@@ -965,7 +998,7 @@
                 ${product.sizeChart ? `<button class="inline-sc-btn" id="inlineSizeChartBtn" type="button">Size Chart</button>` : ""}
               </div>
               <div class="size-selector" id="sizeSelector">
-                ${product.sizes.map((size) => `<button class="size-chip" type="button" data-size="${size}">${size}</button>`).join("")}
+                ${product.sizes.map((size) => { const so = (product.soldOutSizes || []).includes(size); return `<button class="size-chip${so ? " is-sold-out" : ""}" type="button" data-size="${size}"${so ? " disabled" : ""}>${size}</button>`; }).join("")}
               </div>
               <div class="size-tip">${product.fit ? product.fit.split(".")[0] + "." : "KRYPTAA fits true to oversized — size up for a more dramatic shoulder."}</div>
             </div>
@@ -1046,6 +1079,7 @@
           </div>
         </div>
       </section>
+      <section class="pdp-pairs" id="pdpPairs"></section>
       <section class="pdp-related" id="pdpRelated"></section>
       <div class="pdp-sticky-bar" id="pdpStickyBar">
         <span class="psb-name">${product.name}</span>
@@ -1112,6 +1146,40 @@
           stickyBar.classList.toggle("psb-visible", !visible);
         }, { threshold: 0.15 }).observe(buyPanel);
       }
+    })();
+
+    /* ── "Pair it with" — cross-category complementary products ── */
+    (function () {
+      var pairsSection = doc.getElementById("pdpPairs");
+      if (!pairsSection || typeof getProductsByIds !== "function") return;
+      const PAIRS = { men: [1, 3, 4, 5], women: [1, 3, 4, 5], tees: [10, 11, 12, 14, 30, 31], women_st: [1, 3, 4, 5], anime: [1, 3, 4, 5] };
+      const pairIds = (PAIRS[product.category] || []).filter((id) => id !== product.id);
+      const pairs = getProductsByIds(pairIds).slice(0, 3);
+      if (!pairs.length) { pairsSection.style.display = "none"; return; }
+      pairsSection.innerHTML = `
+        <div class="section-shell">
+          <div class="section-head reveal">
+            <div><div class="eyebrow">Complete the Look</div><h2>Pair It With</h2></div>
+          </div>
+          <div class="pdp-pairs-grid">
+            ${pairs.map((p) => `
+              <a class="pdp-pair-card reveal" href="product-detail?id=${p.id}">
+                <div class="pdp-pair-img-wrap"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
+                <div class="pdp-pair-info">
+                  <div class="pdp-pair-name">${p.name}</div>
+                  <div class="pdp-pair-price">${formatPrice(p.price)}</div>
+                </div>
+              </a>
+            `).join("")}
+          </div>
+        </div>
+      `;
+      pairsSection.querySelectorAll(".reveal").forEach(function (el) {
+        var obs = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) { el.classList.add("is-visible"); obs.disconnect(); }
+        }, { threshold: 0.1 });
+        obs.observe(el);
+      });
     })();
 
     /* ── "You might also like" — same-category products ── */
@@ -1310,11 +1378,21 @@
     /* checkout page renders its own summary via inline script in checkout.html */
   }
 
+  function initCurrency() {
+    try {
+      const curr = localStorage.getItem("k_currency") || "USD";
+      const label = doc.getElementById("kCurrLabel");
+      if (label) label.textContent = curr === "INR" ? "₹ INR" : "$ USD";
+    } catch (e) {}
+  }
+
   doc.addEventListener("DOMContentLoaded", () => {
     mountChrome();
     bindChromeEvents();
     initPage();
     renderCartContent();
+    updateWishlistUI();
+    initCurrency();
     initMotion();
     /* is-loaded is set by cinematic.js after entry; set it here only on non-home pages */
     if (body.dataset.page !== "home") window.setTimeout(() => body.classList.add("is-loaded"), 520);
