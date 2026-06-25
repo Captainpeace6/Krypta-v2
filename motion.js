@@ -73,7 +73,7 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </a>
           </div>
-          <button class="cart-trigger" type="button" data-cart-open><svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 9C6 9 6 4 10 4C14 4 14 9 14 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="2.5" y="9" width="15" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="15" r="1.8" stroke="currentColor" stroke-width="1.2"/></svg><span class="cart-count-pill" id="cartCountNav">0</span></button>
+          <button class="cart-trigger" type="button" data-cart-open><svg width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="6.5" cy="3.5" r="2" stroke="currentColor" stroke-width="1.25"/><circle cx="11.5" cy="3.5" r="2" stroke="currentColor" stroke-width="1.25"/><path d="M5 6C5.5 6.6 7 7.2 9 7.2C11 7.2 12.5 6.6 13 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M4.5 7.5C2.5 9.5 1.5 12 1.5 14.5C1.5 18 4.8 21.5 9 21.5C13.2 21.5 16.5 18 16.5 14.5C16.5 12 15.5 9.5 13.5 7.5H4.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg><span class="cart-count-pill" id="cartCountNav">0</span></button>
         </div>
       </nav>
       <div class="mobile-menu" id="mobileMenu">
@@ -566,8 +566,9 @@
   function productCard(product) {
     const isTee = product.category === "tees" || product.category === "tops";
     const isAnime = product.category === "anime";
+    const isArchive = /archive/i.test(product.availability);
     const isLowStock = /low.?quantity|low.?stock/i.test(product.availability);
-    const isSoldOut = !isAnime && /sold.?out|archive/i.test(product.availability);
+    const isSoldOut = !isAnime && isArchive;
     return `
       <article class="product-card reveal${isSoldOut ? " is-sold-out" : ""}">
         <a class="product-card-link" href="product-detail?id=${product.id}" aria-label="View ${product.name}">
@@ -582,7 +583,7 @@
             <div class="product-card-tags">${product.tags.slice(0, 3).map((tag) => `<span>${tag}</span>`).join("")}</div>
             <div class="product-card-footer">
               ${isAnime ? `<span class="product-price preorder-badge">Preorder Only</span>` : `<span class="product-price">${formatPrice(product.price)}</span>`}
-              ${isLowStock ? `<span class="low-stock-badge">Only a few left</span>` : `<span class="tag-list">${product.availability}</span>`}
+              ${isLowStock ? `<span class="low-stock-badge">Only a few left</span>` : isArchive ? `` : `<span class="tag-list">${product.availability}</span>`}
             </div>
           </div>
         </a>
@@ -775,7 +776,7 @@
           <h1 class="detail-title">${product.name}</h1>
           <div class="detail-price">${formatPrice(product.price)}</div>
           <p>${product.story}</p>
-          <div class="detail-tags">${product.tags.map((tag) => `<span>${tag}</span>`).join("")}${/low.?quantity|low.?stock/i.test(product.availability) ? `<span class="low-stock-badge">Only a few left</span>` : `<span>${product.availability}</span>`}</div>
+          <div class="detail-tags">${product.tags.map((tag) => `<span>${tag}</span>`).join("")}${/low.?quantity|low.?stock/i.test(product.availability) ? `<span class="low-stock-badge">Only a few left</span>` : /archive/i.test(product.availability) ? `` : `<span>${product.availability}</span>`}</div>
           <div class="buy-panel">
             <div>
               <div class="size-row-header">
