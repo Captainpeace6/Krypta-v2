@@ -73,7 +73,7 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </a>
           </div>
-          <button class="cart-trigger" type="button" data-cart-open><span>Bag</span><span class="cart-count-pill" id="cartCountNav">0</span></button>
+          <button class="cart-trigger" type="button" data-cart-open><svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 9C6 9 6 4 10 4C14 4 14 9 14 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="2.5" y="9" width="15" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="15" r="1.8" stroke="currentColor" stroke-width="1.2"/></svg><span class="cart-count-pill" id="cartCountNav">0</span></button>
         </div>
       </nav>
       <div class="mobile-menu" id="mobileMenu">
@@ -201,7 +201,8 @@
 
   function navLinks() {
     const configs = ["men", "women", "women_st", "tees", "anime"].map((key) => window.CATEGORY_CONFIGS[key]);
-    return configs.map((item) => `<a href="${item.href}" data-nav="${item.href}">${item.nav}</a>`).join("");
+    return configs.map((item) => `<a href="${item.href}" data-nav="${item.href}">${item.nav}</a>`).join("") +
+      `<a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>`;
   }
 
   function mobileNavHTML() {
@@ -566,7 +567,7 @@
     const isTee = product.category === "tees" || product.category === "tops";
     const isAnime = product.category === "anime";
     const isLowStock = /low.?quantity|low.?stock/i.test(product.availability);
-    const isSoldOut = /sold.?out|archive/i.test(product.availability);
+    const isSoldOut = !isAnime && /sold.?out|archive/i.test(product.availability);
     return `
       <article class="product-card reveal${isSoldOut ? " is-sold-out" : ""}">
         <a class="product-card-link" href="product-detail?id=${product.id}" aria-label="View ${product.name}">

@@ -1279,19 +1279,22 @@ body.menu-open .mobile-menu {
   display: flex;
   align-items: center;
   gap: 7px;
-  color: rgba(240,237,232,0.5);
+  color: rgba(210,174,91,0.75);
   font-family: var(--f-mono);
-  font-size: 0.56rem;
+  font-size: 0.65rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   text-decoration: none;
-  padding: 6px 0;
-  transition: color 0.2s;
+  padding: 8px 12px 8px 10px;
+  border: 1px solid rgba(210,174,91,0.2);
+  border-left: 2px solid rgba(210,174,91,0.55);
+  background: rgba(210,174,91,0.04);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
   white-space: nowrap;
   cursor: pointer;
   flex-shrink: 0;
 }
-.shop-back-btn:hover { color: var(--k-gold, #d2ae5b); }
+.shop-back-btn:hover { color: var(--k-gold, #d2ae5b); border-color: rgba(210,174,91,0.45); border-left-color: var(--k-gold, #d2ae5b); background: rgba(210,174,91,0.07); }
 .shop-back-btn svg { flex-shrink: 0; transition: transform 0.2s; }
 .shop-back-btn:hover svg { transform: translateX(-3px); }
 
@@ -1705,19 +1708,24 @@ body.menu-open .mobile-menu {
   align-items: center;
   gap: 7px;
   font-family: var(--f-mono);
-  font-size: 0.56rem;
+  font-size: 0.65rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(240,237,232,0.45);
+  color: rgba(210,174,91,0.75);
   text-decoration: none;
-  border: none;
-  padding: 6px 0;
-  transition: color 0.2s;
+  padding: 8px 12px 8px 10px;
+  border: 1px solid rgba(210,174,91,0.2);
+  border-left: 2px solid rgba(210,174,91,0.55);
+  background: rgba(210,174,91,0.04);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
   white-space: nowrap;
 }
 
 .detail-back-btn:hover {
   color: var(--k-gold);
+  border-color: rgba(210,174,91,0.45);
+  border-left-color: var(--k-gold);
+  background: rgba(210,174,91,0.07);
 }
 
 .detail-back-btn svg {
@@ -3406,6 +3414,7 @@ details.faq-item[open] summary { color: #f0ede8; }
 .wa-float:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(37,211,102,0.6); }
 .wa-float svg { display: block; flex-shrink: 0; }
 @media (min-width: 768px) { .wa-float { bottom: 88px; right: 24px; } }
+@media (max-width: 767px) { .wa-float { display: none !important; } }
 
 /* ─────────────────────────────────────────────────
    COOKIE / PRIVACY CONSENT BANNER
