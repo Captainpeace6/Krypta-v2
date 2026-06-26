@@ -173,7 +173,11 @@
 
     /* Scroll-to-top button */
     body.insertAdjacentHTML("beforeend", `<button id="scrollTopBtn" aria-label="Back to top" title="Back to top">&#8593;</button>`);
-    doc.getElementById("scrollTopBtn")?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    doc.getElementById("scrollTopBtn")?.addEventListener("click", () => {
+      const target = Math.max(0, window.scrollY - window.innerHeight);
+      if (window.kLenis) { window.kLenis.scrollTo(target, { duration: 1.1 }); }
+      else { window.scrollTo({ top: target, behavior: "smooth" }); }
+    });
 
     /* Mobile sticky bag bar — not shown on checkout page */
     if (body.dataset.page !== "checkout") {
@@ -428,8 +432,8 @@
     }, { passive: true });
 
     const tick = () => {
-      x += (tx - x) * 0.22;
-      y += (ty - y) * 0.22;
+      x += (tx - x) * 0.12;
+      y += (ty - y) * 0.12;
       cursor.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
       requestAnimationFrame(tick);
     };
@@ -865,6 +869,7 @@
         const layout = button.dataset.layout;
         grid.classList.toggle("is-cinematic", layout === "cinematic");
         grid.classList.toggle("is-dense", layout === "dense");
+        grid.classList.toggle("is-grid", layout === "grid");
         doc.querySelectorAll("[data-layout]").forEach((btn) => btn.classList.toggle("active", btn === button));
         requestAnimationFrame(() => ScrollTrigger.refresh());
       });
