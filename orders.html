@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders — KRYPTAA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #d2ae5b;
+      --gold-dim: rgba(210,174,91,0.35);
+      --gold-faint: rgba(210,174,91,0.12);
+      --bg: #0c0b09;
+      --surface: #111009;
+      --surface2: #161410;
+      --text: #f0ede8;
+      --text-dim: rgba(240,237,232,0.55);
+      --text-faint: rgba(240,237,232,0.3);
+      --border: rgba(210,174,91,0.18);
+    }
+
+    html, body { min-height: 100vh; background: var(--bg); color: var(--text); font-family: 'Cormorant Garamond', Georgia, serif; }
+
+    /* ─── GATE ─── */
+    #gate {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 24px;
+    }
+    .gate-card {
+      width: 100%; max-width: 380px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .gate-wordmark {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 22px; font-weight: 900;
+      background: linear-gradient(135deg, #c9a84c 0%, #f0d578 45%, #b8932e 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .gate-sub {
+      font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--text-faint); margin-bottom: 40px;
+    }
+    .gate-label {
+      font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold-dim); text-align: left; margin-bottom: 8px;
+    }
+    .gate-input {
+      width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
+      color: var(--text); font-family: inherit; font-size: 14px;
+      padding: 14px 16px; outline: none; margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+    .gate-input:focus { border-color: var(--gold-dim); }
+    .gate-btn {
+      width: 100%; background: var(--gold); color: #070604;
+      font-family: 'Cormorant Garamond', serif; font-size: 11px;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      padding: 14px; border: none; cursor: pointer;
+      font-weight: 700; transition: opacity 0.2s;
+    }
+    .gate-btn:hover { opacity: 0.88; }
+    .gate-error {
+      margin-top: 16px; font-size: 12px; color: #e07070;
+      letter-spacing: 0.05em; display: none;
+    }
+
+    /* ─── DASHBOARD ─── */
+    #dashboard { display: none; min-height: 100vh; }
+
+    .od-header {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(12,11,9,0.95); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .od-header-logo {
+      font-family: 'Cinzel Decorative', serif; font-size: 14px; font-weight: 900;
+      background: linear-gradient(135deg, #c9a84c 0%, #f0d578 45%, #b8932e 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; letter-spacing: 0.06em;
+    }
+    .od-header-right { display: flex; align-items: center; gap: 16px; }
+    .od-header-label {
+      font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .od-btn-ghost {
+      background: none; border: 1px solid var(--border);
+      color: var(--text-dim); font-family: inherit; font-size: 10px;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 7px 14px; cursor: pointer; transition: border-color 0.2s, color 0.2s;
+    }
+    .od-btn-ghost:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+    .od-main { max-width: 860px; margin: 0 auto; padding: 32px 24px; }
+
+    /* Stats bar */
+    .od-stats {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      margin-bottom: 28px;
+    }
+    .od-stats-group { display: flex; gap: 32px; }
+    .od-stat { display: flex; flex-direction: column; }
+    .od-stat-val {
+      font-size: 22px; font-weight: 400; color: var(--gold);
+      font-variant-numeric: tabular-nums;
+    }
+    .od-stat-lbl {
+      font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--text-faint); margin-top: 2px;
+    }
+
+    /* Search */
+    .od-search-wrap { position: relative; }
+    .od-search {
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); font-family: inherit; font-size: 13px;
+      padding: 10px 16px 10px 36px; outline: none; width: 220px;
+      transition: border-color 0.2s;
+    }
+    .od-search:focus { border-color: var(--gold-dim); }
+    .od-search::placeholder { color: var(--text-faint); }
+    .od-search-icon {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--text-faint); pointer-events: none; font-size: 13px;
+    }
+
+    /* Order cards */
+    #ordersList { display: flex; flex-direction: column; gap: 16px; }
+
+    .order-card {
+      background: var(--surface); border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .order-card-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--gold-faint);
+      background: rgba(210,174,91,0.04);
+    }
+    .order-date {
+      font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .order-total {
+      font-size: 18px; color: var(--gold); font-variant-numeric: tabular-nums;
+    }
+    .order-body { padding: 16px 20px; }
+
+    /* Items */
+    .order-items { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .order-item { display: flex; align-items: center; gap: 14px; }
+    .order-item-thumb {
+      width: 56px; height: 70px; flex-shrink: 0;
+      background: var(--surface2); border: 1px solid var(--border);
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+    }
+    .order-item-thumb img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .order-item-thumb .thumb-placeholder {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 18px; color: var(--gold-dim);
+    }
+    .order-item-info { flex: 1; min-width: 0; }
+    .order-item-name {
+      font-size: 14px; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .order-item-meta {
+      font-size: 11px; letter-spacing: 0.08em; color: var(--text-dim); margin-top: 3px;
+    }
+    .order-item-price {
+      font-size: 13px; color: var(--text-dim); flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Divider */
+    .order-divider {
+      height: 1px; background: var(--gold-faint); margin: 14px 0;
+    }
+
+    /* Customer row */
+    .order-customer {
+      display: flex; flex-wrap: wrap; gap: 12px 28px;
+      align-items: flex-start; justify-content: space-between;
+    }
+    .order-customer-left { display: flex; flex-direction: column; gap: 4px; }
+    .order-cname { font-size: 14px; color: var(--text); }
+    .order-cdetail {
+      font-size: 11px; letter-spacing: 0.06em; color: var(--text-dim);
+    }
+    .order-addr {
+      font-size: 11px; letter-spacing: 0.05em; color: var(--text-faint);
+      max-width: 320px; line-height: 1.6;
+    }
+    .order-stripe-link {
+      display: inline-block;
+      background: var(--gold); color: #070604;
+      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 8px 16px; text-decoration: none; font-weight: 700;
+      white-space: nowrap; align-self: flex-end;
+      transition: opacity 0.2s;
+    }
+    .order-stripe-link:hover { opacity: 0.85; }
+
+    /* Loading / empty states */
+    .od-loading {
+      text-align: center; padding: 80px 24px;
+      font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .od-loading-dots::after {
+      content: ''; animation: dots 1.4s infinite;
+    }
+    @keyframes dots {
+      0%,20%  { content: '.'; }
+      40%     { content: '..'; }
+      60%,100%{ content: '...'; }
+    }
+    .od-empty {
+      text-align: center; padding: 80px 24px;
+      font-size: 13px; color: var(--text-faint); font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      .od-stats-group { gap: 20px; }
+      .od-search { width: 160px; }
+      .order-card-head { padding: 12px 16px; }
+      .order-body { padding: 14px 16px; }
+      .order-customer { flex-direction: column; }
+      .order-stripe-link { align-self: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-wordmark">KRYPTAA</div>
+    <div class="gate-sub">Orders Dashboard</div>
+    <div class="gate-label">Admin Password</div>
+    <input class="gate-input" type="password" id="gateInput" placeholder="Enter password" autocomplete="current-password">
+    <button class="gate-btn" id="gateBtn">Enter →</button>
+    <div class="gate-error" id="gateError">Incorrect password. Try again.</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <header class="od-header">
+    <div class="od-header-logo">KRYPTAA</div>
+    <div class="od-header-right">
+      <span class="od-header-label">Orders Dashboard</span>
+      <button class="od-btn-ghost" id="refreshBtn">↺ Refresh</button>
+      <button class="od-btn-ghost" id="logoutBtn">Logout</button>
+    </div>
+  </header>
+
+  <main class="od-main">
+    <div class="od-stats" id="statsBar">
+      <div class="od-stats-group">
+        <div class="od-stat">
+          <span class="od-stat-val" id="statOrders">—</span>
+          <span class="od-stat-lbl">Orders</span>
+        </div>
+        <div class="od-stat">
+          <span class="od-stat-val" id="statRevenue">—</span>
+          <span class="od-stat-lbl">Revenue</span>
+        </div>
+        <div class="od-stat">
+          <span class="od-stat-val" id="statItems">—</span>
+          <span class="od-stat-lbl">Items Sold</span>
+        </div>
+      </div>
+      <div class="od-search-wrap">
+        <span class="od-search-icon">⌕</span>
+        <input class="od-search" type="search" id="searchInput" placeholder="Search customer or item…">
+      </div>
+    </div>
+
+    <div id="ordersList">
+      <div class="od-loading"><span class="od-loading-dots">Loading orders</span></div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  const BACKEND = 'https://kryptaa-backend.netlify.app/.netlify/functions/get-orders';
+  const SESSION_KEY = 'k_admin_key';
+
+  const gate = document.getElementById('gate');
+  const dashboard = document.getElementById('dashboard');
+  const gateInput = document.getElementById('gateInput');
+  const gateBtn = document.getElementById('gateBtn');
+  const gateError = document.getElementById('gateError');
+  const ordersList = document.getElementById('ordersList');
+  const searchInput = document.getElementById('searchInput');
+  const statOrders = document.getElementById('statOrders');
+  const statRevenue = document.getElementById('statRevenue');
+  const statItems = document.getElementById('statItems');
+
+  let allOrders = [];
+
+  /* ── Auth ── */
+  function savedKey() {
+    try { return sessionStorage.getItem(SESSION_KEY); } catch (e) { return null; }
+  }
+  function saveKey(k) {
+    try { sessionStorage.setItem(SESSION_KEY, k); } catch (e) {}
+  }
+  function clearKey() {
+    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+  }
+
+  function showDashboard() {
+    gate.style.display = 'none';
+    dashboard.style.display = 'block';
+  }
+  function showGate(errMsg) {
+    dashboard.style.display = 'none';
+    gate.style.display = 'flex';
+    if (errMsg) {
+      gateError.textContent = errMsg;
+      gateError.style.display = 'block';
+    }
+  }
+
+  /* ── Fetch orders ── */
+  function loadOrders(key) {
+    ordersList.innerHTML = '<div class="od-loading"><span class="od-loading-dots">Loading orders</span></div>';
+    fetch(BACKEND, { headers: { 'X-Admin-Key': key } })
+      .then(function (r) {
+        if (r.status === 401) { clearKey(); showGate('Incorrect password. Try again.'); return null; }
+        if (!r.ok) throw new Error('Server error ' + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        if (!data) return;
+        allOrders = data.orders || [];
+        renderStats(allOrders);
+        renderOrders(allOrders);
+      })
+      .catch(function (err) {
+        ordersList.innerHTML = '<div class="od-empty">Could not load orders: ' + err.message + '</div>';
+      });
+  }
+
+  /* ── Stats ── */
+  function renderStats(orders) {
+    var revenue = orders.reduce(function (s, o) { return s + parseFloat(o.total || 0); }, 0);
+    var items = orders.reduce(function (s, o) {
+      return s + (o.items || []).reduce(function (si, i) { return si + (i.qty || 1); }, 0);
+    }, 0);
+    statOrders.textContent = orders.length;
+    statRevenue.textContent = '$' + revenue.toFixed(2);
+    statItems.textContent = items;
+  }
+
+  /* ── Render ── */
+  function renderOrders(orders) {
+    if (!orders.length) {
+      ordersList.innerHTML = '<div class="od-empty">No orders found.</div>';
+      return;
+    }
+    ordersList.innerHTML = orders.map(function (o) {
+      var date = new Date(o.created * 1000);
+      var dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        + '  ·  '
+        + date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+      var itemsHtml = (o.items || []).map(function (item) {
+        var thumbHtml = item.image
+          ? '<img src="' + item.image + '" alt="' + escHtml(item.name) + '" onerror="this.parentNode.innerHTML=\'<span class=thumb-placeholder>K</span>\'">'
+          : '<span class="thumb-placeholder">K</span>';
+        return '<div class="order-item">'
+          + '<div class="order-item-thumb">' + thumbHtml + '</div>'
+          + '<div class="order-item-info">'
+          + '<div class="order-item-name">' + escHtml(item.name || '—') + '</div>'
+          + '<div class="order-item-meta">Qty ' + (item.qty || 1) + '</div>'
+          + '</div>'
+          + '<div class="order-item-price">$' + (item.total || '0.00') + '</div>'
+          + '</div>';
+      }).join('');
+
+      var stripeUrl = o.paymentId && o.paymentId.startsWith('pi_')
+        ? 'https://dashboard.stripe.com/payments/' + o.paymentId
+        : 'https://dashboard.stripe.com/payments';
+
+      return '<div class="order-card" data-search="'
+        + escAttr((o.customer.name + ' ' + o.customer.email + ' ' + (o.items || []).map(function(i){return i.name;}).join(' ')).toLowerCase())
+        + '">'
+        + '<div class="order-card-head">'
+        + '<span class="order-date">' + dateStr + '</span>'
+        + '<span class="order-total">$' + o.total + '</span>'
+        + '</div>'
+        + '<div class="order-body">'
+        + '<div class="order-items">' + itemsHtml + '</div>'
+        + '<div class="order-divider"></div>'
+        + '<div class="order-customer">'
+        + '<div class="order-customer-left">'
+        + '<div class="order-cname">' + escHtml(o.customer.name) + '</div>'
+        + '<div class="order-cdetail">' + escHtml(o.customer.email) + '</div>'
+        + (o.customer.phone !== '—' ? '<div class="order-cdetail">' + escHtml(o.customer.phone) + '</div>' : '')
+        + '</div>'
+        + '<div class="order-addr">' + escHtml(o.shippingAddress) + '</div>'
+        + '<a class="order-stripe-link" href="' + stripeUrl + '" target="_blank" rel="noopener">View in Stripe →</a>'
+        + '</div>'
+        + '</div>'
+        + '</div>';
+    }).join('');
+  }
+
+  /* ── Search ── */
+  searchInput.addEventListener('input', function () {
+    var q = this.value.toLowerCase().trim();
+    var cards = ordersList.querySelectorAll('.order-card');
+    var shown = 0;
+    cards.forEach(function (card) {
+      var match = !q || (card.dataset.search || '').includes(q);
+      card.style.display = match ? '' : 'none';
+      if (match) shown++;
+    });
+    if (!shown && q) {
+      var noRes = ordersList.querySelector('.od-no-results');
+      if (!noRes) {
+        var d = document.createElement('div');
+        d.className = 'od-empty od-no-results';
+        d.textContent = 'No orders match "' + q + '".';
+        ordersList.appendChild(d);
+      }
+    } else {
+      var noRes = ordersList.querySelector('.od-no-results');
+      if (noRes) noRes.remove();
+    }
+  });
+
+  /* ── Gate actions ── */
+  function tryLogin() {
+    var key = gateInput.value.trim();
+    if (!key) return;
+    gateError.style.display = 'none';
+    gateBtn.disabled = true;
+    gateBtn.textContent = 'Checking…';
+    fetch(BACKEND, { headers: { 'X-Admin-Key': key } })
+      .then(function (r) {
+        gateBtn.disabled = false;
+        gateBtn.textContent = 'Enter →';
+        if (r.status === 401) {
+          gateError.textContent = 'Incorrect password. Try again.';
+          gateError.style.display = 'block';
+          return null;
+        }
+        if (!r.ok) throw new Error('Server error');
+        return r.json();
+      })
+      .then(function (data) {
+        if (!data) return;
+        saveKey(key);
+        showDashboard();
+        allOrders = data.orders || [];
+        renderStats(allOrders);
+        renderOrders(allOrders);
+      })
+      .catch(function () {
+        gateBtn.disabled = false;
+        gateBtn.textContent = 'Enter →';
+        gateError.textContent = 'Network error. Check your connection.';
+        gateError.style.display = 'block';
+      });
+  }
+
+  gateBtn.addEventListener('click', tryLogin);
+  gateInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') tryLogin(); });
+
+  document.getElementById('refreshBtn').addEventListener('click', function () {
+    var key = savedKey();
+    if (key) loadOrders(key);
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', function () {
+    clearKey();
+    showGate();
+    gateInput.value = '';
+    gateError.style.display = 'none';
+  });
+
+  /* ── Helpers ── */
+  function escHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function escAttr(str) { return escHtml(str); }
+
+  /* ── Init ── */
+  var key = savedKey();
+  if (key) { showDashboard(); loadOrders(key); }
+  else { showGate(); }
+})();
+</script>
+
+</body>
+</html>
