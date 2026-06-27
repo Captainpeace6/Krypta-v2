@@ -3860,6 +3860,7 @@ details.faq-item[open] summary { color: #f0ede8; }
 }
 .notify-pdp-row button:hover { opacity: 0.88; }
 .notify-sent { font-family: var(--f-mono); font-size: 0.58rem; letter-spacing: 0.1em; color: rgba(125,186,125,0.9); margin-top: 10px; display: none; }
+.notify-restock-note { font-family: var(--f-mono); font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(210,174,91,0.6); margin-bottom: 14px; }
 
 /* ── Preorder timeline badge ── */
 .preorder-timeline {
@@ -4201,6 +4202,34 @@ details.faq-item[open] summary { color: #f0ede8; }
 }
 .k-curr-toggle:hover { border-color: rgba(210,174,91,0.5); color: rgba(210,174,91,0.85); background: rgba(210,174,91,0.05); }
 @media (max-width: 768px) { .k-curr-toggle { display: none; } }
+.mm-curr-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px 20px;
+  border-top: 1px solid rgba(210,174,91,0.07);
+  margin-top: 4px;
+}
+.mm-curr-label-text {
+  font-family: var(--f-mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(240,237,232,0.3);
+}
+.mm-curr-btn {
+  background: none;
+  border: 1px solid rgba(210,174,91,0.22);
+  color: rgba(240,237,232,0.55);
+  font-family: var(--f-mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.mm-curr-btn:hover { border-color: rgba(210,174,91,0.5); color: rgba(210,174,91,0.85); background: rgba(210,174,91,0.05); }
 
 /* ── Sold-out size chips ── */
 .size-chip.is-sold-out,

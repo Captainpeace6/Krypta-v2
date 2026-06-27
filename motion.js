@@ -325,6 +325,10 @@
         <a href="checkout.html" data-nav="checkout.html">Bag &amp; Checkout</a>
         <a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>
       </div>
+      <div class="mm-curr-row">
+        <span class="mm-curr-label-text">Currency</span>
+        <button type="button" id="kCurrToggleMobile" class="mm-curr-btn" aria-label="Switch currency"><span id="kCurrLabelMobile">$ USD</span></button>
+      </div>
     `;
   }
 
@@ -466,7 +470,7 @@
       const qvNext = event.target.closest("#kQvNext");
       const qvDot = event.target.closest("[data-qv-dot]");
       const wishBtn = event.target.closest("[data-wish]");
-      const currToggle = event.target.closest("#kCurrToggle");
+      const currToggle = event.target.closest("#kCurrToggle") || event.target.closest("#kCurrToggleMobile");
 
       if (menuToggle) body.classList.toggle("menu-open");
       if (cartOpen) openCart();
@@ -1047,6 +1051,7 @@
             <div class="notify-pdp-box">
               <div class="notify-pdp-title">— Notify Me —</div>
               <div class="notify-pdp-sub">This piece is currently unavailable. Drop your email and we&apos;ll reach out the moment it restocks.</div>
+              ${product.restockDate ? `<div class="notify-restock-note">Est. Restock — ${product.restockDate}</div>` : ''}
               <form class="notify-pdp-row" action="https://formspree.io/f/mbljodbk" method="POST" id="notifyPdpForm">
                 <input type="hidden" name="_subject" value="Restock: ${product.name}">
                 <input type="hidden" name="product" value="${product.name}">
@@ -1413,8 +1418,11 @@
   function initCurrency() {
     try {
       const curr = localStorage.getItem("k_currency") || "USD";
+      const text = curr === "INR" ? "₹ INR" : "$ USD";
       const label = doc.getElementById("kCurrLabel");
-      if (label) label.textContent = curr === "INR" ? "₹ INR" : "$ USD";
+      if (label) label.textContent = text;
+      const labelMob = doc.getElementById("kCurrLabelMobile");
+      if (labelMob) labelMob.textContent = text;
     } catch (e) {}
   }
 
