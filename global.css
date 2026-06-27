@@ -1560,12 +1560,22 @@ body.menu-open .mobile-menu {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-/* Center the lone last card when there's an odd number of products in cinematic mode */
-.products-grid.is-cinematic .product-card:last-child:nth-child(odd) {
-  grid-column: 1 / -1;
-  max-width: calc(50% - 1px);
-  margin-left: auto;
-  margin-right: auto;
+/* Lone last card in cinematic (desktop 2-col): full-width featured banner */
+@media (min-width: 769px) {
+  .products-grid.is-cinematic .product-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+  .products-grid.is-cinematic .product-card:last-child:nth-child(odd) .product-card-media {
+    height: 540px;
+    min-height: 540px;
+  }
+  .products-grid.is-cinematic .product-card:last-child:nth-child(odd) .product-card-media img {
+    object-fit: cover;
+    object-position: center center;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .products-grid.is-grid {
