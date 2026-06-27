@@ -288,7 +288,7 @@
   }
 
   function navLinks() {
-    const configs = ["men", "women", "women_st", "tees", "anime"].map((key) => window.CATEGORY_CONFIGS[key]);
+    const configs = ["men", "women", "women_wear", "women_st", "tees", "anime"].map((key) => window.CATEGORY_CONFIGS[key]);
     return configs.map((item) => `<a href="${item.href}" data-nav="${item.href}">${item.nav}</a>`).join("") +
       `<a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>`;
   }
@@ -318,6 +318,7 @@
       </div>
       <div class="mm-nav-section-label">More</div>
       <div class="mm-nav-wide">
+        <a href="women-wear.html" data-nav="women-wear.html">Women Wear</a>
         <a href="t-shirts.html" data-nav="t-shirts.html">Heavyweight Tees</a>
         <a href="anime.html" data-nav="anime.html">Anime Denim</a>
         <a href="women-streetwear-trousers.html" data-nav="women-streetwear-trousers.html">Track Pants</a>
