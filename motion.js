@@ -785,7 +785,7 @@
             <p class="product-card-desc">${product.desc}</p>
             <div class="product-card-tags">${product.tags.slice(0, 3).map((tag) => `<span>${tag}</span>`).join("")}</div>
             <div class="product-card-footer">
-              ${isAnime ? `<span class="product-price preorder-badge">Preorder Only</span>` : `<span class="product-price">${formatPrice(product.price)}</span>`}
+              ${isAnime ? `<span class="product-price preorder-badge">Contact to Order</span>` : `<span class="product-price">${formatPrice(product.price)}</span>`}
               ${isLowStock ? `<span class="low-stock-badge">Only a few left</span>` : isArchive ? `` : `<span class="tag-list">${product.availability}</span>`}
             </div>
           </div>

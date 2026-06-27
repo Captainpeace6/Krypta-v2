@@ -1142,7 +1142,7 @@ body.menu-open .mobile-menu {
 
 .category-card {
   position: relative;
-  min-height: 340px;
+  min-height: 500px;
   overflow: hidden;
   background: var(--k-panel);
   color: var(--k-bone);
@@ -1175,6 +1175,7 @@ body.menu-open .mobile-menu {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
   transition: transform 1s var(--ease-lux), filter 0.6s ease, opacity 0.6s ease;
 }
 
