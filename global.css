@@ -1696,6 +1696,7 @@ body.menu-open .mobile-menu {
 
 .products-grid.is-dense .product-card {
   min-height: 500px;
+  max-height: 580px;
 }
 
 .products-grid.is-dense .product-card-content {
@@ -1707,12 +1708,16 @@ body.menu-open .mobile-menu {
   display: none;
 }
 .products-grid.is-dense .product-card-media {
-  min-height: 380px;
+  height: 380px;
+  min-height: unset;
+  overflow: hidden;
 }
 .products-grid.is-dense .product-card-media img {
   object-fit: cover;
   object-position: center top;
   padding: 0;
+  height: 100%;
+  width: 100%;
 }
 
 .detail-back-row {
