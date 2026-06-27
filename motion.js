@@ -319,9 +319,9 @@
       <div class="mm-nav-section-label">More</div>
       <div class="mm-nav-wide">
         <a href="women-wear.html" data-nav="women-wear.html">Women Wear</a>
-        <a href="t-shirts.html" data-nav="t-shirts.html">Heavyweight Tees</a>
+        <a href="t-shirts.html" data-nav="t-shirts.html">T-Shirts</a>
         <a href="anime.html" data-nav="anime.html">Anime Denim</a>
-        <a href="women-streetwear-trousers.html" data-nav="women-streetwear-trousers.html">Track Pants</a>
+        <a href="women-streetwear-trousers.html" data-nav="women-streetwear-trousers.html">Street Wear Track Pants</a>
         <a href="checkout.html" data-nav="checkout.html">Bag &amp; Checkout</a>
         <a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>
       </div>
@@ -542,18 +542,24 @@
     doc.getElementById("kQvPrice").textContent = formatPrice(product.price);
     doc.getElementById("kQvLink").href = `product-detail?id=${product.id}`;
     const sizesEl = doc.getElementById("kQvSizes");
-    sizesEl.innerHTML = product.sizes.map((s) => { const so = (product.soldOutSizes || []).includes(s); return `<button class="k-qv-size-btn${so ? " is-sold-out" : ""}" type="button" data-qv-size="${s}"${so ? " disabled" : ""}>${s}</button>`; }).join("");
-    sizesEl.querySelectorAll(".k-qv-size-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        sizesEl.querySelectorAll(".k-qv-size-btn").forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        doc.getElementById("kQvAddBtn").dataset.qvSize = btn.dataset.qvSize;
-        doc.getElementById("kQvAddBtn").dataset.qvProduct = product.id;
-      });
-    });
     const addBtn = doc.getElementById("kQvAddBtn");
-    addBtn.dataset.qvSize = "";
-    addBtn.dataset.qvProduct = product.id;
+    if (product.category === "women_wear") {
+      sizesEl.innerHTML = `<span class="qv-universal-size">Universal Size — One Size</span>`;
+      addBtn.dataset.qvSize = "Universal";
+      addBtn.dataset.qvProduct = product.id;
+    } else {
+      sizesEl.innerHTML = product.sizes.map((s) => { const so = (product.soldOutSizes || []).includes(s); return `<button class="k-qv-size-btn${so ? " is-sold-out" : ""}" type="button" data-qv-size="${s}"${so ? " disabled" : ""}>${s}</button>`; }).join("");
+      sizesEl.querySelectorAll(".k-qv-size-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          sizesEl.querySelectorAll(".k-qv-size-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          doc.getElementById("kQvAddBtn").dataset.qvSize = btn.dataset.qvSize;
+          doc.getElementById("kQvAddBtn").dataset.qvProduct = product.id;
+        });
+      });
+      addBtn.dataset.qvSize = "";
+      addBtn.dataset.qvProduct = product.id;
+    }
     addBtn.textContent = "Add To Bag";
     addBtn.onclick = () => {
       const size = addBtn.dataset.qvSize;
@@ -796,11 +802,16 @@
           </div>
         ` : `
         <div class="product-card-quick">
+          ${product.category === "women_wear" ? `
+          <div class="quick-sizes"><span class="quick-universal">Universal Size</span></div>
+          <button class="quick-add-btn ready" type="button" data-product-id="${product.id}" data-selected-size="Universal">Add to Bag</button>
+          ` : `
           <div class="quick-sizes">
             ${product.sizes.map((s) => { const so = (product.soldOutSizes || []).includes(s); return `<button class="quick-size-btn${so ? " is-sold-out" : ""}" type="button" data-size="${s}" data-product="${product.id}"${so ? " disabled" : ""}>${s}</button>`; }).join("")}
             ${isTee ? `<button class="quick-sg-btn" type="button" data-size-guide title="Size Guide">?</button>` : ""}
           </div>
           <button class="quick-add-btn" type="button" data-product-id="${product.id}">Add to Bag</button>
+          `}
         </div>
         `}
       </article>
@@ -810,12 +821,12 @@
   function renderHome() {
     const heroMedia = doc.getElementById("homeHeroMedia");
     if (heroMedia) {
-      heroMedia.innerHTML = getProductsByIds([1, 14, 60]).map((product) => `<img src="${product.img}" alt="">`).join("");
+      heroMedia.innerHTML = getProductsByIds([1, 14, 70]).map((product) => `<img src="${product.img}" alt="">`).join("");
     }
 
     const collectionGrid = doc.getElementById("collectionGrid");
     if (collectionGrid) {
-      const keys = ["men", "women", "tees"];
+      const keys = ["men", "women", "tees", "women_wear"];
       collectionGrid.innerHTML = keys.map((key) => {
         const config = getCategoryConfig(key);
         const cover = getProductsByIds(config.heroIds)[0];
@@ -845,6 +856,7 @@
     const category = getPageCategory();
     const config = getCategoryConfig(category);
     const products = getProductsByCategory(category);
+    try { localStorage.setItem("k_last_shop", window.location.pathname); } catch(e) {}
 
     doc.title = `${config.title} - KRYPTAA Luxury v3`;
     setText("shopTitle", config.title);
@@ -896,7 +908,7 @@
     }
 
     doc.title = `${product.name} — KRYPTAA`;
-    selectedSize = null;
+    selectedSize = product.category === "women_wear" ? "Universal" : null;
     let pdQty = 1;
 
     /* #8 / #9 — Update meta description + OG tags for SEO */
@@ -999,6 +1011,10 @@
           <div class="detail-tags">${product.tags.map((tag) => `<span>${tag}</span>`).join("")}${/low.?quantity|low.?stock/i.test(product.availability) ? `<span class="low-stock-badge">Only a few left</span>` : /archive/i.test(product.availability) ? `` : `<span>${product.availability}</span>`}</div>
           <div class="buy-panel">
             <div>
+              ${product.category === "women_wear" ? `
+              <div class="size-row-header"><div class="eyebrow">Size</div></div>
+              <div class="universal-size-badge">Universal Size — One Size Fits All</div>
+              ` : `
               <div class="size-row-header">
                 <div class="eyebrow">Select Size</div>
                 ${product.sizeChart ? `<button class="inline-sc-btn" id="inlineSizeChartBtn" type="button">Size Chart</button>` : ""}
@@ -1007,6 +1023,7 @@
                 ${product.sizes.map((size) => { const so = (product.soldOutSizes || []).includes(size); return `<button class="size-chip${so ? " is-sold-out" : ""}" type="button" data-size="${size}"${so ? " disabled" : ""}>${size}</button>`; }).join("")}
               </div>
               <div class="size-tip">${product.fit ? product.fit.split(".")[0] + "." : "KRYPTAA fits true to oversized — size up for a more dramatic shoulder."}</div>
+              `}
             </div>
             <div class="pdp-add-row">
               <div class="qty-stepper" id="pdpQtyStepper">

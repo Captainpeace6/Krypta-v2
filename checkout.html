@@ -504,7 +504,7 @@
     <div id="coFormWrap">
 
       <!-- Back to Drop — always visible -->
-      <a href="javascript:history.back()" class="co-back-btn" id="coBackBtn">
+      <a href="index.html" class="co-back-btn" id="coBackBtn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
         Back to the Drop
       </a>
@@ -799,6 +799,10 @@ function goToStripe() {
   document.addEventListener("DOMContentLoaded", function () {
     renderSummary();
     initCoupon();
+    var backBtn = document.getElementById("coBackBtn");
+    if (backBtn) {
+      try { var last = localStorage.getItem("k_last_shop"); if (last) backBtn.href = last; } catch(e) {}
+    }
   });
 
   /* Reset button if browser restores this page from BFCache after Stripe redirect */

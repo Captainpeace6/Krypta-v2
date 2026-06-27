@@ -115,7 +115,7 @@ const CATEGORY_CONFIGS = {
   women_st: {
     title: "Unisex Street Track Pants",
     label: "Drop 001 Bottoms",
-    nav: "Track Pants",
+    nav: "Street Wear Track Pants",
     href: "women-streetwear-trousers.html",
     description: "Wide-leg street track pants in four bold colours — blue, green, red, and yellow. Unisex silhouette. Clean architecture, underground attitude.",
     heroIds: [500, 501, 502, 503],
@@ -152,12 +152,22 @@ const STORY_DEFAULTS = {
     finish: "Foil, chain, or graphic details are treated as jewelry for the garment.",
     shipping: "In stock and ready to ship. Dispatched within 3–5 business days in branded KRYPTAA packaging.",
     brandConnection: "This is the high-voltage edge of KRYPTAA: more light, same darkness."
+  },
+  women_wear: {
+    technical: "Lightweight rhinestone mesh, holographic sequin, and metallic fabric — selected for visual impact, movement, and festival-ready shine.",
+    artisticConcept: "KRYPTAA festival aesthetic: maximum light capture, open-back silhouettes, and body-aware cuts built for after-dark statements.",
+    fit: "Runs small — size up one for more coverage. Designed to sit close to the body for a sculpted festival silhouette.",
+    materials: "Rhinestone mesh, holographic sequin, and liquid metallic jersey — each chosen for stage and night wearability.",
+    finish: "Rhinestone embellishment, chain tie closures, and iridescent foil finishes applied for maximum visual impact.",
+    shipping: "In stock and ready to ship. Dispatched within 3–5 business days in branded KRYPTAA packaging.",
+    brandConnection: "Drop 002 extends the KRYPTAA language into women's festival wear — the same darkness, built to reflect light."
   }
 };
 
 function productFamily(product) {
   if (product.category === "tees") return "tees";
   if (product.category === "tops") return "tops";
+  if (product.category === "women_wear") return "women_wear";
   if (product.category === "women_track") return "denim";
   return "denim";
 }
