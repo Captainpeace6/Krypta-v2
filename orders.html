@@ -9,7 +9,7 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --gold: #d2ae5b; --gold-dim: rgba(210,174,91,0.35); --gold-faint: rgba(210,174,91,0.12);
+      --gold: #d2ae5b; --gold-dim: rgba(210,174,91,0.4); --gold-faint: rgba(210,174,91,0.12);
       --bg: #0c0b09; --surface: #111009; --surface2: #161410;
       --text: #f0ede8; --text-dim: rgba(240,237,232,0.6); --text-faint: rgba(240,237,232,0.35);
       --border: rgba(210,174,91,0.18);
@@ -19,8 +19,8 @@
     /* ── GATE ── */
     #gate { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
     .gate-card { width: 100%; max-width: 380px; background: var(--surface); border: 1px solid var(--border); padding: 48px 40px; text-align: center; }
-    .gate-logo { width: 120px; height: auto; margin: 0 auto 24px; display: block; }
-    .gate-sub { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 36px; }
+    .gate-logo { width: 200px; height: auto; margin: 0 auto 8px; display: block; mix-blend-mode: screen; }
+    .gate-sub { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 40px; }
     .gate-label { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-dim); text-align: left; margin-bottom: 8px; }
     .gate-input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border); color: var(--text); font-family: inherit; font-size: 15px; padding: 14px 16px; outline: none; margin-bottom: 16px; transition: border-color 0.2s; }
     .gate-input:focus { border-color: var(--gold-dim); }
@@ -28,103 +28,136 @@
     .gate-btn:hover { opacity: 0.88; }
     .gate-error { margin-top: 16px; font-size: 13px; color: #e07070; letter-spacing: 0.05em; display: none; }
 
-    /* ── DASHBOARD ── */
+    /* ── DASHBOARD SHELL ── */
     #dashboard { display: none; min-height: 100vh; }
-    .od-header { position: sticky; top: 0; z-index: 10; background: rgba(12,11,9,0.97); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 62px; }
-    .od-header-logo { height: 36px; width: auto; display: block; }
-    .od-header-right { display: flex; align-items: center; gap: 12px; }
-    .od-header-label { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); }
-    .od-btn-ghost { background: none; border: 1px solid var(--border); color: var(--text-dim); font-family: inherit; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; padding: 8px 16px; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
+    .od-header { position: sticky; top: 0; z-index: 10; background: rgba(12,11,9,0.97); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 62px; gap: 16px; }
+    .od-header-logo { height: 28px; width: auto; display: block; mix-blend-mode: screen; }
+    .od-nav { display: flex; gap: 0; }
+    .od-nav-btn { background: none; border: none; font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--text-faint); padding: 8px 20px; cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+    .od-nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .od-nav-btn:hover:not(.active) { color: var(--text-dim); }
+    .od-header-right { display: flex; align-items: center; gap: 10px; }
+    .od-btn-ghost { background: none; border: 1px solid var(--border); color: var(--text-faint); font-family: inherit; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; padding: 7px 14px; cursor: pointer; transition: border-color 0.2s, color 0.2s; white-space: nowrap; }
     .od-btn-ghost:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+    /* ── VIEW SWITCHING ── */
+    .od-view { display: none; }
+    .od-view.active { display: block; }
     .od-main { max-width: 980px; margin: 0 auto; padding: 36px 24px; }
 
-    /* ── STATS ── */
-    .od-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 32px; }
-    .od-stat { background: var(--surface); padding: 20px 24px; }
-    .od-stat-val { font-size: 32px; color: var(--gold); font-variant-numeric: tabular-nums; line-height: 1; }
-    .od-stat-lbl { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-faint); margin-top: 6px; }
-
-    /* ── CHART ── */
-    .od-chart-section { background: var(--surface); border: 1px solid var(--border); padding: 24px; margin-bottom: 32px; }
-    .od-chart-title { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 24px; }
-    .od-chart { display: flex; align-items: flex-end; gap: 8px; height: 120px; }
-    .od-bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; }
-    .od-bar-wrap { flex: 1; width: 100%; display: flex; align-items: flex-end; }
-    .od-bar { width: 100%; background: linear-gradient(180deg, rgba(210,174,91,0.9) 0%, rgba(180,144,50,0.7) 100%); min-height: 2px; transition: height 0.5s cubic-bezier(0.4,0,0.2,1); position: relative; }
-    .od-bar:hover::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #111; border: 1px solid var(--gold-dim); color: var(--gold); font-size: 11px; padding: 4px 8px; white-space: nowrap; pointer-events: none; font-family: 'Cormorant Garamond', serif; }
-    .od-bar-lbl { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
-    .od-bar-amt { font-size: 11px; color: var(--text-dim); font-variant-numeric: tabular-nums; }
-
-    /* ── TOP PRODUCTS ── */
-    .od-topprod-section { background: var(--surface); border: 1px solid var(--border); padding: 24px; margin-bottom: 32px; }
-    .od-section-title { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 16px; }
-    .od-topprod-list { display: flex; flex-direction: column; gap: 10px; }
-    .od-topprod-item { display: flex; align-items: center; gap: 12px; }
-    .od-topprod-rank { font-size: 14px; color: var(--gold-dim); min-width: 20px; font-variant-numeric: tabular-nums; }
-    .od-topprod-img { width: 40px; height: 50px; object-fit: cover; background: var(--surface2); border: 1px solid var(--border); flex-shrink: 0; }
-    .od-topprod-name { flex: 1; font-size: 15px; color: var(--text); }
-    .od-topprod-rev { font-size: 14px; color: var(--gold); font-variant-numeric: tabular-nums; }
-
-    /* ── SEARCH ROW ── */
-    .od-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    /* ─────────────────────────────
+       ORDERS VIEW
+    ───────────────────────────── */
+    .od-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 28px; }
+    .od-stat { background: var(--surface); padding: 18px 22px; }
+    .od-stat-val { font-size: 30px; color: var(--gold); font-variant-numeric: tabular-nums; line-height: 1; }
+    .od-stat-lbl { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-faint); margin-top: 5px; }
+    .od-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; flex-wrap: wrap; gap: 12px; }
     .od-toolbar-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); }
     .od-search-wrap { position: relative; }
-    .od-search { background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: inherit; font-size: 15px; padding: 10px 16px 10px 38px; outline: none; width: 240px; transition: border-color 0.2s; }
+    .od-search { background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: inherit; font-size: 15px; padding: 10px 16px 10px 36px; outline: none; width: 240px; transition: border-color 0.2s; }
     .od-search:focus { border-color: var(--gold-dim); }
     .od-search::placeholder { color: var(--text-faint); }
-    .od-search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-faint); pointer-events: none; font-size: 15px; }
+    .od-search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text-faint); pointer-events: none; font-size: 15px; }
 
     /* ── ORDER CARDS ── */
-    #ordersList { display: flex; flex-direction: column; gap: 20px; }
-    .order-card { background: var(--surface); border: 1px solid var(--border); overflow: hidden; }
-    .order-card-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--gold-faint); background: rgba(210,174,91,0.05); gap: 16px; }
-    .order-head-left { display: flex; align-items: center; gap: 16px; }
-    .order-num { font-family: 'Cinzel Decorative', serif; font-size: 22px; font-weight: 900; color: var(--gold); letter-spacing: 0.04em; white-space: nowrap; border-right: 1px solid var(--gold-faint); padding-right: 16px; line-height: 1; }
-    .order-date { font-size: 13px; letter-spacing: 0.1em; color: var(--text-dim); text-transform: uppercase; }
+    #ordersList { display: flex; flex-direction: column; gap: 18px; }
+    .order-card { background: var(--surface); border: 1px solid var(--border); }
+    .order-card-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; border-bottom: 1px solid var(--gold-faint); background: rgba(210,174,91,0.04); gap: 16px; }
+    .order-head-left { display: flex; align-items: center; gap: 14px; }
+    .order-num { font-family: 'Cinzel Decorative', serif; font-size: 22px; font-weight: 900; color: var(--gold); letter-spacing: 0.04em; white-space: nowrap; border-right: 1px solid var(--gold-faint); padding-right: 14px; line-height: 1; }
+    .order-date { font-size: 13px; letter-spacing: 0.08em; color: var(--text-dim); text-transform: uppercase; }
     .order-total { font-size: 26px; color: var(--gold); font-variant-numeric: tabular-nums; white-space: nowrap; }
-    .order-body { padding: 20px 24px; }
+    .order-body { padding: 18px 22px; }
     .order-items { display: flex; flex-direction: column; gap: 12px; }
-    .order-item { display: flex; align-items: center; gap: 16px; }
-    .order-item-thumb { width: 64px; height: 80px; flex-shrink: 0; background: var(--surface2); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .order-item { display: flex; align-items: center; gap: 14px; }
+    .order-item-thumb { width: 62px; height: 78px; flex-shrink: 0; background: var(--surface2); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .order-item-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .order-item-thumb .thumb-k { font-family: 'Cinzel Decorative', serif; font-size: 18px; color: var(--gold-dim); }
+    .order-item-thumb .thumb-k { font-family: 'Cinzel Decorative', serif; font-size: 16px; color: var(--gold-dim); }
     .order-item-info { flex: 1; min-width: 0; }
     .order-item-name { font-size: 17px; color: var(--text); line-height: 1.3; }
-    .order-item-meta { font-size: 13px; letter-spacing: 0.06em; color: var(--text-dim); margin-top: 4px; }
-    .order-item-price { font-size: 17px; color: var(--text-dim); flex-shrink: 0; font-variant-numeric: tabular-nums; }
-    .order-shipping-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; margin-top: 4px; border-top: 1px solid var(--gold-faint); }
-    .order-shipping-lbl { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-faint); }
-    .order-shipping-amt { font-size: 14px; color: var(--text-faint); font-variant-numeric: tabular-nums; }
-    .order-divider { height: 1px; background: var(--gold-faint); margin: 18px 0; }
-    .order-customer { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: flex-start; justify-content: space-between; }
-    .order-customer-left { display: flex; flex-direction: column; gap: 5px; }
+    .order-item-meta { font-size: 13px; letter-spacing: 0.06em; color: var(--text-dim); margin-top: 3px; }
+    .order-item-price { font-size: 16px; color: var(--text-dim); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+    .order-shipping-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; margin-top: 4px; border-top: 1px solid var(--gold-faint); }
+    .order-shipping-lbl { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-faint); }
+    .order-shipping-amt { font-size: 13px; color: var(--text-faint); font-variant-numeric: tabular-nums; }
+    .order-divider { height: 1px; background: var(--gold-faint); margin: 16px 0; }
+    .order-customer { display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: flex-start; justify-content: space-between; }
+    .order-customer-left { display: flex; flex-direction: column; gap: 4px; }
     .order-cname { font-size: 18px; color: var(--text); font-weight: 600; }
-    .order-cdetail { font-size: 14px; letter-spacing: 0.04em; color: var(--text-dim); }
-    .order-addr { font-size: 14px; letter-spacing: 0.03em; color: var(--text-faint); max-width: 340px; line-height: 1.65; }
+    .order-cdetail { font-size: 14px; color: var(--text-dim); }
+    .order-addr { font-size: 14px; color: var(--text-faint); max-width: 320px; line-height: 1.65; }
     .order-actions { display: flex; gap: 10px; align-self: flex-end; flex-wrap: wrap; }
-    .order-stripe-link { display: inline-block; background: var(--gold); color: #070604; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 20px; text-decoration: none; font-weight: 700; white-space: nowrap; transition: opacity 0.2s; }
+    .order-stripe-link { display: inline-block; background: var(--gold); color: #070604; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 18px; text-decoration: none; font-weight: 700; white-space: nowrap; transition: opacity 0.2s; }
     .order-stripe-link:hover { opacity: 0.85; }
-    .order-print-btn { display: inline-block; background: none; border: 1px solid var(--border); color: var(--text-dim); font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 20px; cursor: pointer; white-space: nowrap; transition: border-color 0.2s, color 0.2s; }
+    .order-print-btn { display: inline-block; background: none; border: 1px solid var(--border); color: var(--text-dim); font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 18px; cursor: pointer; white-space: nowrap; transition: border-color 0.2s, color 0.2s; }
     .order-print-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
     .od-loading { text-align: center; padding: 80px 24px; font-size: 13px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); }
-    .od-loading-dots::after { content: ''; animation: dots 1.4s infinite; }
-    @keyframes dots { 0%,20%{content:'.';} 40%{content:'..';} 60%,100%{content:'...';} }
-    .od-empty { text-align: center; padding: 80px 24px; font-size: 15px; color: var(--text-faint); font-style: italic; }
+    .od-empty { text-align: center; padding: 60px 24px; font-size: 15px; color: var(--text-faint); font-style: italic; }
+
+    /* ─────────────────────────────
+       DASHBOARD VIEW
+    ───────────────────────────── */
+    .dash-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 28px; }
+    .dash-stat { background: var(--surface); padding: 22px 24px; }
+    .dash-stat-val { font-size: 34px; color: var(--gold); font-variant-numeric: tabular-nums; line-height: 1; }
+    .dash-stat-lbl { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-faint); margin-top: 6px; }
+    .dash-stat-sub { font-size: 12px; color: var(--text-faint); margin-top: 4px; font-style: italic; }
+
+    .dash-section { background: var(--surface); border: 1px solid var(--border); padding: 26px; margin-bottom: 24px; }
+    .dash-section-title { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 24px; }
+
+    /* Bar chart */
+    .dash-chart { display: flex; align-items: flex-end; gap: 10px; height: 160px; }
+    .dash-bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; }
+    .dash-bar-wrap { flex: 1; width: 100%; display: flex; align-items: flex-end; }
+    .dash-bar { width: 100%; background: linear-gradient(180deg, #d2ae5b 0%, #a07a2a 100%); min-height: 3px; position: relative; transition: opacity 0.2s; }
+    .dash-bar:hover { opacity: 0.8; }
+    .dash-bar::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: #1a1810; border: 1px solid var(--gold-dim); color: var(--text); font-size: 12px; padding: 5px 10px; white-space: nowrap; pointer-events: none; font-family: 'Cormorant Garamond', serif; opacity: 0; transition: opacity 0.15s; }
+    .dash-bar:hover::after { opacity: 1; }
+    .dash-bar-empty { width: 100%; background: var(--surface2); border-top: 1px solid var(--border); min-height: 3px; }
+    .dash-bar-lbl { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); }
+    .dash-bar-amt { font-size: 11px; color: var(--gold-dim); font-variant-numeric: tabular-nums; }
+
+    /* Top products */
+    .dash-topprod { display: flex; flex-direction: column; gap: 14px; }
+    .dash-topprod-item { display: flex; align-items: center; gap: 12px; }
+    .dash-prod-rank { font-size: 16px; color: var(--gold-dim); min-width: 22px; font-variant-numeric: tabular-nums; text-align: center; }
+    .dash-prod-img { width: 44px; height: 54px; object-fit: cover; background: var(--surface2); border: 1px solid var(--border); flex-shrink: 0; }
+    .dash-prod-bar-wrap { flex: 1; }
+    .dash-prod-name { font-size: 15px; color: var(--text); margin-bottom: 6px; }
+    .dash-prod-bar { height: 3px; background: linear-gradient(90deg, var(--gold) 0%, var(--gold-dim) 100%); }
+    .dash-prod-rev { font-size: 15px; color: var(--gold); font-variant-numeric: tabular-nums; flex-shrink: 0; min-width: 70px; text-align: right; }
+
+    /* Two-col layout */
+    .dash-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+
+    /* Recent orders mini */
+    .dash-recent-list { display: flex; flex-direction: column; }
+    .dash-recent-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--gold-faint); gap: 12px; }
+    .dash-recent-row:last-child { border-bottom: none; }
+    .dash-recent-left { display: flex; flex-direction: column; gap: 3px; }
+    .dash-recent-name { font-size: 15px; color: var(--text); }
+    .dash-recent-date { font-size: 12px; color: var(--text-faint); letter-spacing: 0.06em; }
+    .dash-recent-amt { font-size: 16px; color: var(--gold); font-variant-numeric: tabular-nums; flex-shrink: 0; }
 
     @media (max-width: 760px) {
-      .od-stats-row { grid-template-columns: repeat(2, 1fr); }
+      .od-stats-row, .dash-grid { grid-template-columns: repeat(2, 1fr); }
       .od-stat-val { font-size: 24px; }
+      .dash-stat-val { font-size: 26px; }
+      .dash-cols { grid-template-columns: 1fr; }
     }
     @media (max-width: 560px) {
-      .od-header-label { display: none; }
-      .od-header-logo { height: 28px; }
-      .order-card-head { padding: 14px 16px; }
-      .order-body { padding: 16px; }
-      .order-num { font-size: 16px; }
+      .od-header-logo { height: 22px; }
+      .od-nav-btn { padding: 8px 12px; font-size: 10px; letter-spacing: 0.15em; }
+      .od-btn-ghost { padding: 6px 10px; font-size: 10px; }
+      .order-card-head { padding: 12px 14px; }
+      .order-body { padding: 14px; }
+      .order-num { font-size: 17px; }
       .order-total { font-size: 20px; }
       .order-customer { flex-direction: column; }
       .order-actions { align-self: flex-start; }
-      .od-search { width: 180px; }
+      .od-search { width: 160px; }
     }
   </style>
 </head>
@@ -133,7 +166,7 @@
 <!-- PASSWORD GATE -->
 <div id="gate">
   <div class="gate-card">
-    <img class="gate-logo" src="https://www.kryptaa.com/imgs/logo.png" alt="KRYPTAA" onerror="this.style.display='none'">
+    <img class="gate-logo" src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA">
     <div class="gate-sub">Orders Dashboard</div>
     <div class="gate-label">Admin Password</div>
     <input class="gate-input" type="password" id="gateInput" placeholder="Enter password" autocomplete="current-password">
@@ -142,70 +175,85 @@
   </div>
 </div>
 
-<!-- DASHBOARD -->
+<!-- DASHBOARD SHELL -->
 <div id="dashboard">
   <header class="od-header">
-    <img class="od-header-logo" src="https://www.kryptaa.com/imgs/logo.png" alt="KRYPTAA" onerror="this.style.display='none'">
+    <img class="od-header-logo" src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA">
+    <nav class="od-nav">
+      <button class="od-nav-btn active" data-view="ordersView">Orders</button>
+      <button class="od-nav-btn" data-view="dashboardView">Dashboard</button>
+    </nav>
     <div class="od-header-right">
-      <span class="od-header-label">Orders Dashboard</span>
       <button class="od-btn-ghost" id="refreshBtn">↺ Refresh</button>
       <button class="od-btn-ghost" id="logoutBtn">Logout</button>
     </div>
   </header>
 
-  <main class="od-main">
-
-    <!-- Stats -->
-    <div class="od-stats-row" id="statsRow">
-      <div class="od-stat"><div class="od-stat-val" id="statOrders">—</div><div class="od-stat-lbl">Total Orders</div></div>
-      <div class="od-stat"><div class="od-stat-val" id="statRevenue">—</div><div class="od-stat-lbl">Revenue</div></div>
-      <div class="od-stat"><div class="od-stat-val" id="statAvg">—</div><div class="od-stat-lbl">Avg Order</div></div>
-      <div class="od-stat"><div class="od-stat-val" id="statItems">—</div><div class="od-stat-lbl">Items Sold</div></div>
-    </div>
-
-    <!-- Revenue Chart -->
-    <div class="od-chart-section">
-      <div class="od-chart-title">Monthly Revenue</div>
-      <div class="od-chart" id="revenueChart">
-        <div class="od-loading" style="width:100%;padding:20px 0;">Loading chart…</div>
+  <!-- ── ORDERS VIEW (default) ── -->
+  <div id="ordersView" class="od-view active">
+    <div class="od-main">
+      <div class="od-stats-row">
+        <div class="od-stat"><div class="od-stat-val" id="statOrders">—</div><div class="od-stat-lbl">Total Orders</div></div>
+        <div class="od-stat"><div class="od-stat-val" id="statRevenue">—</div><div class="od-stat-lbl">Revenue</div></div>
+        <div class="od-stat"><div class="od-stat-val" id="statAvg">—</div><div class="od-stat-lbl">Avg Order</div></div>
+        <div class="od-stat"><div class="od-stat-val" id="statItems">—</div><div class="od-stat-lbl">Items Sold</div></div>
+      </div>
+      <div class="od-toolbar">
+        <div class="od-toolbar-label" id="ordersLabel">All Orders</div>
+        <div class="od-search-wrap">
+          <span class="od-search-icon">⌕</span>
+          <input class="od-search" type="search" id="searchInput" placeholder="Search customer or item…">
+        </div>
+      </div>
+      <div id="ordersList">
+        <div class="od-loading">Loading orders…</div>
       </div>
     </div>
+  </div>
 
-    <!-- Top Products -->
-    <div class="od-topprod-section" id="topProductsSection" style="display:none;">
-      <div class="od-section-title">Top Products by Revenue</div>
-      <div class="od-topprod-list" id="topProductsList"></div>
-    </div>
+  <!-- ── DASHBOARD VIEW ── -->
+  <div id="dashboardView" class="od-view">
+    <div class="od-main">
 
-    <!-- Orders List -->
-    <div class="od-toolbar">
-      <div class="od-toolbar-label" id="ordersLabel">All Orders</div>
-      <div class="od-search-wrap">
-        <span class="od-search-icon">⌕</span>
-        <input class="od-search" type="search" id="searchInput" placeholder="Search customer or item…">
+      <div class="dash-grid">
+        <div class="dash-stat"><div class="dash-stat-val" id="dStatOrders">—</div><div class="dash-stat-lbl">Total Orders</div></div>
+        <div class="dash-stat"><div class="dash-stat-val" id="dStatRevenue">—</div><div class="dash-stat-lbl">Total Revenue</div></div>
+        <div class="dash-stat"><div class="dash-stat-val" id="dStatAvg">—</div><div class="dash-stat-lbl">Avg Order Value</div><div class="dash-stat-sub" id="dStatAvgNote"></div></div>
+        <div class="dash-stat"><div class="dash-stat-val" id="dStatItems">—</div><div class="dash-stat-lbl">Items Sold</div></div>
       </div>
-    </div>
 
-    <div id="ordersList">
-      <div class="od-loading"><span class="od-loading-dots">Loading orders</span></div>
+      <div class="dash-section">
+        <div class="dash-section-title">Monthly Revenue — Last 6 Months</div>
+        <div class="dash-chart" id="revenueChart">
+          <div class="od-loading" style="width:100%;padding:16px 0;font-size:11px;">Loading…</div>
+        </div>
+      </div>
+
+      <div class="dash-cols">
+        <div class="dash-section" style="margin-bottom:0;">
+          <div class="dash-section-title">Top Products by Revenue</div>
+          <div class="dash-topprod" id="topProductsList">
+            <div class="od-empty" style="padding:16px 0;">No data yet.</div>
+          </div>
+        </div>
+        <div class="dash-section" style="margin-bottom:0;">
+          <div class="dash-section-title">Recent Orders</div>
+          <div class="dash-recent-list" id="recentList">
+            <div class="od-empty" style="padding:16px 0;">No orders yet.</div>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </main>
+  </div>
 </div>
 
 <script>
 (function () {
   var BACKEND = 'https://kryptaa-backend.netlify.app/.netlify/functions/get-orders';
   var SESSION_KEY = 'k_admin_key';
-  var gate = document.getElementById('gate');
-  var dashboard = document.getElementById('dashboard');
-  var gateInput = document.getElementById('gateInput');
-  var gateBtn = document.getElementById('gateBtn');
-  var gateError = document.getElementById('gateError');
-  var ordersList = document.getElementById('ordersList');
-  var searchInput = document.getElementById('searchInput');
   var allOrders = [];
 
-  /* ── Product image fallback map ── */
   function getProductImage(name) {
     var n = (name || '').toLowerCase();
     var base = 'https://www.kryptaa.com/';
@@ -226,8 +274,6 @@
     if (n.includes('baki'))            return base + 'imgs/anime-baki.jpg';
     if (n.includes('death note'))      return base + 'imgs/anime-deathnote.jpg';
     if (n.includes('one piece'))       return base + 'imgs/anime-one-piece.jpg';
-    if (n.includes('gothic skull'))    return base + 'imgs/pants/womens-pant-5.jpg';
-    if (n.includes('gold baroque'))    return base + 'imgs/pants/womens-pant-6-g5.jpg';
     return null;
   }
 
@@ -236,19 +282,39 @@
     return n === 'shipping' || n === 'standard shipping' || n === 'express shipping' || n === 'free shipping';
   }
 
-  /* ── Auth ── */
+  function escHtml(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
   function savedKey() { try { return sessionStorage.getItem(SESSION_KEY); } catch(e) { return null; } }
   function saveKey(k) { try { sessionStorage.setItem(SESSION_KEY, k); } catch(e) {} }
   function clearKey()  { try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {} }
-  function showDashboard() { gate.style.display = 'none'; dashboard.style.display = 'block'; }
-  function showGate(msg) {
-    dashboard.style.display = 'none'; gate.style.display = 'flex';
-    if (msg) { gateError.textContent = msg; gateError.style.display = 'block'; }
+
+  function showDashboard() {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
   }
+  function showGate(msg) {
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('gate').style.display = 'flex';
+    var err = document.getElementById('gateError');
+    if (msg) { err.textContent = msg; err.style.display = 'block'; }
+    else { err.style.display = 'none'; }
+  }
+
+  /* ── Tab switching ── */
+  document.querySelectorAll('.od-nav-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.od-nav-btn').forEach(function(b){ b.classList.remove('active'); });
+      document.querySelectorAll('.od-view').forEach(function(v){ v.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.view).classList.add('active');
+    });
+  });
 
   /* ── Load ── */
   function loadOrders(key) {
-    ordersList.innerHTML = '<div class="od-loading"><span class="od-loading-dots">Loading orders</span></div>';
+    document.getElementById('ordersList').innerHTML = '<div class="od-loading">Loading orders…</div>';
     fetch(BACKEND, { headers: { 'X-Admin-Key': key } })
       .then(function(r) {
         if (r.status === 401) { clearKey(); showGate('Incorrect password. Try again.'); return null; }
@@ -259,16 +325,15 @@
         if (!data) return;
         allOrders = data.orders || [];
         renderStats(allOrders);
-        renderChart(allOrders);
-        renderTopProducts(allOrders);
         renderOrders(allOrders);
+        renderDashboard(allOrders);
       })
       .catch(function(err) {
-        ordersList.innerHTML = '<div class="od-empty">Could not load orders: ' + err.message + '</div>';
+        document.getElementById('ordersList').innerHTML = '<div class="od-empty">Could not load orders: ' + err.message + '</div>';
       });
   }
 
-  /* ── Stats ── */
+  /* ── Orders view: stats ── */
   function renderStats(orders) {
     var revenue = orders.reduce(function(s,o){ return s + parseFloat(o.total||0); }, 0);
     var items = orders.reduce(function(s,o){
@@ -283,72 +348,16 @@
     document.getElementById('ordersLabel').textContent = 'All Orders (' + orders.length + ')';
   }
 
-  /* ── Chart ── */
-  function renderChart(orders) {
-    var chartEl = document.getElementById('revenueChart');
-    /* Build last-6-months buckets */
-    var now = new Date();
-    var months = [];
-    for (var i = 5; i >= 0; i--) {
-      var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      months.push({ key: d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0'), label: d.toLocaleString('en-US',{month:'short'}), revenue: 0, count: 0 });
-    }
-    orders.forEach(function(o) {
-      var d = new Date(o.created * 1000);
-      var k = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
-      var bucket = months.find(function(m){ return m.key === k; });
-      if (bucket) { bucket.revenue += parseFloat(o.total||0); bucket.count++; }
-    });
-    var maxRev = Math.max.apply(null, months.map(function(m){ return m.revenue; })) || 1;
-    chartEl.innerHTML = months.map(function(m) {
-      var pct = (m.revenue / maxRev * 100).toFixed(1);
-      var tip = m.revenue > 0 ? ('$' + m.revenue.toFixed(2) + ' · ' + m.count + (m.count===1?' order':' orders')) : 'No orders';
-      return '<div class="od-bar-group">'
-        + '<div class="od-bar-wrap"><div class="od-bar" style="height:' + pct + '%" data-tip="' + tip + '"></div></div>'
-        + '<div class="od-bar-lbl">' + m.label + '</div>'
-        + (m.revenue > 0 ? '<div class="od-bar-amt">$' + Math.round(m.revenue) + '</div>' : '<div class="od-bar-amt" style="color:transparent">—</div>')
-        + '</div>';
-    }).join('');
-  }
-
-  /* ── Top Products ── */
-  function renderTopProducts(orders) {
-    var map = {};
-    orders.forEach(function(o) {
-      (o.items||[]).filter(function(i){ return !isShipping(i); }).forEach(function(item) {
-        /* Normalise name (strip size suffix) */
-        var key = (item.name||'').replace(/\s*[—–-]\s*Size:?.*/i,'').replace(/\s*\(Size:?.*\)/i,'').trim();
-        if (!map[key]) map[key] = { name: key, revenue: 0, qty: 0, image: item.image || getProductImage(item.name) };
-        map[key].revenue += parseFloat(item.total||0);
-        map[key].qty += (item.qty||1);
-      });
-    });
-    var list = Object.values(map).sort(function(a,b){ return b.revenue - a.revenue; }).slice(0,5);
-    if (!list.length) return;
-    document.getElementById('topProductsSection').style.display = '';
-    document.getElementById('topProductsList').innerHTML = list.map(function(p, idx) {
-      var imgHtml = p.image
-        ? '<img class="od-topprod-img" src="' + p.image + '" alt="' + escHtml(p.name) + '" onerror="this.style.display=\'none\'">'
-        : '<div class="od-topprod-img" style="display:flex;align-items:center;justify-content:center;font-family:\'Cinzel Decorative\',serif;font-size:14px;color:var(--gold-dim)">K</div>';
-      return '<div class="od-topprod-item">'
-        + '<div class="od-topprod-rank">' + (idx+1) + '</div>'
-        + imgHtml
-        + '<div class="od-topprod-name">' + escHtml(p.name) + ' <span style="font-size:12px;color:var(--text-faint);">× ' + p.qty + '</span></div>'
-        + '<div class="od-topprod-rev">$' + p.revenue.toFixed(2) + '</div>'
-        + '</div>';
-    }).join('');
-  }
-
-  /* ── Render Orders ── */
+  /* ── Orders view: cards ── */
   function renderOrders(orders) {
-    if (!orders.length) { ordersList.innerHTML = '<div class="od-empty">No orders found.</div>'; return; }
+    var el = document.getElementById('ordersList');
+    if (!orders.length) { el.innerHTML = '<div class="od-empty">No orders found.</div>'; return; }
     var total = orders.length;
-    ordersList.innerHTML = orders.map(function(o, idx) {
+    el.innerHTML = orders.map(function(o, idx) {
       var orderNum = total - idx;
       var date = new Date(o.created * 1000);
       var dateStr = date.toLocaleDateString('en-US',{day:'numeric',month:'short',year:'numeric'})
         + ' · ' + date.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
-
       var productItems = (o.items||[]).filter(function(i){ return !isShipping(i); });
       var shippingItem = (o.items||[]).find(function(i){ return isShipping(i); });
 
@@ -359,12 +368,9 @@
           : '<span class="thumb-k">K</span>';
         return '<div class="order-item">'
           + '<div class="order-item-thumb">' + thumbHtml + '</div>'
-          + '<div class="order-item-info">'
-          + '<div class="order-item-name">' + escHtml(item.name||'—') + '</div>'
-          + '<div class="order-item-meta">Qty ' + (item.qty||1) + '</div>'
-          + '</div>'
-          + '<div class="order-item-price">$' + (item.total||'0.00') + '</div>'
-          + '</div>';
+          + '<div class="order-item-info"><div class="order-item-name">' + escHtml(item.name||'—') + '</div>'
+          + '<div class="order-item-meta">Qty ' + (item.qty||1) + '</div></div>'
+          + '<div class="order-item-price">$' + (item.total||'0.00') + '</div></div>';
       }).join('');
 
       var shippingHtml = shippingItem
@@ -375,19 +381,18 @@
         ? 'https://dashboard.stripe.com/payments/' + o.paymentId
         : 'https://dashboard.stripe.com/payments';
 
-      return '<div class="order-card" data-search="'
-        + escAttr(('#' + orderNum + ' ' + o.customer.name + ' ' + o.customer.email + ' ' + productItems.map(function(i){return i.name;}).join(' ')).toLowerCase())
-        + '">'
-        + '<div class="order-card-head">'
-        + '<div class="order-head-left"><div class="order-num">#' + orderNum + '</div><div class="order-date">' + dateStr + '</div></div>'
-        + '<div class="order-total">$' + o.total + '</div>'
-        + '</div>'
-        + '<div class="order-body">'
-        + '<div class="order-items">' + itemsHtml + '</div>'
+      var searchStr = ('#' + orderNum + ' ' + o.customer.name + ' ' + o.customer.email + ' '
+        + productItems.map(function(i){return i.name;}).join(' ')).toLowerCase();
+
+      return '<div class="order-card" data-search="' + escHtml(searchStr) + '">'
+        + '<div class="order-card-head"><div class="order-head-left">'
+        + '<div class="order-num">#' + orderNum + '</div>'
+        + '<div class="order-date">' + dateStr + '</div></div>'
+        + '<div class="order-total">$' + o.total + '</div></div>'
+        + '<div class="order-body"><div class="order-items">' + itemsHtml + '</div>'
         + shippingHtml
         + '<div class="order-divider"></div>'
-        + '<div class="order-customer">'
-        + '<div class="order-customer-left">'
+        + '<div class="order-customer"><div class="order-customer-left">'
         + '<div class="order-cname">' + escHtml(o.customer.name) + '</div>'
         + '<div class="order-cdetail">' + escHtml(o.customer.email) + '</div>'
         + (o.customer.phone && o.customer.phone !== '—' ? '<div class="order-cdetail">' + escHtml(o.customer.phone) + '</div>' : '')
@@ -396,37 +401,124 @@
         + '<div class="order-actions">'
         + '<button class="order-print-btn" type="button" onclick="printLabel(' + JSON.stringify(o).replace(/</g,'\\u003c') + ',' + orderNum + ')">Print Label ⎙</button>'
         + '<a class="order-stripe-link" href="' + stripeUrl + '" target="_blank" rel="noopener">View in Stripe →</a>'
-        + '</div>'
-        + '</div>'
-        + '</div>'
-        + '</div>';
+        + '</div></div></div></div>';
     }).join('');
   }
 
+  /* ── Dashboard view ── */
+  function renderDashboard(orders) {
+    var revenue = orders.reduce(function(s,o){ return s+parseFloat(o.total||0); }, 0);
+    var items = orders.reduce(function(s,o){
+      return s+(o.items||[]).filter(function(i){return !isShipping(i);}).reduce(function(si,i){return si+(i.qty||1);},0);
+    },0);
+    var avg = orders.length ? revenue/orders.length : 0;
+
+    document.getElementById('dStatOrders').textContent = orders.length;
+    document.getElementById('dStatRevenue').textContent = '$' + revenue.toFixed(2);
+    document.getElementById('dStatAvg').textContent = '$' + avg.toFixed(2);
+    document.getElementById('dStatAvgNote').textContent = orders.length ? 'across ' + orders.length + ' orders' : '';
+    document.getElementById('dStatItems').textContent = items;
+
+    /* Bar chart */
+    var now = new Date();
+    var months = [];
+    for (var i = 5; i >= 0; i--) {
+      var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      months.push({ key: d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0'), label: d.toLocaleString('en-US',{month:'short'}), revenue: 0, count: 0 });
+    }
+    orders.forEach(function(o) {
+      var d = new Date(o.created * 1000);
+      var k = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+      var b = months.find(function(m){ return m.key === k; });
+      if (b) { b.revenue += parseFloat(o.total||0); b.count++; }
+    });
+    var maxRev = Math.max.apply(null, months.map(function(m){ return m.revenue; })) || 1;
+    document.getElementById('revenueChart').innerHTML = months.map(function(m) {
+      var pct = (m.revenue / maxRev * 100).toFixed(1);
+      var tip = m.revenue > 0 ? ('$' + m.revenue.toFixed(2) + ' · ' + m.count + (m.count===1?' order':' orders')) : 'No orders';
+      return '<div class="dash-bar-group">'
+        + '<div class="dash-bar-wrap">'
+        + (m.revenue > 0
+          ? '<div class="dash-bar" style="height:' + pct + '%" data-tip="' + tip + '"></div>'
+          : '<div class="dash-bar-empty" style="height:4%"></div>')
+        + '</div>'
+        + '<div class="dash-bar-lbl">' + m.label + '</div>'
+        + (m.revenue > 0 ? '<div class="dash-bar-amt">$' + Math.round(m.revenue) + '</div>' : '<div class="dash-bar-amt" style="visibility:hidden">—</div>')
+        + '</div>';
+    }).join('');
+
+    /* Top products */
+    var map = {};
+    orders.forEach(function(o) {
+      (o.items||[]).filter(function(i){ return !isShipping(i); }).forEach(function(item) {
+        var key = (item.name||'').replace(/\s*[—–-]\s*Size:?.*/i,'').replace(/\s*\(Size:?.*\)/i,'').trim();
+        if (!map[key]) map[key] = { name: key, revenue: 0, qty: 0, image: item.image || getProductImage(item.name) };
+        map[key].revenue += parseFloat(item.total||0);
+        map[key].qty += (item.qty||1);
+      });
+    });
+    var topList = Object.values(map).sort(function(a,b){ return b.revenue-a.revenue; }).slice(0,5);
+    var maxProdRev = topList.length ? topList[0].revenue : 1;
+    document.getElementById('topProductsList').innerHTML = topList.length
+      ? topList.map(function(p, idx) {
+          var barPct = (p.revenue / maxProdRev * 100).toFixed(1);
+          var imgHtml = p.image
+            ? '<img class="dash-prod-img" src="' + p.image + '" alt="' + escHtml(p.name) + '" onerror="this.style.display=\'none\'">'
+            : '';
+          return '<div class="dash-topprod-item">'
+            + '<div class="dash-prod-rank">' + (idx+1) + '</div>'
+            + imgHtml
+            + '<div class="dash-prod-bar-wrap">'
+            + '<div class="dash-prod-name">' + escHtml(p.name) + ' <span style="color:var(--text-faint);font-size:12px;">× ' + p.qty + '</span></div>'
+            + '<div class="dash-prod-bar" style="width:' + barPct + '%"></div>'
+            + '</div>'
+            + '<div class="dash-prod-rev">$' + p.revenue.toFixed(2) + '</div>'
+            + '</div>';
+        }).join('')
+      : '<div class="od-empty" style="padding:16px 0;">No products yet.</div>';
+
+    /* Recent orders */
+    document.getElementById('recentList').innerHTML = orders.slice(0,6).map(function(o, idx) {
+      var orderNum = orders.length - idx;
+      var date = new Date(o.created * 1000);
+      var dateStr = date.toLocaleDateString('en-US',{day:'numeric',month:'short',year:'numeric'});
+      return '<div class="dash-recent-row">'
+        + '<div class="dash-recent-left">'
+        + '<div class="dash-recent-name"><span style="color:var(--gold);font-size:13px;font-family:\'Cinzel Decorative\',serif;">#' + orderNum + '</span>&nbsp; ' + escHtml(o.customer.name) + '</div>'
+        + '<div class="dash-recent-date">' + dateStr + '</div>'
+        + '</div>'
+        + '<div class="dash-recent-amt">$' + o.total + '</div>'
+        + '</div>';
+    }).join('') || '<div class="od-empty" style="padding:16px 0;">No orders yet.</div>';
+  }
+
   /* ── Search ── */
-  searchInput.addEventListener('input', function() {
+  document.getElementById('searchInput').addEventListener('input', function() {
     var q = this.value.toLowerCase().trim();
-    var cards = ordersList.querySelectorAll('.order-card');
+    var cards = document.querySelectorAll('#ordersList .order-card');
+    var noRes = document.querySelector('#ordersList .od-no-results');
     var shown = 0;
     cards.forEach(function(c) {
       var match = !q || (c.dataset.search||'').includes(q);
       c.style.display = match ? '' : 'none';
       if (match) shown++;
     });
-    var noRes = ordersList.querySelector('.od-no-results');
     if (!shown && q) {
-      if (!noRes) { var d = document.createElement('div'); d.className = 'od-empty od-no-results'; d.textContent = 'No orders match "' + q + '".'; ordersList.appendChild(d); }
+      if (!noRes) { var d = document.createElement('div'); d.className='od-empty od-no-results'; d.textContent='No orders match "'+q+'".'; document.getElementById('ordersList').appendChild(d); }
     } else if (noRes) { noRes.remove(); }
   });
 
   /* ── Gate ── */
   function tryLogin() {
-    var key = gateInput.value.trim(); if (!key) return;
-    gateError.style.display = 'none'; gateBtn.disabled = true; gateBtn.textContent = 'Checking…';
+    var key = document.getElementById('gateInput').value.trim();
+    if (!key) return;
+    var btn = document.getElementById('gateBtn');
+    var err = document.getElementById('gateError');
+    err.style.display = 'none'; btn.disabled = true; btn.textContent = 'Checking…';
     fetch(BACKEND, { headers: { 'X-Admin-Key': key } })
       .then(function(r) {
-        gateBtn.disabled = false; gateBtn.textContent = 'Enter →';
-        if (r.status === 401) { gateError.textContent = 'Incorrect password. Try again.'; gateError.style.display = 'block'; return null; }
+        btn.disabled = false; btn.textContent = 'Enter →';
+        if (r.status === 401) { err.textContent='Incorrect password.'; err.style.display='block'; return null; }
         if (!r.ok) throw new Error('Server error');
         return r.json();
       })
@@ -434,62 +526,63 @@
         if (!data) return;
         saveKey(key); showDashboard();
         allOrders = data.orders || [];
-        renderStats(allOrders); renderChart(allOrders); renderTopProducts(allOrders); renderOrders(allOrders);
+        renderStats(allOrders); renderOrders(allOrders); renderDashboard(allOrders);
       })
-      .catch(function() { gateBtn.disabled = false; gateBtn.textContent = 'Enter →'; gateError.textContent = 'Network error.'; gateError.style.display = 'block'; });
+      .catch(function() {
+        btn.disabled=false; btn.textContent='Enter →';
+        err.textContent='Network error.'; err.style.display='block';
+      });
   }
-  gateBtn.addEventListener('click', tryLogin);
-  gateInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') tryLogin(); });
-  document.getElementById('refreshBtn').addEventListener('click', function() { var k = savedKey(); if (k) loadOrders(k); });
-  document.getElementById('logoutBtn').addEventListener('click', function() { clearKey(); showGate(); gateInput.value = ''; gateError.style.display = 'none'; });
 
-  function escHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-  function escAttr(s) { return escHtml(s); }
+  document.getElementById('gateBtn').addEventListener('click', tryLogin);
+  document.getElementById('gateInput').addEventListener('keydown', function(e){ if(e.key==='Enter') tryLogin(); });
+  document.getElementById('refreshBtn').addEventListener('click', function(){ var k=savedKey(); if(k) loadOrders(k); });
+  document.getElementById('logoutBtn').addEventListener('click', function(){ clearKey(); showGate(); document.getElementById('gateInput').value=''; });
 
   var key = savedKey();
   if (key) { showDashboard(); loadOrders(key); } else { showGate(); }
 })();
 
+/* ── Print label ── */
 function printLabel(order, orderNum) {
   var date = new Date(order.created * 1000).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
-  function isShip(i) { var n=(i.name||'').toLowerCase(); return n==='shipping'||n==='standard shipping'||n==='express shipping'||n==='free shipping'; }
+  function isShip(i) { var n=(i.name||'').toLowerCase(); return n==='shipping'||n.includes('shipping'); }
   var productItems = (order.items||[]).filter(function(i){ return !isShip(i); });
   var shippingItem = (order.items||[]).find(function(i){ return isShip(i); });
   var itemsHtml = productItems.map(function(i) {
-    return '<tr><td style="padding:6px 0;font-size:14px;border-bottom:1px solid #eee;">' + (i.name||'') + '</td>'
-      + '<td style="padding:6px 8px;font-size:14px;text-align:center;border-bottom:1px solid #eee;">' + (i.qty||1) + '</td>'
-      + '<td style="padding:6px 0;font-size:14px;text-align:right;border-bottom:1px solid #eee;">$' + i.total + '</td></tr>';
+    return '<tr><td style="padding:6px 0;font-size:14px;border-bottom:1px solid #eee;">'+(i.name||'')+'</td>'
+      +'<td style="padding:6px 8px;font-size:14px;text-align:center;border-bottom:1px solid #eee;">'+(i.qty||1)+'</td>'
+      +'<td style="padding:6px 0;font-size:14px;text-align:right;border-bottom:1px solid #eee;">$'+i.total+'</td></tr>';
   }).join('');
   var ref = (order.paymentId||order.id||'').slice(-8).toUpperCase();
   var w = window.open('','_blank','width=620,height=760');
-  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>KRYPTAA — Order #' + orderNum + '</title>'
-    + '<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">'
-    + '<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:"Cormorant Garamond",Georgia,serif;color:#111;background:#fff;}'
-    + '.wrap{max-width:560px;margin:0 auto;padding:36px 32px;border:2px solid #111;min-height:700px;display:flex;flex-direction:column;gap:20px;}'
-    + '.brand{text-align:center;}.brand img{height:60px;width:auto;}.order-no{text-align:center;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#888;margin-top:6px;}'
-    + 'hr{border:none;border-top:1px solid #ddd;}.lbl{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#aaa;margin-bottom:5px;}'
-    + '.addr{font-size:18px;font-weight:600;line-height:1.6;}.contact{font-size:13px;color:#555;margin-top:5px;}'
-    + 'table{width:100%;border-collapse:collapse;}thead th{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#aaa;padding:6px 0;text-align:left;border-bottom:2px solid #111;}'
-    + '.total-row td{padding:10px 0;font-size:16px;font-weight:600;border-top:2px solid #111;}'
-    + '.ship-row{display:flex;justify-content:space-between;font-size:13px;color:#888;margin-top:6px;}'
-    + '.footer{text-align:center;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#bbb;margin-top:auto;padding-top:16px;border-top:1px solid #eee;}'
-    + '.ref{font-size:11px;color:#bbb;text-align:right;}'
-    + '@media print{body{-webkit-print-color-adjust:exact;}}'
-    + '</style></head><body>'
-    + '<div class="wrap">'
-    + '<div class="brand"><img src="https://www.kryptaa.com/imgs/logo.png" alt="KRYPTAA"><div class="order-no">Order #' + orderNum + '</div></div>'
-    + '<hr>'
-    + '<div><div class="lbl">Ship To</div><div class="addr">' + (order.shippingName||order.customer.name) + '<br>' + order.shippingAddress + '</div>'
-    + '<div class="contact">' + order.customer.email + (order.customer.phone && order.customer.phone !== '—' ? ' &nbsp;·&nbsp; ' + order.customer.phone : '') + '</div></div>'
-    + '<hr>'
-    + '<div><div class="lbl">Items Ordered</div>'
-    + '<table><thead><tr><th>Product</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Price</th></tr></thead>'
-    + '<tbody>' + itemsHtml + '</tbody>'
-    + '<tfoot><tr class="total-row"><td colspan="2">Order Total</td><td style="text-align:right;">$' + order.total + '</td></tr></tfoot></table>'
-    + (shippingItem ? '<div class="ship-row"><span>Incl. shipping</span><span>$' + shippingItem.total + '</span></div>' : '') + '</div>'
-    + '<div class="ref">Ref: ' + ref + ' &nbsp;·&nbsp; ' + date + '</div>'
-    + '<div class="footer">www.kryptaa.com &nbsp;·&nbsp; kryptaa.official@gmail.com</div>'
-    + '</div><script>window.onload=function(){window.print();}<\/script></body></html>');
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>KRYPTAA — Order #'+orderNum+'</title>'
+    +'<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">'
+    +'<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:"Cormorant Garamond",Georgia,serif;color:#111;background:#fff;}'
+    +'.wrap{max-width:560px;margin:0 auto;padding:36px 32px;border:2px solid #111;min-height:700px;display:flex;flex-direction:column;gap:20px;}'
+    +'.brand{text-align:center;}.brand img{height:40px;width:auto;filter:brightness(0);}'
+    +'.order-no{text-align:center;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#888;margin-top:6px;}'
+    +'hr{border:none;border-top:1px solid #ddd;}.lbl{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#aaa;margin-bottom:5px;}'
+    +'.addr{font-size:18px;font-weight:600;line-height:1.6;}.contact{font-size:13px;color:#555;margin-top:5px;}'
+    +'table{width:100%;border-collapse:collapse;}thead th{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#aaa;padding:6px 0;text-align:left;border-bottom:2px solid #111;}'
+    +'.total-row td{padding:10px 0;font-size:16px;font-weight:600;border-top:2px solid #111;}'
+    +'.ship-row{display:flex;justify-content:space-between;font-size:13px;color:#888;margin-top:6px;}'
+    +'.footer{text-align:center;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#bbb;margin-top:auto;padding-top:16px;border-top:1px solid #eee;}'
+    +'.ref{font-size:11px;color:#bbb;text-align:right;}@media print{body{-webkit-print-color-adjust:exact;}}'
+    +'</style></head><body><div class="wrap">'
+    +'<div class="brand"><img src="https://www.kryptaa.com/imgs/kryptaa-logo-gold.png" alt="KRYPTAA"><div class="order-no">Order #'+orderNum+'</div></div>'
+    +'<hr>'
+    +'<div><div class="lbl">Ship To</div><div class="addr">'+(order.shippingName||order.customer.name)+'<br>'+order.shippingAddress+'</div>'
+    +'<div class="contact">'+order.customer.email+(order.customer.phone&&order.customer.phone!=='—'?' &nbsp;·&nbsp; '+order.customer.phone:'')+'</div></div>'
+    +'<hr>'
+    +'<div><div class="lbl">Items Ordered</div>'
+    +'<table><thead><tr><th>Product</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Price</th></tr></thead>'
+    +'<tbody>'+itemsHtml+'</tbody>'
+    +'<tfoot><tr class="total-row"><td colspan="2">Order Total</td><td style="text-align:right;">$'+order.total+'</td></tr></tfoot></table>'
+    +(shippingItem?'<div class="ship-row"><span>Incl. shipping</span><span>$'+shippingItem.total+'</span></div>':'')+'</div>'
+    +'<div class="ref">Ref: '+ref+' &nbsp;·&nbsp; '+date+'</div>'
+    +'<div class="footer">www.kryptaa.com &nbsp;·&nbsp; kryptaa.official@gmail.com</div>'
+    +'</div><script>window.onload=function(){window.print();}<\/script></body></html>');
   w.document.close();
 }
 </script>
