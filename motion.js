@@ -544,7 +544,7 @@
     const sizesEl = doc.getElementById("kQvSizes");
     const addBtn = doc.getElementById("kQvAddBtn");
     if (product.category === "women_wear") {
-      sizesEl.innerHTML = `<span class="qv-universal-size">Universal Size — One Size</span>`;
+      sizesEl.innerHTML = `<span class="qv-universal-size">Universal Size — Fits XS–XL</span>`;
       addBtn.dataset.qvSize = "Universal";
       addBtn.dataset.qvProduct = product.id;
     } else {
@@ -803,7 +803,7 @@
         ` : `
         <div class="product-card-quick">
           ${product.category === "women_wear" ? `
-          <div class="quick-sizes"><span class="quick-universal">Universal Size</span></div>
+          <div class="quick-sizes"><span class="quick-universal">Universal — Fits XS–XL</span></div>
           <button class="quick-add-btn ready" type="button" data-product-id="${product.id}" data-selected-size="Universal">Add to Bag</button>
           ` : `
           <div class="quick-sizes">
@@ -1023,7 +1023,7 @@
             <div>
               ${product.category === "women_wear" ? `
               <div class="size-row-header"><div class="eyebrow">Size</div></div>
-              <div class="universal-size-badge">Universal Size — One Size Fits All</div>
+              <div class="universal-size-badge">Universal Size — Fits XS–XL</div>
               ` : `
               <div class="size-row-header">
                 <div class="eyebrow">Select Size</div>
