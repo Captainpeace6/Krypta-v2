@@ -826,7 +826,7 @@
 
     const collectionGrid = doc.getElementById("collectionGrid");
     if (collectionGrid) {
-      const keys = ["men", "women", "tees", "women_wear"];
+      const keys = ["men", "women", "women_wear"];
       collectionGrid.innerHTML = keys.map((key) => {
         const config = getCategoryConfig(key);
         const cover = getProductsByIds(config.heroIds)[0];
@@ -1010,6 +1010,16 @@
           <p>${product.story}</p>
           <div class="detail-tags">${product.tags.map((tag) => `<span>${tag}</span>`).join("")}${/low.?quantity|low.?stock/i.test(product.availability) ? `<span class="low-stock-badge">Only a few left</span>` : /archive/i.test(product.availability) ? `` : `<span>${product.availability}</span>`}</div>
           <div class="buy-panel">
+            ${isAnimePDP ? `
+            <div class="anime-contact-wrap">
+              <div class="eyebrow" style="margin-bottom:16px;letter-spacing:0.2em;">Preorder — Contact to Reserve</div>
+              <a class="k-btn-gold anime-contact-btn" href="https://www.instagram.com/kryptaa__/" target="_blank" rel="noopener" style="display:block;text-align:center;padding:16px 24px;text-decoration:none;font-family:var(--f-mono);font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:#060606;background:var(--k-gold);border:none;">Contact to Order</a>
+              <div class="preorder-timeline" style="margin-top:16px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                <span>Est. Dispatch Aug – Sep 2026 · DM us on Instagram to confirm your order</span>
+              </div>
+            </div>
+            ` : `
             <div>
               ${product.category === "women_wear" ? `
               <div class="size-row-header"><div class="eyebrow">Size</div></div>
@@ -1033,11 +1043,6 @@
               </div>
               <button class="k-btn-gold" type="button" id="addToBagBtn">Add To Bag</button>
             </div>
-            ${isAnimePDP ? `
-            <div class="preorder-timeline">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-              <span>Est. Dispatch Aug – Sep 2026 · You&apos;ll be emailed when your piece ships</span>
-            </div>` : ``}
             ${isArchivePDP ? `
             <div class="notify-pdp-box">
               <div class="notify-pdp-title">— Notify Me —</div>
@@ -1050,6 +1055,7 @@
               </form>
               <div class="notify-sent" id="notifySent">✓ You&apos;re on the list — we&apos;ll let you know.</div>
             </div>` : ``}
+            `}
           </div>
         </div>
       </section>
@@ -1107,7 +1113,9 @@
       <div class="pdp-sticky-bar" id="pdpStickyBar">
         <span class="psb-name">${product.name}</span>
         <span class="psb-price">${formatPrice(product.price)}</span>
-        <button class="k-btn-gold psb-btn" type="button" id="psbAddBtn">Add To Bag</button>
+        ${isAnimePDP
+          ? `<a class="k-btn-gold psb-btn" href="https://www.instagram.com/kryptaa__/" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Contact to Order</a>`
+          : `<button class="k-btn-gold psb-btn" type="button" id="psbAddBtn">Add To Bag</button>`}
       </div>
     `;
 
