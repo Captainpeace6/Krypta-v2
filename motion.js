@@ -1290,6 +1290,7 @@
     }
 
     /* ── Magnifier Glass ── */
+    if (product.noZoom) return;
     (function() {
       var wrap = doc.querySelector('.pg-main-wrap');
       var img  = doc.getElementById('pgMainImg');
