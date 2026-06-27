@@ -180,7 +180,7 @@
     });
 
     /* Mobile sticky bag bar — not shown on checkout page */
-    if (body.dataset.page !== "checkout") {
+    if (body.dataset.page !== "checkout" && body.dataset.page !== "product") {
       body.insertAdjacentHTML("beforeend", `
         <div class="mobile-bag-bar" id="mobileBagBar" aria-label="Shopping bag summary">
           <div class="mbb-left">
