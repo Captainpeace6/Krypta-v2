@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Orders — KRYPTAA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&display=swap">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -17,8 +17,8 @@
       --surface: #111009;
       --surface2: #161410;
       --text: #f0ede8;
-      --text-dim: rgba(240,237,232,0.55);
-      --text-faint: rgba(240,237,232,0.3);
+      --text-dim: rgba(240,237,232,0.6);
+      --text-faint: rgba(240,237,232,0.35);
       --border: rgba(210,174,91,0.18);
     }
 
@@ -41,9 +41,7 @@
       font-size: 22px; font-weight: 900;
       background: linear-gradient(135deg, #c9a84c 0%, #f0d578 45%, #b8932e 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: 0.08em;
-      margin-bottom: 6px;
+      background-clip: text; letter-spacing: 0.08em; margin-bottom: 6px;
     }
     .gate-sub {
       font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
@@ -55,7 +53,7 @@
     }
     .gate-input {
       width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
-      color: var(--text); font-family: inherit; font-size: 14px;
+      color: var(--text); font-family: inherit; font-size: 15px;
       padding: 14px 16px; outline: none; margin-bottom: 16px;
       transition: border-color 0.2s;
     }
@@ -69,7 +67,7 @@
     }
     .gate-btn:hover { opacity: 0.88; }
     .gate-error {
-      margin-top: 16px; font-size: 12px; color: #e07070;
+      margin-top: 16px; font-size: 13px; color: #e07070;
       letter-spacing: 0.05em; display: none;
     }
 
@@ -78,163 +76,184 @@
 
     .od-header {
       position: sticky; top: 0; z-index: 10;
-      background: rgba(12,11,9,0.95); backdrop-filter: blur(8px);
+      background: rgba(12,11,9,0.97); backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border);
-      padding: 0 24px;
+      padding: 0 28px;
       display: flex; align-items: center; justify-content: space-between;
-      height: 56px;
+      height: 60px;
     }
     .od-header-logo {
-      font-family: 'Cinzel Decorative', serif; font-size: 14px; font-weight: 900;
+      font-family: 'Cinzel Decorative', serif; font-size: 16px; font-weight: 900;
       background: linear-gradient(135deg, #c9a84c 0%, #f0d578 45%, #b8932e 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; letter-spacing: 0.06em;
     }
-    .od-header-right { display: flex; align-items: center; gap: 16px; }
+    .od-header-right { display: flex; align-items: center; gap: 12px; }
     .od-header-label {
-      font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+      font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
       color: var(--text-faint);
     }
     .od-btn-ghost {
       background: none; border: 1px solid var(--border);
-      color: var(--text-dim); font-family: inherit; font-size: 10px;
+      color: var(--text-dim); font-family: inherit; font-size: 11px;
       letter-spacing: 0.2em; text-transform: uppercase;
-      padding: 7px 14px; cursor: pointer; transition: border-color 0.2s, color 0.2s;
+      padding: 8px 16px; cursor: pointer; transition: border-color 0.2s, color 0.2s;
     }
     .od-btn-ghost:hover { border-color: var(--gold-dim); color: var(--gold); }
 
-    .od-main { max-width: 860px; margin: 0 auto; padding: 32px 24px; }
+    .od-main { max-width: 920px; margin: 0 auto; padding: 36px 24px; }
 
     /* Stats bar */
     .od-stats {
       display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 12px;
-      margin-bottom: 28px;
+      flex-wrap: wrap; gap: 16px; margin-bottom: 36px;
+      padding-bottom: 28px; border-bottom: 1px solid var(--border);
     }
-    .od-stats-group { display: flex; gap: 32px; }
+    .od-stats-group { display: flex; gap: 40px; }
     .od-stat { display: flex; flex-direction: column; }
     .od-stat-val {
-      font-size: 22px; font-weight: 400; color: var(--gold);
-      font-variant-numeric: tabular-nums;
+      font-size: 34px; font-weight: 400; color: var(--gold);
+      font-variant-numeric: tabular-nums; line-height: 1;
     }
     .od-stat-lbl {
-      font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase;
-      color: var(--text-faint); margin-top: 2px;
+      font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--text-faint); margin-top: 5px;
     }
 
     /* Search */
     .od-search-wrap { position: relative; }
     .od-search {
       background: var(--surface); border: 1px solid var(--border);
-      color: var(--text); font-family: inherit; font-size: 13px;
-      padding: 10px 16px 10px 36px; outline: none; width: 220px;
+      color: var(--text); font-family: inherit; font-size: 15px;
+      padding: 11px 16px 11px 40px; outline: none; width: 240px;
       transition: border-color 0.2s;
     }
     .od-search:focus { border-color: var(--gold-dim); }
     .od-search::placeholder { color: var(--text-faint); }
     .od-search-icon {
-      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-      color: var(--text-faint); pointer-events: none; font-size: 13px;
+      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+      color: var(--text-faint); pointer-events: none; font-size: 15px;
     }
 
     /* Order cards */
-    #ordersList { display: flex; flex-direction: column; gap: 16px; }
+    #ordersList { display: flex; flex-direction: column; gap: 20px; }
 
     .order-card {
       background: var(--surface); border: 1px solid var(--border);
       overflow: hidden;
     }
+
+    /* Card header — date + order number + total */
     .order-card-head {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 20px;
+      padding: 16px 24px;
       border-bottom: 1px solid var(--gold-faint);
-      background: rgba(210,174,91,0.04);
+      background: rgba(210,174,91,0.05);
+      gap: 16px;
+    }
+    .order-head-left { display: flex; align-items: center; gap: 16px; }
+    .order-num {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 20px; font-weight: 900; color: var(--gold);
+      letter-spacing: 0.04em; white-space: nowrap;
+      border-right: 1px solid var(--gold-faint);
+      padding-right: 16px;
+      line-height: 1;
     }
     .order-date {
-      font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--text-dim);
+      font-size: 13px; letter-spacing: 0.1em;
+      color: var(--text-dim); text-transform: uppercase;
     }
     .order-total {
-      font-size: 18px; color: var(--gold); font-variant-numeric: tabular-nums;
+      font-size: 26px; color: var(--gold);
+      font-variant-numeric: tabular-nums; font-weight: 400;
+      white-space: nowrap;
     }
-    .order-body { padding: 16px 20px; }
+
+    /* Body */
+    .order-body { padding: 20px 24px; }
 
     /* Items */
-    .order-items { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
-    .order-item { display: flex; align-items: center; gap: 14px; }
+    .order-items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 0; }
+    .order-item { display: flex; align-items: center; gap: 16px; }
     .order-item-thumb {
-      width: 56px; height: 70px; flex-shrink: 0;
+      width: 60px; height: 76px; flex-shrink: 0;
       background: var(--surface2); border: 1px solid var(--border);
       overflow: hidden; display: flex; align-items: center; justify-content: center;
     }
-    .order-item-thumb img {
-      width: 100%; height: 100%; object-fit: cover;
-    }
+    .order-item-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .order-item-thumb .thumb-placeholder {
       font-family: 'Cinzel Decorative', serif;
       font-size: 18px; color: var(--gold-dim);
     }
     .order-item-info { flex: 1; min-width: 0; }
     .order-item-name {
-      font-size: 14px; color: var(--text);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      font-size: 17px; color: var(--text); line-height: 1.3;
     }
     .order-item-meta {
-      font-size: 11px; letter-spacing: 0.08em; color: var(--text-dim); margin-top: 3px;
+      font-size: 13px; letter-spacing: 0.06em; color: var(--text-dim); margin-top: 4px;
     }
     .order-item-price {
-      font-size: 13px; color: var(--text-dim); flex-shrink: 0;
+      font-size: 17px; color: var(--text-dim); flex-shrink: 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Shipping row (text-only, no thumbnail) */
+    .order-shipping-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 0; margin-top: 4px;
+      border-top: 1px solid var(--gold-faint);
+    }
+    .order-shipping-lbl {
+      font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .order-shipping-amt {
+      font-size: 14px; color: var(--text-faint);
       font-variant-numeric: tabular-nums;
     }
 
     /* Divider */
-    .order-divider {
-      height: 1px; background: var(--gold-faint); margin: 14px 0;
-    }
+    .order-divider { height: 1px; background: var(--gold-faint); margin: 18px 0; }
 
     /* Customer row */
     .order-customer {
-      display: flex; flex-wrap: wrap; gap: 12px 28px;
+      display: flex; flex-wrap: wrap; gap: 14px 32px;
       align-items: flex-start; justify-content: space-between;
     }
-    .order-customer-left { display: flex; flex-direction: column; gap: 4px; }
-    .order-cname { font-size: 14px; color: var(--text); }
-    .order-cdetail {
-      font-size: 11px; letter-spacing: 0.06em; color: var(--text-dim);
-    }
+    .order-customer-left { display: flex; flex-direction: column; gap: 5px; }
+    .order-cname { font-size: 18px; color: var(--text); font-weight: 600; }
+    .order-cdetail { font-size: 14px; letter-spacing: 0.04em; color: var(--text-dim); }
     .order-addr {
-      font-size: 11px; letter-spacing: 0.05em; color: var(--text-faint);
-      max-width: 320px; line-height: 1.6;
+      font-size: 14px; letter-spacing: 0.03em; color: var(--text-faint);
+      max-width: 340px; line-height: 1.65;
     }
-    .order-actions { display: flex; gap: 8px; align-self: flex-end; flex-wrap: wrap; }
+    .order-actions { display: flex; gap: 10px; align-self: flex-end; flex-wrap: wrap; }
     .order-stripe-link {
       display: inline-block;
       background: var(--gold); color: #070604;
-      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
-      padding: 8px 16px; text-decoration: none; font-weight: 700;
-      white-space: nowrap;
-      transition: opacity 0.2s;
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 10px 20px; text-decoration: none; font-weight: 700;
+      white-space: nowrap; transition: opacity 0.2s;
     }
     .order-stripe-link:hover { opacity: 0.85; }
     .order-print-btn {
       display: inline-block;
       background: none; border: 1px solid var(--border); color: var(--text-dim);
       font-family: 'Cormorant Garamond', serif;
-      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
-      padding: 8px 16px; cursor: pointer; white-space: nowrap;
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 10px 20px; cursor: pointer; white-space: nowrap;
       transition: border-color 0.2s, color 0.2s;
     }
     .order-print-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
 
-    /* Loading / empty states */
+    /* Loading / empty */
     .od-loading {
       text-align: center; padding: 80px 24px;
-      font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+      font-size: 13px; letter-spacing: 0.3em; text-transform: uppercase;
       color: var(--text-faint);
     }
-    .od-loading-dots::after {
-      content: ''; animation: dots 1.4s infinite;
-    }
+    .od-loading-dots::after { content: ''; animation: dots 1.4s infinite; }
     @keyframes dots {
       0%,20%  { content: '.'; }
       40%     { content: '..'; }
@@ -242,16 +261,21 @@
     }
     .od-empty {
       text-align: center; padding: 80px 24px;
-      font-size: 13px; color: var(--text-faint); font-style: italic;
+      font-size: 15px; color: var(--text-faint); font-style: italic;
     }
 
-    @media (max-width: 600px) {
-      .od-stats-group { gap: 20px; }
-      .od-search { width: 160px; }
-      .order-card-head { padding: 12px 16px; }
-      .order-body { padding: 14px 16px; }
+    @media (max-width: 640px) {
+      .od-stats-group { gap: 24px; }
+      .od-stat-val { font-size: 26px; }
+      .od-search { width: 180px; font-size: 14px; }
+      .od-header-label { display: none; }
+      .order-card-head { padding: 14px 16px; flex-wrap: wrap; }
+      .order-body { padding: 16px; }
+      .order-num { font-size: 16px; }
+      .order-total { font-size: 20px; }
       .order-customer { flex-direction: column; }
-      .order-stripe-link { align-self: flex-start; }
+      .order-actions { align-self: flex-start; }
+      .order-cname { font-size: 16px; }
     }
   </style>
 </head>
@@ -285,7 +309,7 @@
       <div class="od-stats-group">
         <div class="od-stat">
           <span class="od-stat-val" id="statOrders">—</span>
-          <span class="od-stat-lbl">Orders</span>
+          <span class="od-stat-lbl">Total Orders</span>
         </div>
         <div class="od-stat">
           <span class="od-stat-val" id="statRevenue">—</span>
@@ -310,47 +334,37 @@
 
 <script>
 (function () {
-  const BACKEND = 'https://kryptaa-backend.netlify.app/.netlify/functions/get-orders';
-  const SESSION_KEY = 'k_admin_key';
+  var BACKEND = 'https://kryptaa-backend.netlify.app/.netlify/functions/get-orders';
+  var SESSION_KEY = 'k_admin_key';
 
-  const gate = document.getElementById('gate');
-  const dashboard = document.getElementById('dashboard');
-  const gateInput = document.getElementById('gateInput');
-  const gateBtn = document.getElementById('gateBtn');
-  const gateError = document.getElementById('gateError');
-  const ordersList = document.getElementById('ordersList');
-  const searchInput = document.getElementById('searchInput');
-  const statOrders = document.getElementById('statOrders');
-  const statRevenue = document.getElementById('statRevenue');
-  const statItems = document.getElementById('statItems');
+  var gate = document.getElementById('gate');
+  var dashboard = document.getElementById('dashboard');
+  var gateInput = document.getElementById('gateInput');
+  var gateBtn = document.getElementById('gateBtn');
+  var gateError = document.getElementById('gateError');
+  var ordersList = document.getElementById('ordersList');
+  var searchInput = document.getElementById('searchInput');
+  var statOrders = document.getElementById('statOrders');
+  var statRevenue = document.getElementById('statRevenue');
+  var statItems = document.getElementById('statItems');
 
-  let allOrders = [];
+  var allOrders = [];
 
-  /* ── Auth ── */
-  function savedKey() {
-    try { return sessionStorage.getItem(SESSION_KEY); } catch (e) { return null; }
-  }
-  function saveKey(k) {
-    try { sessionStorage.setItem(SESSION_KEY, k); } catch (e) {}
-  }
-  function clearKey() {
-    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
-  }
+  function savedKey() { try { return sessionStorage.getItem(SESSION_KEY); } catch (e) { return null; } }
+  function saveKey(k) { try { sessionStorage.setItem(SESSION_KEY, k); } catch (e) {} }
+  function clearKey() { try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {} }
 
-  function showDashboard() {
-    gate.style.display = 'none';
-    dashboard.style.display = 'block';
-  }
+  function showDashboard() { gate.style.display = 'none'; dashboard.style.display = 'block'; }
   function showGate(errMsg) {
-    dashboard.style.display = 'none';
-    gate.style.display = 'flex';
-    if (errMsg) {
-      gateError.textContent = errMsg;
-      gateError.style.display = 'block';
-    }
+    dashboard.style.display = 'none'; gate.style.display = 'flex';
+    if (errMsg) { gateError.textContent = errMsg; gateError.style.display = 'block'; }
   }
 
-  /* ── Fetch orders ── */
+  function isShipping(item) {
+    var n = (item.name || '').toLowerCase();
+    return n === 'shipping' || n === 'standard shipping' || n === 'express shipping' || n === 'free shipping';
+  }
+
   function loadOrders(key) {
     ordersList.innerHTML = '<div class="od-loading"><span class="od-loading-dots">Loading orders</span></div>';
     fetch(BACKEND, { headers: { 'X-Admin-Key': key } })
@@ -370,30 +384,38 @@
       });
   }
 
-  /* ── Stats ── */
   function renderStats(orders) {
     var revenue = orders.reduce(function (s, o) { return s + parseFloat(o.total || 0); }, 0);
     var items = orders.reduce(function (s, o) {
-      return s + (o.items || []).reduce(function (si, i) { return si + (i.qty || 1); }, 0);
+      return s + (o.items || []).filter(function(i){ return !isShipping(i); })
+        .reduce(function (si, i) { return si + (i.qty || 1); }, 0);
     }, 0);
     statOrders.textContent = orders.length;
     statRevenue.textContent = '$' + revenue.toFixed(2);
     statItems.textContent = items;
   }
 
-  /* ── Render ── */
   function renderOrders(orders) {
     if (!orders.length) {
       ordersList.innerHTML = '<div class="od-empty">No orders found.</div>';
       return;
     }
-    ordersList.innerHTML = orders.map(function (o) {
+
+    var total = orders.length;
+
+    ordersList.innerHTML = orders.map(function (o, idx) {
+      /* Oldest order = #1, newest = #N */
+      var orderNum = total - idx;
+
       var date = new Date(o.created * 1000);
-      var dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-        + '  ·  '
+      var dateStr = date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
+        + ' · '
         + date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 
-      var itemsHtml = (o.items || []).map(function (item) {
+      var productItems = (o.items || []).filter(function(i){ return !isShipping(i); });
+      var shippingItem = (o.items || []).find(function(i){ return isShipping(i); });
+
+      var itemsHtml = productItems.map(function (item) {
         var thumbHtml = item.image
           ? '<img src="' + item.image + '" alt="' + escHtml(item.name) + '" onerror="this.parentNode.innerHTML=\'<span class=thumb-placeholder>K</span>\'">'
           : '<span class="thumb-placeholder">K</span>';
@@ -407,29 +429,37 @@
           + '</div>';
       }).join('');
 
+      var shippingHtml = shippingItem
+        ? '<div class="order-shipping-row"><span class="order-shipping-lbl">Shipping</span><span class="order-shipping-amt">$' + shippingItem.total + '</span></div>'
+        : '';
+
       var stripeUrl = o.paymentId && o.paymentId.startsWith('pi_')
         ? 'https://dashboard.stripe.com/payments/' + o.paymentId
         : 'https://dashboard.stripe.com/payments';
 
       return '<div class="order-card" data-search="'
-        + escAttr((o.customer.name + ' ' + o.customer.email + ' ' + (o.items || []).map(function(i){return i.name;}).join(' ')).toLowerCase())
+        + escAttr(('#' + orderNum + ' ' + o.customer.name + ' ' + o.customer.email + ' ' + productItems.map(function(i){return i.name;}).join(' ')).toLowerCase())
         + '">'
         + '<div class="order-card-head">'
-        + '<span class="order-date">' + dateStr + '</span>'
-        + '<span class="order-total">$' + o.total + '</span>'
+        + '<div class="order-head-left">'
+        + '<div class="order-num">#' + orderNum + '</div>'
+        + '<div class="order-date">' + dateStr + '</div>'
+        + '</div>'
+        + '<div class="order-total">$' + o.total + '</div>'
         + '</div>'
         + '<div class="order-body">'
         + '<div class="order-items">' + itemsHtml + '</div>'
+        + shippingHtml
         + '<div class="order-divider"></div>'
         + '<div class="order-customer">'
         + '<div class="order-customer-left">'
         + '<div class="order-cname">' + escHtml(o.customer.name) + '</div>'
         + '<div class="order-cdetail">' + escHtml(o.customer.email) + '</div>'
-        + (o.customer.phone !== '—' ? '<div class="order-cdetail">' + escHtml(o.customer.phone) + '</div>' : '')
+        + (o.customer.phone && o.customer.phone !== '—' ? '<div class="order-cdetail">' + escHtml(o.customer.phone) + '</div>' : '')
         + '</div>'
         + '<div class="order-addr">' + escHtml(o.shippingAddress) + '</div>'
         + '<div class="order-actions">'
-        + '<button class="order-print-btn" type="button" onclick="printLabel(' + JSON.stringify(o).replace(/</g,'\\u003c') + ')">Print Label ⎙</button>'
+        + '<button class="order-print-btn" type="button" onclick="printLabel(' + JSON.stringify(o).replace(/</g,'\\u003c') + ',' + orderNum + ')">Print Label ⎙</button>'
         + '<a class="order-stripe-link" href="' + stripeUrl + '" target="_blank" rel="noopener">View in Stripe →</a>'
         + '</div>'
         + '</div>'
@@ -448,35 +478,29 @@
       card.style.display = match ? '' : 'none';
       if (match) shown++;
     });
+    var noRes = ordersList.querySelector('.od-no-results');
     if (!shown && q) {
-      var noRes = ordersList.querySelector('.od-no-results');
       if (!noRes) {
         var d = document.createElement('div');
         d.className = 'od-empty od-no-results';
         d.textContent = 'No orders match "' + q + '".';
         ordersList.appendChild(d);
       }
-    } else {
-      var noRes = ordersList.querySelector('.od-no-results');
-      if (noRes) noRes.remove();
-    }
+    } else if (noRes) { noRes.remove(); }
   });
 
-  /* ── Gate actions ── */
+  /* ── Gate ── */
   function tryLogin() {
     var key = gateInput.value.trim();
     if (!key) return;
     gateError.style.display = 'none';
-    gateBtn.disabled = true;
-    gateBtn.textContent = 'Checking…';
+    gateBtn.disabled = true; gateBtn.textContent = 'Checking…';
     fetch(BACKEND, { headers: { 'X-Admin-Key': key } })
       .then(function (r) {
-        gateBtn.disabled = false;
-        gateBtn.textContent = 'Enter →';
+        gateBtn.disabled = false; gateBtn.textContent = 'Enter →';
         if (r.status === 401) {
           gateError.textContent = 'Incorrect password. Try again.';
-          gateError.style.display = 'block';
-          return null;
+          gateError.style.display = 'block'; return null;
         }
         if (!r.ok) throw new Error('Server error');
         return r.json();
@@ -490,8 +514,7 @@
         renderOrders(allOrders);
       })
       .catch(function () {
-        gateBtn.disabled = false;
-        gateBtn.textContent = 'Enter →';
+        gateBtn.disabled = false; gateBtn.textContent = 'Enter →';
         gateError.textContent = 'Network error. Check your connection.';
         gateError.style.display = 'block';
       });
@@ -499,70 +522,76 @@
 
   gateBtn.addEventListener('click', tryLogin);
   gateInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') tryLogin(); });
-
   document.getElementById('refreshBtn').addEventListener('click', function () {
-    var key = savedKey();
-    if (key) loadOrders(key);
+    var key = savedKey(); if (key) loadOrders(key);
   });
-
   document.getElementById('logoutBtn').addEventListener('click', function () {
-    clearKey();
-    showGate();
-    gateInput.value = '';
-    gateError.style.display = 'none';
+    clearKey(); showGate(); gateInput.value = ''; gateError.style.display = 'none';
   });
 
-  /* ── Helpers ── */
   function escHtml(str) {
-    return String(str || '')
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   }
   function escAttr(str) { return escHtml(str); }
 
-  /* ── Init ── */
   var key = savedKey();
-  if (key) { showDashboard(); loadOrders(key); }
-  else { showGate(); }
+  if (key) { showDashboard(); loadOrders(key); } else { showGate(); }
 })();
 
-function printLabel(order) {
+function printLabel(order, orderNum) {
   var date = new Date(order.created * 1000).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-  var itemsHtml = (order.items || []).map(function (i) {
-    return '<tr><td style="padding:4px 0;font-size:13px;">' + i.name + '</td><td style="padding:4px 8px;font-size:13px;text-align:center;">' + (i.qty||1) + '</td><td style="padding:4px 0;font-size:13px;text-align:right;">$' + i.total + '</td></tr>';
+  var productItems = (order.items || []).filter(function(i){
+    var n = (i.name||'').toLowerCase();
+    return n !== 'shipping' && n !== 'standard shipping' && n !== 'express shipping' && n !== 'free shipping';
+  });
+  var shippingItem = (order.items || []).find(function(i){
+    var n = (i.name||'').toLowerCase();
+    return n === 'shipping' || n === 'standard shipping' || n === 'express shipping' || n === 'free shipping';
+  });
+  var itemsHtml = productItems.map(function (i) {
+    return '<tr><td style="padding:6px 0;font-size:14px;border-bottom:1px solid #eee;">' + (i.name||'') + '</td>'
+      + '<td style="padding:6px 8px;font-size:14px;text-align:center;border-bottom:1px solid #eee;">' + (i.qty||1) + '</td>'
+      + '<td style="padding:6px 0;font-size:14px;text-align:right;border-bottom:1px solid #eee;">$' + i.total + '</td></tr>';
   }).join('');
-  var ref = (order.paymentId || order.id).slice(-8).toUpperCase();
-  var w = window.open('', '_blank', 'width=600,height=700');
-  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>KRYPTAA — Ship Label</title>'
-    + '<link rel="preconnect" href="https://fonts.googleapis.com">'
+  var ref = (order.paymentId || order.id || '').slice(-8).toUpperCase();
+  var w = window.open('', '_blank', 'width=620,height=760');
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>KRYPTAA — Order #' + orderNum + '</title>'
     + '<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">'
-    + '<style>body{margin:0;padding:0;background:#fff;font-family:"Cormorant Garamond",Georgia,serif;color:#111;}'
-    + '.label{width:100%;max-width:560px;margin:0 auto;padding:32px;border:2px solid #111;}'
-    + '.brand{font-family:"Cinzel Decorative",serif;font-size:22px;font-weight:900;letter-spacing:0.08em;text-align:center;border-bottom:1px solid #ccc;padding-bottom:16px;margin-bottom:20px;}'
-    + '.section-lbl{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#888;margin-bottom:4px;}'
-    + '.addr{font-size:16px;line-height:1.7;font-weight:600;}'
-    + '.ref{font-size:11px;color:#888;margin-top:4px;}'
-    + 'table{width:100%;border-collapse:collapse;margin-top:16px;}'
-    + 'thead th{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#888;padding:6px 0;border-bottom:1px solid #ddd;text-align:left;}'
-    + 'tfoot td{padding:8px 0;font-weight:600;border-top:2px solid #111;}'
-    + '.footer{margin-top:24px;text-align:center;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#aaa;border-top:1px solid #ddd;padding-top:12px;}'
+    + '<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:"Cormorant Garamond",Georgia,serif;color:#111;background:#fff;padding:0;}'
+    + '.wrap{max-width:560px;margin:0 auto;padding:36px 32px;border:2px solid #111;min-height:700px;display:flex;flex-direction:column;gap:20px;}'
+    + '.brand{font-family:"Cinzel Decorative",serif;font-size:24px;font-weight:900;letter-spacing:0.08em;text-align:center;}'
+    + '.order-no{text-align:center;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#888;margin-top:4px;}'
+    + 'hr{border:none;border-top:1px solid #ddd;}'
+    + '.lbl{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#aaa;margin-bottom:5px;}'
+    + '.addr{font-size:18px;font-weight:600;line-height:1.6;}'
+    + '.contact{font-size:13px;color:#555;margin-top:5px;}'
+    + 'table{width:100%;border-collapse:collapse;}'
+    + 'thead th{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#aaa;padding:6px 0;text-align:left;border-bottom:2px solid #111;}'
+    + '.total-row td{padding:10px 0;font-size:16px;font-weight:600;border-top:2px solid #111;}'
+    + '.ship-row{display:flex;justify-content:space-between;font-size:13px;color:#888;margin-top:6px;}'
+    + '.footer{text-align:center;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#bbb;margin-top:auto;padding-top:16px;border-top:1px solid #eee;}'
+    + '.ref{font-size:11px;color:#bbb;text-align:right;}'
     + '@media print{body{-webkit-print-color-adjust:exact;}}'
     + '</style></head><body>'
-    + '<div class="label">'
-    + '<div class="brand">KRYPTAA</div>'
-    + '<div style="margin-bottom:20px;">'
-    + '<div class="section-lbl">Ship To</div>'
+    + '<div class="wrap">'
+    + '<div><div class="brand">KRYPTAA</div><div class="order-no">Order #' + orderNum + '</div></div>'
+    + '<hr>'
+    + '<div>'
+    + '<div class="lbl">Ship To</div>'
     + '<div class="addr">' + (order.shippingName||order.customer.name) + '<br>' + order.shippingAddress + '</div>'
+    + '<div class="contact">' + order.customer.email + (order.customer.phone && order.customer.phone !== '—' ? ' &nbsp;·&nbsp; ' + order.customer.phone : '') + '</div>'
     + '</div>'
-    + '<div style="margin-bottom:8px;">'
-    + '<div class="section-lbl">Customer Contact</div>'
-    + '<div style="font-size:13px;">' + order.customer.email + (order.customer.phone !== '—' ? ' · ' + order.customer.phone : '') + '</div>'
+    + '<hr>'
+    + '<div>'
+    + '<div class="lbl">Items Ordered</div>'
+    + '<table><thead><tr><th>Product</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Price</th></tr></thead>'
+    + '<tbody>' + itemsHtml + '</tbody>'
+    + '<tfoot><tr class="total-row"><td colspan="2">Order Total</td><td style="text-align:right;">$' + order.total + '</td></tr></tfoot>'
+    + '</table>'
+    + (shippingItem ? '<div class="ship-row"><span>Incl. shipping</span><span>$' + shippingItem.total + '</span></div>' : '')
     + '</div>'
-    + '<table><thead><tr><th>Item</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Price</th></tr></thead><tbody>'
-    + itemsHtml
-    + '</tbody><tfoot><tr><td colspan="2">Total</td><td style="text-align:right;">$' + order.total + '</td></tr></tfoot></table>'
-    + '<div class="ref">Ref: ' + ref + ' · ' + date + '</div>'
-    + '<div class="footer">www.kryptaa.com</div>'
+    + '<div class="ref">Ref: ' + ref + ' &nbsp;·&nbsp; ' + date + '</div>'
+    + '<div class="footer">www.kryptaa.com &nbsp;·&nbsp; kryptaa.official@gmail.com</div>'
     + '</div>'
     + '<script>window.onload=function(){window.print();}<\/script>'
     + '</body></html>');
