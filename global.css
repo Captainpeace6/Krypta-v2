@@ -2943,7 +2943,7 @@ body.menu-open .mobile-menu {
 .product-card:hover .product-card-quick,
 .product-card:focus-within .product-card-quick { transform: translateY(0); }
 
-@media (hover: none) {
+@media (max-width: 880px) {
   .product-card-quick { transform: translateY(0); transition: none; }
 }
 .quick-sizes { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
