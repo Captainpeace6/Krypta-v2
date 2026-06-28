@@ -1,0 +1,3 @@
+## 2025-05-14 - Accessibility & Empty State Synchronicity
+**Learning:** In cinematic, script-driven UIs, visual states (like body classes) often diverge from accessibility states. Triggers must explicitly manage `aria-expanded` and `aria-label` in JS to remain accessible. Additionally, empty states without CTAs are dead-ends that break user flow in immersive experiences.
+**Action:** Always synchronize `aria-expanded` on triggers within the open/close JS functions. Inject actionable CTAs into empty states that automatically handle panel closure (via `data-cart-close` or similar) to ensure a smooth transition back to the shopping flow.
