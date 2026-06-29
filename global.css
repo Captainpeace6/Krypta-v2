@@ -2994,16 +2994,20 @@ body.menu-open .mobile-menu {
   gap: 0;
 }
 
-/* When gallery is the product detail media panel, enforce sticky */
+/* When gallery is the product detail media panel, enforce sticky.
+   Height = viewport minus nav (92px) minus sticky buy bar (66px) minus breathing room.
+   Capped at 900px for very tall monitors. */
 .detail-media.pg-gallery {
   position: sticky;
   top: 92px;
+  min-height: 460px;
 }
 
 .pg-main-wrap {
   position: relative;
   width: 100%;
-  height: max(640px, min(80vh, 920px));
+  height: min(calc(100vh - 172px), 900px);
+  min-height: 460px;
   background: #050505;
   overflow: hidden;
 }
@@ -3073,20 +3077,34 @@ body.menu-open .mobile-menu {
 .pg-prev { left: 12px; }
 .pg-next { right: 12px; }
 
-/* Thumbnail strip — overlaid at bottom of image */
+/* Thumbnail strip — hidden by default, slides up on gallery hover */
 .pg-thumbs {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
   display: flex;
   gap: 6px;
   overflow-x: auto;
-  padding: 10px 12px;
+  padding: 14px 14px 16px;
   scrollbar-width: none;
   align-items: flex-start;
-  background: #030303;
-  border-top: 1px solid rgba(210,174,91,0.1);
+  background: linear-gradient(to top, rgba(2,2,2,0.96) 55%, transparent 100%);
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.42s cubic-bezier(0.22,1,0.36,1), opacity 0.28s ease;
+  z-index: 6;
+  pointer-events: none;
+}
+
+/* Reveal strip when hovering anywhere on the gallery panel */
+.pg-gallery:hover .pg-thumbs {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .pg-thumbs::-webkit-scrollbar { display: none; }
 
+/* Individual thumbnails — start hidden below, stagger up */
 .pg-thumb {
   flex-shrink: 0;
   width: 72px;
@@ -3099,22 +3117,29 @@ body.menu-open .mobile-menu {
   flex-direction: column;
   align-items: center;
   gap: 0;
-  transition: border-color 0.28s ease, opacity 0.28s ease, transform 0.28s ease, box-shadow 0.28s ease;
-  overflow: hidden;
-  opacity: 0.4;
-  transform: scale(0.94);
   border-radius: 2px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.26s ease, transform 0.26s ease, border-color 0.26s ease, box-shadow 0.26s ease;
 }
 
-.pg-thumb:hover {
-  opacity: 0.75;
-  transform: scale(0.97);
-}
+/* Staggered entrance — each thumb enters 40ms after the previous */
+.pg-gallery:hover .pg-thumb { opacity: 0.42; transform: translateY(0); }
+.pg-gallery:hover .pg-thumb:nth-child(1)  { transition-delay: 45ms; }
+.pg-gallery:hover .pg-thumb:nth-child(2)  { transition-delay: 85ms; }
+.pg-gallery:hover .pg-thumb:nth-child(3)  { transition-delay: 125ms; }
+.pg-gallery:hover .pg-thumb:nth-child(4)  { transition-delay: 165ms; }
+.pg-gallery:hover .pg-thumb:nth-child(5)  { transition-delay: 205ms; }
+.pg-gallery:hover .pg-thumb:nth-child(6)  { transition-delay: 245ms; }
+.pg-gallery:hover .pg-thumb:nth-child(7)  { transition-delay: 285ms; }
+.pg-gallery:hover .pg-thumb:nth-child(8)  { transition-delay: 325ms; }
+.pg-gallery:hover .pg-thumb:nth-child(9)  { transition-delay: 365ms; }
+.pg-gallery:hover .pg-thumb:nth-child(10) { transition-delay: 405ms; }
+.pg-gallery:hover .pg-thumb:nth-child(11) { transition-delay: 445ms; }
 
-.pg-thumb.active {
-  opacity: 1;
-  transform: scale(1);
-}
+.pg-gallery:hover .pg-thumb:hover  { opacity: 0.82; }
+.pg-gallery:hover .pg-thumb.active { opacity: 1; }
 
 .pg-thumb img {
   width: 72px;
@@ -3122,8 +3147,8 @@ body.menu-open .mobile-menu {
   min-height: 0;
   object-fit: cover;
   display: block;
-  filter: brightness(0.5) saturate(0.6);
-  transition: filter 0.28s ease;
+  filter: brightness(0.52) saturate(0.55);
+  transition: filter 0.26s ease;
 }
 
 .pg-thumb span {
@@ -3142,29 +3167,35 @@ body.menu-open .mobile-menu {
   width: 100%;
 }
 
-/* .pg-thumb:hover and .pg-thumb.active base handled in hover-reveal block above */
 .pg-thumb.active {
   border-color: var(--k-gold);
   box-shadow: 0 0 10px rgba(210,174,91,0.55), 0 0 24px rgba(210,174,91,0.22), inset 0 0 8px rgba(210,174,91,0.12);
 }
 
-.pg-thumb.active img {
-  filter: brightness(1) saturate(1.1);
-}
+.pg-thumb.active img  { filter: brightness(1) saturate(1.1); }
+.pg-thumb.active span { color: var(--k-gold); font-weight: 700; }
 
-.pg-thumb.active span {
-  color: var(--k-gold);
-  font-weight: 700;
-}
-
+/* Mobile: no hover — show strip always in normal flow below the image */
 @media (max-width: 880px) {
+  .pg-thumbs {
+    position: relative;
+    bottom: auto; left: auto; right: auto;
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    background: #020202;
+    border-top: 1px solid rgba(210,174,91,0.1);
+    padding: 10px 12px;
+  }
+  .pg-thumb { opacity: 0.42; transform: none; }
+  .pg-thumb.active { opacity: 1; }
   .pg-thumb { width: 60px; }
   .pg-thumb img { width: 60px; height: 75px; }
   .pg-arrow { width: 36px; height: 36px; font-size: 0.9rem; }
-  /* Cap gallery to viewport-proportional height on mobile */
   .detail-media.pg-gallery { position: relative; top: auto; }
   .pg-main-wrap { height: 56vh; }
 }
+
 /* Bottom padding on product page to clear the always-visible sticky buy bar */
 body[data-page="product"] { padding-bottom: 66px; }
 
