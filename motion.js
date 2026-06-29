@@ -1503,6 +1503,41 @@
       });
     }
 
+    /* ── Filmstrip reveal controller (desktop only) ──
+       Show on mouse-enter, auto-hide after 3s idle, instant-hide on image click */
+    (function () {
+      if (window.innerWidth <= 880) return;
+      var pgGallery = doc.querySelector('.pg-gallery');
+      var pgThumbsEl = doc.getElementById('pgThumbs');
+      var pgMainWrap = doc.querySelector('.pg-main-wrap');
+      if (!pgGallery || !pgThumbsEl) return;
+      var hideTimer = null;
+      function openStrip() {
+        pgThumbsEl.classList.add('is-open');
+        resetIdleTimer();
+      }
+      function closeStrip() {
+        clearTimeout(hideTimer);
+        pgThumbsEl.classList.remove('is-open');
+      }
+      function resetIdleTimer() {
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(closeStrip, 3000);
+      }
+      pgGallery.addEventListener('mouseenter', openStrip);
+      pgGallery.addEventListener('mousemove', function () {
+        if (!pgThumbsEl.classList.contains('is-open')) openStrip();
+        else resetIdleTimer();
+      });
+      pgGallery.addEventListener('mouseleave', function () {
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(closeStrip, 800);
+      });
+      pgMainWrap && pgMainWrap.addEventListener('click', function (e) {
+        if (!e.target.closest('.pg-thumb') && !e.target.closest('.pg-arrow')) closeStrip();
+      });
+    })();
+
     /* ── Magnifier Glass ── */
     if (product.noZoom) return;
     (function() {
