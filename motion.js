@@ -299,13 +299,20 @@
             <button type="button" class="rv-star-btn" data-rv-star="4">★</button>
             <button type="button" class="rv-star-btn active" data-rv-star="5">★</button>
           </div>
-          <form class="rv-modal-form" id="rvModalForm" action="https://formspree.io/f/mbljodbk" method="POST">
+          <form class="rv-modal-form" id="rvModalForm" action="https://formspree.io/f/mbljodbk" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_subject" id="rvSubject" value="New Customer Review">
             <input type="hidden" name="product" id="rvProduct" value="">
             <input type="hidden" name="rating" id="rvRating" value="5">
             <input class="rv-input" type="text" name="name" placeholder="Your name" required>
             <input class="rv-input" type="text" name="size" placeholder="Size worn (e.g. M, L, Universal)">
             <textarea class="rv-textarea" name="review" rows="4" placeholder="Share your experience with this piece…" required></textarea>
+            <div class="rv-img-upload-wrap">
+              <div class="rv-img-upload-label">Photos <span class="rv-img-upload-hint">Optional · up to 3 images</span></div>
+              <div class="rv-img-upload-row">
+                <label class="rv-img-pick-btn" for="rvImgInput">+ Add Photos<input type="file" id="rvImgInput" name="photos" accept="image/*" multiple></label>
+                <div class="rv-img-preview" id="rvImgPreview"></div>
+              </div>
+            </div>
             <button class="k-btn-gold rv-submit" type="submit">Submit Review</button>
           </form>
           <div class="rv-sent" id="rvSent">✓ Thank you — your review will appear after moderation.</div>
@@ -336,6 +343,34 @@
         doc.getElementById("rvSent").style.display = "block";
       }, 600);
     });
+
+    var rvImgInput = doc.getElementById("rvImgInput");
+    var rvImgPreview = doc.getElementById("rvImgPreview");
+    if (rvImgInput && rvImgPreview) {
+      rvImgInput.addEventListener("change", function () {
+        rvImgPreview.innerHTML = "";
+        var files = Array.prototype.slice.call(rvImgInput.files, 0, 3);
+        files.forEach(function (file) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            var thumb = doc.createElement("div");
+            thumb.className = "rv-img-thumb";
+            var img = doc.createElement("img");
+            img.src = e.target.result;
+            img.alt = "Preview";
+            thumb.appendChild(img);
+            var rm = doc.createElement("button");
+            rm.type = "button";
+            rm.className = "rv-img-thumb-rm";
+            rm.textContent = "✕";
+            rm.addEventListener("click", function () { thumb.remove(); });
+            thumb.appendChild(rm);
+            rvImgPreview.appendChild(thumb);
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+    }
   }
 
   function navLinks() {
@@ -1340,6 +1375,9 @@
               '</div>' +
               (r.size ? '<div class="rv-card-size">Size: ' + r.size + '</div>' : '') +
               '<p class="rv-card-body">' + r.body + '</p>' +
+              (r.images && r.images.length ? '<div class="rv-card-imgs">' + r.images.map(function (img) {
+                return '<img class="rv-card-img" src="' + img + '" alt="Customer photo" loading="lazy">';
+              }).join("") + '</div>' : '') +
               '</div>';
           }).join("") +
           '</div>';
