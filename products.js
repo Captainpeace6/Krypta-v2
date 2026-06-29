@@ -265,6 +265,29 @@ const REVIEWS = {
 };
 window.REVIEWS = REVIEWS;
 
+window.STOCK_DATA = {
+  1:   { S: 30, M: 30, L: 30, XL: 30 },
+  3:   { S: 30, M: 30, L: 30, XL: 30 },
+  4:   { S: 5,  M: 30, L: 30, XL: 4  },
+  5:   { S: 30, M: 30, L: 30, XL: 30 },
+  10:  { "28": 4,  "30": 30, "32": 30, "34": 3,  "36": 2  },
+  11:  { "28": 30, "30": 30, "32": 30, "34": 30, "36": 30 },
+  12:  { "28": 30, "30": 30, "32": 30, "34": 5,  "36": 30 },
+  14:  { "28": 30, "30": 30, "32": 30, "34": 30, "36": 30 },
+  30:  { XS: 3,  S: 30, M: 30, L: 4  },
+  31:  { XS: 30, S: 30, M: 30, L: 30 },
+  32:  { XS: 30, S: 30, M: 30, L: 30, XL: 30 },
+  70:  { XS: 30, S: 30, M: 30, L: 30 },
+  80:  { XS: 30, S: 30, M: 30, L: 30 },
+  90:  { XS: 30, S: 30, M: 30, L: 30 },
+  500: { XS: 3,  S: 30, M: 30, L: 30, XL: 30 },
+  501: { XS: 30, S: 30, M: 30, L: 30, XL: 30 },
+  502: { XS: 30, S: 30, M: 30, L: 30, XL: 30 },
+  503: { XS: 30, S: 30, M: 30, L: 30, XL: 30 },
+};
+window.DEFAULT_STOCK = 30;
+window.RAW_PRODUCTS = RAW_PRODUCTS;
+
 window.PRODUCTS = PRODUCTS;
 window.CATEGORY_CONFIGS = CATEGORY_CONFIGS;
 window.HOME_FEATURE_IDS = HOME_FEATURE_IDS;

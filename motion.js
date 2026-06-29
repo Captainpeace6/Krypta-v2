@@ -125,6 +125,7 @@
         </div>
         <div class="cart-shipping-progress" id="cartShippingBar"></div>
         <div class="cart-body" id="cartItemsList"></div>
+        <div class="cart-also-viewed" id="cartAlsoViewed"></div>
         <div class="cart-footer">
           <div class="cart-total"><span>Total</span><span id="cartTotalAmount">$0.00</span></div>
           <a class="k-btn-gold" href="checkout.html" style="display:block;text-align:center;">Checkout</a>
@@ -376,6 +377,7 @@
   function navLinks() {
     const configs = ["men", "women", "women_wear", "women_st", "tees", "anime"].map((key) => window.CATEGORY_CONFIGS[key]);
     return configs.map((item) => `<a href="${item.href}" data-nav="${item.href}">${item.nav}</a>`).join("") +
+      `<a href="lookbook.html" data-nav="lookbook.html">Lookbook</a>` +
       `<a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>`;
   }
 
@@ -408,6 +410,7 @@
         <a href="t-shirts.html" data-nav="t-shirts.html">T-Shirts</a>
         <a href="anime.html" data-nav="anime.html">Anime Denim</a>
         <a href="women-streetwear-trousers.html" data-nav="women-streetwear-trousers.html">Street Wear Track Pants</a>
+        <a href="lookbook.html" data-nav="lookbook.html">Lookbook</a>
         <a href="checkout.html" data-nav="checkout.html">Bag &amp; Checkout</a>
         <a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>
       </div>
@@ -824,7 +827,7 @@
       const remaining = Math.max(0, FREE_SHIP - totalVal);
       const pct = Math.min(100, (totalVal / FREE_SHIP) * 100).toFixed(1);
       shippingBar.innerHTML = remaining > 0
-        ? `<div class="csp-text">Add <strong>$${remaining.toFixed(2)}</strong> more for free shipping</div><div class="csp-track"><div class="csp-fill" style="width:${pct}%"></div></div>`
+        ? `<div class="csp-text">Add <strong>${formatPrice(remaining)}</strong> more for free shipping</div><div class="csp-track"><div class="csp-fill" style="width:${pct}%"></div></div>`
         : `<div class="csp-text" style="color:rgba(125,186,125,0.85)">✓ &nbsp;Free shipping unlocked</div><div class="csp-track"><div class="csp-fill" style="width:100%;background:rgba(125,186,125,0.7)"></div></div>`;
     }
 
@@ -850,6 +853,17 @@
         </div>
       </div>
     `).join("");
+
+    /* Customers also viewed */
+    const alsoViewed = doc.getElementById("cartAlsoViewed");
+    if (alsoViewed) {
+      const inCartIds = new Set(cart.map((i) => i.id));
+      const cats = [...new Set(cart.map((i) => { const p = typeof getProductById === "function" ? getProductById(i.id) : null; return p ? p.category : null; }).filter(Boolean))];
+      const avPicks = (window.PRODUCTS || []).filter((p) => cats.includes(p.category) && !inCartIds.has(p.id) && !/archive/i.test(p.availability || "")).slice(0, 3);
+      alsoViewed.innerHTML = avPicks.length > 0
+        ? `<div class="cav-label">You may also like</div><div class="cav-row">${avPicks.map((p) => `<a class="cav-card" href="product-detail.html?id=${p.id}"><img src="${p.img}" alt="${p.name}" loading="lazy"><div class="cav-name">${p.name}</div><div class="cav-price">${formatPrice(p.price)}</div></a>`).join("")}</div>`
+        : "";
+    }
   }
 
   function productCard(product) {
@@ -940,6 +954,18 @@
 
     const featured = doc.getElementById("featuredProducts");
     if (featured) featured.innerHTML = getFeaturedProducts().slice(0, 4).map(productCard).join("");
+
+    const rvStrip = doc.getElementById("recentlyViewedStrip");
+    if (rvStrip) {
+      try {
+        const rvIds = JSON.parse(localStorage.getItem("k_recently_viewed") || "[]");
+        const rvProds = rvIds.slice(0, 3).map((vid) => typeof getProductById === "function" ? getProductById(String(vid)) : null).filter(Boolean);
+        if (rvProds.length > 0) {
+          rvStrip.style.display = "";
+          rvStrip.innerHTML = `<div class="rv-strip-header"><span class="eyebrow">Your History</span><h2 class="rv-strip-title">Recently Viewed</h2></div><div class="rv-strip-row">${rvProds.map(productCard).join("")}</div>`;
+        }
+      } catch(e) {}
+    }
   }
 
   function renderShop() {
@@ -1000,6 +1026,16 @@
     doc.title = `${product.name} — KRYPTAA`;
     selectedSize = product.category === "women_wear" ? "Universal" : null;
     let pdQty = 1;
+
+    /* Track recently viewed */
+    (function() {
+      try {
+        var rv = JSON.parse(localStorage.getItem("k_recently_viewed") || "[]");
+        rv = rv.filter(function(vid) { return String(vid) !== String(product.id); });
+        rv.unshift(product.id);
+        localStorage.setItem("k_recently_viewed", JSON.stringify(rv.slice(0, 6)));
+      } catch(e) {}
+    })();
 
     /* #8 / #9 — Update meta description + OG tags for SEO */
     const setMeta = (attr, key, val) => {
@@ -1123,8 +1159,13 @@
               <div class="size-selector" id="sizeSelector">
                 ${product.sizes.map((size) => { const so = (product.soldOutSizes || []).includes(size); return `<button class="size-chip${so ? " is-sold-out" : ""}" type="button" data-size="${size}"${so ? " disabled" : ""}>${size}</button>`; }).join("")}
               </div>
+              <div class="pdp-stock-note" id="pdpStockNote"></div>
               <div class="size-tip">${product.fit ? product.fit.split(".")[0] + "." : "KRYPTAA fits true to oversized — size up for a more dramatic shoulder."}</div>
               `}
+            </div>
+            <div class="pdp-returns-hint">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Free returns within 7 days
             </div>
             <div class="pdp-add-row">
               <div class="qty-stepper" id="pdpQtyStepper">
@@ -1216,7 +1257,10 @@
       <section class="pdp-pairs" id="pdpPairs"></section>
       <section class="pdp-related" id="pdpRelated"></section>
       <div class="pdp-sticky-bar" id="pdpStickyBar">
-        <span class="psb-name">${product.name}</span>
+        <div class="psb-info">
+          <span class="psb-name">${product.name}</span>
+          <span class="psb-size-sel" id="psbSize"></span>
+        </div>
         <span class="psb-price">${formatPrice(product.price)}</span>
         ${isAnimePDP
           ? `<a class="k-btn-gold psb-btn" href="https://www.instagram.com/kryptaa__/" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">Contact to Order</a>`
@@ -1228,6 +1272,16 @@
       button.addEventListener("click", () => {
         selectedSize = button.dataset.size;
         doc.querySelectorAll("[data-size]").forEach((btn) => btn.classList.toggle("active", btn === button));
+        const psbSizeEl = doc.getElementById("psbSize");
+        if (psbSizeEl) psbSizeEl.textContent = ` · ${selectedSize}`;
+        const stockNote = doc.getElementById("pdpStockNote");
+        if (stockNote) {
+          const sData = window.STOCK_DATA && window.STOCK_DATA[product.id];
+          const qty = sData && sData[selectedSize] !== undefined ? sData[selectedSize] : (window.DEFAULT_STOCK || 30);
+          stockNote.innerHTML = qty <= 5
+            ? `<span class="pdp-stock-warn"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Only ${qty} left in size ${selectedSize}</span>`
+            : "";
+        }
       });
     });
 
