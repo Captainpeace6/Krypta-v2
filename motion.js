@@ -1062,6 +1062,7 @@
           <a class="eyebrow" href="${getCategoryConfig(product.category).href}">${product.collection}</a>
           <h1 class="detail-title">${product.name}</h1>
           <div class="detail-price">${formatPrice(product.price)}</div>
+          <button class="pdp-review-anchor" type="button" id="pdpReviewAnchor" aria-label="Jump to reviews"></button>
           <p>${product.story}</p>
           <div class="detail-tags">${product.tags.map((tag) => `<span>${tag}</span>`).join("")}${/low.?quantity|low.?stock/i.test(product.availability) ? `<span class="low-stock-badge">Only a few left</span>` : /archive/i.test(product.availability) ? `` : `<span>${product.availability}</span>`}</div>
           <div class="buy-panel">
@@ -1290,6 +1291,30 @@
       if (!revSection || !summaryEl || !gridEl) return;
 
       var allRevs = (window.REVIEWS && window.REVIEWS[product.id]) || [];
+
+      /* Populate the top anchor */
+      var anchorEl = doc.getElementById("pdpReviewAnchor");
+      if (anchorEl) {
+        if (allRevs.length) {
+          var avg2 = allRevs.reduce(function (s, r) { return s + r.rating; }, 0) / allRevs.length;
+          var filled = Math.round(avg2);
+          var starStr = Array.from({ length: 5 }, function (_, i) {
+            return '<span class="pdp-ra-star' + (i < filled ? ' on' : '') + '">★</span>';
+          }).join("");
+          anchorEl.innerHTML = starStr +
+            '<span class="pdp-ra-score">' + avg2.toFixed(1) + '</span>' +
+            '<span class="pdp-ra-count">(' + allRevs.length + ' review' + (allRevs.length > 1 ? 's' : '') + ')</span>' +
+            '<span class="pdp-ra-cta">Write a Review ↓</span>';
+        } else {
+          anchorEl.innerHTML = '<span class="pdp-ra-none">No reviews yet — Be the first ↓</span>';
+        }
+        anchorEl.addEventListener("click", function () {
+          var target = doc.getElementById("reviewsSection");
+          if (!target) return;
+          if (window.kLenis) { window.kLenis.scrollTo(target, { offset: -80, duration: 1.1 }); }
+          else { target.scrollIntoView({ behavior: "smooth", block: "start" }); }
+        });
+      }
 
       function starsHtml(n) {
         return '<span class="rv-stars">' +

@@ -4371,3 +4371,53 @@ details.faq-item[open] summary { color: #f0ede8; }
   .write-review-btn { width: 100%; text-align: center; }
   .rv-grid { grid-template-columns: 1fr; }
 }
+
+/* ── PDP review anchor (top of buy panel) ── */
+.pdp-review-anchor {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 0;
+  margin-bottom: 6px;
+  text-align: left;
+}
+.pdp-ra-star { font-size: 1rem; color: rgba(210,174,91,0.25); transition: color 0.15s; }
+.pdp-ra-star.on { color: var(--k-gold-bright, #d2ae5b); }
+.pdp-review-anchor:hover .pdp-ra-star.on { color: #e8c060; }
+.pdp-ra-score {
+  font-family: var(--f-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--k-gold-bright, #d2ae5b);
+}
+.pdp-ra-count {
+  font-family: var(--f-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.08em;
+  color: rgba(240,237,232,0.38);
+}
+.pdp-ra-cta {
+  font-family: var(--f-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(210,174,91,0.55);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin-left: 4px;
+}
+.pdp-ra-none {
+  font-family: var(--f-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(240,237,232,0.3);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.pdp-review-anchor:hover .pdp-ra-cta,
+.pdp-review-anchor:hover .pdp-ra-none { color: var(--k-gold-bright); }
