@@ -1512,6 +1512,7 @@
       var pgMainWrap = doc.querySelector('.pg-main-wrap');
       if (!pgGallery || !pgThumbsEl) return;
       var hideTimer = null;
+      var lastMX = 0, lastMY = 0;
       function openStrip() {
         pgThumbsEl.classList.add('is-open');
         resetIdleTimer();
@@ -1524,8 +1525,17 @@
         clearTimeout(hideTimer);
         hideTimer = setTimeout(closeStrip, 3000);
       }
-      pgGallery.addEventListener('mouseenter', openStrip);
-      pgGallery.addEventListener('mousemove', function () {
+      pgGallery.addEventListener('mouseenter', function (e) {
+        lastMX = e.clientX; lastMY = e.clientY;
+        openStrip();
+      });
+      /* Only reset the 3s timer when mouse moves >4px — filters out
+         trackpad/optical-mouse micro-jitter that looks like "no movement" */
+      pgGallery.addEventListener('mousemove', function (e) {
+        var dx = Math.abs(e.clientX - lastMX);
+        var dy = Math.abs(e.clientY - lastMY);
+        if (dx < 4 && dy < 4) return;
+        lastMX = e.clientX; lastMY = e.clientY;
         if (!pgThumbsEl.classList.contains('is-open')) openStrip();
         else resetIdleTimer();
       });
