@@ -4282,3 +4282,92 @@ details.faq-item[open] summary { color: #f0ede8; }
 .pdp-pair-info { display: flex; flex-direction: column; gap: 4px; }
 .pdp-pair-name { font-family: var(--f-sans, 'Rajdhani', sans-serif); font-size: clamp(0.72rem, 1.5vw, 0.9rem); color: rgba(240,237,232,0.8); font-weight: 500; line-height: 1.3; }
 .pdp-pair-price { font-family: var(--f-mono); font-size: 0.72rem; color: var(--k-gold-bright, #d2ae5b); letter-spacing: 0.04em; }
+
+/* ── Customer Reviews ── */
+.reviews-section { padding: clamp(48px, 8vw, 96px) 0; border-top: 1px solid rgba(210,174,91,0.1); }
+.reviews-section .section-head { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: clamp(28px, 4vw, 48px); }
+.write-review-btn { padding: 11px 22px; font-size: 0.58rem; letter-spacing: 0.18em; white-space: nowrap; flex-shrink: 0; }
+.rv-summary { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+.rv-stars { display: inline-flex; gap: 2px; }
+.rv-star { font-size: 1.15rem; color: rgba(210,174,91,0.2); }
+.rv-star.filled { color: var(--k-gold-bright, #d2ae5b); }
+.rv-avg { font-family: var(--f-mono); font-size: 0.9rem; color: var(--k-gold-bright, #d2ae5b); letter-spacing: 0.06em; }
+.rv-count { font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 0.12em; color: rgba(240,237,232,0.38); text-transform: uppercase; }
+.rv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.rv-card { background: rgba(210,174,91,0.04); border: 1px solid rgba(210,174,91,0.12); padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+.rv-card-header { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rv-card-author { font-family: var(--f-mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(240,237,232,0.75); }
+.rv-card-date { font-family: var(--f-mono); font-size: 0.48rem; letter-spacing: 0.1em; color: rgba(240,237,232,0.28); margin-left: auto; }
+.rv-card-size { font-family: var(--f-mono); font-size: 0.48rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(210,174,91,0.5); }
+.rv-card-body { font-size: 0.82rem; line-height: 1.6; color: rgba(240,237,232,0.58); margin: 0; }
+.rv-empty { font-family: var(--f-mono); font-size: 0.6rem; letter-spacing: 0.12em; color: rgba(240,237,232,0.28); text-transform: uppercase; }
+
+/* Review modal overlay */
+.rv-modal-overlay {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(4,3,2,0.88);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.28s;
+}
+.rv-modal-overlay.open { opacity: 1; pointer-events: auto; }
+.rv-modal-box {
+  position: relative;
+  background: #0e0c09;
+  border: 1px solid rgba(210,174,91,0.28);
+  padding: clamp(28px, 5vw, 48px);
+  width: min(520px, 92vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 18px;
+}
+.rv-modal-close {
+  position: absolute; top: 14px; right: 16px;
+  background: none; border: none; color: rgba(240,237,232,0.45);
+  font-size: 1rem; cursor: pointer; line-height: 1;
+}
+.rv-modal-close:hover { color: var(--k-gold-bright); }
+.rv-modal-title {
+  font-family: var(--f-primary); font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--k-bone, #f0ede8);
+}
+.rv-star-selector { display: flex; gap: 6px; }
+.rv-star-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 1.8rem; color: rgba(210,174,91,0.2);
+  transition: color 0.15s, transform 0.15s;
+  line-height: 1; padding: 0;
+}
+.rv-star-btn.active,
+.rv-star-btn:hover { color: var(--k-gold-bright, #d2ae5b); transform: scale(1.12); }
+.rv-modal-form { display: flex; flex-direction: column; gap: 12px; }
+.rv-input, .rv-textarea {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(210,174,91,0.2);
+  color: #f0ede8;
+  font-family: var(--f-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  padding: 12px 14px;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.rv-input:focus, .rv-textarea:focus { border-color: rgba(210,174,91,0.5); }
+.rv-input::placeholder, .rv-textarea::placeholder { color: rgba(240,237,232,0.28); }
+.rv-textarea { resize: vertical; min-height: 100px; }
+.rv-submit { width: 100%; margin-top: 4px; }
+.rv-sent {
+  display: none;
+  font-family: var(--f-mono); font-size: 0.6rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(125,186,125,0.9);
+  text-align: center; padding: 16px 0;
+}
+@media (max-width: 768px) {
+  .reviews-section .section-head { flex-direction: column; align-items: flex-start; }
+  .write-review-btn { width: 100%; text-align: center; }
+  .rv-grid { grid-template-columns: 1fr; }
+}

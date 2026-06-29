@@ -285,6 +285,57 @@
         }
       });
     }
+
+    /* Review modal */
+    body.insertAdjacentHTML("beforeend", `
+      <div class="rv-modal-overlay" id="rvModalOverlay">
+        <div class="rv-modal-box" role="dialog" aria-modal="true" aria-label="Write a review">
+          <button class="rv-modal-close" id="rvModalClose" aria-label="Close">✕</button>
+          <div class="rv-modal-title">Write a Review</div>
+          <div class="rv-star-selector" id="rvStarSelector">
+            <button type="button" class="rv-star-btn" data-rv-star="1">★</button>
+            <button type="button" class="rv-star-btn" data-rv-star="2">★</button>
+            <button type="button" class="rv-star-btn" data-rv-star="3">★</button>
+            <button type="button" class="rv-star-btn" data-rv-star="4">★</button>
+            <button type="button" class="rv-star-btn active" data-rv-star="5">★</button>
+          </div>
+          <form class="rv-modal-form" id="rvModalForm" action="https://formspree.io/f/mbljodbk" method="POST">
+            <input type="hidden" name="_subject" id="rvSubject" value="New Customer Review">
+            <input type="hidden" name="product" id="rvProduct" value="">
+            <input type="hidden" name="rating" id="rvRating" value="5">
+            <input class="rv-input" type="text" name="name" placeholder="Your name" required>
+            <input class="rv-input" type="text" name="size" placeholder="Size worn (e.g. M, L, Universal)">
+            <textarea class="rv-textarea" name="review" rows="4" placeholder="Share your experience with this piece…" required></textarea>
+            <button class="k-btn-gold rv-submit" type="submit">Submit Review</button>
+          </form>
+          <div class="rv-sent" id="rvSent">✓ Thank you — your review will appear after moderation.</div>
+        </div>
+      </div>
+    `);
+
+    let rvRating = 5;
+    const rvStarBtns = doc.querySelectorAll("[data-rv-star]");
+    function setRvStars(n) {
+      rvRating = n;
+      doc.getElementById("rvRating").value = n;
+      rvStarBtns.forEach((b) => b.classList.toggle("active", Number(b.dataset.rvStar) <= n));
+    }
+    rvStarBtns.forEach((b) => {
+      b.addEventListener("click", () => setRvStars(Number(b.dataset.rvStar)));
+    });
+
+    doc.getElementById("rvModalClose")?.addEventListener("click", () => {
+      doc.getElementById("rvModalOverlay")?.classList.remove("open");
+    });
+    doc.getElementById("rvModalOverlay")?.addEventListener("click", (e) => {
+      if (e.target === doc.getElementById("rvModalOverlay")) doc.getElementById("rvModalOverlay").classList.remove("open");
+    });
+    doc.getElementById("rvModalForm")?.addEventListener("submit", () => {
+      setTimeout(() => {
+        doc.getElementById("rvModalForm").style.display = "none";
+        doc.getElementById("rvSent").style.display = "block";
+      }, 600);
+    });
   }
 
   function navLinks() {
@@ -1113,6 +1164,19 @@
           </div>
         </div>
       </section>
+      <section class="reviews-section" id="reviewsSection">
+        <div class="section-shell">
+          <div class="section-head reveal">
+            <div>
+              <div class="eyebrow">What people say</div>
+              <h2>Customer Reviews</h2>
+            </div>
+            <button class="k-btn-gold write-review-btn" type="button" id="writeReviewBtn">Write a Review</button>
+          </div>
+          <div id="reviewsSummary"></div>
+          <div id="reviewsGrid"></div>
+        </div>
+      </section>
       <section class="pdp-pairs" id="pdpPairs"></section>
       <section class="pdp-related" id="pdpRelated"></section>
       <div class="pdp-sticky-bar" id="pdpStickyBar">
@@ -1215,6 +1279,62 @@
           if (entries[0].isIntersecting) { el.classList.add("is-visible"); obs.disconnect(); }
         }, { threshold: 0.1 });
         obs.observe(el);
+      });
+    })();
+
+    /* ── Customer reviews ── */
+    (function () {
+      var revSection = doc.getElementById("reviewsSection");
+      var summaryEl = doc.getElementById("reviewsSummary");
+      var gridEl = doc.getElementById("reviewsGrid");
+      if (!revSection || !summaryEl || !gridEl) return;
+
+      var allRevs = (window.REVIEWS && window.REVIEWS[product.id]) || [];
+
+      function starsHtml(n) {
+        return '<span class="rv-stars">' +
+          Array.from({ length: 5 }, function (_, i) {
+            return '<span class="rv-star' + (i < n ? ' filled' : '') + '">★</span>';
+          }).join("") + '</span>';
+      }
+
+      if (allRevs.length) {
+        var avg = allRevs.reduce(function (s, r) { return s + r.rating; }, 0) / allRevs.length;
+        summaryEl.innerHTML = '<div class="rv-summary">' +
+          starsHtml(Math.round(avg)) +
+          '<span class="rv-avg">' + avg.toFixed(1) + '</span>' +
+          '<span class="rv-count">(' + allRevs.length + ' review' + (allRevs.length > 1 ? 's' : '') + ')</span>' +
+          '</div>';
+        gridEl.innerHTML = '<div class="rv-grid">' +
+          allRevs.map(function (r) {
+            return '<div class="rv-card reveal">' +
+              '<div class="rv-card-header">' +
+                starsHtml(r.rating) +
+                '<span class="rv-card-author">' + r.author + '</span>' +
+                '<span class="rv-card-date">' + r.date + '</span>' +
+              '</div>' +
+              (r.size ? '<div class="rv-card-size">Size: ' + r.size + '</div>' : '') +
+              '<p class="rv-card-body">' + r.body + '</p>' +
+              '</div>';
+          }).join("") +
+          '</div>';
+      } else {
+        summaryEl.innerHTML = '<p class="rv-empty">No reviews yet. Be the first to share your thoughts.</p>';
+      }
+
+      gridEl.querySelectorAll(".reveal").forEach(function (el) {
+        var obs = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) { el.classList.add("is-visible"); obs.disconnect(); }
+        }, { threshold: 0.1 });
+        obs.observe(el);
+      });
+
+      doc.getElementById("writeReviewBtn")?.addEventListener("click", function () {
+        doc.getElementById("rvProduct").value = product.name;
+        doc.getElementById("rvSubject").value = "New Review — " + product.name;
+        doc.getElementById("rvModalForm").style.display = "";
+        doc.getElementById("rvSent").style.display = "none";
+        doc.getElementById("rvModalOverlay")?.classList.add("open");
       });
     })();
 
