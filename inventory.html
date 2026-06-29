@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventory Dashboard — KRYPTAA</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+<script defer src="products.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:      #060606;
+  --panel:   #0f0e0b;
+  --border:  rgba(210,174,91,0.15);
+  --gold:    #d2ae5b;
+  --gold-dim: rgba(210,174,91,0.45);
+  --bone:    #f0ede8;
+  --muted:   rgba(240,237,232,0.38);
+  --green:   #4caf7d;
+  --amber:   #e8a030;
+  --red:     #e05454;
+  --gray:    #3a3835;
+  --mono:    'Space Mono', monospace;
+}
+body {
+  background: var(--bg);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 13px;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+/* ── Header ── */
+.inv-header {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(6,6,6,0.96);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  padding: 18px 28px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+}
+.inv-logo { font-family: 'Cinzel', serif; font-size: 1rem; letter-spacing: 0.2em; color: var(--gold); }
+.inv-meta { font-size: 0.62rem; letter-spacing: 0.1em; color: var(--muted); }
+/* ── Summary strip ── */
+.inv-summary {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px;
+  background: var(--border); border-bottom: 1px solid var(--border);
+}
+.inv-stat {
+  background: var(--panel);
+  padding: 20px 24px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.inv-stat-num { font-size: 1.6rem; font-weight: 700; color: var(--gold); line-height: 1; }
+.inv-stat-label { font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+/* ── Section ── */
+.inv-section { padding: 36px 28px 0; }
+.inv-section-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--gold-dim); margin-bottom: 16px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+/* ── Product table ── */
+.inv-table {
+  width: 100%; border-collapse: collapse; margin-bottom: 28px;
+}
+.inv-table th {
+  font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); padding: 8px 10px; text-align: left;
+  border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+.inv-table td {
+  padding: 10px; border-bottom: 1px solid rgba(210,174,91,0.06);
+  vertical-align: middle;
+}
+.inv-table tr:hover td { background: rgba(210,174,91,0.03); }
+.prod-name { font-size: 0.7rem; color: var(--bone); font-weight: 700; }
+.prod-id   { font-size: 0.52rem; color: var(--muted); margin-top: 2px; }
+/* ── Size pills ── */
+.size-pills { display: flex; gap: 5px; flex-wrap: wrap; }
+.size-pill {
+  display: inline-flex; flex-direction: column; align-items: center;
+  min-width: 38px; padding: 4px 6px; border-radius: 3px;
+  font-size: 0.52rem; font-weight: 700; letter-spacing: 0.06em;
+  border: 1px solid transparent;
+}
+.size-pill .sz-label { font-size: 0.46rem; opacity: 0.7; margin-bottom: 1px; }
+.size-pill .sz-qty   { font-size: 0.7rem; line-height: 1; }
+/* color tiers */
+.sq-ok     { background: rgba(76,175,125,0.12); border-color: rgba(76,175,125,0.3); color: var(--green); }
+.sq-low    { background: rgba(232,160,48,0.12); border-color: rgba(232,160,48,0.3); color: var(--amber); }
+.sq-crit   { background: rgba(224,84,84,0.15);  border-color: rgba(224,84,84,0.4);  color: var(--red);   }
+.sq-out    { background: rgba(58,56,53,0.5);    border-color: rgba(58,56,53,0.8);   color: #555; text-decoration: line-through; }
+.sq-est    { background: rgba(210,174,91,0.06); border-color: rgba(210,174,91,0.18); color: var(--gold-dim); }
+/* ── Totals ── */
+.inv-total-cell { font-weight: 700; font-size: 0.8rem; }
+.inv-total-ok   { color: var(--green); }
+.inv-total-low  { color: var(--amber); }
+.inv-total-crit { color: var(--red);   }
+/* ── Status badge ── */
+.status-badge {
+  display: inline-block; padding: 3px 7px; border-radius: 2px;
+  font-size: 0.5rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700;
+}
+.sb-live    { background: rgba(76,175,125,0.15); color: var(--green); border: 1px solid rgba(76,175,125,0.3); }
+.sb-low     { background: rgba(232,160,48,0.15); color: var(--amber); border: 1px solid rgba(232,160,48,0.3); }
+.sb-est     { background: rgba(210,174,91,0.08); color: var(--gold-dim); border: 1px solid rgba(210,174,91,0.2); }
+.sb-out     { background: rgba(224,84,84,0.1);   color: var(--red);    border: 1px solid rgba(224,84,84,0.25); }
+/* ── Filter bar ── */
+.inv-filter-bar {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 20px 28px; border-bottom: 1px solid var(--border);
+}
+.filter-btn {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--muted); font-family: var(--mono); font-size: 0.55rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 6px 14px; cursor: pointer; border-radius: 2px; transition: all 0.15s;
+}
+.filter-btn:hover, .filter-btn.active {
+  border-color: var(--gold); color: var(--gold); background: rgba(210,174,91,0.07);
+}
+.filter-label { font-size: 0.52rem; letter-spacing: 0.1em; color: var(--muted); margin-right: 4px; }
+/* ── Updated note ── */
+.upd-note { font-size: 0.52rem; color: var(--muted); padding: 6px 28px 0; }
+/* ── Sold out list ── */
+.so-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.so-item {
+  background: rgba(224,84,84,0.07); border: 1px solid rgba(224,84,84,0.2);
+  border-radius: 3px; padding: 5px 10px;
+  font-size: 0.58rem; color: var(--red);
+}
+.so-item span { color: var(--muted); margin-left: 4px; }
+</style>
+</head>
+<body>
+
+<div class="inv-header">
+  <div class="inv-logo">KRYPTAA — Inventory</div>
+  <div class="inv-meta" id="invDate">Loading…</div>
+</div>
+
+<div class="inv-summary" id="invSummary"></div>
+
+<div class="inv-filter-bar">
+  <span class="filter-label">Show:</span>
+  <button class="filter-btn active" data-filter="all">All Products</button>
+  <button class="filter-btn" data-filter="women_st">Street Wear</button>
+  <button class="filter-btn" data-filter="men">Men's Denim</button>
+  <button class="filter-btn" data-filter="women">Women's Denim</button>
+  <button class="filter-btn" data-filter="tees">T-Shirts</button>
+  <button class="filter-btn" data-filter="women_wear">Women Wear</button>
+  <button class="filter-btn" data-filter="lowstock">⚠ Low Stock</button>
+</div>
+
+<div class="upd-note" id="upd-note">
+  ★ Street Wear (Drop 001) — real counts confirmed. All other products use estimated stock of 30/size — update when counts are confirmed.
+</div>
+
+<div id="invBody"></div>
+
+<script>
+(function waitForData() {
+  if (!window.PRODUCTS || !window.STOCK_DATA) {
+    return setTimeout(waitForData, 80);
+  }
+  init();
+})();
+
+function getStock(productId, size) {
+  var sd = window.STOCK_DATA && window.STOCK_DATA[productId];
+  if (sd && sd[size] !== undefined) return sd[size];
+  return window.DEFAULT_STOCK || 30;
+}
+
+function stockClass(qty) {
+  if (qty === 0)  return 'sq-out';
+  if (qty <= 3)  return 'sq-crit';
+  if (qty <= 7)  return 'sq-low';
+  return 'sq-ok';
+}
+
+function totalClass(n) {
+  if (n === 0)  return 'inv-total-crit';
+  if (n <= 15)  return 'inv-total-low';
+  return 'inv-total-ok';
+}
+
+function isEstimated(productId) {
+  var sd = window.STOCK_DATA && window.STOCK_DATA[productId];
+  return !sd;
+}
+
+function init() {
+  // Date
+  var d = new Date();
+  document.getElementById('invDate').textContent =
+    'Updated ' + d.toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'}) +
+    ' · ' + d.toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit'});
+
+  var products = window.PRODUCTS;
+  var STOCK_DATA = window.STOCK_DATA || {};
+
+  // Compute stats
+  var totalUnits = 0, lowStockCount = 0, soldOutSizes = [], confirmedProducts = 0;
+  var allSections = {};
+
+  products.forEach(function(p) {
+    if (/archive/i.test(p.availability || '')) return;
+    var sizes = p.sizes || [];
+    var real = STOCK_DATA[p.id];
+    sizes.forEach(function(sz) {
+      var qty = getStock(p.id, sz);
+      if (real) {
+        totalUnits += qty;
+        if (qty === 0) soldOutSizes.push({name: p.name, size: sz});
+        if (qty > 0 && qty <= 7) lowStockCount++;
+      }
+    });
+    if (real) confirmedProducts++;
+
+    var cat = p.category;
+    if (!allSections[cat]) allSections[cat] = [];
+    allSections[cat].push(p);
+  });
+
+  // Summary strip
+  var streetProducts = [500,501,502,503];
+  var stTotal = 0;
+  streetProducts.forEach(function(id) {
+    var sd = STOCK_DATA[id];
+    if (!sd) return;
+    Object.values(sd).forEach(function(q) { stTotal += q; });
+  });
+
+  document.getElementById('invSummary').innerHTML =
+    stat(stTotal, 'Street Wear Units') +
+    stat(confirmedProducts, 'Confirmed Products') +
+    stat(lowStockCount, 'Low Stock Sizes') +
+    stat(soldOutSizes.length, 'Sold Out Sizes');
+
+  // Sold out list
+  var soldOutHTML = '';
+  if (soldOutSizes.length > 0) {
+    soldOutHTML = '<div class="inv-section"><div class="inv-section-title">Sold Out Sizes</div><div class="so-list">' +
+      soldOutSizes.map(function(s) {
+        return '<div class="so-item">' + s.name + '<span>· ' + s.size + '</span></div>';
+      }).join('') +
+    '</div></div>';
+  }
+
+  // Category order + labels
+  var catOrder = [
+    {key:'women_st', label:'Street Wear Track Pants — Drop 001 (Real Counts)'},
+    {key:'men',      label:"Men's Denim — Drop 001"},
+    {key:'women',    label:"Women's Denim — Drop 001"},
+    {key:'tees',     label:'T-Shirts — Drop 001'},
+    {key:'women_wear', label:'Women Wear — Drop 001'},
+    {key:'anime',    label:'Anime Denim — Drop 001'},
+    {key:'women_st_preview', label:'Preview / Unreleased'},
+  ];
+
+  var bodyHTML = soldOutHTML;
+
+  catOrder.forEach(function(cat) {
+    var items = allSections[cat.key];
+    if (!items || items.length === 0) return;
+
+    var rows = items.map(function(p) {
+      var sizes = p.sizes || [];
+      var sold = p.soldOutSizes || [];
+      var est = isEstimated(p.id);
+      var rowTotal = 0;
+
+      var pills = sizes.map(function(sz) {
+        var qty = getStock(p.id, sz);
+        var isSoldOut = sold.includes(sz) || qty === 0;
+        var cls = isSoldOut ? 'sq-out' : (est ? 'sq-est' : stockClass(qty));
+        if (!isSoldOut && !est) rowTotal += qty;
+        else if (!isSoldOut && est) rowTotal += qty;
+        var display = isSoldOut && qty > 0 ? qty : (isSoldOut ? '0' : qty);
+        return '<div class="size-pill ' + cls + '"><span class="sz-label">' + sz + '</span><span class="sz-qty">' + display + '</span></div>';
+      }).join('');
+
+      var totalCls = est ? 'inv-total-ok' : totalClass(rowTotal);
+      var statusHTML = est
+        ? '<span class="status-badge sb-est">Est.</span>'
+        : (rowTotal <= 0
+          ? '<span class="status-badge sb-out">Sold Out</span>'
+          : (rowTotal <= 15
+            ? '<span class="status-badge sb-low">Low Stock</span>'
+            : '<span class="status-badge sb-live">Live</span>'));
+
+      return '<tr data-cat="' + p.category + '" data-low="' + (!est && rowTotal <= 30) + '">' +
+        '<td><div class="prod-name">' + p.name + '</div><div class="prod-id">ID #' + p.id + '</div></td>' +
+        '<td><div class="size-pills">' + pills + '</div></td>' +
+        '<td class="inv-total-cell ' + totalCls + '">' + rowTotal + '</td>' +
+        '<td>' + statusHTML + '</td>' +
+        '</tr>';
+    }).join('');
+
+    bodyHTML += '<div class="inv-section" data-section="' + cat.key + '">' +
+      '<div class="inv-section-title">' + cat.label + '</div>' +
+      '<table class="inv-table">' +
+      '<thead><tr><th>Product</th><th>Stock by Size</th><th>Total Units</th><th>Status</th></tr></thead>' +
+      '<tbody>' + rows + '</tbody>' +
+      '</table></div>';
+  });
+
+  document.getElementById('invBody').innerHTML = bodyHTML;
+
+  // Filter buttons
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var f = btn.dataset.filter;
+      document.querySelectorAll('#invBody tr[data-cat]').forEach(function(row) {
+        var match = f === 'all' ? true
+          : f === 'lowstock' ? row.dataset.low === 'true'
+          : row.dataset.cat === f;
+        row.style.display = match ? '' : 'none';
+      });
+      document.querySelectorAll('.inv-section').forEach(function(sec) {
+        var vis = sec.querySelectorAll('tr[data-cat]:not([style*="none"])');
+        sec.style.display = vis.length > 0 ? '' : 'none';
+      });
+    });
+  });
+}
+
+function stat(num, label) {
+  return '<div class="inv-stat"><div class="inv-stat-num">' + num + '</div><div class="inv-stat-label">' + label + '</div></div>';
+}
+</script>
+</body>
+</html>
