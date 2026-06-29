@@ -2994,17 +2994,16 @@ body.menu-open .mobile-menu {
   gap: 0;
 }
 
-/* When gallery is the product detail media panel, enforce sticky + full height */
+/* When gallery is the product detail media panel, enforce sticky */
 .detail-media.pg-gallery {
   position: sticky;
   top: 92px;
-  min-height: max(740px, min(90vh, 1080px));
 }
 
 .pg-main-wrap {
   position: relative;
   width: 100%;
-  height: max(740px, min(90vh, 1080px));
+  height: max(640px, min(80vh, 920px));
   background: #050505;
   overflow: hidden;
 }
@@ -3020,7 +3019,7 @@ body.menu-open .mobile-menu {
 
 .pg-label {
   position: absolute;
-  bottom: 115px;
+  bottom: 14px;
   left: 16px;
   font-family: var(--f-mono);
   font-size: 0.58rem;
@@ -3035,7 +3034,7 @@ body.menu-open .mobile-menu {
 
 .pg-counter {
   position: absolute;
-  bottom: 115px;
+  bottom: 14px;
   right: 16px;
   font-family: var(--f-mono);
   font-size: 0.52rem;
@@ -3076,18 +3075,14 @@ body.menu-open .mobile-menu {
 
 /* Thumbnail strip — overlaid at bottom of image */
 .pg-thumbs {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
   display: flex;
   gap: 6px;
   overflow-x: auto;
-  padding: 10px 12px 10px;
+  padding: 10px 12px;
   scrollbar-width: none;
   align-items: flex-start;
-  background: linear-gradient(to top, rgba(2,2,2,0.88) 60%, transparent);
-  z-index: 5;
+  background: #030303;
+  border-top: 1px solid rgba(210,174,91,0.1);
 }
 
 .pg-thumbs::-webkit-scrollbar { display: none; }
@@ -3104,29 +3099,19 @@ body.menu-open .mobile-menu {
   flex-direction: column;
   align-items: center;
   gap: 0;
-  transition: border-color 0.32s ease, opacity 0.32s ease, transform 0.32s ease, box-shadow 0.32s ease;
+  transition: border-color 0.28s ease, opacity 0.28s ease, transform 0.28s ease, box-shadow 0.28s ease;
   overflow: hidden;
-  opacity: 0;
-  transform: scale(0.82);
+  opacity: 0.4;
+  transform: scale(0.94);
   border-radius: 2px;
 }
 
-/* Active thumbnail always faintly visible */
-.pg-thumb.active {
-  opacity: 0.6;
-  transform: scale(0.94);
+.pg-thumb:hover {
+  opacity: 0.75;
+  transform: scale(0.97);
 }
 
-/* Reveal all thumbs when hovering the main image */
-.pg-main-wrap:hover .pg-thumb {
-  opacity: 0.35;
-  transform: scale(0.9);
-}
-.pg-main-wrap:hover .pg-thumb:hover {
-  opacity: 0.75;
-  transform: scale(0.95);
-}
-.pg-main-wrap:hover .pg-thumb.active {
+.pg-thumb.active {
   opacity: 1;
   transform: scale(1);
 }
@@ -3176,12 +3161,12 @@ body.menu-open .mobile-menu {
   .pg-thumb { width: 60px; }
   .pg-thumb img { width: 60px; height: 75px; }
   .pg-arrow { width: 36px; height: 36px; font-size: 0.9rem; }
-  /* Cap gallery to viewport-proportional height on mobile — overrides the 740px min */
-  .detail-media.pg-gallery { position: relative; top: auto; min-height: 56vh; }
+  /* Cap gallery to viewport-proportional height on mobile */
+  .detail-media.pg-gallery { position: relative; top: auto; }
   .pg-main-wrap { height: 56vh; }
-  /* Extra bottom padding so mobile bag bar doesn't overlap footer */
-  body { padding-bottom: 68px; }
 }
+/* Bottom padding on product page to clear the always-visible sticky buy bar */
+body[data-page="product"] { padding-bottom: 66px; }
 
 /* ── 1. Add-to-bag toast ── */
 .k-toast {
@@ -3418,7 +3403,7 @@ details.faq-item[open] summary { color: #f0ede8; }
 ───────────────────────────────────────────────── */
 .pdp-sticky-bar {
   position: fixed;
-  bottom: 136px;
+  bottom: 0;
   left: 0; right: 0;
   z-index: 200;
   background: rgba(6,6,6,0.97);
@@ -3429,11 +3414,6 @@ details.faq-item[open] summary { color: #f0ede8; }
   display: flex;
   align-items: center;
   gap: 12px;
-  transform: translateY(120%);
-  transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
-  pointer-events: none;
-}
-.pdp-sticky-bar.psb-visible {
   transform: translateY(0);
   pointer-events: auto;
 }
@@ -3462,7 +3442,6 @@ details.faq-item[open] summary { color: #f0ede8; }
   letter-spacing: 0.14em;
   white-space: nowrap;
 }
-@media (min-width: 768px) { .pdp-sticky-bar { display: none !important; } }
 
 /* ─────────────────────────────────────────────────
    WHATSAPP FLOAT BUTTON
