@@ -1,0 +1,3 @@
+## 2025-05-14 - ARIA Synchronization & Empty State CTAs
+**Learning:** Interactive panels (drawers/menus) in script-driven UIs must dynamically synchronize ARIA attributes (expanded, label, controls) on triggers in real-time. Empty states must avoid 'dead-ends' by providing actionable CTAs (e.g., 'Shop Now') that automatically close the current panel upon navigation to maintain a seamless user flow.
+**Action:** Use a central event delegation or dedicated open/close functions to manage both visual and accessibility states simultaneously. Ensure empty state CTAs include attributes that trigger panel closure.
