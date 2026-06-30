@@ -345,6 +345,20 @@
   text-transform: uppercase;
 }
 
+.k-entry-disclaimer {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(8px, 1.1vw, 10px);
+  font-variant: small-caps;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(210, 174, 91, 0.48);
+  text-align: center;
+  max-width: 300px;
+  line-height: 1.7;
+  margin-bottom: 22px;
+  margin-top: -18px;
+}
+
 
 /* ────────────────────────────────────────────
    CINEMATIC SCROLL REVEALS

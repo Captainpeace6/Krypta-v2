@@ -18,18 +18,21 @@ st.textContent = [
   '.ticker{font-size:11px!important;letter-spacing:.2em!important;white-space:nowrap!important;overflow:hidden!important;line-height:1.4!important;}',
   '.ticker-track{display:flex!important;align-items:center!important;gap:0!important;}',
 
-  /* Body offset */
+  /* Body offset — home page hero is full-screen, nav floats over it */
   'body{padding-top:100px!important;}',
+  'body[data-page="home"]{padding-top:0!important;}',
   '@media(max-width:768px){body{padding-top:130px!important;}}',
+  '@media(max-width:768px){body[data-page="home"]{padding-top:0!important;}}',
 
-  /* Mobile strip */
-  '.nav-cat-strip{position:fixed!important;top:66px;left:0;right:0;z-index:400;display:flex!important;overflow-x:auto;background:#0a0a0d;border-bottom:1px solid #1e1e26;scrollbar-width:none;}',
+  /* Mobile strip — sit flush below nav using actual nav height */
+  '.nav-cat-strip{position:fixed!important;top:var(--nav-h,108px);left:0;right:0;z-index:400;display:flex!important;overflow-x:auto;background:#0a0a0d;border-bottom:1px solid #1e1e26;scrollbar-width:none;}',
+  'body[data-page="home"] .nav-cat-strip{display:none!important;}',
   '.nav-cat-strip::-webkit-scrollbar{display:none;}',
   '.nav-cat-strip a{flex-shrink:0;padding:9px 14px;font-family:"Space Mono",monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:#555560;text-decoration:none;border-right:1px solid #1e1e26;white-space:nowrap;}',
   '.nav-cat-strip a:hover{color:#FF5500;background:#111116;}',
 
   /* Mobile menu */
-  '#mobileMenu{display:none;position:fixed!important;top:66px;left:0;right:0;background:#060608!important;z-index:500!important;padding:8px 0!important;border-bottom:2px solid #FF5500;max-height:calc(100vh - 66px);overflow-y:auto;}',
+  '#mobileMenu{display:none;position:fixed!important;top:var(--nav-h,68px);left:0;right:0;background:#060608!important;z-index:500!important;padding:8px 0!important;border-bottom:2px solid #FF5500;max-height:calc(100vh - var(--nav-h,68px));overflow-y:auto;}',
   '#mobileMenu a{display:flex!important;align-items:center!important;gap:12px!important;padding:16px 24px!important;font-family:"Bebas Neue",sans-serif!important;font-size:26px!important;letter-spacing:.1em!important;color:#f0ede8!important;text-decoration:none!important;border-bottom:1px solid #1e1e26!important;}',
   '#mobileMenu a:hover{color:#FF5500!important;background:#0a0a0d!important;}',
 
