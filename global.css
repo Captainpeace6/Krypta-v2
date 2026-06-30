@@ -425,8 +425,8 @@ body:not([data-page="home"]) .site-nav {
   display: none;
   width: 42px;
   height: 42px;
-  border: 1px solid var(--k-line);
-  background: rgba(255,255,255,0.02);
+  border: none;
+  background: transparent;
   color: var(--k-bone);
 }
 
@@ -470,6 +470,23 @@ body.menu-open .nav-toggle span:last-child {
   align-items: center;
   gap: 10px;
   white-space: nowrap;
+}
+
+/* Nav-specific cart — transparent, icon-only feel */
+.site-nav .cart-trigger {
+  background: transparent;
+  border: none;
+  color: var(--k-bone);
+  padding: 10px 12px;
+  min-height: 38px;
+  box-shadow: none;
+}
+.site-nav .cart-trigger:hover {
+  background: transparent;
+  border: none;
+  color: var(--k-gold);
+  transform: none;
+  box-shadow: none;
 }
 
 .cart-trigger:hover,

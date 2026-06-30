@@ -567,16 +567,13 @@ document.getElementById('joinDropForm').addEventListener('submit', function(e){
     dismissed = true;
   }
 
-  /* Fire after 4s on initial site visit */
-  setTimeout(function() {
-    /* Only show after entry animation completes */
-    var check = setInterval(function() {
-      if (document.body.classList.contains('is-loaded')) {
-        clearInterval(check);
-        if (!dismissed) showModal();
-      }
-    }, 200);
-  }, 30000);
+  /* Fire 30s after user clicks CLICK TO ENTER (kryptaa:revealed event) */
+  document.addEventListener('kryptaa:revealed', function() {
+    if (dismissed) return;
+    setTimeout(function() {
+      if (!dismissed) showModal();
+    }, 30000);
+  }, { once: true });
 
   closeBtn && closeBtn.addEventListener('click', hideModal);
   modal.addEventListener('click', function(e) {

@@ -10,9 +10,10 @@ document.addEventListener('DOMContentLoaded', function () {
 // ─────────────────────────────────────────────────
 var st = document.createElement('style');
 st.textContent = [
-  /* Fix 1+2: Nav logo — width-based */
+  /* Fix 1+2: Nav logo — height-based so it fits the nav bar */
   '.nav-logo{height:auto!important;display:flex!important;align-items:center!important;overflow:visible!important;}',
-  '.nav-logo img,.nav-logo-img{width:180px!important;height:auto!important;max-height:none!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 14px rgba(255,85,0,.35))!important;}',
+  '.site-nav .nav-logo-img{width:auto!important;height:48px!important;max-width:none!important;max-height:48px!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 18px rgba(210,174,91,0.55)) brightness(1.12) contrast(1.08)!important;}',
+  '@media(max-width:880px){.site-nav .nav-logo-img{height:42px!important;}}',
 
   /* Fix 7: Ticker — bigger font, no overlap */
   '.ticker{font-size:11px!important;letter-spacing:.2em!important;white-space:nowrap!important;overflow:hidden!important;line-height:1.4!important;}',
@@ -63,13 +64,13 @@ st.textContent = [
 document.head.appendChild(st);
 
 // ─────────────────────────────────────────────────
-// § 1  FIX 1+2: NAV LOGO — width-based
+// § 1  FIX 1+2: NAV LOGO — height-based, fits nav bar
 // ─────────────────────────────────────────────────
 (function fixLogo() {
   var apply = function() {
-    var img = document.querySelector('.nav-logo-img, .nav-logo img');
+    var img = document.querySelector('.site-nav .nav-logo-img, .site-nav .nav-logo img');
     if (img) {
-      img.style.cssText = 'width:180px!important;height:auto!important;max-height:none!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 14px rgba(255,85,0,.35))!important;';
+      img.style.cssText = 'width:auto!important;height:44px!important;max-height:44px!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 18px rgba(210,174,91,0.55)) brightness(1.12) contrast(1.08)!important;';
       var p = img.parentElement;
       if (p) p.style.cssText += 'height:auto!important;overflow:visible!important;';
     }
