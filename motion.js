@@ -925,7 +925,7 @@
   function renderHome() {
     const heroMedia = doc.getElementById("homeHeroMedia");
     if (heroMedia) {
-      heroMedia.innerHTML = getProductsByIds([1, 14, 70]).map((product) => `<img src="${product.img}" alt="">`).join("");
+      heroMedia.innerHTML = getProductsByIds([1, 14, 70]).map((product) => `<img src="${product.hero || product.img}" alt="">`).join("");
     }
 
     const collectionGrid = doc.getElementById("collectionGrid");
