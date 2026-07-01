@@ -362,8 +362,7 @@ body:not([data-page="home"]) .site-nav {
   justify-content: center;
   gap: clamp(8px, 1.4vw, 20px);
 }
-/* Secondary nav items (Lookbook, Shipping) — not in desktop nav, accessible in mobile menu */
-.nav-links a:nth-child(7),
+/* Shipping & Returns hidden from desktop nav — accessible via mobile menu */
 .nav-links a:nth-child(8) {
   display: none;
 }
