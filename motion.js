@@ -831,10 +831,17 @@
         : `<div class="csp-text" style="color:rgba(125,186,125,0.85)">✓ &nbsp;Free shipping unlocked</div><div class="csp-track"><div class="csp-fill" style="width:100%;background:rgba(125,186,125,0.7)"></div></div>`;
     }
 
+    const footer = doc.querySelector(".cart-footer");
     if (!cart.length) {
-      container.innerHTML = `<div class="cart-empty">Your bag is empty</div>`;
+      container.innerHTML = `
+        <div class="cart-empty">
+          <span>Your bag is empty</span>
+          <a class="k-btn-gold" href="men.html" data-cart-close>Shop The Drop</a>
+        </div>`;
+      if (footer) footer.style.display = "none";
       return;
     }
+    if (footer) footer.style.display = "";
 
     container.innerHTML = cart.map((item) => `
       <div class="cart-item">
@@ -844,9 +851,9 @@
           <div class="cart-item-meta">Size ${item.size} / ${formatPrice(item.price)}</div>
           <div class="cart-row">
             <div class="qty-control" aria-label="Quantity">
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1">-</button>
-              <span class="qty-val">${item.qty}</span>
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1">+</button>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1" aria-label="Decrease quantity">-</button>
+              <span class="qty-val" aria-live="polite">${item.qty}</span>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1" aria-label="Increase quantity">+</button>
             </div>
             <button class="cart-line-remove" type="button" data-cart-remove="${item.key}">Remove</button>
           </div>
