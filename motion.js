@@ -930,7 +930,7 @@
 
     const collectionGrid = doc.getElementById("collectionGrid");
     if (collectionGrid) {
-      const keys = ["men", "women", "women_wear"];
+      const keys = ["men", "women", "tees", "women_wear"];
       collectionGrid.innerHTML = keys.map((key) => {
         const config = getCategoryConfig(key);
         const cover = getProductsByIds(config.heroIds)[0];
@@ -974,11 +974,21 @@
     const products = getProductsByCategory(category);
     try { localStorage.setItem("k_last_shop", window.location.pathname); } catch(e) {}
 
-    doc.title = `${config.title} - KRYPTAA Luxury v3`;
+    doc.title = `${config.title} — KRYPTAA Gothic Streetwear`;
     setText("shopTitle", config.title);
     setText("shopLabel", config.label);
     setText("shopDescription", config.description);
     setText("shopCount", `${products.length} pieces`);
+
+    /* Dynamic SEO for shop pages */
+    const _sm = (attr, key, val) => { let t = doc.querySelector(`meta[${attr}="${key}"]`); if (!t) { t = doc.createElement("meta"); t.setAttribute(attr, key); doc.head.appendChild(t); } t.setAttribute("content", val); };
+    const _coverImg = config.heroIds && config.heroIds.length ? (getProductsByIds([config.heroIds[0]])[0] || {}) : {};
+    const _ogImg = `https://www.kryptaa.com/${_coverImg.img || "imgs/kryptaa-sigil.png"}`;
+    _sm("name", "description", config.description);
+    _sm("property", "og:title", `${config.title} — KRYPTAA`);
+    _sm("property", "og:description", config.description);
+    _sm("property", "og:image", _ogImg);
+    _sm("name", "twitter:image", _ogImg);
 
     const heroMedia = doc.getElementById("shopHeroMedia");
     if (heroMedia) {
