@@ -816,8 +816,11 @@ html.k-snap-active {
 .snap-footer-panel {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
   background: #020202;
+  /* Override snap-panel's height:100vh so footer content is not clipped */
+  height: auto;
+  min-height: 60vh;
 }
 
 .snap-footer-panel .join-drop-section,

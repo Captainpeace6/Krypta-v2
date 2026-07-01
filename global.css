@@ -1576,6 +1576,17 @@ body.menu-open .mobile-menu {
 .products-grid.is-cinematic {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
+.products-grid.is-cinematic .product-card-media {
+  height: 560px;
+  min-height: unset;
+}
+.products-grid.is-cinematic .product-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  padding: 0;
+}
 
 /* Desktop cinematic: lone last card centred at 50% width */
 .products-grid.is-cinematic .product-card:last-child:nth-child(odd) {
@@ -1600,7 +1611,15 @@ body.menu-open .mobile-menu {
   min-height: 520px;
 }
 .products-grid.is-grid .product-card-media {
-  min-height: 440px;
+  height: 460px;
+  min-height: unset;
+}
+.products-grid.is-grid .product-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  padding: 0;
 }
 
 .product-card {

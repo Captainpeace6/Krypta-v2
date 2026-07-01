@@ -19,14 +19,13 @@ st.textContent = [
   '.ticker{font-size:11px!important;letter-spacing:.2em!important;white-space:nowrap!important;overflow:hidden!important;line-height:1.4!important;}',
   '.ticker-track{display:flex!important;align-items:center!important;gap:0!important;}',
 
-  /* Body offset — home page hero is full-screen, nav floats over it */
-  'body{padding-top:100px!important;}',
-  'body[data-page="home"]{padding-top:0!important;}',
-  '@media(max-width:768px){body{padding-top:130px!important;}}',
-  '@media(max-width:768px){body[data-page="home"]{padding-top:0!important;}}',
+  /* Body offset — home page hero is full-screen, nav floats over it.
+     Non-home pages: nav compacts to 76px (body:not([data-page="home"]) .site-nav rule). */
+  'body:not([data-page="home"]){--nav-h:76px;padding-top:76px!important;}',
+  '@media(max-width:880px){body:not([data-page="home"]){--nav-h:68px!important;padding-top:68px!important;}}',
 
   /* Mobile strip — sit flush below nav using actual nav height */
-  '.nav-cat-strip{position:fixed!important;top:var(--nav-h,108px);left:0;right:0;z-index:400;display:flex!important;overflow-x:auto;background:#0a0a0d;border-bottom:1px solid #1e1e26;scrollbar-width:none;}',
+  '.nav-cat-strip{position:fixed!important;top:var(--nav-h,76px);left:0;right:0;z-index:400;display:flex!important;overflow-x:auto;background:#0a0a0d;border-bottom:1px solid #1e1e26;scrollbar-width:none;}',
   'body[data-page="home"] .nav-cat-strip{display:none!important;}',
   '.nav-cat-strip::-webkit-scrollbar{display:none;}',
   '.nav-cat-strip a{flex-shrink:0;padding:9px 14px;font-family:"Space Mono",monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:#555560;text-decoration:none;border-right:1px solid #1e1e26;white-space:nowrap;}',
