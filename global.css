@@ -357,6 +357,7 @@ body:not([data-page="home"]) .site-nav {
 }
 
 .nav-links {
+  flex: 1;
   display: flex;
   justify-content: center;
   gap: clamp(8px, 1.4vw, 20px);
