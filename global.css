@@ -1142,7 +1142,7 @@ body.menu-open .mobile-menu {
 }
 
 .category-grid {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .featured-grid {
@@ -2112,6 +2112,9 @@ body.menu-open .mobile-menu {
   .products-grid.is-dense .product-card,
   .products-grid.is-grid .product-card {
     min-height: 470px;
+  }
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
