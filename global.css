@@ -359,7 +359,12 @@ body:not([data-page="home"]) .site-nav {
 .nav-links {
   display: flex;
   justify-content: center;
-  gap: clamp(12px, 2.2vw, 28px);
+  gap: clamp(8px, 1.4vw, 20px);
+}
+/* Secondary nav items (Lookbook, Shipping) — not in desktop nav, accessible in mobile menu */
+.nav-links a:nth-child(7),
+.nav-links a:nth-child(8) {
+  display: none;
 }
 
 .nav-links a,
@@ -371,6 +376,7 @@ body:not([data-page="home"]) .site-nav {
   letter-spacing: 0.18em;
   text-decoration: none;
   text-transform: uppercase;
+  white-space: nowrap;
   transition: color 0.35s ease;
 }
 
