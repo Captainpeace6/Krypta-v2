@@ -19,8 +19,8 @@ const RAW_PRODUCTS = [
   { id: 115, name: "Six Eyes Gojo Vol. 2", price: 69, sizes: ["28", "30", "32", "34", "36"], img: "imgs/anime-gojo2.jpg", category: "anime", collection: "Anime Denim / Drop 001", tags: ["Gojo", "Vol. 2", "Cobalt"], availability: "Archive pulled from GitHub", restockDate: "Coming Soon", desc: "A second Gojo denim with cooler tones and high-contrast artwork for stronger movement." },
   { id: 116, name: "Black Red Anime Denim", price: 65, sizes: ["28", "30", "32", "34", "36"], img: "imgs/anime-blackred.jpg", category: "anime", collection: "Anime Denim / Drop 001", tags: ["Black Red", "Anime", "Statement"], availability: "Archive pulled from GitHub", restockDate: "Coming Soon", desc: "Red-on-black anime artwork made for a sharper, club-lit color hit inside the denim line." },
 
-  { id: 30, name: "Gothic Skull Wide-Leg", price: 51, sizes: ["S", "M", "L"], img: "imgs/pants/womens-pant-5.jpg", sizeChart: "imgs/pants/sizechart-pant-5.png", gallery: [{src:"imgs/pants/womens-pant-5.jpg",label:"Front"},{src:"imgs/pants/womens-pant-5-g2.jpg",label:"Back"},{src:"imgs/pants/womens-pant-5-g3.jpg",label:"Left Side"},{src:"imgs/pants/womens-pant-5-g4.jpg",label:"Right Side"},{src:"imgs/pants/womens-pant-5-g5.jpg",label:"45° Angle"},{src:"imgs/pants/womens-pant-5-g6.jpg",label:"Close Up"},{src:"imgs/pants/womens-pant-5-g7.jpg",label:"Detail"},{src:"imgs/pants/womens-pant-5-g8.jpg",label:"Detail 2"},{src:"imgs/pants/womens-pant-5-g9.jpg",label:"Detail 3"},{src:"imgs/pants/womens-pant-5-g10.jpg",label:"Detail 4"},{src:"imgs/pants/sizechart-pant-5.png",label:"Size Chart"}], category: "women", collection: "Women's Denim / Drop 001", tags: ["Pink Skull", "Wide Leg", "Gothic Art"], availability: "Limited Drop", desc: "Black wide-leg denim with full pink gothic skull and angelic script print across the back. High-waist silhouette with a dramatic floor-length stack." },
-  { id: 31, name: "Gold Baroque Wide-Leg", price: 62, sizes: ["S", "M", "L"], img: "imgs/pants/womens-pant-6-g5.jpg", sizeChart: "imgs/pants/sizechart-pant-6.png", gallery: [{src:"imgs/pants/womens-pant-6.jpg",label:"Front"},{src:"imgs/pants/womens-pant-6-g2.jpg",label:"Back"},{src:"imgs/pants/womens-pant-6-g3.jpg",label:"Left Side"},{src:"imgs/pants/womens-pant-6-g4.jpg",label:"Right Side"},{src:"imgs/pants/womens-pant-6-g5.jpg",label:"45° Angle"},{src:"imgs/pants/womens-pant-6-g6.jpg",label:"Close Up"},{src:"imgs/pants/womens-pant-6-g7.jpg",label:"Detail"},{src:"imgs/pants/womens-pant-6-g8.jpg",label:"Detail 2"},{src:"imgs/pants/womens-pant-6-g9.jpg",label:"Detail 3"},{src:"imgs/pants/womens-pant-6-g10.jpg",label:"Detail 4"},{src:"imgs/pants/sizechart-pant-6.png",label:"Size Chart"}], category: "women", collection: "Women's Denim / Drop 001", tags: ["Gold Baroque", "Wide Leg", "Ornamental"], availability: "Limited Drop", desc: "Black wide-leg denim with full gold baroque ornamental print. Opulent gothic energy from waist to hem." },
+  { id: 30, name: "Gothic Skull Wide-Leg", price: 51, sizes: ["S", "M", "L", "XL"], img: "imgs/pants/womens-pant-5.jpg", sizeChart: "imgs/pants/sizechart-pant-5.png", gallery: [{src:"imgs/pants/womens-pant-5.jpg",label:"Front"},{src:"imgs/pants/womens-pant-5-g2.jpg",label:"Back"},{src:"imgs/pants/womens-pant-5-g3.jpg",label:"Left Side"},{src:"imgs/pants/womens-pant-5-g4.jpg",label:"Right Side"},{src:"imgs/pants/womens-pant-5-g5.jpg",label:"45° Angle"},{src:"imgs/pants/womens-pant-5-g6.jpg",label:"Close Up"},{src:"imgs/pants/womens-pant-5-g7.jpg",label:"Detail"},{src:"imgs/pants/womens-pant-5-g8.jpg",label:"Detail 2"},{src:"imgs/pants/womens-pant-5-g9.jpg",label:"Detail 3"},{src:"imgs/pants/womens-pant-5-g10.jpg",label:"Detail 4"},{src:"imgs/pants/sizechart-pant-5.png",label:"Size Chart"}], category: "women", collection: "Women's Denim / Drop 001", tags: ["Pink Skull", "Wide Leg", "Gothic Art"], availability: "Limited Drop", desc: "Black wide-leg denim with full pink gothic skull and angelic script print across the back. High-waist silhouette with a dramatic floor-length stack." },
+  { id: 31, name: "Gold Baroque Wide-Leg", price: 62, sizes: ["S", "M", "L", "XL"], img: "imgs/pants/womens-pant-6-g5.jpg", sizeChart: "imgs/pants/sizechart-pant-6.png", gallery: [{src:"imgs/pants/womens-pant-6.jpg",label:"Front"},{src:"imgs/pants/womens-pant-6-g2.jpg",label:"Back"},{src:"imgs/pants/womens-pant-6-g3.jpg",label:"Left Side"},{src:"imgs/pants/womens-pant-6-g4.jpg",label:"Right Side"},{src:"imgs/pants/womens-pant-6-g5.jpg",label:"45° Angle"},{src:"imgs/pants/womens-pant-6-g6.jpg",label:"Close Up"},{src:"imgs/pants/womens-pant-6-g7.jpg",label:"Detail"},{src:"imgs/pants/womens-pant-6-g8.jpg",label:"Detail 2"},{src:"imgs/pants/womens-pant-6-g9.jpg",label:"Detail 3"},{src:"imgs/pants/womens-pant-6-g10.jpg",label:"Detail 4"},{src:"imgs/pants/sizechart-pant-6.png",label:"Size Chart"}], category: "women", collection: "Women's Denim / Drop 001", tags: ["Gold Baroque", "Wide Leg", "Ornamental"], availability: "Limited Drop", desc: "Black wide-leg denim with full gold baroque ornamental print. Opulent gothic energy from waist to hem." },
   { id: 32, name: "Creature Graphic Wide-Leg", price: 62, sizes: ["S", "M", "L", "XL"], img: "imgs/pants/unisex-pant-7.jpg", sizeChart: "imgs/pants/sizechart-pant-7.png", gallery: [{src:"imgs/pants/unisex-pant-7.jpg",label:"Front"},{src:"imgs/pants/unisex-pant-7-g2.jpg",label:"Back"},{src:"imgs/pants/unisex-pant-7-g3.jpg",label:"Left Side"},{src:"imgs/pants/unisex-pant-7-g4.jpg",label:"Right Side"},{src:"imgs/pants/unisex-pant-7-g5.jpg",label:"45° Angle"},{src:"imgs/pants/unisex-pant-7-g6.jpg",label:"Close Up"},{src:"imgs/pants/unisex-pant-7-g7.jpg",label:"Detail"},{src:"imgs/pants/unisex-pant-7-g8.jpg",label:"Detail 2"},{src:"imgs/pants/sizechart-pant-7.png",label:"Size Chart"}], category: "women", collection: "Women's Denim / Drop 001", tags: ["Creature Print", "Wide Leg", "Unisex"], availability: "Limited Drop", desc: "Black wide-leg denim with scattered white creature graphic across both legs. Unisex cut with a bold underground statement." },
 
   { id: 70, name: "Rhinestone Mesh Hooded Crop", price: 28, sizes: ["XS", "S", "M", "L"], noZoom: true, img: "imgs/tops/top-70.png", gallery: [{src:"imgs/tops/top-70.png",label:"Front"},{src:"imgs/tops/top-70-g2.png",label:"Cowl Neck"},{src:"imgs/tops/top-70-g3.png",label:"Outdoor"},{src:"imgs/tops/top-70-g4.png",label:"Side Hood"},{src:"imgs/tops/top-70-g5.png",label:"Back"},{src:"imgs/tops/top-70-g6.png",label:"Mirror"}], category: "women_wear", collection: "Women Wear / Drop 001", tags: ["Rhinestone Mesh", "Hooded", "Backless"], availability: "In stock", desc: "Sheer rhinestone mesh hooded crop top with an open cowl-neck drape and open back tied with a delicate chain. Daytime editorial meets after-dark statement." },
@@ -269,13 +269,13 @@ window.STOCK_DATA = {
   3:   { S: 30, M: 30, L: 30, XL: 30 },
   4:   { S: 5,  M: 30, L: 30, XL: 4  },
   5:   { S: 30, M: 30, L: 30, XL: 30 },
-  10:  { S: 30, M: 30, L: 30, XL: 30 }, // Men's — 30/size confirmed
-  11:  { S: 30, M: 30, L: 30, XL: 30 },
-  12:  { S: 30, M: 30, L: 30, XL: 30 },
-  14:  { S: 30, M: 30, L: 30, XL: 30 },
-  30:  { S: 30, M: 30, L: 30 }, // Women's — 30/size confirmed
-  31:  { S: 30, M: 30, L: 30 },
-  32:  { S: 30, M: 30, L: 30, XL: 30 },
+  10:  { S: 5,  M: 10, L: 10, XL: 5 }, // Men's — real stock
+  11:  { S: 5,  M: 10, L: 10, XL: 5 },
+  12:  { S: 5,  M: 10, L: 10, XL: 5 },
+  14:  { S: 5,  M: 10, L: 10, XL: 5 },
+  30:  { S: 5,  M: 10, L: 10, XL: 5 }, // Women's — real stock
+  31:  { S: 5,  M: 8,  L: 11, XL: 6 },
+  32:  { S: 5,  M: 10, L: 10, XL: 5 },
   70:  { XS: 30, S: 30, M: 30, L: 30 },
   80:  { XS: 30, S: 30, M: 30, L: 30 },
   90:  { XS: 30, S: 30, M: 30, L: 30 },
@@ -297,3 +297,20 @@ window.getProductsByIds = getProductsByIds;
 window.getFeaturedProducts = getFeaturedProducts;
 window.getCategoryConfig = getCategoryConfig;
 window.getPageCategory = getPageCategory;
+
+// Merge any stock edits saved from the admin dashboard into STOCK_DATA
+(function () {
+  try {
+    var _s = localStorage.getItem('kryptaa_stock');
+    if (!_s) return;
+    var _o = JSON.parse(_s);
+    Object.keys(_o).forEach(function (id) {
+      if (id === '_savedAt') return;
+      var k = parseInt(id);
+      if (!window.STOCK_DATA[k]) return;
+      Object.keys(_o[id]).forEach(function (sz) {
+        window.STOCK_DATA[k][sz] = _o[id][sz];
+      });
+    });
+  } catch (e) {}
+})();
