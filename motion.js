@@ -77,7 +77,7 @@
     body.insertAdjacentHTML("afterbegin", `
       <nav id="navbar" class="site-nav">
         <div class="nav-left">
-          <button class="nav-toggle" type="button" data-menu-toggle aria-label="Open menu"><span></span><span></span></button>
+          <button class="nav-toggle" type="button" data-menu-toggle aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span></button>
           <div class="nav-links" id="desktopNav">${navLinks()}</div>
         </div>
         <a class="nav-brand" href="index.html" aria-label="KRYPTAA home">
@@ -89,7 +89,7 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
             </a>
             <a class="nsb-icon" href="https://www.tiktok.com/@kryptaa2426" data-social="tiktok" target="_blank" rel="noopener" aria-label="TikTok">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.77 1.52V6.75a4.85 4.85 0 01-1-.06z"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.77 1.52V6.75a4.85 4.85 0 01-1-.06z"/></svg>
             </a>
             <a class="nsb-icon" href="https://www.facebook.com" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -97,7 +97,7 @@
           </div>
           <button class="k-curr-toggle" type="button" id="kCurrToggle" aria-label="Switch currency"><span id="kCurrLabel">$ USD</span></button>
           <button class="k-wish-nav" type="button" id="kWishNav" aria-label="Wishlist"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="k-wish-count" id="kWishCount" style="display:none">0</span></button>
-          <button class="cart-trigger" type="button" data-cart-open><svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 8V5.5C7 3.57 8.34 2 10 2C11.66 2 13 3.57 13 5.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M2.5 8H17.5L16 20H4L2.5 8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 13H13" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.4"/></svg><span class="cart-trigger-label">BAG</span><span class="cart-count-pill" id="cartCountNav">0</span></button>
+          <button class="cart-trigger" type="button" data-cart-open aria-expanded="false" aria-controls="cartDrawer"><svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 8V5.5C7 3.57 8.34 2 10 2C11.66 2 13 3.57 13 5.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M2.5 8H17.5L16 20H4L2.5 8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 13H13" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.4"/></svg><span class="cart-trigger-label">BAG</span><span class="cart-count-pill" id="cartCountNav">0</span></button>
         </div>
       </nav>
       <div class="mobile-menu" id="mobileMenu">
@@ -189,7 +189,7 @@
             <span class="mbb-count" id="mbbCount">0</span>
             <span class="mbb-total" id="mbbTotal">$0.00</span>
           </div>
-          <button class="mbb-cta" type="button" data-cart-open>View Bag →</button>
+          <button class="mbb-cta" type="button" data-cart-open aria-expanded="false" aria-controls="cartDrawer">View Bag →</button>
         </div>
       `);
     }
@@ -546,6 +546,12 @@
       const menuToggle = event.target.closest("[data-menu-toggle]");
       const cartOpen = event.target.closest("[data-cart-open]");
       const cartClose = event.target.closest("[data-cart-close]");
+
+      if (menuToggle) {
+        const isOpen = body.classList.toggle("menu-open");
+        menuToggle.setAttribute("aria-expanded", isOpen.toString());
+        menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+      }
       const qtyButton = event.target.closest("[data-cart-qty]");
       const removeButton = event.target.closest("[data-cart-remove]");
       const sgOpen = event.target.closest("[data-size-guide]");
@@ -561,7 +567,6 @@
       const wishBtn = event.target.closest("[data-wish]");
       const currToggle = event.target.closest("#kCurrToggle") || event.target.closest("#kCurrToggleMobile");
 
-      if (menuToggle) body.classList.toggle("menu-open");
       if (cartOpen) openCart();
       if (cartClose) closeCart();
       if (qtyButton) updateCartQty(qtyButton.dataset.cartQty, Number(qtyButton.dataset.delta));
@@ -709,6 +714,7 @@
   function openCart() {
     const cartDrawer = doc.getElementById("cartDrawer");
     cartDrawer?.classList.add("open");
+    doc.querySelectorAll("[data-cart-open]").forEach(el => el.setAttribute("aria-expanded", "true"));
     doc.getElementById("cartOverlay")?.classList.add("open");
     body.classList.add("cart-open");
     renderCartContent();
@@ -722,6 +728,7 @@
 
   function closeCart() {
     doc.getElementById("cartDrawer")?.classList.remove("open");
+    doc.querySelectorAll("[data-cart-open]").forEach(el => el.setAttribute("aria-expanded", "false"));
     doc.getElementById("cartOverlay")?.classList.remove("open");
     body.classList.remove("cart-open");
   }
@@ -832,7 +839,11 @@
     }
 
     if (!cart.length) {
-      container.innerHTML = `<div class="cart-empty">Your bag is empty</div>`;
+      container.innerHTML = `
+        <div class="cart-empty">
+          <span>Your bag is empty</span>
+          <a class="k-btn-gold" href="men.html" data-cart-close style="margin-top:20px;">Shop The Drop</a>
+        </div>`;
       return;
     }
 
@@ -844,9 +855,9 @@
           <div class="cart-item-meta">Size ${item.size} / ${formatPrice(item.price)}</div>
           <div class="cart-row">
             <div class="qty-control" aria-label="Quantity">
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1">-</button>
-              <span class="qty-val">${item.qty}</span>
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1">+</button>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1" aria-label="Decrease quantity">-</button>
+              <span class="qty-val" aria-live="polite">${item.qty}</span>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1" aria-label="Increase quantity">+</button>
             </div>
             <button class="cart-line-remove" type="button" data-cart-remove="${item.key}">Remove</button>
           </div>
