@@ -253,6 +253,41 @@
   var BACKEND = 'https://kryptaa-backend.netlify.app/.netlify/functions/get-orders';
   var SESSION_KEY = 'k_admin_key';
   var allOrders = [];
+  var lastOrderCount = -1;
+  var pollInterval = null;
+
+  function requestNotifPermission() {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  }
+
+  function checkForNewOrders(orders) {
+    var count = orders.length;
+    if (lastOrderCount >= 0 && count > lastOrderCount && 'Notification' in window && Notification.permission === 'granted') {
+      var n = count - lastOrderCount;
+      new Notification('New KRYPTAA Order' + (n > 1 ? 's' : '') + '! 🖤', {
+        body: n + ' new order' + (n > 1 ? 's' : '') + ' just came in.',
+        icon: 'imgs/kryptaa-logo-gold.png'
+      });
+    }
+    lastOrderCount = count;
+  }
+
+  function startPolling(key) {
+    if (pollInterval) clearInterval(pollInterval);
+    pollInterval = setInterval(function() {
+      fetch(BACKEND, { headers: { 'X-Admin-Key': key } })
+        .then(function(r) { if (!r.ok) return null; return r.json(); })
+        .then(function(data) {
+          if (!data) return;
+          checkForNewOrders(data.orders || []);
+          allOrders = data.orders || [];
+          renderStats(allOrders); renderOrders(allOrders); renderDashboard(allOrders);
+        })
+        .catch(function() {});
+    }, 60000);
+  }
 
   function getProductImage(name) {
     var n = (name || '').toLowerCase();
@@ -324,6 +359,7 @@
       .then(function(data) {
         if (!data) return;
         allOrders = data.orders || [];
+        checkForNewOrders(allOrders);
         renderStats(allOrders);
         renderOrders(allOrders);
         renderDashboard(allOrders);
@@ -524,9 +560,11 @@
       })
       .then(function(data) {
         if (!data) return;
-        saveKey(key); showDashboard();
+        saveKey(key); showDashboard(); requestNotifPermission();
         allOrders = data.orders || [];
+        checkForNewOrders(allOrders);
         renderStats(allOrders); renderOrders(allOrders); renderDashboard(allOrders);
+        startPolling(key);
       })
       .catch(function() {
         btn.disabled=false; btn.textContent='Enter →';
@@ -537,10 +575,14 @@
   document.getElementById('gateBtn').addEventListener('click', tryLogin);
   document.getElementById('gateInput').addEventListener('keydown', function(e){ if(e.key==='Enter') tryLogin(); });
   document.getElementById('refreshBtn').addEventListener('click', function(){ var k=savedKey(); if(k) loadOrders(k); });
-  document.getElementById('logoutBtn').addEventListener('click', function(){ clearKey(); showGate(); document.getElementById('gateInput').value=''; });
+  document.getElementById('logoutBtn').addEventListener('click', function(){
+    if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
+    lastOrderCount = -1;
+    clearKey(); showGate(); document.getElementById('gateInput').value='';
+  });
 
   var key = savedKey();
-  if (key) { showDashboard(); loadOrders(key); } else { showGate(); }
+  if (key) { showDashboard(); loadOrders(key); requestNotifPermission(); startPolling(key); } else { showGate(); }
 })();
 
 /* ── Print label ── */
