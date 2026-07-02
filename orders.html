@@ -31,7 +31,7 @@
     /* ── DASHBOARD SHELL ── */
     #dashboard { display: none; min-height: 100vh; }
     .od-header { position: sticky; top: 0; z-index: 10; background: rgba(12,11,9,0.97); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 62px; gap: 16px; }
-    .od-header-logo { height: 28px; width: auto; display: block; mix-blend-mode: screen; }
+    .od-header-logo { height: 46px; width: auto; display: block; mix-blend-mode: screen; }
     .od-nav { display: flex; gap: 0; }
     .od-nav-btn { background: none; border: none; font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--text-faint); padding: 8px 20px; cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
     .od-nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
@@ -155,7 +155,9 @@
     .stock-section-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); margin: 0 0 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
     .stock-grid { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
     .stock-card { background: var(--surface); border: 1px solid var(--border); padding: 20px 24px; }
-    .stock-card-name { font-size: 16px; color: var(--text); margin-bottom: 16px; }
+    .stock-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .stock-card-img { width: 46px; height: 58px; object-fit: cover; background: var(--surface2); border: 1px solid var(--border); flex-shrink: 0; }
+    .stock-card-name { font-size: 16px; color: var(--text); }
     .stock-sizes { display: flex; gap: 14px; flex-wrap: wrap; }
     .stock-size-block { display: flex; flex-direction: column; align-items: center; gap: 7px; }
     .stock-size-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-faint); }
@@ -187,7 +189,12 @@
     <img class="gate-logo" src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA">
     <div class="gate-sub">Orders Dashboard</div>
     <div class="gate-label">Admin Password</div>
-    <input class="gate-input" type="password" id="gateInput" placeholder="Enter password" autocomplete="current-password">
+    <div style="position:relative;margin-bottom:16px;">
+      <input class="gate-input" type="password" id="gateInput" placeholder="Enter password" autocomplete="current-password" style="margin-bottom:0;padding-right:48px;">
+      <button type="button" id="eyeBtn" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-faint);cursor:pointer;padding:0;line-height:1;display:flex;align-items:center;" aria-label="Show password">
+        <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
     <button class="gate-btn" id="gateBtn">Enter →</button>
     <div class="gate-error" id="gateError">Incorrect password. Try again.</div>
   </div>
@@ -281,6 +288,8 @@
       <div class="stock-grid" id="mensStockGrid"></div>
       <div class="stock-section-label">Women's Denim</div>
       <div class="stock-grid" id="womensStockGrid"></div>
+      <div class="stock-section-label">Street Wear Track Pants</div>
+      <div class="stock-grid" id="streetStockGrid"></div>
     </div>
   </div>
 
@@ -380,7 +389,15 @@
       document.querySelectorAll('.od-view').forEach(function(v){ v.classList.remove('active'); });
       btn.classList.add('active');
       document.getElementById(btn.dataset.view).classList.add('active');
+      window.scrollTo(0, 0);
     });
+  });
+
+  /* ── Eye toggle ── */
+  document.getElementById('eyeBtn').addEventListener('click', function () {
+    var inp = document.getElementById('gateInput');
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+    document.getElementById('eyeIcon').style.opacity = inp.type === 'text' ? '1' : '0.45';
   });
 
   /* ── Load ── */
@@ -671,26 +688,35 @@ function printLabel(order, orderNum) {
   var STOCK_KEY = 'kryptaa_stock';
 
   var MENS = [
-    { id: 10, name: 'Vintage Distressed Wide-Leg' },
-    { id: 11, name: 'Red Gothic Embroidery Denim' },
-    { id: 12, name: 'Acid Rust Patchwork Jeans'   },
-    { id: 14, name: 'Ice Cargo Wide-Leg Denim'    },
+    { id: 10, name: 'Vintage Distressed Wide-Leg', sizes: ['S','M','L','XL'], img: 'imgs/pants/mens-pant-1.jpg' },
+    { id: 11, name: 'Red Gothic Embroidery Denim', sizes: ['S','M','L','XL'], img: 'imgs/pants/mens-pant-2.jpg' },
+    { id: 12, name: 'Acid Rust Patchwork Jeans',   sizes: ['S','M','L','XL'], img: 'imgs/pants/mens-pant-3.jpg' },
+    { id: 14, name: 'Ice Cargo Wide-Leg Denim',    sizes: ['S','M','L','XL'], img: 'imgs/pants/mens-pant-4.jpg' },
   ];
   var WOMENS = [
-    { id: 30, name: 'Gothic Skull Wide-Leg'      },
-    { id: 31, name: 'Gold Baroque Wide-Leg'      },
-    { id: 32, name: 'Creature Graphic Wide-Leg'  },
+    { id: 30, name: 'Gothic Skull Wide-Leg',     sizes: ['S','M','L','XL'], img: 'imgs/pants/womens-pant-5.jpg'    },
+    { id: 31, name: 'Gold Baroque Wide-Leg',     sizes: ['S','M','L','XL'], img: 'imgs/pants/womens-pant-6-g5.jpg' },
+    { id: 32, name: 'Creature Graphic Wide-Leg', sizes: ['S','M','L','XL'], img: 'imgs/pants/unisex-pant-7.jpg'   },
   ];
-  var SIZES = ['S', 'M', 'L', 'XL'];
+  var STREET = [
+    { id: 500, name: 'Street Track Pant — Blue',   sizes: ['XS','S','M','L','XL'], img: 'imgs/pants/womens-st-blue-01.jpg'   },
+    { id: 501, name: 'Street Track Pant — Green',  sizes: ['XS','S','M','L','XL'], img: 'imgs/pants/womens-st-green-01.jpg'  },
+    { id: 502, name: 'Street Track Pant — Red',    sizes: ['XS','S','M','L','XL'], img: 'imgs/pants/womens-st-red-01.jpg'    },
+    { id: 503, name: 'Street Track Pant — Yellow', sizes: ['XS','S','M','L','XL'], img: 'imgs/pants/womens-st-yellow-01.jpg' },
+  ];
 
   var BASE = {
-    10: { S: 5,  M: 10, L: 10, XL: 5 },
-    11: { S: 5,  M: 10, L: 10, XL: 5 },
-    12: { S: 5,  M: 10, L: 10, XL: 5 },
-    14: { S: 5,  M: 10, L: 10, XL: 5 },
-    30: { S: 5,  M: 10, L: 10, XL: 5 },
-    31: { S: 5,  M: 8,  L: 11, XL: 6 },
-    32: { S: 5,  M: 10, L: 10, XL: 5 },
+    10:  { S: 5,  M: 10, L: 10, XL: 5  },
+    11:  { S: 5,  M: 10, L: 10, XL: 5  },
+    12:  { S: 5,  M: 10, L: 10, XL: 5  },
+    14:  { S: 5,  M: 10, L: 10, XL: 5  },
+    30:  { S: 5,  M: 10, L: 10, XL: 5  },
+    31:  { S: 5,  M: 8,  L: 11, XL: 6  },
+    32:  { S: 5,  M: 10, L: 10, XL: 5  },
+    500: { XS: 9,  S: 12, M: 12, L: 12, XL: 0 },
+    501: { XS: 9,  S: 15, M: 13, L: 11, XL: 0 },
+    502: { XS: 7,  S: 12, M: 12, L: 11, XL: 0 },
+    503: { XS: 12, S: 12, M: 9,  L: 7,  XL: 0 },
   };
 
   function loadSaved() {
@@ -712,8 +738,12 @@ function printLabel(order, orderNum) {
     var el = document.getElementById(containerId);
     if (!el) return;
     el.innerHTML = products.map(function (p) {
-      return '<div class="stock-card"><div class="stock-card-name">' + p.name + '</div>'
-        + '<div class="stock-sizes">' + SIZES.map(function (sz) {
+      return '<div class="stock-card">'
+        + '<div class="stock-card-header">'
+        + (p.img ? '<img class="stock-card-img" src="' + p.img + '" alt="' + p.name + '" loading="lazy">' : '')
+        + '<div class="stock-card-name">' + p.name + '</div>'
+        + '</div>'
+        + '<div class="stock-sizes">' + p.sizes.map(function (sz) {
             var qty = getQty(saved, p.id, sz);
             return '<div class="stock-size-block">'
               + '<span class="stock-size-label">' + sz + '</span>'
@@ -725,8 +755,7 @@ function printLabel(order, orderNum) {
 
     el.querySelectorAll('.stock-input').forEach(function (inp) {
       inp.addEventListener('input', function () {
-        var v = parseInt(this.value) || 0;
-        this.className = 'stock-input ' + colorClass(v);
+        this.className = 'stock-input ' + colorClass(parseInt(this.value) || 0);
       });
     });
   }
@@ -740,8 +769,9 @@ function printLabel(order, orderNum) {
 
   function initStockView() {
     var saved = loadSaved();
-    renderGrid(MENS, 'mensStockGrid', saved);
+    renderGrid(MENS,   'mensStockGrid',   saved);
     renderGrid(WOMENS, 'womensStockGrid', saved);
+    renderGrid(STREET, 'streetStockGrid', saved);
     if (saved._savedAt) {
       updateStatus('Last saved · ' + new Date(saved._savedAt).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }), false);
     } else {
