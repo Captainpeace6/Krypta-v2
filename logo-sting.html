@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-242EQ24FP3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-242EQ24FP3');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRYPTAA — Logo Sting</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+
+  #stage {
+    width: 100%;
+    height: 100vh;
+    /* Dark brownish-purple velvet — matching reference exactly */
+    background:
+      radial-gradient(ellipse at 50% 42%, #3a1a22 0%, #28101a 35%, #160b12 65%, #0c0709 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Coarse velvet grain — matching reference texture */
+  #stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.62' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeBlend in='SourceGraphic' mode='multiply'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.18'/%3E%3C/svg%3E");
+    background-size: 400px 400px;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+    opacity: 0.7;
+  }
+
+  /* Second grain layer for depth */
+  #stage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .logo-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    z-index: 2;
+    position: relative;
+  }
+
+  /* ── SIGIL — LARGE ── */
+  .sigil-stack {
+    position: relative;
+    /* sigil PNG is 810×285, ratio 2.84:1 — fill the stage width */
+    width: min(96vw, 560px);
+    aspect-ratio: 810 / 285;
+  }
+
+  .sig-clip-l {
+    position: absolute; inset: 0;
+    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  .sig-clip-l img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+  }
+
+  .sig-clip-r {
+    position: absolute; inset: 0;
+    clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  .sig-clip-r img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+  }
+
+  .sig-full {
+    position: absolute; inset: 0;
+    opacity: 0;
+  }
+  .sig-full img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    /* Glow on the filter layer only — no clip-path here */
+    filter: drop-shadow(0 0 22px #ffd70099)
+            drop-shadow(0 0 55px #c9a22766)
+            drop-shadow(0 0 90px #7a500044);
+  }
+
+  #sTip {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #fff9d0;
+    box-shadow:
+      0 0 10px 5px #ffd700,
+      0 0 30px 14px #c9a22766,
+      0 0 70px 28px #7a500044;
+    opacity: 0;
+    z-index: 3;
+  }
+
+  /* ── WORDMARK — proportional to sigil ── */
+  /* wordmark PNG is 833×185, ratio 4.5:1 — narrower than sigil */
+  .wm-wrap {
+    position: relative;
+    width: min(68vw, 380px);
+    aspect-ratio: 833 / 185;
+  }
+
+  .wl {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    /* clip-path only on wrapper, NO filter here */
+  }
+
+  .wl img {
+    width: 100%; height: 100%;
+    object-fit: fill;
+    display: block;
+    opacity: 0;
+  }
+
+  /* Letter columns */
+  .wl:nth-child(1) { clip-path: inset(0 87% 0 0%); }
+  .wl:nth-child(2) { clip-path: inset(0 74% 0 13%); }
+  .wl:nth-child(3) { clip-path: inset(0 60% 0 26%); }
+  .wl:nth-child(4) { clip-path: inset(0 46% 0 40%); }
+  .wl:nth-child(5) { clip-path: inset(0 32% 0 54%); }
+  .wl:nth-child(6) { clip-path: inset(0 16% 0 68%); }
+  .wl:nth-child(7) { clip-path: inset(0 0%  0 84%); }
+
+  /* ── FX ── */
+  #ambGlow {
+    position: absolute;
+    top: 42%; left: 50%;
+    transform: translate(-50%, -50%) scale(.3);
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,120,30,.18) 0%, transparent 65%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  #sweep {
+    position: absolute;
+    top: 0; left: -40%;
+    width: 22%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,220,80,.22) 50%, transparent);
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+  }
+
+  #blackout {
+    position: absolute; inset: 0;
+    background: #0d0809;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  #replayBtn {
+    position: absolute;
+    bottom: 20px; right: 20px;
+    z-index: 20;
+    background: rgba(201,162,39,.14);
+    border: 1px solid rgba(201,162,39,.45);
+    color: #c9a227;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 7px 18px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: sans-serif;
+    opacity: 0;
+    transition: opacity .35s;
+  }
+  #replayBtn:hover { background: rgba(201,162,39,.28); }
+
+  #durLabel {
+    position: absolute;
+    bottom: 22px; left: 20px;
+    color: rgba(201,162,39,.45);
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-family: sans-serif;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity .35s;
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="ambGlow"></div>
+
+  <div class="logo-block">
+    <div class="sigil-stack">
+      <div class="sig-clip-l" id="sL"><img src="imgs/kryptaa-sigil.png" alt=""></div>
+      <div class="sig-clip-r" id="sR"><img src="imgs/kryptaa-sigil.png" alt=""></div>
+      <div class="sig-full"   id="sF"><img src="imgs/kryptaa-sigil.png" alt=""></div>
+      <div id="sTip"></div>
+    </div>
+
+    <div class="wm-wrap">
+      <div class="wl"><img src="imgs/kryptaa-wordmark-final.png" alt="K"></div>
+      <div class="wl"><img src="imgs/kryptaa-wordmark-final.png" alt="R"></div>
+      <div class="wl"><img src="imgs/kryptaa-wordmark-final.png" alt="Y"></div>
+      <div class="wl"><img src="imgs/kryptaa-wordmark-final.png" alt="P"></div>
+      <div class="wl"><img src="imgs/kryptaa-wordmark-final.png" alt="T"></div>
+      <div class="wl"><img src="imgs/kryptaa-wordmark-final.png" alt="A"></div>
+      <div class="wl"><img src="imgs/kryptaa-wordmark-final.png" alt="A"></div>
+    </div>
+  </div>
+
+  <div id="sweep"></div>
+  <div id="blackout"></div>
+  <button id="replayBtn">↺ REPLAY</button>
+  <div id="durLabel">5s — KRYPTAA CLOSING STING</div>
+</div>
+
+<script>
+const sL = document.getElementById('sL');
+const sR = document.getElementById('sR');
+const sF = document.getElementById('sF');
+const sTip = document.getElementById('sTip');
+const sweep = document.getElementById('sweep');
+const blackout = document.getElementById('blackout');
+const ambGlow = document.getElementById('ambGlow');
+const replayBtn = document.getElementById('replayBtn');
+const durLabel = document.getElementById('durLabel');
+const letterWrappers = Array.from(document.querySelectorAll('.wl'));
+const letterImgs = Array.from(document.querySelectorAll('.wl img'));
+
+const TOTAL = 5500;
+
+function clamp01(v) { return Math.max(0, Math.min(1, v)); }
+function prog(now, start, dur) { return clamp01((now - start) / dur); }
+function eOut(t, p) { p = p || 2.5; return 1 - Math.pow(1 - t, p); }
+function bounce(t) {
+  if (t < 0.65) return eOut(t / 0.65);
+  return 1 - 0.07 * Math.sin(((t - 0.65) / 0.35) * Math.PI);
+}
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+const letterStarts = [1600, 1840, 2080, 2320, 2560, 2800, 3040];
+
+function reset() {
+  sL.style.opacity = 0; sL.style.transform = 'translateX(-30px)';
+  sR.style.opacity = 0; sR.style.transform = 'translateX(30px)';
+  sF.style.opacity = 0;
+  sTip.style.opacity = 0;
+  sweep.style.left = '-40%'; sweep.style.opacity = 0;
+  blackout.style.opacity = 0;
+  ambGlow.style.opacity = 0;
+  ambGlow.style.transform = 'translate(-50%,-50%) scale(.3)';
+  letterWrappers.forEach(w => { w.style.transform = 'translateY(-140px)'; });
+  letterImgs.forEach(img => { img.style.opacity = 0; });
+  replayBtn.style.opacity = 0;
+  durLabel.style.opacity = 0;
+}
+
+let raf = null, startTime = null;
+
+function tick(ts) {
+  if (!startTime) startTime = ts;
+  const t = ts - startTime;
+
+  // Sigil LEFT: 300–950ms
+  { const p = prog(t,300,650); if(p>0){ const e=eOut(p); sL.style.opacity=e; sL.style.transform=`translateX(${lerp(-30,0,e)}px)`; } }
+
+  // Sigil RIGHT: 580–1230ms
+  { const p = prog(t,580,650); if(p>0){ const e=eOut(p); sR.style.opacity=e; sR.style.transform=`translateX(${lerp(30,0,e)}px)`; } }
+
+  // Sigil FULL glow: 1050–1550ms
+  { const p = prog(t,1050,500); if(p>0) sF.style.opacity=eOut(p); }
+
+  // Tip spark: 1400–2000ms
+  { const p = prog(t,1400,600); if(p>0){ const f=p<0.3?p/0.3:1-(p-0.3)/0.7; sTip.style.opacity=f; } }
+
+  // Letters
+  letterStarts.forEach((start,i)=>{
+    const p = prog(t,start,400);
+    if(p>0){
+      letterWrappers[i].style.transform=`translateY(${lerp(-140,0,bounce(p))}px)`;
+      letterImgs[i].style.opacity=Math.min(1,p*5);
+    }
+  });
+
+  // Ambient glow: 3300–4200ms
+  { const p=prog(t,3300,900); if(p>0){ const b=p<0.45?p/0.45:1-(p-0.45)/0.55; ambGlow.style.opacity=b*0.9; ambGlow.style.transform=`translate(-50%,-50%) scale(${lerp(0.3,1.8,eOut(p))})`; } }
+
+  // Gold sweep: 3700–4300ms
+  { const p=prog(t,3700,600); if(p>0){ sweep.style.left=`${lerp(-40,115,eOut(p,2))}%`; sweep.style.opacity=p<0.8?1:1-(p-0.8)/0.2; } }
+
+  // Blackout: 4700–5500ms
+  { const p=prog(t,4700,800); if(p>0) blackout.style.opacity=eOut(p); }
+
+  if(t >= TOTAL-50){ replayBtn.style.opacity=1; durLabel.style.opacity=1; cancelAnimationFrame(raf); return; }
+  raf = requestAnimationFrame(tick);
+}
+
+function play() {
+  if(raf) cancelAnimationFrame(raf);
+  reset();
+  startTime = null;
+  replayBtn.style.opacity=0; durLabel.style.opacity=0;
+  raf = requestAnimationFrame(tick);
+}
+
+document.getElementById('replayBtn').addEventListener('click', e=>{e.stopPropagation();play();});
+
+let loaded=0;
+const allImgs = document.querySelectorAll('#stage img');
+allImgs.forEach(img=>{
+  const done=()=>{ if(++loaded>=allImgs.length) play(); };
+  if(img.complete&&img.naturalWidth>0) done();
+  else{img.onload=done;img.onerror=done;}
+});
+setTimeout(play,1200);
+</script>
+</body>
+</html>
