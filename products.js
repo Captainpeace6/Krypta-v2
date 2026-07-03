@@ -314,3 +314,21 @@ window.getPageCategory = getPageCategory;
     });
   } catch (e) {}
 })();
+
+// Fetch live stock from backend (server-authoritative, overrides localStorage cache)
+(function () {
+  fetch('https://kryptaa-backend.netlify.app/.netlify/functions/get-stock')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+      if (!data || !data.stock) return;
+      Object.keys(data.stock).forEach(function (id) {
+        var k = parseInt(id);
+        if (!window.STOCK_DATA[k]) return;
+        Object.keys(data.stock[id]).forEach(function (sz) {
+          window.STOCK_DATA[k][sz] = data.stock[id][sz];
+        });
+      });
+      if (window.__onStockUpdated) window.__onStockUpdated();
+    })
+    .catch(function () {});
+})();

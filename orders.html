@@ -693,7 +693,13 @@ function printLabel(order, orderNum) {
 <script>
 /* ── Stock Management ── */
 (function () {
-  var STOCK_KEY = 'kryptaa_stock';
+  var STOCK_KEY  = 'kryptaa_stock';
+  var STOCK_API  = 'https://kryptaa-backend.netlify.app/.netlify/functions/get-stock';
+  var UPDATE_API = 'https://kryptaa-backend.netlify.app/.netlify/functions/update-stock';
+
+  function getAdminKey() {
+    try { return sessionStorage.getItem('k_admin_key') || ''; } catch (e) { return ''; }
+  }
 
   var MENS = [
     { id: 10, name: 'Vintage Distressed Wide-Leg', sizes: ['S','M','L','XL'], img: 'imgs/pants/mens-pant-1.jpg' },
@@ -727,12 +733,14 @@ function printLabel(order, orderNum) {
     503: { XS: 12, S: 12, M: 9,  L: 7,  XL: 0 },
   };
 
-  function loadSaved() {
+  function loadCached() {
     try { var s = localStorage.getItem(STOCK_KEY); return s ? JSON.parse(s) : {}; } catch (e) { return {}; }
   }
 
-  function getQty(saved, id, sz) {
-    if (saved[id] && saved[id][sz] != null) return saved[id][sz];
+  function getQty(stock, id, sz) {
+    var sid = String(id);
+    if (stock[sid] && stock[sid][sz] != null) return stock[sid][sz];
+    if (stock[id]  && stock[id][sz]  != null) return stock[id][sz];
     return (BASE[id] && BASE[id][sz] != null) ? BASE[id][sz] : 0;
   }
 
@@ -742,7 +750,7 @@ function printLabel(order, orderNum) {
     return '';
   }
 
-  function renderGrid(products, containerId, saved) {
+  function renderGrid(products, containerId, stock) {
     var el = document.getElementById(containerId);
     if (!el) return;
     el.innerHTML = products.map(function (p) {
@@ -752,7 +760,7 @@ function printLabel(order, orderNum) {
         + '<div class="stock-card-name">' + p.name + '</div>'
         + '</div>'
         + '<div class="stock-sizes">' + p.sizes.map(function (sz) {
-            var qty = getQty(saved, p.id, sz);
+            var qty = getQty(stock, p.id, sz);
             return '<div class="stock-size-block">'
               + '<span class="stock-size-label">' + sz + '</span>'
               + '<input class="stock-input ' + colorClass(qty) + '" type="number" min="0" max="999"'
@@ -776,15 +784,23 @@ function printLabel(order, orderNum) {
   }
 
   function initStockView() {
-    var saved = loadSaved();
-    renderGrid(MENS,   'mensStockGrid',   saved);
-    renderGrid(WOMENS, 'womensStockGrid', saved);
-    renderGrid(STREET, 'streetStockGrid', saved);
-    if (saved._savedAt) {
-      updateStatus('Last saved · ' + new Date(saved._savedAt).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }), false);
-    } else {
-      updateStatus('Showing default stock', false);
-    }
+    updateStatus('Loading…', false);
+    fetch(STOCK_API)
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (data) {
+        var stock = data.stock || {};
+        renderGrid(MENS,   'mensStockGrid',   stock);
+        renderGrid(WOMENS, 'womensStockGrid', stock);
+        renderGrid(STREET, 'streetStockGrid', stock);
+        updateStatus('Live · ' + new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }), false);
+      })
+      .catch(function () {
+        var cached = loadCached();
+        renderGrid(MENS,   'mensStockGrid',   cached);
+        renderGrid(WOMENS, 'womensStockGrid', cached);
+        renderGrid(STREET, 'streetStockGrid', cached);
+        updateStatus('Offline — showing cached', false);
+      });
   }
 
   document.getElementById('stockSaveBtn').addEventListener('click', function () {
@@ -795,16 +811,29 @@ function printLabel(order, orderNum) {
       if (!result[id]) result[id] = {};
       result[id][sz] = parseInt(inp.value) || 0;
     });
-    result._savedAt = Date.now();
-    try {
-      localStorage.setItem(STOCK_KEY, JSON.stringify(result));
-      updateStatus('Saved ✓', true);
-      setTimeout(function () {
-        updateStatus('Last saved · ' + new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }), false);
-      }, 1800);
-    } catch (e) {
-      updateStatus('Save failed', false);
-    }
+
+    var key = getAdminKey();
+    updateStatus('Saving…', false);
+
+    fetch(UPDATE_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': key },
+      body: JSON.stringify({ stock: result }),
+    })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function () {
+        var cache = {};
+        Object.keys(result).forEach(function (k) { cache[k] = result[k]; });
+        cache._savedAt = Date.now();
+        try { localStorage.setItem(STOCK_KEY, JSON.stringify(cache)); } catch (e) {}
+        updateStatus('Saved ✓', true);
+        setTimeout(function () {
+          updateStatus('Last saved · ' + new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }), false);
+        }, 1800);
+      })
+      .catch(function () {
+        updateStatus('Save failed — check connection', false);
+      });
   });
 
   document.querySelectorAll('.od-nav-btn').forEach(function (btn) {
