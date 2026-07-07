@@ -704,7 +704,6 @@ document.getElementById('joinDropForm').addEventListener('submit', function(e){
 (function() {
   var btn = document.getElementById('brandMuteBtn');
   var video = document.querySelector('.bv-video-full');
-  var section = document.querySelector('.brand-video-section');
   if (!btn || !video) return;
   var muteLines = document.getElementById('brandMuteLines');
   var soundWaves = document.getElementById('brandSoundWaves');
@@ -724,24 +723,6 @@ document.getElementById('joinDropForm').addEventListener('submit', function(e){
       video.play();
     }
   });
-
-  if (section && 'IntersectionObserver' in window) {
-    var obs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) {
-          btn.classList.add('visible');
-        } else {
-          btn.classList.remove('visible');
-          video.muted = true;
-          muteLines.style.display = '';
-          soundWaves.style.display = 'none';
-        }
-      });
-    }, { threshold: 0.3 });
-    obs.observe(section);
-  } else {
-    btn.classList.add('visible');
-  }
 })();
 </script>
 <script>
