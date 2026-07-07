@@ -414,13 +414,52 @@
       if (e.target === doc.getElementById("rvModalOverlay")) doc.getElementById("rvModalOverlay").classList.remove("open");
     });
     doc.getElementById("rvModalForm")?.addEventListener("submit", (e) => {
-      /* No review backend yet — capture is disabled, just acknowledge.
-         TODO: wire to a kryptaa-backend Netlify function for real storage. */
       e.preventDefault();
-      setTimeout(() => {
-        doc.getElementById("rvModalForm").style.display = "none";
-        doc.getElementById("rvSent").style.display = "block";
-      }, 600);
+      const form = e.target;
+      const submitBtn = form.querySelector(".rv-submit");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending…";
+
+      /* Downscale photos client-side so the JSON payload stays small */
+      const shrink = (file) => new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          const max = 1000;
+          const scale = Math.min(1, max / Math.max(img.width, img.height));
+          const c = doc.createElement("canvas");
+          c.width = Math.round(img.width * scale);
+          c.height = Math.round(img.height * scale);
+          c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+          URL.revokeObjectURL(img.src);
+          resolve(c.toDataURL("image/jpeg", 0.75));
+        };
+        img.onerror = () => { URL.revokeObjectURL(img.src); resolve(null); };
+        img.src = URL.createObjectURL(file);
+      });
+
+      const files = Array.prototype.slice.call(doc.getElementById("rvImgInput")?.files || [], 0, 3);
+      Promise.all(files.map(shrink))
+        .then((photos) => fetch("https://kryptaa-backend.netlify.app/.netlify/functions/submit-review", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            product: doc.getElementById("rvProduct").value,
+            rating: doc.getElementById("rvRating").value,
+            name: form.querySelector('input[name="name"]').value,
+            size: form.querySelector('input[name="size"]').value,
+            review: form.querySelector('textarea[name="review"]').value,
+            photos: photos.filter(Boolean),
+          }),
+        }))
+        .then((r) => {
+          if (!r.ok) throw new Error("send failed");
+          form.style.display = "none";
+          doc.getElementById("rvSent").style.display = "block";
+        })
+        .catch(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Failed — Try Again";
+        });
     });
 
     var rvImgInput = doc.getElementById("rvImgInput");
