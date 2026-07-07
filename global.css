@@ -909,10 +909,10 @@ body.menu-open .mobile-menu {
 .hero-corner-right { right: clamp(28px, 5vw, 80px); }
 
 .hero-mute-btn {
-  position: absolute;
-  bottom: clamp(64px, 10vh, 96px);
-  right: clamp(20px, 3vw, 48px);
-  z-index: 20;
+  position: fixed;
+  bottom: clamp(24px, 5vh, 48px);
+  right: clamp(16px, 2vw, 36px);
+  z-index: 200;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -925,8 +925,14 @@ body.menu-open .mobile-menu {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.2s, background 0.2s;
+  transition: border-color 0.2s, background 0.2s, opacity 0.3s;
   padding: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.hero-mute-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 .hero-mute-btn:hover {
   border-color: rgba(255,255,255,0.7);

@@ -707,6 +707,7 @@ document.getElementById('joinDropForm').addEventListener('submit', function(e){
 (function() {
   var btn = document.getElementById('heroMuteBtn');
   var video = document.querySelector('.hero-video-bg');
+  var hero = document.querySelector('.v3-hero');
   if (!btn || !video) return;
   var muteLines = document.getElementById('muteLines');
   var soundWaves = document.getElementById('soundWaves');
@@ -726,6 +727,24 @@ document.getElementById('joinDropForm').addEventListener('submit', function(e){
       video.play();
     }
   });
+
+  if (hero && 'IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          btn.classList.add('visible');
+        } else {
+          btn.classList.remove('visible');
+          video.muted = true;
+          muteLines.style.display = '';
+          soundWaves.style.display = 'none';
+        }
+      });
+    }, { threshold: 0.3 });
+    obs.observe(hero);
+  } else {
+    btn.classList.add('visible');
+  }
 })();
 </script>
 <script>
