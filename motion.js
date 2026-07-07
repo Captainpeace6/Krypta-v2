@@ -138,27 +138,62 @@
           <h3 class="sg-title">Size Guide</h3>
           <button class="sg-close" type="button" data-sg-close aria-label="Close size guide">✕</button>
         </div>
+        <div class="sg-tabs">
+          <button class="sg-tab active" data-sg-tab="tees" type="button">T-Shirts</button>
+          <button class="sg-tab" data-sg-tab="denim" type="button">Denim</button>
+          <button class="sg-tab" data-sg-tab="track" type="button">Track Pants</button>
+        </div>
         <div class="sg-body">
-          <div class="sg-eyebrow">Oversized T-Shirt — US Standard</div>
-          <div class="sg-table-wrap">
-            <table class="sg-table">
-              <thead><tr><th>SIZE</th><th>CHEST (in)</th><th>WAIST (in)</th><th>ARM LENGTH (in)</th><th>NECKLINE (in)</th></tr></thead>
-              <tbody>
-                <tr><td class="sg-size">XS</td><td>34″–36″</td><td>30″–32″</td><td>25″–25½</td><td>14″–14½</td></tr>
-                <tr class="sg-highlight"><td class="sg-size">S</td><td>38″–40″</td><td>33″–35″</td><td>25½–26</td><td>14½–15</td></tr>
-                <tr><td class="sg-size">M</td><td>42″–44″</td><td>36″–38″</td><td>26″–26½</td><td>15″–15¼</td></tr>
-                <tr><td class="sg-size">L</td><td>46″–48″</td><td>39″–41″</td><td>26½–27</td><td>15½–16</td></tr>
-                <tr><td class="sg-size">XL</td><td>50″–52″</td><td>42″–44″</td><td>27–27½</td><td>16½–16½</td></tr>
-                <tr><td class="sg-size">XXL</td><td>54″–56″</td><td>45″–47″</td><td>27⅔–28</td><td>16½–17</td></tr>
-              </tbody>
-            </table>
+          <!-- T-SHIRTS -->
+          <div class="sg-panel active" id="sgTees">
+            <div class="sg-eyebrow">Oversized T-Shirt — US Standard</div>
+            <div class="sg-table-wrap">
+              <table class="sg-table">
+                <thead><tr><th>SIZE</th><th>CHEST (in)</th><th>WAIST (in)</th><th>ARM LENGTH (in)</th><th>NECKLINE (in)</th></tr></thead>
+                <tbody>
+                  <tr><td class="sg-size">XS</td><td>34″–36″</td><td>30″–32″</td><td>25″–25½</td><td>14″–14½</td></tr>
+                  <tr class="sg-highlight"><td class="sg-size">S</td><td>38″–40″</td><td>33″–35″</td><td>25½–26</td><td>14½–15</td></tr>
+                  <tr><td class="sg-size">M</td><td>42″–44″</td><td>36″–38″</td><td>26″–26½</td><td>15″–15¼</td></tr>
+                  <tr><td class="sg-size">L</td><td>46″–48″</td><td>39″–41″</td><td>26½–27</td><td>15½–16</td></tr>
+                  <tr><td class="sg-size">XL</td><td>50″–52″</td><td>42″–44″</td><td>27–27½</td><td>16½–16½</td></tr>
+                  <tr><td class="sg-size">XXL</td><td>54″–56″</td><td>45″–47″</td><td>27⅔–28</td><td>16½–17</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="sg-note">Oversized fit — size down for a structured look, size up for a dramatic shoulder drop.</p>
           </div>
-          <p class="sg-note">All measurements in inches. This is an oversized fit — size down for a more structured look, size up for a dramatic shoulder.</p>
-          <div class="sg-measurements">
-            <div class="sg-meas"><span class="sg-meas-dot" style="background:#d2ae5b"></span>Chest Width</div>
-            <div class="sg-meas"><span class="sg-meas-dot" style="background:#e87722"></span>Waist Width</div>
-            <div class="sg-meas"><span class="sg-meas-dot" style="background:#65f2d0"></span>Arm Length</div>
-            <div class="sg-meas"><span class="sg-meas-dot" style="background:#9b59b6"></span>Neckline</div>
+          <!-- DENIM -->
+          <div class="sg-panel" id="sgDenim">
+            <div class="sg-eyebrow">Wide-Leg Denim — Waist &amp; Inseam (in)</div>
+            <div class="sg-table-wrap">
+              <table class="sg-table">
+                <thead><tr><th>SIZE</th><th>WAIST (in)</th><th>HIP (in)</th><th>THIGH (in)</th><th>INSEAM (in)</th><th>RISE (in)</th></tr></thead>
+                <tbody>
+                  <tr class="sg-highlight"><td class="sg-size">S</td><td>26″–28″</td><td>34″–36″</td><td>23″</td><td>30″</td><td>11″</td></tr>
+                  <tr><td class="sg-size">M</td><td>29″–31″</td><td>37″–39″</td><td>25″</td><td>30½″</td><td>11½″</td></tr>
+                  <tr><td class="sg-size">L</td><td>32″–34″</td><td>40″–42″</td><td>27″</td><td>31″</td><td>12″</td></tr>
+                  <tr><td class="sg-size">XL</td><td>35″–37″</td><td>43″–45″</td><td>29″</td><td>31″</td><td>12½″</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="sg-note">All jeans are mid-to-high rise with a relaxed wide-leg cut. Measure your natural waist for the most accurate fit.</p>
+          </div>
+          <!-- TRACK PANTS -->
+          <div class="sg-panel" id="sgTrack">
+            <div class="sg-eyebrow">Street Track Pants — Hip &amp; Length (in)</div>
+            <div class="sg-table-wrap">
+              <table class="sg-table">
+                <thead><tr><th>SIZE</th><th>WAIST (in)</th><th>HIP (in)</th><th>INSEAM (in)</th><th>LENGTH (in)</th></tr></thead>
+                <tbody>
+                  <tr><td class="sg-size">XS</td><td>22″–24″</td><td>32″–34″</td><td>27″</td><td>39″</td></tr>
+                  <tr class="sg-highlight"><td class="sg-size">S</td><td>24″–26″</td><td>34″–36″</td><td>28″</td><td>40″</td></tr>
+                  <tr><td class="sg-size">M</td><td>26″–28″</td><td>36″–38″</td><td>29″</td><td>41″</td></tr>
+                  <tr><td class="sg-size">L</td><td>28″–30″</td><td>38″–40″</td><td>30″</td><td>42″</td></tr>
+                  <tr><td class="sg-size">XL</td><td>— Sold Out —</td><td>—</td><td>—</td><td>—</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="sg-note">Elasticated waist with drawstring — fits true to size. XL is currently unavailable.</p>
           </div>
         </div>
       </aside>
@@ -413,6 +448,7 @@
         <a href="lookbook.html" data-nav="lookbook.html">Lookbook</a>
         <a href="checkout.html" data-nav="checkout.html">Bag &amp; Checkout</a>
         <a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>
+        <a href="track.html" data-nav="track.html">Track My Order</a>
       </div>
       <div class="mm-curr-row">
         <span class="mm-curr-label-text">Currency</span>
@@ -566,7 +602,12 @@
       if (cartClose) closeCart();
       if (qtyButton) updateCartQty(qtyButton.dataset.cartQty, Number(qtyButton.dataset.delta));
       if (removeButton) removeFromCart(removeButton.dataset.cartRemove);
-      if (sgOpen) { event.preventDefault(); openSizeGuide(); }
+      if (sgOpen) {
+        event.preventDefault();
+        const cat = sgOpen.dataset.sizeGuide || "";
+        const tab = (cat === "men" || cat === "women") ? "denim" : cat === "women_st" ? "track" : "tees";
+        openSizeGuide(tab);
+      }
       if (sgClose) closeSizeGuide();
       if (quickSize) { event.preventDefault(); event.stopPropagation(); handleQuickSize(quickSize); }
       if (quickAdd) { event.preventDefault(); event.stopPropagation(); handleQuickAdd(quickAdd); }
@@ -668,10 +709,32 @@
     doc.getElementById("kQvOverlay")?.classList.remove("open");
   }
 
-  function openSizeGuide() {
-    doc.getElementById("sizeGuidePanel")?.classList.add("open");
-    doc.getElementById("sizeGuideOverlay")?.classList.add("open");
+  function openSizeGuide(tabId) {
+    const panel = doc.getElementById("sizeGuidePanel");
+    const overlay = doc.getElementById("sizeGuideOverlay");
+    if (!panel) return;
+
+    /* Switch tab if specified: "tees" | "denim" | "track" */
+    if (tabId) {
+      panel.querySelectorAll(".sg-tab").forEach((t) => t.classList.toggle("active", t.dataset.sgTab === tabId));
+      panel.querySelectorAll(".sg-panel").forEach((p) => p.classList.toggle("active", p.id === "sg" + tabId.charAt(0).toUpperCase() + tabId.slice(1)));
+    }
+
+    panel.classList.add("open");
+    overlay?.classList.add("open");
     body.classList.add("sg-open");
+
+    /* Wire tab clicks once */
+    if (!panel._sgTabsBound) {
+      panel._sgTabsBound = true;
+      panel.querySelectorAll(".sg-tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const tid = tab.dataset.sgTab;
+          panel.querySelectorAll(".sg-tab").forEach((t) => t.classList.toggle("active", t === tab));
+          panel.querySelectorAll(".sg-panel").forEach((p) => p.classList.toggle("active", p.id === "sg" + tid.charAt(0).toUpperCase() + tid.slice(1)));
+        });
+      });
+    }
   }
 
   function closeSizeGuide() {
@@ -912,7 +975,7 @@
           ` : `
           <div class="quick-sizes">
             ${product.sizes.map((s) => { const so = (product.soldOutSizes || []).includes(s); return `<button class="quick-size-btn${so ? " is-sold-out" : ""}" type="button" data-size="${s}" data-product="${product.id}"${so ? " disabled" : ""}>${s}</button>`; }).join("")}
-            ${isTee ? `<button class="quick-sg-btn" type="button" data-size-guide title="Size Guide">?</button>` : ""}
+            ${(isTee || product.category === "men" || product.category === "women" || product.category === "women_st") ? `<button class="quick-sg-btn" type="button" data-size-guide="${product.category}" title="Size Guide">?</button>` : ""}
           </div>
           <button class="quick-add-btn" type="button" data-product-id="${product.id}">Add to Bag</button>
           `}
@@ -949,7 +1012,7 @@
 
     const editorialImage = doc.getElementById("editorialImage");
     if (editorialImage) {
-      editorialImage.innerHTML = `<img src="imgs/kryptaa-brand-frame.jpg" alt="KRYPTAA Driven by Aura, Defined by Power">`;
+      editorialImage.innerHTML = `<img src="imgs/kryptaa-brand-frame.jpg" alt="KRYPTAA Defined by Power, Driven by Aura">`;
     }
 
     const featured = doc.getElementById("featuredProducts");
@@ -1821,3 +1884,59 @@
     init(); draw();
   }
 })();
+
+/* ── Live stock updates: sold-out blocking + low-stock badges ── */
+window.__onStockUpdated = function () {
+  var sd = window.STOCK_DATA;
+  if (!sd) return;
+
+  /* Update sold-out state on quick-add size buttons (shop / listing pages) */
+  document.querySelectorAll('.quick-size-btn[data-product][data-size]').forEach(function (btn) {
+    var id = parseInt(btn.dataset.product, 10);
+    var sz = btn.dataset.size;
+    var stock = sd[id];
+    if (!stock) return;
+    var qty = stock[sz] != null ? stock[sz] : 99;
+    var soldOut = qty === 0;
+    btn.classList.toggle('is-sold-out', soldOut);
+    btn.disabled = soldOut;
+  });
+
+  /* Update sold-out state on PDP size chips */
+  var pdpMatch = window.location.search.match(/[?&]id=(\d+)/);
+  if (pdpMatch) {
+    var pdpId = parseInt(pdpMatch[1], 10);
+    var pdpStock = sd[pdpId];
+    if (pdpStock) {
+      document.querySelectorAll('.size-chip[data-size]').forEach(function (chip) {
+        var qty = pdpStock[chip.dataset.size] != null ? pdpStock[chip.dataset.size] : 99;
+        chip.classList.toggle('is-sold-out', qty === 0);
+        chip.disabled = qty === 0;
+      });
+    }
+  }
+
+  /* Update low-stock badges on product cards */
+  document.querySelectorAll('.product-card').forEach(function (card) {
+    var sizeBtn = card.querySelector('.quick-size-btn[data-product]');
+    if (!sizeBtn) return;
+    var id = parseInt(sizeBtn.dataset.product, 10);
+    var stock = sd[id];
+    if (!stock) return;
+    var sizes = Object.keys(stock);
+    var totalQty = sizes.reduce(function (s, k) { return s + stock[k]; }, 0);
+    var minQty = Math.min.apply(null, sizes.map(function (k) { return stock[k]; }));
+    var footer = card.querySelector('.product-card-footer');
+    if (!footer) return;
+    var badge = footer.querySelector('.low-stock-badge');
+    if (totalQty === 0) {
+      if (!badge) { badge = document.createElement('span'); badge.className = 'low-stock-badge'; footer.appendChild(badge); }
+      badge.textContent = 'Sold Out';
+    } else if (minQty <= 3) {
+      if (!badge) { badge = document.createElement('span'); badge.className = 'low-stock-badge'; footer.appendChild(badge); }
+      badge.textContent = minQty === 0 ? 'Almost Gone' : 'Only ' + minQty + ' left';
+    } else if (badge) {
+      badge.remove();
+    }
+  });
+};

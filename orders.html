@@ -103,6 +103,39 @@
     .od-loading { text-align: center; padding: 80px 24px; font-size: 13px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); }
     .od-empty { text-align: center; padding: 60px 24px; font-size: 15px; color: var(--text-faint); font-style: italic; }
 
+    /* ── Ship button ── */
+    .order-ship-btn { display: inline-flex; align-items: center; gap: 6px; background: none; border: 1px solid var(--border); color: var(--text-faint); font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 16px; cursor: pointer; white-space: nowrap; transition: border-color 0.2s, color 0.2s, background 0.2s; }
+    .order-ship-btn:hover { border-color: rgba(125,186,125,0.5); color: #7dba7d; }
+    .order-ship-btn.shipped { border-color: rgba(125,186,125,0.5); color: #7dba7d; background: rgba(125,186,125,0.06); }
+    .order-card.is-shipped .order-card-head { background: rgba(125,186,125,0.04); }
+    .order-shipped-badge { display: inline-block; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #7dba7d; padding: 3px 8px; border: 1px solid rgba(125,186,125,0.4); margin-left: 10px; vertical-align: middle; }
+
+    /* ── Filter row ── */
+    .od-filter-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+    .od-filter-lbl { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-faint); }
+    .od-filter-select { background: var(--surface); border: 1px solid var(--border); color: var(--text-faint); font-family: inherit; font-size: 13px; padding: 8px 12px; outline: none; cursor: pointer; transition: border-color 0.2s; }
+    .od-filter-select:focus { border-color: var(--gold-dim); }
+    .od-filter-input { background: var(--surface); border: 1px solid var(--border); color: var(--text); font-family: inherit; font-size: 14px; padding: 8px 12px; outline: none; width: 100px; transition: border-color 0.2s; }
+    .od-filter-input:focus { border-color: var(--gold-dim); }
+    .od-filter-input::placeholder { color: var(--text-faint); }
+
+    /* ── Best sellers by size widget ── */
+    .dash-bestsz { display: flex; flex-direction: column; gap: 14px; }
+    .dash-bestsz-item { display: flex; align-items: center; gap: 12px; }
+    .dash-bestsz-pill { min-width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; background: var(--gold-faint); border: 1px solid var(--gold-dim); font-family: 'Cinzel Decorative', serif; font-size: 11px; color: var(--gold); letter-spacing: 0.04em; flex-shrink: 0; }
+    .dash-bestsz-info { flex: 1; min-width: 0; }
+    .dash-bestsz-name { font-size: 14px; color: var(--text); margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dash-bestsz-bar { height: 3px; background: linear-gradient(90deg, var(--gold), var(--gold-dim)); }
+    .dash-bestsz-qty { font-size: 15px; color: var(--gold); flex-shrink: 0; font-variant-numeric: tabular-nums; min-width: 50px; text-align: right; }
+
+    /* ── Low stock alert banner ── */
+    .stock-alert-banner { background: rgba(220,70,50,0.08); border: 1px solid rgba(220,70,50,0.3); padding: 18px 22px; margin-bottom: 24px; display: none; }
+    .stock-alert-banner.has-alerts { display: block; }
+    .stock-alert-title { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: #e07070; margin-bottom: 12px; }
+    .stock-alert-items { display: flex; flex-wrap: wrap; gap: 8px; }
+    .stock-alert-chip { font-size: 12px; background: rgba(220,70,50,0.12); border: 1px solid rgba(220,70,50,0.25); color: #e07070; padding: 5px 10px; letter-spacing: 0.06em; }
+    .stock-alert-chip.is-zero { border-color: rgba(220,70,50,0.5); background: rgba(220,70,50,0.18); }
+
     /* ─────────────────────────────
        DASHBOARD VIEW
     ───────────────────────────── */
@@ -234,10 +267,24 @@
       </div>
       <div class="od-toolbar">
         <div class="od-toolbar-label" id="ordersLabel">All Orders</div>
-        <div class="od-search-wrap">
-          <span class="od-search-icon">⌕</span>
-          <input class="od-search" type="search" id="searchInput" placeholder="Search customer or item…">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <div class="od-search-wrap">
+            <span class="od-search-icon">⌕</span>
+            <input class="od-search" type="search" id="searchInput" placeholder="Search customer or item…">
+          </div>
+          <button class="od-btn-ghost" id="exportCsvBtn" type="button">↓ Export CSV</button>
         </div>
+      </div>
+      <div class="od-filter-row">
+        <span class="od-filter-lbl">Filter:</span>
+        <select class="od-filter-select" id="filterPeriod">
+          <option value="">All Time</option>
+          <option value="7">Last 7 days</option>
+          <option value="30">Last 30 days</option>
+          <option value="90">Last 90 days</option>
+        </select>
+        <input class="od-filter-input" type="number" id="filterMinAmt" placeholder="Min $" min="0">
+        <input class="od-filter-input" type="number" id="filterMaxAmt" placeholder="Max $" min="0">
       </div>
       <div id="ordersList">
         <div class="od-loading">Loading orders…</div>
@@ -248,6 +295,11 @@
   <!-- ── DASHBOARD VIEW ── -->
   <div id="dashboardView" class="od-view">
     <div class="od-main">
+
+      <div class="stock-alert-banner" id="stockAlertBanner">
+        <div class="stock-alert-title">⚠ Low Stock — Restock Needed (≤ 2 units)</div>
+        <div class="stock-alert-items" id="stockAlertItems"></div>
+      </div>
 
       <div class="dash-grid">
         <div class="dash-stat"><div class="dash-stat-val" id="dStatOrders">—</div><div class="dash-stat-lbl">Total Orders</div></div>
@@ -271,10 +323,17 @@
           </div>
         </div>
         <div class="dash-section" style="margin-bottom:0;">
-          <div class="dash-section-title">Recent Orders</div>
-          <div class="dash-recent-list" id="recentList">
-            <div class="od-empty" style="padding:16px 0;">No orders yet.</div>
+          <div class="dash-section-title">Best Sellers — By Size</div>
+          <div class="dash-bestsz" id="bestSellersList">
+            <div class="od-empty" style="padding:16px 0;">No data yet.</div>
           </div>
+        </div>
+      </div>
+
+      <div class="dash-section">
+        <div class="dash-section-title">Recent Orders</div>
+        <div class="dash-recent-list" id="recentList">
+          <div class="od-empty" style="padding:16px 0;">No orders yet.</div>
         </div>
       </div>
 
@@ -308,6 +367,18 @@
   var allOrders = [];
   var lastOrderCount = -1;
   var pollInterval = null;
+
+  /* ── Shipped state (admin-local) ── */
+  var shippedOrders = (function() {
+    try { return new Set(JSON.parse(localStorage.getItem('k_shipped') || '[]')); } catch(e) { return new Set(); }
+  })();
+  function saveShipped() {
+    try { localStorage.setItem('k_shipped', JSON.stringify(Array.from(shippedOrders))); } catch(e) {}
+  }
+  function toggleShipped(pid) {
+    if (shippedOrders.has(pid)) shippedOrders.delete(pid); else shippedOrders.add(pid);
+    saveShipped();
+  }
 
   function requestNotifPermission() {
     if ('Notification' in window && Notification.permission === 'default') {
@@ -398,8 +469,34 @@
       btn.classList.add('active');
       document.getElementById(btn.dataset.view).classList.add('active');
       window.scrollTo(0, 0);
+      if (btn.dataset.view === 'dashboardView') fetchLowStockAlerts();
     });
   });
+
+  /* ── Low stock alert fetch ── */
+  function fetchLowStockAlerts() {
+    var key = savedKey();
+    if (!key) return;
+    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/low-stock-alert', {
+      headers: { 'X-Admin-Key': key }
+    })
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(data) {
+        if (!data || !data.alerts) return;
+        var banner = document.getElementById('stockAlertBanner');
+        var itemsEl = document.getElementById('stockAlertItems');
+        if (!banner || !itemsEl) return;
+        var alerts = data.alerts;
+        if (!alerts.length) { banner.classList.remove('has-alerts'); return; }
+        banner.classList.add('has-alerts');
+        itemsEl.innerHTML = alerts.map(function(a) {
+          return '<span class="stock-alert-chip' + (a.qty === 0 ? ' is-zero' : '') + '">'
+            + escHtml(a.name) + ' / ' + escHtml(a.size) + ' — ' + (a.qty === 0 ? 'SOLD OUT' : a.qty + ' left')
+            + '</span>';
+        }).join('');
+      })
+      .catch(function() {});
+  }
 
   /* ── Eye toggle ── */
   document.getElementById('eyeBtn').addEventListener('click', function () {
@@ -481,10 +578,15 @@
       var searchStr = ('#' + orderNum + ' ' + o.customer.name + ' ' + o.customer.email + ' '
         + productItems.map(function(i){return i.name;}).join(' ')).toLowerCase();
 
-      return '<div class="order-card" data-search="' + escHtml(searchStr) + '">'
+      var pid = o.paymentId || o.id || '';
+      var isShipped = shippedOrders.has(pid);
+
+      return '<div class="order-card' + (isShipped ? ' is-shipped' : '') + '" data-search="' + escHtml(searchStr) + '" data-pid="' + escHtml(pid) + '" data-created="' + (o.created||0) + '" data-total="' + parseFloat(o.total||0) + '">'
         + '<div class="order-card-head"><div class="order-head-left">'
         + '<div class="order-num">#' + orderNum + '</div>'
-        + '<div class="order-date">' + dateStr + '</div></div>'
+        + '<div class="order-date">' + dateStr + '</div>'
+        + (isShipped ? '<span class="order-shipped-badge">✓ Shipped</span>' : '')
+        + '</div>'
         + '<div class="order-total">$' + o.total + '</div></div>'
         + '<div class="order-body"><div class="order-items">' + itemsHtml + '</div>'
         + shippingHtml
@@ -496,6 +598,7 @@
         + '</div>'
         + '<div class="order-addr">' + escHtml(o.shippingAddress) + '</div>'
         + '<div class="order-actions">'
+        + '<button class="order-ship-btn' + (isShipped ? ' shipped' : '') + '" type="button" data-ship="' + escHtml(pid) + '">' + (isShipped ? '✓ Shipped' : '⬡ Mark Shipped') + '</button>'
         + '<button class="order-print-btn" type="button" onclick="printLabel(' + JSON.stringify(o).replace(/</g,'\\u003c') + ',' + orderNum + ')">Print Label ⎙</button>'
         + '<a class="order-stripe-link" href="' + stripeUrl + '" target="_blank" rel="noopener">View in Stripe →</a>'
         + '</div></div></div></div>';
@@ -574,6 +677,35 @@
         }).join('')
       : '<div class="od-empty" style="padding:16px 0;">No products yet.</div>';
 
+    /* Best sellers by product + size */
+    var szMap = {};
+    orders.forEach(function(o) {
+      (o.items||[]).filter(function(i){ return !isShipping(i); }).forEach(function(item) {
+        var baseName = (item.name||'').replace(/\s*[—–-]\s*Size:?.*/i,'').replace(/\s*\(Size:?.*\)/i,'').trim();
+        var sizeMatch = (item.name||'').match(/(?:Size:?\s*|—\s*)([XxSsMLl0-9]+)\s*$/);
+        var size = sizeMatch ? sizeMatch[1].toUpperCase() : '—';
+        var key = baseName + ' / ' + size;
+        if (!szMap[key]) szMap[key] = { name: baseName, size: size, qty: 0, revenue: 0 };
+        szMap[key].qty += (item.qty||1);
+        szMap[key].revenue += parseFloat(item.total||0);
+      });
+    });
+    var topSz = Object.values(szMap).sort(function(a,b){ return b.qty-a.qty; }).slice(0,6);
+    var maxSzQty = topSz.length ? topSz[0].qty : 1;
+    document.getElementById('bestSellersList').innerHTML = topSz.length
+      ? topSz.map(function(s, i) {
+          var barPct = (s.qty / maxSzQty * 100).toFixed(1);
+          return '<div class="dash-bestsz-item">'
+            + '<div class="dash-bestsz-pill">' + s.size + '</div>'
+            + '<div class="dash-bestsz-info">'
+            + '<div class="dash-bestsz-name">' + escHtml(s.name) + '</div>'
+            + '<div class="dash-bestsz-bar" style="width:' + barPct + '%"></div>'
+            + '</div>'
+            + '<div class="dash-bestsz-qty">×' + s.qty + '</div>'
+            + '</div>';
+        }).join('')
+      : '<div class="od-empty" style="padding:16px 0;">No data yet.</div>';
+
     /* Recent orders */
     document.getElementById('recentList').innerHTML = orders.slice(0,6).map(function(o, idx) {
       var orderNum = orders.length - idx;
@@ -589,20 +721,91 @@
     }).join('') || '<div class="od-empty" style="padding:16px 0;">No orders yet.</div>';
   }
 
-  /* ── Search ── */
-  document.getElementById('searchInput').addEventListener('input', function() {
-    var q = this.value.toLowerCase().trim();
+  /* ── Filter engine (search + period + amount) ── */
+  function applyFilters() {
+    var q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+    var period = parseInt(document.getElementById('filterPeriod').value) || 0;
+    var minAmt = parseFloat(document.getElementById('filterMinAmt').value) || 0;
+    var maxAmt = parseFloat(document.getElementById('filterMaxAmt').value) || Infinity;
+    var cutoff = period ? (Date.now() / 1000 - period * 86400) : 0;
+
     var cards = document.querySelectorAll('#ordersList .order-card');
     var noRes = document.querySelector('#ordersList .od-no-results');
     var shown = 0;
     cards.forEach(function(c) {
-      var match = !q || (c.dataset.search||'').includes(q);
+      var matchSearch = !q || (c.dataset.search||'').includes(q);
+      var matchPeriod = !cutoff || parseFloat(c.dataset.created||0) >= cutoff;
+      var total = parseFloat(c.dataset.total||0);
+      var matchAmt = total >= minAmt && total <= maxAmt;
+      var match = matchSearch && matchPeriod && matchAmt;
       c.style.display = match ? '' : 'none';
       if (match) shown++;
     });
-    if (!shown && q) {
-      if (!noRes) { var d = document.createElement('div'); d.className='od-empty od-no-results'; d.textContent='No orders match "'+q+'".'; document.getElementById('ordersList').appendChild(d); }
+    if (!shown) {
+      if (!noRes) { var d = document.createElement('div'); d.className='od-empty od-no-results'; d.textContent='No orders match your filters.'; document.getElementById('ordersList').appendChild(d); }
     } else if (noRes) { noRes.remove(); }
+  }
+
+  document.getElementById('searchInput').addEventListener('input', applyFilters);
+  document.getElementById('filterPeriod').addEventListener('change', applyFilters);
+  document.getElementById('filterMinAmt').addEventListener('input', applyFilters);
+  document.getElementById('filterMaxAmt').addEventListener('input', applyFilters);
+
+  /* ── Ship toggle (event delegation) ── */
+  document.getElementById('ordersList').addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-ship]');
+    if (!btn) return;
+    var pid = btn.dataset.ship;
+    toggleShipped(pid);
+    var card = btn.closest('.order-card');
+    var isNowShipped = shippedOrders.has(pid);
+    card.classList.toggle('is-shipped', isNowShipped);
+    btn.classList.toggle('shipped', isNowShipped);
+    btn.textContent = isNowShipped ? '✓ Shipped' : '⬡ Mark Shipped';
+    var badge = card.querySelector('.order-shipped-badge');
+    if (isNowShipped && !badge) {
+      var b = document.createElement('span');
+      b.className = 'order-shipped-badge';
+      b.textContent = '✓ Shipped';
+      card.querySelector('.order-head-left').appendChild(b);
+    } else if (!isNowShipped && badge) {
+      badge.remove();
+    }
+  });
+
+  /* ── Export CSV ── */
+  document.getElementById('exportCsvBtn').addEventListener('click', function() {
+    if (!allOrders.length) { alert('No orders to export.'); return; }
+    var rows = [['Order #','Date','Customer','Email','Phone','Address','Items','Shipping','Total','Payment ID','Shipped']];
+    var total = allOrders.length;
+    allOrders.forEach(function(o, idx) {
+      var orderNum = total - idx;
+      var date = new Date(o.created * 1000).toLocaleDateString('en-US');
+      var productItems = (o.items||[]).filter(function(i){ return !isShipping(i); });
+      var shippingItem = (o.items||[]).find(function(i){ return isShipping(i); });
+      var itemsStr = productItems.map(function(i){ return (i.name||'') + ' ×' + (i.qty||1); }).join('; ');
+      var pid = o.paymentId || o.id || '';
+      rows.push([
+        '#' + orderNum,
+        date,
+        o.customer.name || '',
+        o.customer.email || '',
+        o.customer.phone || '',
+        (o.shippingAddress||'').replace(/\n/g,' '),
+        itemsStr,
+        shippingItem ? ('$' + shippingItem.total) : 'Free',
+        '$' + o.total,
+        pid,
+        shippedOrders.has(pid) ? 'Yes' : 'No'
+      ]);
+    });
+    var csv = rows.map(function(r){ return r.map(function(c){ return '"' + String(c).replace(/"/g,'""') + '"'; }).join(','); }).join('\n');
+    var blob = new Blob([csv], { type: 'text/csv' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'kryptaa-orders-' + new Date().toISOString().slice(0,10) + '.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
   });
 
   /* ── Gate ── */

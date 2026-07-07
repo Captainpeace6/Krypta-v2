@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-242EQ24FP3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-242EQ24FP3');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Your Order — KRYPTAA</title>
+<meta name="description" content="Track your KRYPTAA order status. Enter your email to view order details and shipping info.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KRYPTAA">
+<meta property="og:title" content="Track Your Order — KRYPTAA">
+<meta property="og:image" content="https://www.kryptaa.com/imgs/kryptaa-sigil.png">
+<meta property="og:url" content="https://www.kryptaa.com/track.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.kryptaa.com/imgs/kryptaa-sigil.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="global.css">
+<link rel="icon" type="image/png" href="imgs/kryptaa-sigil.png">
+<script defer src="products.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script defer src="motion.js"></script>
+<style>
+  .track-shell {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: clamp(80px, 10vw, 140px) clamp(20px, 5vw, 40px) 80px;
+    min-height: 100vh;
+  }
+  .track-eyebrow {
+    font-family: var(--f-mono); font-size: 0.6rem;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: rgba(210,174,91,0.55); margin-bottom: 14px;
+  }
+  .track-title {
+    font-family: var(--f-primary); font-weight: 900;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    background: linear-gradient(180deg,#fff3b9 0%,#d2ae5b 45%,#7a501d 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    letter-spacing: 0.06em; margin-bottom: 10px;
+  }
+  .track-sub {
+    font-size: 1rem; color: rgba(240,237,232,0.45);
+    margin-bottom: 48px; line-height: 1.65;
+  }
+  .track-form-row {
+    display: flex; gap: 10px; margin-bottom: 12px;
+  }
+  .track-input {
+    flex: 1;
+    background: rgba(0,0,0,0.45); border: 1px solid rgba(210,174,91,0.22);
+    color: #f0ede8; font-family: var(--f-secondary); font-size: 1rem;
+    padding: 14px 18px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .track-input:focus { border-color: rgba(210,174,91,0.55); }
+  .track-input::placeholder { color: rgba(240,237,232,0.25); }
+  .track-btn {
+    background: var(--k-gold, #d2ae5b); color: #060604;
+    font-family: var(--f-mono); font-size: 0.65rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 14px 26px; border: none; cursor: pointer;
+    white-space: nowrap; font-weight: 700;
+    transition: opacity 0.2s;
+  }
+  .track-btn:hover { opacity: 0.88; }
+  .track-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .track-msg {
+    font-size: 0.85rem; min-height: 20px;
+    color: rgba(240,237,232,0.4); margin-bottom: 36px;
+    letter-spacing: 0.04em;
+  }
+  .track-msg.error { color: #e07070; }
+
+  /* Results */
+  .track-results { display: flex; flex-direction: column; gap: 20px; }
+  .track-order-card {
+    background: rgba(16,14,10,0.8); border: 1px solid rgba(210,174,91,0.16);
+    padding: 24px 28px;
+  }
+  .track-order-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 18px; padding-bottom: 14px;
+    border-bottom: 1px solid rgba(210,174,91,0.1);
+    gap: 12px; flex-wrap: wrap;
+  }
+  .track-order-num {
+    font-family: var(--f-primary); font-size: 1.3rem; font-weight: 900;
+    color: #d2ae5b; letter-spacing: 0.05em;
+  }
+  .track-order-date {
+    font-size: 0.78rem; letter-spacing: 0.1em;
+    color: rgba(240,237,232,0.4); text-transform: uppercase;
+  }
+  .track-order-total {
+    font-size: 1.2rem; color: #d2ae5b;
+    font-variant-numeric: tabular-nums;
+  }
+  .track-order-items { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .track-order-item {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.9rem; color: rgba(240,237,232,0.7);
+    padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    gap: 12px;
+  }
+  .track-order-item:last-child { border-bottom: none; }
+  .track-item-name { flex: 1; }
+  .track-item-qty { color: rgba(210,174,91,0.6); font-size: 0.82rem; }
+  .track-item-price { color: rgba(240,237,232,0.5); font-variant-numeric: tabular-nums; font-size: 0.85rem; }
+  .track-addr-row {
+    font-size: 0.8rem; color: rgba(240,237,232,0.35);
+    line-height: 1.65; padding-top: 12px;
+    border-top: 1px solid rgba(210,174,91,0.08);
+  }
+  .track-addr-lbl {
+    font-family: var(--f-mono); font-size: 0.58rem;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(210,174,91,0.4); margin-bottom: 4px;
+  }
+  .track-empty {
+    text-align: center; padding: 60px 24px;
+    color: rgba(240,237,232,0.3); font-style: italic; font-size: 1rem;
+  }
+  .track-status-badge {
+    display: inline-block; font-family: var(--f-mono);
+    font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 4px 10px; border: 1px solid rgba(125,186,125,0.4);
+    color: #7dba7d; background: rgba(125,186,125,0.07);
+  }
+  @media (max-width: 520px) {
+    .track-form-row { flex-direction: column; }
+    .track-order-card { padding: 18px 16px; }
+  }
+</style>
+</head>
+<body data-page="track">
+
+<main>
+  <div class="track-shell">
+    <div class="track-eyebrow">KRYPTAA — Order Lookup</div>
+    <h1 class="track-title">Track Your Order</h1>
+    <p class="track-sub">Enter the email address used at checkout to view your order history and status.</p>
+
+    <div class="track-form-row">
+      <input class="track-input" type="email" id="trackEmail" placeholder="your@email.com" autocomplete="email" maxlength="120">
+      <button class="track-btn" id="trackBtn" type="button">Look Up →</button>
+    </div>
+    <div class="track-msg" id="trackMsg"></div>
+
+    <div class="track-results" id="trackResults"></div>
+  </div>
+</main>
+
+<script>
+(function () {
+  var TRACK_API = 'https://kryptaa-backend.netlify.app/.netlify/functions/track-order';
+
+  var emailEl = document.getElementById('trackEmail');
+  var btn     = document.getElementById('trackBtn');
+  var msgEl   = document.getElementById('trackMsg');
+  var results = document.getElementById('trackResults');
+
+  function escHtml(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function lookUp() {
+    var email = (emailEl.value || '').trim().toLowerCase();
+    if (!email || !email.includes('@')) {
+      msgEl.textContent = 'Please enter a valid email address.';
+      msgEl.className = 'track-msg error';
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = 'Searching…';
+    msgEl.textContent = '';
+    msgEl.className = 'track-msg';
+    results.innerHTML = '';
+
+    fetch(TRACK_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        btn.disabled = false;
+        btn.textContent = 'Look Up →';
+
+        if (data.error) {
+          msgEl.textContent = data.error;
+          msgEl.className = 'track-msg error';
+          return;
+        }
+
+        var orders = data.orders || [];
+        if (!orders.length) {
+          results.innerHTML = '<div class="track-empty">No orders found for that email address.<br>Make sure you\'re using the email you checked out with.</div>';
+          msgEl.textContent = '';
+          return;
+        }
+
+        msgEl.textContent = orders.length + ' order' + (orders.length !== 1 ? 's' : '') + ' found.';
+        results.innerHTML = orders.map(function(o) {
+          var date = new Date(o.created * 1000).toLocaleDateString('en-US',{day:'numeric',month:'long',year:'numeric'});
+          var itemsHtml = (o.items||[]).map(function(item) {
+            return '<div class="track-order-item">'
+              + '<span class="track-item-name">' + escHtml(item.name||'—') + '</span>'
+              + '<span class="track-item-qty">×' + (item.qty||1) + '</span>'
+              + '<span class="track-item-price">$' + escHtml(item.total||'0.00') + '</span>'
+              + '</div>';
+          }).join('');
+
+          return '<div class="track-order-card">'
+            + '<div class="track-order-head">'
+            + '<div><div class="track-order-num">Order #' + o.orderNum + '</div>'
+            + '<div class="track-order-date">' + escHtml(date) + '</div></div>'
+            + '<div style="display:flex;align-items:center;gap:12px;">'
+            + '<span class="track-status-badge">✓ Paid</span>'
+            + '<div class="track-order-total">$' + escHtml(o.total) + '</div>'
+            + '</div></div>'
+            + '<div class="track-order-items">' + itemsHtml + '</div>'
+            + (o.shippingAddress && o.shippingAddress !== '—'
+              ? '<div class="track-addr-row"><div class="track-addr-lbl">Ships To</div>' + escHtml(o.shippingAddress) + '</div>'
+              : '')
+            + '</div>';
+        }).join('');
+      })
+      .catch(function() {
+        btn.disabled = false;
+        btn.textContent = 'Look Up →';
+        msgEl.textContent = 'Network error. Please try again.';
+        msgEl.className = 'track-msg error';
+      });
+  }
+
+  btn.addEventListener('click', lookUp);
+  emailEl.addEventListener('keydown', function(e) { if (e.key === 'Enter') lookUp(); });
+
+  /* Pre-fill from URL param ?email=... */
+  var urlEmail = new URLSearchParams(window.location.search).get('email');
+  if (urlEmail) { emailEl.value = urlEmail; lookUp(); }
+})();
+</script>
+
+</body>
+</html>
