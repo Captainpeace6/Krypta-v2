@@ -1852,6 +1852,10 @@ body.menu-open .mobile-menu {
   display: grid;
   gap: 24px;
 }
+.detail-copy p {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
 
 .detail-title {
   font-size: clamp(2.7rem, 5.4vw, 6rem);
