@@ -695,7 +695,12 @@ html.k-snap-active {
   flex: 1;
   min-height: 0;
   grid-template-columns: repeat(6, 1fr);
-  max-height: 75vh;
+  grid-template-rows: repeat(2, 1fr);
+  overflow: hidden;
+}
+.snap-collections .category-card {
+  min-height: 0;
+  height: 100%;
 }
 .snap-collections .category-card:nth-child(-n+3) {
   grid-column: span 2;

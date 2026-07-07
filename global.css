@@ -1203,7 +1203,7 @@ body.menu-open .mobile-menu {
 }
 
 .category-card img {
-  object-position: top center;
+  object-position: center 20%;
 }
 
 .category-card:hover img,

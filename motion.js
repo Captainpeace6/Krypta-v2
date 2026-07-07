@@ -1002,7 +1002,7 @@
             <img src="${cover.img}" alt="${config.title}">
             <div class="category-card-content">
               <div class="eyebrow">${config.label}</div>
-              <h3>${config.title}</h3>
+              <h3>${config.nav}</h3>
               <p>${config.description}</p>
             </div>
           </a>
