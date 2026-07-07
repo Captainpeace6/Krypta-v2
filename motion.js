@@ -4,6 +4,42 @@
 
   const NEW_PRODUCT_IDS = new Set([108, 109, 111, 112, 113, 50, 51, 52, 60, 61, 62]);
 
+  /* ── Mailchimp audience subscribe (KRYPTAA Drop List, us12) ──
+     JSONP endpoint — Mailchimp's subscribe API has no CORS headers,
+     so a script-tag callback is the only browser-side option. */
+  const MC_POST = "https://gmail.us12.list-manage.com/subscribe/post?u=450fbc81f41740fcc252b9629&id=010b1e7bb0&f_id=00e455e0f0";
+  const MC_JSONP = "https://gmail.us12.list-manage.com/subscribe/post-json?u=450fbc81f41740fcc252b9629&id=010b1e7bb0&f_id=00e455e0f0";
+  const MC_HONEYPOT = "b_450fbc81f41740fcc252b9629_010b1e7bb0";
+  function mcSubscribe(email, product, done) {
+    const cb = "kMcCb" + Math.floor(Math.random() * 1e9);
+    window[cb] = (resp) => {
+      window[cb] = undefined;
+      /* "already subscribed" counts as success for the visitor */
+      done(!!resp && (resp.result === "success" || /already/i.test(resp.msg || "")));
+    };
+    const s = doc.createElement("script");
+    s.src = MC_JSONP + "&EMAIL=" + encodeURIComponent(email) + (product ? "&PRODUCT=" + encodeURIComponent(product) : "") + "&c=" + cb;
+    s.onerror = () => { window[cb] = undefined; done(false); };
+    doc.head.appendChild(s);
+  }
+
+  /* Restock notify strips are rendered per product card — delegate one listener */
+  doc.addEventListener("submit", (e) => {
+    const form = e.target.closest ? e.target.closest("[data-notify-card]") : null;
+    if (!form) return;
+    e.preventDefault();
+    const input = form.querySelector('input[type="email"]');
+    const product = form.querySelector('input[name="PRODUCT"]');
+    mcSubscribe(input.value, product ? product.value : "", (ok) => {
+      if (ok) {
+        form.innerHTML = '<span class="notify-strip-done">✓ You\'re on the list.</span>';
+      } else {
+        const btn = form.querySelector("button");
+        if (btn) btn.textContent = "Retry";
+      }
+    });
+  });
+
   if (typeof window.gsap === "undefined") {
     window.gsap = {
       __fallback: true,
@@ -294,9 +330,9 @@
             <div class="k-exit-eyebrow">— Wait —</div>
             <div class="k-exit-heading">Don't Miss The Drop</div>
             <div class="k-exit-sub">Every piece is limited. Get early access before they're gone.</div>
-            <form class="k-exit-form" action="https://formspree.io/f/mbljodbk" method="POST" id="kExitForm">
-              <input type="hidden" name="_subject" value="Exit-intent early access signup">
-              <input class="k-exit-input" type="email" name="email" placeholder="your@email.com" required>
+            <form class="k-exit-form" action="${MC_POST}" method="POST" id="kExitForm">
+              <div style="position:absolute;left:-5000px" aria-hidden="true"><input type="text" name="${MC_HONEYPOT}" tabindex="-1" value=""></div>
+              <input class="k-exit-input" type="email" name="EMAIL" placeholder="your@email.com" required>
               <button class="k-exit-btn" type="submit">Lock In</button>
             </form>
             <button class="k-exit-no" id="kExitNo">No thanks, I'll miss out</button>
@@ -310,7 +346,12 @@
       };
       doc.getElementById("kExitClose")?.addEventListener("click", closeExitPopup);
       doc.getElementById("kExitNo")?.addEventListener("click", closeExitPopup);
-      doc.getElementById("kExitForm")?.addEventListener("submit", () => { setTimeout(closeExitPopup, 800); });
+      doc.getElementById("kExitForm")?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = e.target.querySelector('input[type="email"]');
+        mcSubscribe(input.value, "", () => {});
+        setTimeout(closeExitPopup, 800);
+      });
 
       let exitFired = false;
       doc.addEventListener("mouseleave", (e) => {
@@ -335,8 +376,7 @@
             <button type="button" class="rv-star-btn" data-rv-star="4">★</button>
             <button type="button" class="rv-star-btn active" data-rv-star="5">★</button>
           </div>
-          <form class="rv-modal-form" id="rvModalForm" action="https://formspree.io/f/mbljodbk" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="_subject" id="rvSubject" value="New Customer Review">
+          <form class="rv-modal-form" id="rvModalForm" action="#" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="product" id="rvProduct" value="">
             <input type="hidden" name="rating" id="rvRating" value="5">
             <input class="rv-input" type="text" name="name" placeholder="Your name" required>
@@ -373,7 +413,10 @@
     doc.getElementById("rvModalOverlay")?.addEventListener("click", (e) => {
       if (e.target === doc.getElementById("rvModalOverlay")) doc.getElementById("rvModalOverlay").classList.remove("open");
     });
-    doc.getElementById("rvModalForm")?.addEventListener("submit", () => {
+    doc.getElementById("rvModalForm")?.addEventListener("submit", (e) => {
+      /* No review backend yet — capture is disabled, just acknowledge.
+         TODO: wire to a kryptaa-backend Netlify function for real storage. */
+      e.preventDefault();
       setTimeout(() => {
         doc.getElementById("rvModalForm").style.display = "none";
         doc.getElementById("rvSent").style.display = "block";
@@ -960,10 +1003,10 @@
         ${isArchive ? `
           <div class="notify-strip">
             <div class="notify-strip-label">Notify me when back</div>
-            <form class="notify-strip-row" action="https://formspree.io/f/mbljodbk" method="POST" data-notify-card>
-              <input type="hidden" name="_subject" value="Restock: ${product.name}">
-              <input type="hidden" name="product" value="${product.name}">
-              <input type="email" name="email" placeholder="your@email.com" required>
+            <form class="notify-strip-row" action="${MC_POST}" method="POST" data-notify-card>
+              <input type="hidden" name="PRODUCT" value="${product.name}">
+              <div style="position:absolute;left:-5000px" aria-hidden="true"><input type="text" name="${MC_HONEYPOT}" tabindex="-1" value=""></div>
+              <input type="email" name="EMAIL" placeholder="your@email.com" required>
               <button type="submit">Notify</button>
             </form>
           </div>
@@ -1253,10 +1296,10 @@
               <div class="notify-pdp-title">— Notify Me —</div>
               <div class="notify-pdp-sub">This piece is currently unavailable. Drop your email and we&apos;ll reach out the moment it restocks.</div>
               ${product.restockDate ? `<div class="notify-restock-note">Est. Restock — ${product.restockDate}</div>` : ''}
-              <form class="notify-pdp-row" action="https://formspree.io/f/mbljodbk" method="POST" id="notifyPdpForm">
-                <input type="hidden" name="_subject" value="Restock: ${product.name}">
-                <input type="hidden" name="product" value="${product.name}">
-                <input type="email" name="email" placeholder="your@email.com" required>
+              <form class="notify-pdp-row" action="${MC_POST}" method="POST" id="notifyPdpForm">
+                <input type="hidden" name="PRODUCT" value="${product.name}">
+                <div style="position:absolute;left:-5000px" aria-hidden="true"><input type="text" name="${MC_HONEYPOT}" tabindex="-1" value=""></div>
+                <input type="email" name="EMAIL" placeholder="your@email.com" required>
                 <button type="submit">Notify Me</button>
               </form>
               <div class="notify-sent" id="notifySent">✓ You&apos;re on the list — we&apos;ll let you know.</div>
@@ -1386,13 +1429,18 @@
 
     doc.getElementById("notifyPdpForm")?.addEventListener("submit", (e) => {
       e.preventDefault();
-      fetch(e.target.action, { method: "POST", body: new FormData(e.target), headers: { Accept: "application/json" } })
-        .then(() => {
+      const email = e.target.querySelector('input[name="EMAIL"]').value;
+      const prod = e.target.querySelector('input[name="PRODUCT"]');
+      mcSubscribe(email, prod ? prod.value : "", (ok) => {
+        if (ok) {
           e.target.style.display = "none";
           const sent = doc.getElementById("notifySent");
           if (sent) sent.style.display = "block";
-        })
-        .catch(() => {});
+        } else {
+          const btn = e.target.querySelector("button");
+          if (btn) btn.textContent = "Retry";
+        }
+      });
     });
 
     /* ── Sticky PDP buy bar (mobile) — show when buy panel scrolls away ── */
@@ -1529,7 +1577,6 @@
 
       doc.getElementById("writeReviewBtn")?.addEventListener("click", function () {
         doc.getElementById("rvProduct").value = product.name;
-        doc.getElementById("rvSubject").value = "New Review — " + product.name;
         doc.getElementById("rvModalForm").style.display = "";
         doc.getElementById("rvSent").style.display = "none";
         doc.getElementById("rvModalOverlay")?.classList.add("open");

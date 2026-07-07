@@ -572,31 +572,30 @@
 })();
 </script>
 <script>
-/* ── Join The Drop + Popup — Formspree email integration ── */
-/* Replace YOUR_FORM_ID below with your Formspree form ID (sign up free at formspree.io) */
-var KRYPTAA_FORMSPREE = 'https://formspree.io/f/mbljodbk';
+/* ── Join The Drop + Popup — Mailchimp audience integration (KRYPTAA Drop List) ── */
+/* JSONP: Mailchimp's subscribe endpoint has no CORS headers, so a script-tag callback is used */
+var KRYPTAA_MC_JSONP = 'https://gmail.us12.list-manage.com/subscribe/post-json?u=450fbc81f41740fcc252b9629&id=010b1e7bb0&f_id=00e455e0f0';
 
 function kSendEmail(email, successEl, inputEl) {
   if (!email) return;
-  fetch(KRYPTAA_FORMSPREE, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({ email: email, source: 'KRYPTAA Drop 001' })
-  }).then(function(r) {
-    if (r.ok) {
+  var cb = 'kMcCb' + Math.floor(Math.random() * 1e9);
+  function finish(ok) {
+    if (ok) {
       successEl.textContent = '✓ You\'re on the list. Drop 001 is coming.';
-      successEl.style.opacity = '1';
       if (inputEl) inputEl.value = '';
     } else {
-      successEl.textContent = '✓ Locked in — we\'ll reach out.';
-      successEl.style.opacity = '1';
-      if (inputEl) inputEl.value = '';
+      successEl.textContent = 'Something went wrong — please try again.';
     }
-  }).catch(function() {
-    successEl.textContent = '✓ You\'re on the list. Drop 001 is coming.';
     successEl.style.opacity = '1';
-    if (inputEl) inputEl.value = '';
-  });
+  }
+  window[cb] = function(resp) {
+    window[cb] = undefined;
+    finish(!!resp && (resp.result === 'success' || /already/i.test(resp.msg || '')));
+  };
+  var s = document.createElement('script');
+  s.src = KRYPTAA_MC_JSONP + '&EMAIL=' + encodeURIComponent(email) + '&c=' + cb;
+  s.onerror = function() { window[cb] = undefined; finish(false); };
+  document.head.appendChild(s);
 }
 
 document.getElementById('joinDropForm').addEventListener('submit', function(e){
@@ -761,58 +760,5 @@ document.getElementById('joinDropForm').addEventListener('submit', function(e){
 })();
 </script>
 
-<!-- Drop 002 email capture popup -->
-<div class="drop-popup-overlay" id="dropPopupOverlay">
-  <div class="drop-popup">
-    <button class="drop-popup-close" id="dropPopupClose" aria-label="Close">✕</button>
-    <div class="drop-popup-eyebrow">Drop 002 Access</div>
-    <h3>Join the Signal</h3>
-    <p>Be first for Drop 002 — exclusive access, early pricing, and members-only pieces.</p>
-    <form class="drop-popup-form" action="https://formspree.io/f/mbljodbk" method="POST" id="dropPopupForm">
-      <input type="hidden" name="_subject" value="Drop 002 Signup — KRYPTAA">
-      <input type="email" name="email" placeholder="your@email.com" required>
-      <button type="submit">Join</button>
-    </form>
-    <div class="drop-popup-success" id="dropPopupSuccess">You're on the list.</div>
-    <button class="drop-popup-no" id="dropPopupNo">No thanks</button>
-  </div>
-</div>
-<script>
-(function() {
-  var overlay = document.getElementById('dropPopupOverlay');
-  var closeBtn = document.getElementById('dropPopupClose');
-  var noBtn = document.getElementById('dropPopupNo');
-  var form = document.getElementById('dropPopupForm');
-  var success = document.getElementById('dropPopupSuccess');
-
-  function dismiss() {
-    overlay.classList.remove('visible');
-    try { sessionStorage.setItem('kryptaa_popup_seen', '1'); } catch(e) {}
-  }
-
-  closeBtn.addEventListener('click', dismiss);
-  noBtn.addEventListener('click', dismiss);
-  overlay.addEventListener('click', function(e) { if (e.target === overlay) dismiss(); });
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    var data = new FormData(form);
-    fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
-      .then(function() {
-        form.style.display = 'none';
-        noBtn.style.display = 'none';
-        success.style.display = 'block';
-        setTimeout(dismiss, 2200);
-      })
-      .catch(function() { form.submit(); });
-  });
-
-  try {
-    if (!sessionStorage.getItem('kryptaa_popup_seen')) {
-      setTimeout(function() { overlay.classList.add('visible'); }, 6000);
-    }
-  } catch(e) {}
-})();
-</script>
 </body>
 </html>
