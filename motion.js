@@ -993,7 +993,7 @@
 
     const collectionGrid = doc.getElementById("collectionGrid");
     if (collectionGrid) {
-      const keys = ["men", "women", "tees", "women_wear"];
+      const keys = ["men", "women", "tees", "women_wear", "women_st"];
       collectionGrid.innerHTML = keys.map((key) => {
         const config = getCategoryConfig(key);
         const cover = getProductsByIds(config.heroIds)[0];

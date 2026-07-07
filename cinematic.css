@@ -694,8 +694,14 @@ html.k-snap-active {
 .snap-collections .category-grid {
   flex: 1;
   min-height: 0;
-  grid-template-columns: repeat(3, 1fr);
-  max-height: 62vh;
+  grid-template-columns: repeat(6, 1fr);
+  max-height: 75vh;
+}
+.snap-collections .category-card:nth-child(-n+3) {
+  grid-column: span 2;
+}
+.snap-collections .category-card:nth-child(n+4) {
+  grid-column: span 3;
 }
 
 /* ── Brand Video panel — full screen ── */
@@ -900,7 +906,11 @@ html.k-snap-active {
   }
   .snap-collections .category-grid {
     grid-template-columns: repeat(2, 1fr);
-    max-height: 70vh;
+    max-height: 80vh;
+  }
+  .snap-collections .category-card:nth-child(-n+3),
+  .snap-collections .category-card:nth-child(n+4) {
+    grid-column: span 1;
   }
   .snap-featured .featured-grid {
     grid-template-columns: repeat(2, 1fr);
