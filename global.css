@@ -1205,6 +1205,12 @@ body.menu-open .mobile-menu {
 .category-card img {
   object-position: center 20%;
 }
+.category-card[data-cat="women_wear"] img {
+  object-position: center 55%;
+}
+.category-card[data-cat="women_st"] img {
+  object-position: center 35%;
+}
 
 .category-card:hover img,
 .product-card:hover img {

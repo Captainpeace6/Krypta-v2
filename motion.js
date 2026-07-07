@@ -998,7 +998,7 @@
         const config = getCategoryConfig(key);
         const cover = getProductsByIds(config.heroIds)[0];
         return `
-          <a class="category-card reveal" href="${config.href}">
+          <a class="category-card reveal" href="${config.href}" data-cat="${key}">
             <img src="${cover.img}" alt="${config.title}">
             <div class="category-card-content">
               <div class="eyebrow">${config.label}</div>
