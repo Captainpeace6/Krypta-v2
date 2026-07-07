@@ -766,11 +766,15 @@ html.k-snap-active {
   font-size: clamp(1.4rem, 3.2vw, 3.2rem);
   line-height: 1.0;
   margin-top: 10px;
-  margin-bottom: 18px;
+  margin-bottom: 24px;
 }
-/* Space between "No compromises." text and "Shop The Drop" button */
+.bv-corner-br .bv-body {
+  line-height: 2.2;
+  letter-spacing: 0.04em;
+}
 .bv-corner-br .bv-cta {
-  margin-top: 24px;
+  margin-top: 32px;
+  display: inline-block;
 }
 
 /* ── Featured Products panel ── */
