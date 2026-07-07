@@ -227,7 +227,7 @@
 <!-- PASSWORD GATE -->
 <div id="gate">
   <div class="gate-card">
-    <img class="gate-logo" src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA">
+    <img class="gate-logo" src="imgs/kryptaa-logo-gold.webp" alt="KRYPTAA">
     <div class="gate-sub">Orders Dashboard</div>
     <div class="gate-label">Admin Password</div>
     <div style="position:relative;margin-bottom:16px;">
@@ -244,7 +244,7 @@
 <!-- DASHBOARD SHELL -->
 <div id="dashboard">
   <header class="od-header">
-    <img class="od-header-logo" src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA">
+    <img class="od-header-logo" src="imgs/kryptaa-logo-gold.webp" alt="KRYPTAA">
     <nav class="od-nav">
       <button class="od-nav-btn active" data-view="ordersView">Orders</button>
       <button class="od-nav-btn" data-view="dashboardView">Dashboard</button>
@@ -392,7 +392,7 @@
       var n = count - lastOrderCount;
       new Notification('New KRYPTAA Order' + (n > 1 ? 's' : '') + '! 🖤', {
         body: n + ' new order' + (n > 1 ? 's' : '') + ' just came in.',
-        icon: 'imgs/kryptaa-logo-gold.png'
+        icon: 'imgs/kryptaa-logo-gold.webp'
       });
     }
     lastOrderCount = count;
@@ -421,9 +421,9 @@
     if (n.includes('track pant') && n.includes('green'))  return base + 'imgs/pants/womens-st-green-01.jpg';
     if (n.includes('track pant') && n.includes('yellow')) return base + 'imgs/pants/womens-st-yellow-01.jpg';
     if (n.includes('broken mirror') || (n.includes('broken') && !n.includes('track'))) return base + 'imgs/img-broken.png';
-    if (n.includes('glorious death'))  return base + 'imgs/img-glorious.png';
+    if (n.includes('glorious death'))  return base + 'imgs/img-glorious.webp';
     if (n.includes('gothic angel') || n.includes('angel oversized')) return base + 'imgs/img-angel.png';
-    if (n.includes('money moves'))     return base + 'imgs/img-money.png';
+    if (n.includes('money moves'))     return base + 'imgs/img-money.webp';
     if (n.includes('vintage distressed')) return base + 'imgs/pants/mens-pant-1.jpg';
     if (n.includes('red gothic embroidery')) return base + 'imgs/pants/mens-pant-2.jpg';
     if (n.includes('acid rust'))       return base + 'imgs/pants/mens-pant-3.jpg';
@@ -876,7 +876,7 @@ function printLabel(order, orderNum) {
     +'.footer{text-align:center;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#bbb;margin-top:auto;padding-top:16px;border-top:1px solid #eee;}'
     +'.ref{font-size:11px;color:#bbb;text-align:right;}@media print{body{-webkit-print-color-adjust:exact;}}'
     +'</style></head><body><div class="wrap">'
-    +'<div class="brand"><img src="https://www.kryptaa.com/imgs/kryptaa-logo-gold.png" alt="KRYPTAA"><div class="order-no">Order #'+orderNum+'</div></div>'
+    +'<div class="brand"><img src="https://www.kryptaa.com/imgs/kryptaa-logo-gold.webp" alt="KRYPTAA"><div class="order-no">Order #'+orderNum+'</div></div>'
     +'<hr>'
     +'<div><div class="lbl">Ship To</div><div class="addr">'+(order.shippingName||order.customer.name)+'<br>'+order.shippingAddress+'</div>'
     +'<div class="contact">'+order.customer.email+(order.customer.phone&&order.customer.phone!=='—'?' &nbsp;·&nbsp; '+order.customer.phone:'')+'</div></div>'

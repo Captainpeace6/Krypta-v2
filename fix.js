@@ -205,7 +205,7 @@ if (isHome) {
   document.head.appendChild(hCSS);
 
   // ── Hero HTML (Fix 1: uses gold logo image in center) ──
-  var heroHTML = '<div id="kryptaa-hero-v2"><div class="hero-glow"></div><div class="hero-inner"><img class="hero-logo" src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA"/><div class="hero-tagline">Driven By Aura</div><div class="hero-subtitle">Drop 001 &nbsp;&mdash;&nbsp; Gothic &amp; Streetwear &nbsp;&mdash;&nbsp; SS26</div><a class="hero-cta" href="#k-categories">Enter The Drop</a></div><div class="hero-scroll"><div class="hero-scroll-lbl">Scroll</div><div class="hero-scroll-line"></div></div></div>';
+  var heroHTML = '<div id="kryptaa-hero-v2"><div class="hero-glow"></div><div class="hero-inner"><img class="hero-logo" src="imgs/kryptaa-logo-gold.webp" alt="KRYPTAA"/><div class="hero-tagline">Driven By Aura</div><div class="hero-subtitle">Drop 001 &nbsp;&mdash;&nbsp; Gothic &amp; Streetwear &nbsp;&mdash;&nbsp; SS26</div><a class="hero-cta" href="#k-categories">Enter The Drop</a></div><div class="hero-scroll"><div class="hero-scroll-lbl">Scroll</div><div class="hero-scroll-line"></div></div></div>';
 
   // Replace existing hero
   var heroTries = ['.hero-section','#hero','.hero','[class*="hero"]'];
@@ -256,13 +256,13 @@ if (isHome) {
       '<div style="width:60px;height:1px;background:#FF5500;margin:0 auto;box-shadow:0 0 12px rgba(255,85,0,0.6);"></div>' +
     '</div>' +
     '<div>' +
-      makeCatRow('men.html','imgs/jeans-gold-dragon.jpg','Mens Collection','MEN\'S<br>JEANS','#FF5500', false) +
-      makeCatRow('women.html','imgs/w-vintage-dragon.jpg','Womens Collection','WOMEN\'S<br>JEANS','#FF5500', true) +
+      makeCatRow('men.html','imgs/jeans-gold-dragon.webp','Mens Collection','MEN\'S<br>JEANS','#FF5500', false) +
+      makeCatRow('women.html','imgs/w-vintage-dragon.webp','Womens Collection','WOMEN\'S<br>JEANS','#FF5500', true) +
       makeCatRow('t-shirts.html','imgs/img-angel.png','Drop 001','T-SHIRTS','#FF5500', false) +
-      makeCatRow('women-tops.html','imgs/img-glorious.png','New Arrivals','WOMEN<br>TOPS','#FF5500', true) +
+      makeCatRow('women-tops.html','imgs/img-glorious.webp','New Arrivals','WOMEN<br>TOPS','#FF5500', true) +
       makeCatRow('anime.html','imgs/anime-gojo.jpg','Category Drop','ANIME<br>DENIM','#FF5500', false) +
       makeCatRow('track-pants.html','imgs/jeans-dual-dragon.jpg','Mens Drop 002','TRACK<br>PANTS','#FF5500', true) +
-      makeCatRow('women-track-pants.html','imgs/w-grey-baggy.jpg','Womens Drop 002','WOMEN<br>TRACK PANTS','#FF5500', false) +
+      makeCatRow('women-track-pants.html','imgs/w-grey-baggy.webp','Womens Drop 002','WOMEN<br>TRACK PANTS','#FF5500', false) +
       makeCatRow('anime.html','imgs/anime-jjk1.jpg','Limited Series','ANIME<br>COLLECTION','#FF5500', true) +
     '</div>' +
   '</section>';
@@ -432,7 +432,7 @@ setTimeout(function() {
     // ── 2. Nav logo — swap src + make wide ──
     var navImg = document.querySelector('.nav-logo-img, .nav-logo img');
     if (navImg) {
-      navImg.src = 'imgs/kryptaa-logo-gold.png';
+      navImg.src = 'imgs/kryptaa-logo-gold.webp';
       navImg.style.cssText = 'width:120px!important;height:auto!important;max-height:none!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 14px rgba(255,85,0,.45))!important;';
       var wrap = navImg.parentElement;
       if (wrap) wrap.style.cssText += 'height:auto!important;overflow:visible!important;';
@@ -467,7 +467,7 @@ setTimeout(function() {
           // Build the centered logo block
           var logoBlock = document.createElement('div');
           logoBlock.className = 'k-footer-brand';
-          logoBlock.innerHTML = '<img src="imgs/kryptaa-logo-gold.png" alt="KRYPTAA"/>';
+          logoBlock.innerHTML = '<img src="imgs/kryptaa-logo-gold.webp" alt="KRYPTAA"/>';
           // Insert at the very start of this container
           container.insertBefore(logoBlock, container.firstChild);
         }

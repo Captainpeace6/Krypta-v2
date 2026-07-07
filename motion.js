@@ -81,7 +81,7 @@
           <div class="nav-links" id="desktopNav">${navLinks()}</div>
         </div>
         <a class="nav-brand" href="index.html" aria-label="KRYPTAA home">
-          <img src="imgs/kryptaa-sigil.png" alt="KRYPTAA" class="nav-logo-img">
+          <img src="imgs/kryptaa-sigil.webp" alt="KRYPTAA" class="nav-logo-img">
         </a>
         <div class="nav-right">
           <div class="nav-social-icons">
@@ -199,7 +199,7 @@
       </aside>
 
       <div class="sticky-drop-bar" id="stickyDropBar">
-        <img src="imgs/kryptaa-sigil.png" alt="" class="sdb-sigil">
+        <img src="imgs/kryptaa-sigil.webp" alt="" class="sdb-sigil">
         <span class="sdb-text">Drop 001 — SS26 · Limited Units</span>
         <a class="k-btn-gold sdb-btn" href="index.html">Shop Now</a>
         <button class="sdb-close" type="button" id="sdbClose" aria-label="Dismiss">✕</button>
@@ -421,7 +421,7 @@
     const menCfg = window.CATEGORY_CONFIGS.men;
     const womenCfg = window.CATEGORY_CONFIGS.women;
     const menImg = "imgs/jeans-dual-dragon.jpg";
-    const womenImg = "imgs/w-white-dragon.jpg";
+    const womenImg = "imgs/w-white-dragon.webp";
     return `
       <div class="mm-nav-tiles">
         <a class="mm-nav-tile" href="${menCfg.href}" data-nav="${menCfg.href}">
@@ -988,7 +988,7 @@
   function renderHome() {
     const heroMedia = doc.getElementById("homeHeroMedia");
     if (heroMedia) {
-      heroMedia.innerHTML = getProductsByIds([1, 14, 70]).map((product) => `<img src="${product.hero || product.img}" alt="">`).join("");
+      heroMedia.innerHTML = getProductsByIds([1, 14, 70]).map((product) => `<img src="${product.hero || product.img}" alt="${product.name} — KRYPTAA">`).join("");
     }
 
     const collectionGrid = doc.getElementById("collectionGrid");
@@ -1046,7 +1046,7 @@
     /* Dynamic SEO for shop pages */
     const _sm = (attr, key, val) => { let t = doc.querySelector(`meta[${attr}="${key}"]`); if (!t) { t = doc.createElement("meta"); t.setAttribute(attr, key); doc.head.appendChild(t); } t.setAttribute("content", val); };
     const _coverImg = config.heroIds && config.heroIds.length ? (getProductsByIds([config.heroIds[0]])[0] || {}) : {};
-    const _ogImg = `https://www.kryptaa.com/${_coverImg.img || "imgs/kryptaa-sigil.png"}`;
+    const _ogImg = `https://www.kryptaa.com/${_coverImg.img || "imgs/kryptaa-sigil.webp"}`;
     _sm("name", "description", config.description);
     _sm("property", "og:title", `${config.title} — KRYPTAA`);
     _sm("property", "og:description", config.description);
@@ -1055,7 +1055,7 @@
 
     const heroMedia = doc.getElementById("shopHeroMedia");
     if (heroMedia) {
-      heroMedia.innerHTML = getProductsByIds(config.heroIds).map((product) => `<img src="${product.img}" alt="">`).join("");
+      heroMedia.innerHTML = getProductsByIds(config.heroIds).map((product) => `<img src="${product.img}" alt="${product.name} — KRYPTAA">`).join("");
     }
 
     const grid = doc.getElementById("productsGrid");
@@ -1263,6 +1263,14 @@
             </div>` : ``}
             `}
           </div>
+        </div>
+      </section>
+      <section class="pdp-lookbook-cta reveal">
+        <div class="section-shell">
+          <a href="lookbook.html" class="pdp-lookbook-link">
+            <span class="eyebrow">Drop 001</span>
+            <span>See the Full Look →</span>
+          </a>
         </div>
       </section>
       <section class="story-section">
