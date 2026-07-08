@@ -111,6 +111,7 @@
 
   function mountChrome() {
     body.insertAdjacentHTML("afterbegin", `
+      <div class="k-anno-bar" role="note">Drop 001 Live &nbsp;·&nbsp; Free Shipping Over $75</div>
       <nav id="navbar" class="site-nav">
         <div class="nav-left">
           <button class="nav-toggle" type="button" data-menu-toggle aria-label="Open menu"><span></span><span></span></button>

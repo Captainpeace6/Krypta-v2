@@ -212,8 +212,8 @@
 
   <!-- ░░ PANEL 3 — BRAND VIDEO ░░ -->
   <section class="brand-video-section snap-panel">
-    <video class="bv-video-full layer-figure" autoplay muted loop playsinline>
-      <source src="imgs/brand-video.mp4" type="video/mp4">
+    <video class="bv-video-full layer-figure" muted loop playsinline preload="none">
+      <source data-src="imgs/brand-video.mp4" type="video/mp4">
     </video>
     <button class="hero-mute-btn" id="brandMuteBtn" aria-label="Unmute video" title="Unmute">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -696,6 +696,27 @@ document.getElementById('joinDropForm').addEventListener('submit', function(e){
       });
     }, { threshold: 0.2 });
     document.querySelectorAll('video[autoplay]').forEach(function (v) { vObs.observe(v); });
+  }
+
+  /* Lazy-load the brand video (4.3MB) — fetch only when the user scrolls near it */
+  var bv = document.querySelector('.bv-video-full');
+  if (bv && 'IntersectionObserver' in window) {
+    var bvLoaded = false;
+    new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) { if (bvLoaded) bv.pause(); return; }
+        if (!bvLoaded) {
+          bvLoaded = true;
+          var src = bv.querySelector('source[data-src]');
+          if (src) { src.src = src.dataset.src; bv.load(); }
+        }
+        bv.play().catch(function () {});
+      });
+    }, { rootMargin: '600px 0px', threshold: 0 }).observe(bv);
+  } else if (bv) {
+    /* No IO support — load immediately */
+    var srcEl = bv.querySelector('source[data-src]');
+    if (srcEl) { srcEl.src = srcEl.dataset.src; bv.load(); bv.play && bv.play().catch(function () {}); }
   }
 })();
 </script>

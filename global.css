@@ -1820,7 +1820,7 @@ body.menu-open .mobile-menu {
 .detail-back-row {
   width: min(1600px, calc(100% - clamp(20px, 3.5vw, 56px)));
   margin: 0 auto;
-  padding-top: calc(var(--nav-h) + 20px);
+  padding-top: calc(var(--nav-h) + var(--anno-h, 0px) + 20px);
 }
 
 .detail-back-btn {
@@ -2017,7 +2017,7 @@ body.menu-open .mobile-menu {
 }
 
 .checkout-page {
-  padding: calc(var(--nav-h) + 72px) 0 80px;
+  padding: calc(var(--nav-h) + var(--anno-h, 0px) + 72px) 0 80px;
 }
 
 .checkout-grid {
@@ -4965,4 +4965,41 @@ details.faq-item[open] summary { color: #f0ede8; }
   .lookbook-hero { height: 50vh; }
   .lookbook-hero-bg { grid-template-columns: 1fr 1fr; }
   .lookbook-hero-bg img:last-child { display: none; }
+}
+
+/* ── Announcement bar (injected by motion.js on every page) ── */
+:root { --anno-h: 26px; }
+.k-anno-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--anno-h);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #070604;
+  border-bottom: 1px solid rgba(210,174,91,0.22);
+  color: var(--k-gold, #d2ae5b);
+  font-family: var(--f-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.site-nav { top: var(--anno-h); }
+.mobile-menu { top: calc(68px + var(--anno-h)); }
+@media (max-width: 767px) {
+  .k-anno-bar { font-size: 0.5rem; letter-spacing: 0.18em; }
+}
+
+/* ── Reduced motion — respect user preference ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .snap-root { scroll-snap-type: none !important; }
 }
