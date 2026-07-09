@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Meta Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+   if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+   n.queue=[];t=b.createElement(e);t.async=!0;
+   t.src=v;s=b.getElementsByTagName(e)[0];
+   s.parentNode.insertBefore(t,s)}(window, document,'script',
+                                   'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2070231503594050');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=2070231503594050&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-242EQ24FP3"></script>
 <script>
@@ -669,6 +686,25 @@ function goToStripe() {
       })
     : cart;
 
+  /* Meta Pixel — InitiateCheckout, and stash the exact charged total so the
+     Purchase event on the success redirect reports accurate revenue. */
+  var mpContentIds = cart.map(function (i) { return String(i.id); });
+  var mpNumItems = cart.reduce(function (s, i) { return s + (i.qty || 1); }, 0);
+  if (typeof window.fbq === "function") {
+    window.fbq("track", "InitiateCheckout", {
+      content_ids: mpContentIds,
+      content_type: "product",
+      num_items: mpNumItems,
+      value: cartTotal,
+      currency: "USD"
+    });
+  }
+  try {
+    localStorage.setItem("kryptaa_pending_purchase", JSON.stringify({
+      value: cartTotal, num_items: mpNumItems, content_ids: mpContentIds
+    }));
+  } catch (e) {}
+
   fetch("https://kryptaa-backend.netlify.app/.netlify/functions/create-checkout", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -797,6 +833,20 @@ function goToStripe() {
     /* Show overlay */
     var overlay = document.getElementById("coSuccess");
     if (overlay) overlay.classList.add("active");
+    /* Meta Pixel — Purchase, using the exact total stashed before the Stripe redirect */
+    try {
+      var pending = JSON.parse(localStorage.getItem("kryptaa_pending_purchase") || "null");
+      if (pending && typeof window.fbq === "function") {
+        window.fbq("track", "Purchase", {
+          content_ids: pending.content_ids || [],
+          content_type: "product",
+          num_items: pending.num_items || 1,
+          value: pending.value || 0,
+          currency: "USD"
+        });
+      }
+      localStorage.removeItem("kryptaa_pending_purchase");
+    } catch (e) {}
     /* Clear cart so bag doesn't show stale items */
     try { localStorage.removeItem("kryptaa_cart"); } catch (e) {}
     /* Remove ?success=true from URL so refresh doesn't re-show */

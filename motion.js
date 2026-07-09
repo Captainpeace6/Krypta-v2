@@ -886,10 +886,23 @@
     toast._timer = setTimeout(() => toast.classList.remove("show"), 2200);
   }
 
+  /* Meta Pixel event helper — base pixel + fbq are defined in each page's <head> */
+  function fbTrack(eventName, params) {
+    if (typeof window.fbq === "function") window.fbq("track", eventName, params || {});
+  }
+
   function addToCart(productId, size, qty) {
     qty = qty && qty > 0 ? qty : 1;
     const product = getProductById(productId);
     if (!product || !size) return;
+
+    fbTrack("AddToCart", {
+      content_ids: [String(product.id)],
+      content_name: product.name,
+      content_type: "product",
+      value: (product.price || 0) * qty,
+      currency: "USD",
+    });
 
     const key = `${product.id}-${size}`;
     const existing = cart.find((item) => item.key === key);
@@ -1180,6 +1193,15 @@
     }
 
     doc.title = `${product.name} — KRYPTAA`;
+
+    fbTrack("ViewContent", {
+      content_ids: [String(product.id)],
+      content_name: product.name,
+      content_type: "product",
+      value: product.price || 0,
+      currency: "USD",
+    });
+
     selectedSize = product.category === "women_wear" ? "Universal" : null;
     let pdQty = 1;
 
