@@ -699,9 +699,33 @@ function goToStripe() {
       currency: "USD"
     });
   }
+
+  /* GA4 ecommerce — item prices come from checkoutCart so they carry the same
+     coupon discount that is actually charged, keeping sum(items) == value. */
+  var gaItems = checkoutCart.map(function (item, idx) {
+    return {
+      item_id: String(item.id),
+      item_name: item.name,
+      item_variant: item.size,
+      price: item.price,
+      quantity: item.qty,
+      index: idx
+    };
+  });
+  var gaCoupon = appliedCoupon ? appliedCoupon.code : null;
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "begin_checkout", {
+      currency: "USD",
+      value: cartTotal,
+      coupon: gaCoupon || undefined,
+      items: gaItems
+    });
+  }
+
   try {
     localStorage.setItem("kryptaa_pending_purchase", JSON.stringify({
-      value: cartTotal, num_items: mpNumItems, content_ids: mpContentIds
+      value: cartTotal, num_items: mpNumItems, content_ids: mpContentIds,
+      ga_items: gaItems, coupon: gaCoupon
     }));
   } catch (e) {}
 
@@ -833,7 +857,8 @@ function goToStripe() {
     /* Show overlay */
     var overlay = document.getElementById("coSuccess");
     if (overlay) overlay.classList.add("active");
-    /* Meta Pixel — Purchase, using the exact total stashed before the Stripe redirect */
+    /* Meta Pixel + GA4 — Purchase, using the exact total stashed before the Stripe redirect.
+       transaction_id is the order ref shown to the customer; GA4 dedupes on it. */
     try {
       var pending = JSON.parse(localStorage.getItem("kryptaa_pending_purchase") || "null");
       if (pending && typeof window.fbq === "function") {
@@ -843,6 +868,15 @@ function goToStripe() {
           num_items: pending.num_items || 1,
           value: pending.value || 0,
           currency: "USD"
+        });
+      }
+      if (pending && typeof window.gtag === "function") {
+        window.gtag("event", "purchase", {
+          transaction_id: ref,
+          currency: "USD",
+          value: pending.value || 0,
+          coupon: pending.coupon || undefined,
+          items: pending.ga_items || []
         });
       }
       localStorage.removeItem("kryptaa_pending_purchase");
