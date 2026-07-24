@@ -250,6 +250,9 @@ const REVIEWS = {
     { author: "Dev R.", date: "Jan 2026", rating: 5, size: "M", body: "The koi artwork is stunning — super vibrant and detailed. Quality is top tier, worth every penny." },
     { author: "Chris L.", date: "Feb 2026", rating: 5, size: "L", body: "Statement piece. Wore this to a rooftop event and it turned every head. Fabric weight is serious." },
   ],
+  14: [
+    { author: "PruthV", date: "Jul 2026", rating: 5, size: "L", body: "I'm seriously impressed. These pants exceeded my expectations. The fit is spot on, they're super comfortable, and the quality feels top-notch. You definitely nailed it. Can't wait to wear these to my next rave! 🔥🙌", photos: ["imgs/reviews/pruthv-ice-cargo.jpg"] },
+  ],
   30: [
     { author: "Priya T.", date: "Jan 2026", rating: 5, size: "S", body: "Literally the most beautiful jeans I've ever owned. The skull print on the back is stunning in person. Fits perfectly." },
     { author: "Meera V.", date: "Feb 2026", rating: 5, size: "M", body: "Oversized fit is everything. Got so many compliments at the festival. Fabric quality is exceptional." },
