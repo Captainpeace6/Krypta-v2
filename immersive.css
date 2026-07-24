@@ -1,0 +1,56 @@
+/* ═══════════════════════════════════════════════════════════
+   KRYPTAA — Immersive Layer
+   Hero gold-ember field · magnetic cursor · magnetic buttons
+   Additive & self-contained. Desktop-first. Respects reduced-motion.
+   ═══════════════════════════════════════════════════════════ */
+
+/* Gold ember / dust field drifting over the hero video */
+.immersive-embers {
+  position: absolute;
+  inset: 0;
+  z-index: 3;                 /* above video(0) + figure(1), below hero-copy(4) */
+  pointer-events: none;
+  mix-blend-mode: screen;     /* embers glow over the dark footage */
+}
+
+/* Custom magnetic cursor — desktop fine-pointers only */
+.immersive-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 30px; height: 30px;
+  margin: -15px 0 0 -15px;
+  border: 1px solid rgba(210, 174, 91, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 100000;
+  opacity: 1;
+  transition:
+    width .3s cubic-bezier(.2, .9, .2, 1),
+    height .3s cubic-bezier(.2, .9, .2, 1),
+    margin .3s cubic-bezier(.2, .9, .2, 1),
+    background-color .3s, border-color .3s, opacity .3s;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.immersive-cursor.is-hover {
+  width: 54px; height: 54px;
+  margin: -27px 0 0 -27px;
+  background-color: rgba(210, 174, 91, 0.10);
+  border-color: rgba(210, 174, 91, 0.85);
+}
+@media (hover: none), (pointer: coarse), (max-width: 767px) {
+  .immersive-cursor { display: none !important; }
+}
+
+/* Smooth spring-back for the magnetic hero buttons */
+.v3-hero .k-btn-gold,
+.v3-hero .k-btn-outline {
+  transition:
+    transform .4s cubic-bezier(.2, .9, .2, 1),
+    background .25s, color .25s, border-color .25s, box-shadow .25s;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .immersive-embers, .immersive-cursor { display: none !important; }
+}

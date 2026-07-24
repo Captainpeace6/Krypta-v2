@@ -414,6 +414,22 @@
     doc.getElementById("rvModalOverlay")?.addEventListener("click", (e) => {
       if (e.target === doc.getElementById("rvModalOverlay")) doc.getElementById("rvModalOverlay").classList.remove("open");
     });
+
+    /* Global "Write a Review" trigger — works on the homepage, reviews page, anywhere.
+       Any element with [data-write-review] opens the modal (optionally sets a product). */
+    doc.addEventListener("click", (e) => {
+      const t = e.target.closest ? e.target.closest("[data-write-review]") : null;
+      if (!t) return;
+      e.preventDefault();
+      const pf = doc.getElementById("rvProduct");
+      if (pf) pf.value = t.getAttribute("data-product") || "KRYPTAA — Drop 001";
+      const form = doc.getElementById("rvModalForm");
+      if (form) form.style.display = "";
+      const sent = doc.getElementById("rvSent");
+      if (sent) sent.style.display = "none";
+      const ov = doc.getElementById("rvModalOverlay");
+      if (ov) ov.classList.add("open");
+    });
     doc.getElementById("rvModalForm")?.addEventListener("submit", (e) => {
       e.preventDefault();
       const form = e.target;
@@ -496,6 +512,7 @@
     const configs = ["men", "women", "women_wear", "women_st", "tees", "anime"].map((key) => window.CATEGORY_CONFIGS[key]);
     return configs.map((item) => `<a href="${item.href}" data-nav="${item.href}">${item.nav}</a>`).join("") +
       `<a href="lookbook.html" data-nav="lookbook.html">Lookbook</a>` +
+      `<a href="reviews.html" data-nav="reviews.html">Reviews</a>` +
       `<a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>`;
   }
 
@@ -529,6 +546,7 @@
         <a href="anime.html" data-nav="anime.html">Anime Denim</a>
         <a href="women-streetwear-trousers.html" data-nav="women-streetwear-trousers.html">Street Wear Track Pants</a>
         <a href="lookbook.html" data-nav="lookbook.html">Lookbook</a>
+        <a href="reviews.html" data-nav="reviews.html">Reviews</a>
         <a href="checkout.html" data-nav="checkout.html">Bag &amp; Checkout</a>
         <a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>
         <a href="track.html" data-nav="track.html">Track My Order</a>

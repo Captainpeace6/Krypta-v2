@@ -46,13 +46,15 @@
 <link rel="stylesheet" href="global.css">
 <link rel="icon" type="image/webp" href="imgs/kryptaa-sigil.webp">
 <link rel="stylesheet" href="cinematic.css">
-<script defer src="products.js"></script
+<link rel="stylesheet" href="immersive.css">
+<script defer src="products.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script defer src="motion.js"></script>
 <script defer src="cinematic.js"></script>
 <script defer src="snap-scroll.js"></script>
+<script defer src="immersive.js"></script>
 <script>
   /* Failsafe: if cinematic.js stalls, clear the overlay after 8s */
   window.addEventListener('load', function () {
@@ -136,8 +138,8 @@
 <main class="home-page">
   <!-- ░░ PANEL 0 — HERO ░░ -->
   <section class="v3-hero snap-panel" data-hero>
-<video class="hero-video-bg layer-bg" autoplay muted loop playsinline poster="imgs/hero-dragon-poster.jpg">
-      <source src="imgs/hero-dragon.mp4" type="video/mp4">
+<video class="hero-video-bg layer-bg" autoplay muted loop playsinline poster="imgs/hero-skate-poster.jpg">
+      <source src="imgs/hero-skate.mp4" type="video/mp4">
     </video>
     <div class="hero-corner hero-corner-left">Defined By Power</div>
     <div class="hero-corner hero-corner-right">Driven By Aura</div>
@@ -467,6 +469,46 @@
 
 <!-- ░░ PANEL 6 — JOIN DROP + FOOTER ░░ -->
 <div class="snap-panel snap-footer-panel">
+
+<!-- Homepage Reviews -->
+<section class="home-reviews section-shell reveal">
+  <div class="hr-head">
+    <div class="hr-eyebrow">— The Underground Speaks —</div>
+    <h2 class="hr-title">Reviews From The Drop</h2>
+    <div class="hr-agg"><span class="hr-stars" id="hrStars">★★★★★</span><span class="hr-agg-text" id="hrAggText">Real reviews</span></div>
+  </div>
+  <div class="hr-grid" id="homeReviewGrid"></div>
+  <div class="hr-actions">
+    <a class="k-btn-outline" href="reviews.html">Read All Reviews</a>
+    <button class="k-btn-gold" type="button" data-write-review data-product="KRYPTAA — Drop 001">Write a Review</button>
+  </div>
+</section>
+<script>
+(function () {
+  function ready(fn){ if (document.readyState !== "loading") fn(); else document.addEventListener("DOMContentLoaded", fn); }
+  function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+  function starStr(n){ n=Math.max(0,Math.min(5,Math.round(n||0))); return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n); }
+  ready(function () {
+    var R = window.REVIEWS || {}, P = window.PRODUCTS || [];
+    function pname(id){ var p = P.find(function(x){ return String(x.id) === String(id); }); return p ? p.name : ""; }
+    var all = [];
+    Object.keys(R).forEach(function (pid) {
+      (R[pid] || []).forEach(function (rv) { all.push({ product: pname(pid), author: rv.author, rating: rv.rating, body: rv.body }); });
+    });
+    var count = all.length, avg = count ? all.reduce(function (s,r){ return s + (+r.rating||0); }, 0) / count : 0;
+    var st = document.getElementById("hrStars"); if (st) st.textContent = starStr(avg);
+    var at = document.getElementById("hrAggText"); if (at) at.textContent = count ? (avg.toFixed(1) + " / 5  ·  " + count + " reviews") : "Be the first";
+    var featured = all.slice().sort(function (a,b){ return (b.rating||0) - (a.rating||0); }).slice(0, 3);
+    var grid = document.getElementById("homeReviewGrid");
+    if (grid) grid.innerHTML = featured.map(function (r) {
+      return '<article class="hr-card"><div class="hr-card-stars">' + starStr(r.rating) + '</div>'
+        + '<p class="hr-card-body">' + esc(r.body) + '</p>'
+        + '<div class="hr-card-meta"><span class="hr-card-author">' + esc(r.author || "Anonymous") + '</span>'
+        + (r.product ? '<span class="hr-card-on">on ' + esc(r.product) + '</span>' : "") + '</div></article>';
+    }).join("");
+  });
+})();
+</script>
 
 <!-- Join The Drop -->
 <section class="join-drop-section">

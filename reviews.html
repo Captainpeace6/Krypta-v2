@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Meta Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+   if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+   n.queue=[];t=b.createElement(e);t.async=!0;
+   t.src=v;s=b.getElementsByTagName(e)[0];
+   s.parentNode.insertBefore(t,s)}(window, document,'script',
+                                   'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2070231503594050');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=2070231503594050&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-242EQ24FP3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-242EQ24FP3');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviews — KRYPTAA</title>
+<meta name="description" content="Real reviews from the KRYPTAA underground. See what customers say about Drop 001, and share your own with photos.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KRYPTAA">
+<meta property="og:title" content="Reviews — KRYPTAA">
+<meta property="og:description" content="Real reviews from the KRYPTAA underground. Share yours with a photo.">
+<meta property="og:image" content="https://www.kryptaa.com/imgs/kryptaa-sigil.webp">
+<meta property="og:url" content="https://www.kryptaa.com/reviews.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.kryptaa.com/imgs/kryptaa-sigil.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="global.css">
+<link rel="icon" type="image/webp" href="imgs/kryptaa-sigil.webp">
+<script defer src="products.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script defer src="motion.js"></script>
+<style>
+/* ── Reviews page ── */
+.reviews-page {
+  min-height: 100vh;
+  padding-top: calc(var(--nav-h, 82px) + 56px);
+  padding-bottom: 100px;
+  background: var(--k-black, #030303);
+}
+.rv-hero {
+  text-align: center;
+  padding: 0 clamp(20px, 5vw, 60px) 44px;
+  border-bottom: 1px solid rgba(210,174,91,0.12);
+  margin-bottom: 48px;
+}
+.rv-hero-eyebrow {
+  font-family: var(--f-mono, 'Space Mono', monospace);
+  font-size: 0.58rem; letter-spacing: 0.36em; text-transform: uppercase;
+  color: var(--k-gold, #d2ae5b); margin-bottom: 16px;
+}
+.rv-hero h1 {
+  font-family: var(--f-primary, 'Cinzel', serif);
+  font-size: clamp(2.2rem, 6vw, 4.5rem); font-weight: 900;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--k-bone, #f0ede8); line-height: 1.05; margin-bottom: 20px;
+}
+.rv-agg { display: inline-flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 26px; }
+.rv-agg-stars { font-size: clamp(1.3rem, 3vw, 1.8rem); color: var(--k-gold, #d2ae5b); letter-spacing: 4px; }
+.rv-agg-text {
+  font-family: var(--f-mono, 'Space Mono', monospace); font-size: 0.7rem;
+  letter-spacing: 0.12em; color: rgba(240,237,232,0.55);
+}
+.rv-hero .k-btn-gold { margin-top: 6px; }
+
+/* ── Review wall ── */
+.rv-wall {
+  width: min(1200px, calc(100% - clamp(24px, 6vw, 96px)));
+  margin: 0 auto;
+  columns: 3 300px;
+  column-gap: 22px;
+}
+.rv-card {
+  break-inside: avoid;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(210,174,91,0.16);
+  padding: 24px 24px 20px;
+  margin: 0 0 22px;
+}
+.rv-card-stars { color: var(--k-gold, #d2ae5b); letter-spacing: 3px; font-size: 0.95rem; margin-bottom: 12px; }
+.rv-card-body {
+  font-family: var(--f-body, 'Inter', sans-serif);
+  font-size: 0.92rem; line-height: 1.7; color: rgba(240,237,232,0.82); margin: 0 0 16px;
+}
+.rv-card-photos { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.rv-card-photos img { width: 74px; height: 74px; object-fit: cover; border: 1px solid rgba(210,174,91,0.25); border-radius: 2px; }
+.rv-card-meta { display: flex; flex-direction: column; gap: 3px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px; }
+.rv-card-author { font-family: var(--f-mono, 'Space Mono', monospace); font-size: 0.72rem; letter-spacing: 0.1em; color: var(--k-bone, #f0ede8); text-transform: uppercase; }
+.rv-card-on { font-size: 0.72rem; color: var(--k-gold, #d2ae5b); opacity: 0.8; }
+.rv-card-date { font-size: 0.66rem; color: rgba(240,237,232,0.35); letter-spacing: 0.08em; }
+.rv-empty { text-align: center; color: rgba(240,237,232,0.5); font-family: var(--f-mono,'Space Mono',monospace); padding: 60px 0; }
+
+@media (max-width: 900px) { .rv-wall { columns: 2 260px; } }
+@media (max-width: 600px) { .rv-wall { columns: 1; } }
+</style>
+</head>
+<body data-page="reviews">
+
+<main class="reviews-page">
+  <section class="rv-hero">
+    <div class="rv-hero-eyebrow">— The Underground Speaks —</div>
+    <h1>Reviews</h1>
+    <div class="rv-agg">
+      <div class="rv-agg-stars" id="rvAggStars">★★★★★</div>
+      <div class="rv-agg-text" id="rvAggText">Loading reviews…</div>
+    </div>
+    <br>
+    <button class="k-btn-gold" type="button" data-write-review data-product="KRYPTAA — Drop 001">Write a Review</button>
+  </section>
+
+  <div class="rv-wall" id="reviewWall">
+    <div class="rv-empty">Loading reviews…</div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand-block">
+      <img src="imgs/kryptaa-wordmark-final.png" alt="KryptaA" class="footer-logo footer-wordmark">
+      <img src="imgs/kryptaa-sigil.webp" alt="KRYPTAA sigil" class="footer-sigil">
+      <p class="footer-brand-desc">Streetwear from the Shadows.<br>Every piece is limited. Every drop is a statement.<br><em>Defined by Power. Driven by Aura.</em></p>
+    </div>
+    <div class="footer-nav-block">
+      <div class="footer-nav-col">
+        <div class="footer-col-label">Collections</div>
+        <a href="men.html">Men's Denim</a>
+        <a href="women.html">Women's Denim</a>
+        <a href="women-streetwear-trousers.html">Street Wear Track Pants</a>
+        <a href="t-shirts.html">T-Shirts</a>
+        <a href="anime.html">Anime Denim</a>
+      </div>
+      <div class="footer-nav-col">
+        <div class="footer-col-label">Info</div>
+        <a href="reviews.html">Reviews</a>
+        <a href="info.html">Shipping &amp; Returns</a>
+        <a href="track.html">Track My Order</a>
+        <a href="https://wa.me/919999999999?text=Hi%20KRYPTAA%20%E2%80%94%20I%20have%20a%20question" target="_blank" rel="noopener">WhatsApp Us</a>
+      </div>
+      <div class="footer-nav-col">
+        <div class="footer-col-label">Follow Us</div>
+        <a class="footer-social" href="https://www.instagram.com/kryptaa__/" target="_blank" rel="noopener">Instagram</a>
+        <a class="footer-social" href="https://www.tiktok.com/@kryptaa2426" target="_blank" rel="noopener">TikTok</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 KRYPTAA. All rights reserved.</span>
+    <span class="footer-tagline">Defined By Power / Driven By Aura</span>
+  </div>
+</footer>
+
+<script>
+/* ── Render the review wall from window.REVIEWS ── */
+(function () {
+  function ready(fn){ if (document.readyState !== "loading") fn(); else document.addEventListener("DOMContentLoaded", fn); }
+  function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+  function starStr(n){ n = Math.max(0, Math.min(5, Math.round(n||0))); return "★★★★★".slice(0, n) + "☆☆☆☆☆".slice(0, 5 - n); }
+
+  ready(function () {
+    var R = window.REVIEWS || {};
+    var P = window.PRODUCTS || [];
+    function pname(id){ var p = P.find(function(x){ return String(x.id) === String(id); }); return p ? p.name : ""; }
+
+    var all = [];
+    Object.keys(R).forEach(function (pid) {
+      (R[pid] || []).forEach(function (rv) {
+        all.push({
+          product: pname(pid), author: rv.author, date: rv.date,
+          rating: rv.rating, size: rv.size, body: rv.body, photos: rv.photos || []
+        });
+      });
+    });
+
+    var count = all.length;
+    var avg = count ? all.reduce(function (s, r) { return s + (+r.rating || 0); }, 0) / count : 0;
+
+    var aggStars = document.getElementById("rvAggStars");
+    var aggText = document.getElementById("rvAggText");
+    if (aggStars) aggStars.textContent = starStr(avg);
+    if (aggText) aggText.textContent = count
+      ? avg.toFixed(1) + " / 5  ·  Based on " + count + " review" + (count === 1 ? "" : "s")
+      : "Be the first to review";
+
+    var wall = document.getElementById("reviewWall");
+    if (!wall) return;
+    if (!count) { wall.innerHTML = '<div class="rv-empty">No reviews yet — be the first to share yours.</div>'; return; }
+
+    wall.innerHTML = all.map(function (r) {
+      var photos = (r.photos && r.photos.length)
+        ? '<div class="rv-card-photos">' + r.photos.map(function (src) { return '<img src="' + esc(src) + '" alt="Customer photo" loading="lazy">'; }).join("") + '</div>'
+        : "";
+      return '<article class="rv-card">'
+        + '<div class="rv-card-stars">' + starStr(r.rating) + '</div>'
+        + '<p class="rv-card-body">' + esc(r.body) + '</p>'
+        + photos
+        + '<div class="rv-card-meta">'
+        +   '<span class="rv-card-author">' + esc(r.author || "Anonymous") + '</span>'
+        +   (r.product ? '<span class="rv-card-on">on ' + esc(r.product) + (r.size ? " · Size " + esc(r.size) : "") + '</span>' : "")
+        +   '<span class="rv-card-date">' + esc(r.date) + '</span>'
+        + '</div>'
+        + '</article>';
+    }).join("");
+  });
+})();
+</script>
+</body>
+</html>
