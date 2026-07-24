@@ -427,6 +427,18 @@
       if (form) form.style.display = "";
       const sent = doc.getElementById("rvSent");
       if (sent) sent.style.display = "none";
+
+      /* Restore a draft left behind by a failed submission */
+      try {
+        const draft = JSON.parse(localStorage.getItem("kryptaaReviewDraft") || "null");
+        if (draft && form) {
+          const set = (sel, val) => { const el = form.querySelector(sel); if (el && val) el.value = val; };
+          set('input[name="name"]', draft.name);
+          set('input[name="size"]', draft.size);
+          set('textarea[name="review"]', draft.review);
+        }
+      } catch (err) {}
+
       const ov = doc.getElementById("rvModalOverlay");
       if (ov) ov.classList.add("open");
     });
@@ -470,12 +482,44 @@
         }))
         .then((r) => {
           if (!r.ok) throw new Error("send failed");
+          try { localStorage.removeItem("kryptaaReviewDraft"); } catch (err) {}
+          doc.getElementById("rvFallback")?.remove();
           form.style.display = "none";
           doc.getElementById("rvSent").style.display = "block";
         })
         .catch(() => {
           submitBtn.disabled = false;
           submitBtn.textContent = "Failed — Try Again";
+
+          /* Never lose the customer's words: keep a local draft and offer a
+             mail fallback so the review still reaches us. */
+          const draft = {
+            product: doc.getElementById("rvProduct").value,
+            rating: doc.getElementById("rvRating").value,
+            name: form.querySelector('input[name="name"]').value,
+            size: form.querySelector('input[name="size"]').value,
+            review: form.querySelector('textarea[name="review"]').value,
+          };
+          try { localStorage.setItem("kryptaaReviewDraft", JSON.stringify(draft)); } catch (err) {}
+
+          let note = doc.getElementById("rvFallback");
+          if (!note) {
+            note = doc.createElement("p");
+            note.id = "rvFallback";
+            note.className = "rv-fallback";
+            submitBtn.insertAdjacentElement("afterend", note);
+          }
+          const subject = "Review — " + draft.product + " — " + draft.rating + "/5";
+          const body =
+            "Name: " + draft.name + "\nSize: " + draft.size +
+            "\nRating: " + draft.rating + "/5\nProduct: " + draft.product +
+            "\n\n" + draft.review +
+            "\n\n(Please attach your photo to this email.)";
+          note.innerHTML =
+            "Couldn't send just now — your review is saved on this device. " +
+            '<a href="mailto:kryptaa.official@gmail.com?subject=' +
+            encodeURIComponent(subject) + "&body=" + encodeURIComponent(body) +
+            '">Send it by email instead</a> and we\'ll post it for you.';
         });
     });
 
