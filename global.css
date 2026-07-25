@@ -5156,8 +5156,3 @@ details.faq-item[open] summary { color: #f0ede8; }
   font-family: var(--f-mono, 'Space Mono', monospace); font-size: 0.6rem;
   letter-spacing: 0.14em; text-transform: uppercase; color: rgba(240,237,232,0.72);
 }
-
-/* ═══ Brighten the dark skate hero video (#6) ═══ */
-/* Was opacity .28 + brightness .5 (very dark). Scrim (.v3-hero::after) keeps
-   the left-side text readable, so the video can come up considerably. */
-.hero-video-bg { opacity: 0.52; filter: grayscale(0.12) contrast(1.12) brightness(0.98) saturate(0.95); }
