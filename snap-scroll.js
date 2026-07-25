@@ -507,7 +507,7 @@
       el.style.opacity = '1';
     });
     var heroVid = document.querySelector('.hero-video-bg');
-    if (heroVid) heroVid.style.opacity = '0.28';
+    if (heroVid) heroVid.style.opacity = '0.52'; // brightened skate hero (was 0.28)
     document.querySelectorAll('.bp-svg-animated .bp-draw').forEach(function(el) {
       el.style.strokeDashoffset = '0';
       el.style.opacity = '1';

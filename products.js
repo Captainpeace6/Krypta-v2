@@ -247,13 +247,13 @@ const REVIEWS = {
     { author: "Rahul M.", date: "Dec 2025", rating: 5, size: "L", body: "Insane quality. The artwork is even more detailed in person — wore it to a show and got stopped twice. Heavyweight as advertised." },
   ],
   14: [
-    { author: "PruthV", date: "Jul 2026", rating: 5, size: "L", body: "I'm seriously impressed. These pants exceeded my expectations. The fit is spot on, they're super comfortable, and the quality feels top-notch. You definitely nailed it. Can't wait to wear these to my next rave! 🔥🙌", photos: ["imgs/reviews/pruthv-ice-cargo.jpg"] },
+    { author: "PruthV", date: "Jul 2026", rating: 5, size: "L", verified: true, body: "I'm seriously impressed. These pants exceeded my expectations. The fit is spot on, they're super comfortable, and the quality feels top-notch. You definitely nailed it. Can't wait to wear these to my next rave! 🔥🙌", photos: ["imgs/reviews/pruthv-ice-cargo.jpg"] },
   ],
   30: [
     { author: "Priya T.", date: "Jan 2026", rating: 5, size: "S", body: "Literally the most beautiful jeans I've ever owned. The skull print on the back is stunning in person. Fits perfectly." },
   ],
   70: [
-    { author: "Sofia R.", date: "Feb 2026", rating: 5, size: "Universal", body: "The rhinestone mesh catches light from every angle. Perfect for festival season and the fit is genuinely flattering." },
+    { author: "Sofia R.", date: "Feb 2026", rating: 4, size: "Universal", body: "The rhinestone mesh catches light from every angle. Perfect for festival season and the fit is genuinely flattering." },
   ],
 };
 window.REVIEWS = REVIEWS;

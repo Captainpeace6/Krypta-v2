@@ -5088,3 +5088,76 @@ details.faq-item[open] summary { color: #f0ede8; }
   transition: background 0.2s ease, transform 0.2s ease;
 }
 .rv-lightbox-close:hover { background: rgba(210,174,91,0.18); transform: rotate(90deg); }
+
+/* ═══ Homepage review carousel (cinematic) ═══ */
+.hr-carousel { position: relative; margin-bottom: 18px; }
+.hr-viewport { overflow: hidden; width: 100%; padding: 34px 0; }
+.hr-track { display: flex; align-items: center; gap: clamp(16px, 3vw, 34px); transition: transform 0.6s cubic-bezier(.22,.61,.36,1); will-change: transform; }
+.home-reviews .hr-card {
+  flex: 0 0 min(430px, 82vw);
+  opacity: 0.3; transform: scale(0.84); filter: saturate(0.85);
+  transition: transform 0.55s cubic-bezier(.22,.61,.36,1), opacity 0.55s ease, box-shadow 0.55s ease, filter 0.55s ease;
+}
+.home-reviews .hr-card.is-active {
+  opacity: 1; transform: scale(1); filter: none;
+  box-shadow: 0 26px 64px rgba(0,0,0,0.55), 0 0 0 1px rgba(210,174,91,0.4);
+}
+.hr-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 52px; height: 52px; border-radius: 50%;
+  background: rgba(10,9,7,0.55); border: 1px solid rgba(210,174,91,0.4);
+  color: var(--k-gold, #d2ae5b); font-size: 28px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease; z-index: 5;
+}
+.hr-arrow:hover { background: rgba(210,174,91,0.18); border-color: rgba(210,174,91,0.8); transform: translateY(-50%) scale(1.08); }
+.hr-prev { left: 2px; } .hr-next { right: 2px; }
+.hr-dots { display: flex; gap: 8px; justify-content: center; margin-bottom: 26px; }
+.hr-dot { width: 8px; height: 8px; border-radius: 50%; padding: 0; cursor: pointer;
+  border: 1px solid rgba(210,174,91,0.5); background: transparent; transition: all 0.28s ease; }
+.hr-dot.is-active { background: var(--k-gold, #d2ae5b); width: 22px; border-radius: 4px; }
+
+/* Verified badge (real customer reviews) */
+.hr-verified, .rv-verified {
+  display: inline-block; margin-left: 8px; vertical-align: middle;
+  font-family: var(--f-mono, 'Space Mono', monospace); font-size: 0.54rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: #7bd88f;
+  border: 1px solid rgba(123,216,143,0.45); border-radius: 3px; padding: 2px 6px;
+}
+
+/* Homepage review photo */
+.hr-card-photos { position: relative; margin: 6px 0 16px; }
+.hr-card-photos img {
+  width: 100%; max-height: 320px; object-fit: cover; display: block;
+  border: 1px solid rgba(210,174,91,0.28); border-radius: 3px;
+  cursor: zoom-in; transition: filter 0.25s ease;
+}
+.hr-card-photos img:hover { filter: brightness(1.08); }
+.hr-photo-hint {
+  position: absolute; bottom: 9px; right: 9px; pointer-events: none;
+  font-family: var(--f-mono, 'Space Mono', monospace); font-size: 0.54rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: #f0ede8;
+  background: rgba(3,3,3,0.6); padding: 3px 7px; border-radius: 3px;
+}
+@media (max-width: 600px) { .hr-arrow { width: 42px; height: 42px; font-size: 23px; } }
+
+/* Verified badge also expands the review-wall photo cursor */
+.rv-card-photos img, .hr-card-photos img, [data-review-photo] { cursor: zoom-in; }
+
+/* ═══ Hero trust badge ═══ */
+.hero-trust {
+  display: inline-flex; align-items: center; gap: 10px; margin-top: 20px;
+  text-decoration: none; opacity: 0.92; transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.hero-trust:hover { opacity: 1; transform: translateY(-1px); }
+.hero-trust-stars { color: var(--k-gold, #d2ae5b); letter-spacing: 2px; font-size: 0.9rem; }
+.hero-trust-text {
+  font-family: var(--f-mono, 'Space Mono', monospace); font-size: 0.6rem;
+  letter-spacing: 0.14em; text-transform: uppercase; color: rgba(240,237,232,0.72);
+}
+
+/* ═══ Brighten the dark skate hero video (#6) ═══ */
+/* Was opacity .28 + brightness .5 (very dark). Scrim (.v3-hero::after) keeps
+   the left-side text readable, so the video can come up considerably. */
+.hero-video-bg { opacity: 0.52; filter: grayscale(0.12) contrast(1.12) brightness(0.98) saturate(0.95); }

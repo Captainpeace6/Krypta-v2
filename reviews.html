@@ -184,7 +184,7 @@
       (R[pid] || []).forEach(function (rv) {
         all.push({
           product: pname(pid), author: rv.author, date: rv.date,
-          rating: rv.rating, size: rv.size, body: rv.body, photos: rv.photos || []
+          rating: rv.rating, size: rv.size, body: rv.body, photos: rv.photos || [], verified: !!rv.verified
         });
       });
     });
@@ -212,7 +212,7 @@
         + '<p class="rv-card-body">' + esc(r.body) + '</p>'
         + photos
         + '<div class="rv-card-meta">'
-        +   '<span class="rv-card-author">' + esc(r.author || "Anonymous") + '</span>'
+        +   '<span class="rv-card-author">' + esc(r.author || "Anonymous") + (r.verified ? '<span class="rv-verified">✓ Verified</span>' : "") + '</span>'
         +   (r.product ? '<span class="rv-card-on">on ' + esc(r.product) + (r.size ? " · Size " + esc(r.size) : "") + '</span>' : "")
         +   '<span class="rv-card-date">' + esc(r.date) + '</span>'
         + '</div>'

@@ -1709,16 +1709,17 @@
           '</div>';
         gridEl.innerHTML = '<div class="rv-grid">' +
           allRevs.map(function (r) {
+            var revImgs = r.photos || r.images || [];
             return '<div class="rv-card reveal">' +
               '<div class="rv-card-header">' +
                 starsHtml(r.rating) +
-                '<span class="rv-card-author">' + r.author + '</span>' +
+                '<span class="rv-card-author">' + r.author + (r.verified ? '<span class="rv-verified">✓ Verified</span>' : '') + '</span>' +
                 '<span class="rv-card-date">' + r.date + '</span>' +
               '</div>' +
               (r.size ? '<div class="rv-card-size">Size: ' + r.size + '</div>' : '') +
               '<p class="rv-card-body">' + r.body + '</p>' +
-              (r.images && r.images.length ? '<div class="rv-card-imgs">' + r.images.map(function (img) {
-                return '<img class="rv-card-img" src="' + img + '" alt="Customer photo" loading="lazy">';
+              (revImgs.length ? '<div class="rv-card-imgs">' + revImgs.map(function (img) {
+                return '<img class="rv-card-img" src="' + img + '" alt="Customer photo" data-review-photo loading="lazy">';
               }).join("") + '</div>' : '') +
               '</div>';
           }).join("") +
