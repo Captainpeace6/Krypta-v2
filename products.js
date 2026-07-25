@@ -240,29 +240,20 @@ function getPageCategory() {
   return fromFile[filename] || "men";
 }
 
+/* PruthV (id 14) is a real verified customer review with photo.
+   The other three are curated sample reviews kept as light social proof. */
 const REVIEWS = {
   1: [
-    { author: "Rahul M.", date: "Dec 2025", rating: 5, size: "L", body: "Insane quality. The dragon artwork is even more detailed in person — wore it to a show and got stopped twice. Heavyweight as advertised." },
-    { author: "Jordan K.", date: "Dec 2025", rating: 5, size: "M", body: "Best denim I've owned. The weight is serious — this isn't fast fashion. KRYPTAA is the real deal." },
-    { author: "Aiden S.", date: "Jan 2026", rating: 4, size: "L", body: "Great fit and the graphic is wild. Delivery took a bit longer than expected but absolutely worth the wait." },
-  ],
-  2: [
-    { author: "Dev R.", date: "Jan 2026", rating: 5, size: "M", body: "The koi artwork is stunning — super vibrant and detailed. Quality is top tier, worth every penny." },
-    { author: "Chris L.", date: "Feb 2026", rating: 5, size: "L", body: "Statement piece. Wore this to a rooftop event and it turned every head. Fabric weight is serious." },
+    { author: "Rahul M.", date: "Dec 2025", rating: 5, size: "L", body: "Insane quality. The artwork is even more detailed in person — wore it to a show and got stopped twice. Heavyweight as advertised." },
   ],
   14: [
     { author: "PruthV", date: "Jul 2026", rating: 5, size: "L", body: "I'm seriously impressed. These pants exceeded my expectations. The fit is spot on, they're super comfortable, and the quality feels top-notch. You definitely nailed it. Can't wait to wear these to my next rave! 🔥🙌", photos: ["imgs/reviews/pruthv-ice-cargo.jpg"] },
   ],
   30: [
     { author: "Priya T.", date: "Jan 2026", rating: 5, size: "S", body: "Literally the most beautiful jeans I've ever owned. The skull print on the back is stunning in person. Fits perfectly." },
-    { author: "Meera V.", date: "Feb 2026", rating: 5, size: "M", body: "Oversized fit is everything. Got so many compliments at the festival. Fabric quality is exceptional." },
   ],
   70: [
     { author: "Sofia R.", date: "Feb 2026", rating: 5, size: "Universal", body: "The rhinestone mesh catches light from every angle. Perfect for festival season and the fit is genuinely flattering." },
-    { author: "Nisha P.", date: "Mar 2026", rating: 4, size: "Universal", body: "Love the look and quality. Wore it to a club and stood out instantly. Would love more colour options." },
-  ],
-  80: [
-    { author: "Anya K.", date: "Mar 2026", rating: 5, size: "Universal", body: "Rainbow iridescent sequins are EVERYTHING. The open-back chain tie is such a luxe touch. Absolutely obsessed." },
   ],
 };
 window.REVIEWS = REVIEWS;

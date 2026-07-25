@@ -5059,3 +5059,32 @@ details.faq-item[open] summary { color: #f0ede8; }
   color: rgba(240,237,232,0.6);
 }
 .rv-fallback a { color: var(--k-gold, #d2ae5b); text-decoration: underline; }
+
+/* ═══ Review photo lightbox (click to expand) ═══ */
+.rv-card-photos img { cursor: zoom-in; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.rv-card-photos img:hover { transform: scale(1.04); box-shadow: 0 6px 22px rgba(0,0,0,0.5); }
+.rv-lightbox {
+  position: fixed; inset: 0; z-index: 3000;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(3,3,3,0.92);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  padding: 5vh 5vw; cursor: zoom-out;
+  opacity: 0; transition: opacity 0.22s ease;
+}
+.rv-lightbox.open { display: flex; opacity: 1; }
+.rv-lightbox-img {
+  max-width: 100%; max-height: 90vh; object-fit: contain;
+  border: 1px solid rgba(210,174,91,0.35);
+  box-shadow: 0 20px 70px rgba(0,0,0,0.7);
+  animation: rvZoomIn 0.25s ease;
+}
+@keyframes rvZoomIn { from { transform: scale(0.94); opacity: 0.4; } to { transform: scale(1); opacity: 1; } }
+.rv-lightbox-close {
+  position: absolute; top: 22px; right: 26px;
+  width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(210,174,91,0.4);
+  color: var(--k-gold, #d2ae5b); font-size: 26px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.rv-lightbox-close:hover { background: rgba(210,174,91,0.18); transform: rotate(90deg); }

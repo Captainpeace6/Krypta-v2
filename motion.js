@@ -442,6 +442,41 @@
       const ov = doc.getElementById("rvModalOverlay");
       if (ov) ov.classList.add("open");
     });
+
+    /* Click a customer review photo to expand it fullscreen (lightbox) */
+    var rvLightbox = null;
+    function openReviewPhoto(src, alt) {
+      if (!rvLightbox) {
+        rvLightbox = doc.createElement("div");
+        rvLightbox.className = "rv-lightbox";
+        rvLightbox.innerHTML =
+          '<button class="rv-lightbox-close" type="button" aria-label="Close">&times;</button>' +
+          '<img class="rv-lightbox-img" alt="">';
+        doc.body.appendChild(rvLightbox);
+        var close = function () {
+          rvLightbox.classList.remove("open");
+          doc.documentElement.style.overflow = "";
+        };
+        rvLightbox.addEventListener("click", function (e) {
+          if (e.target === rvLightbox || e.target.classList.contains("rv-lightbox-close")) close();
+        });
+        doc.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && rvLightbox.classList.contains("open")) close();
+        });
+      }
+      var im = rvLightbox.querySelector(".rv-lightbox-img");
+      im.src = src; im.alt = alt || "Customer photo";
+      rvLightbox.classList.add("open");
+      doc.documentElement.style.overflow = "hidden";
+    }
+    doc.addEventListener("click", function (e) {
+      if (!e.target.closest) return;
+      var img = e.target.closest(".rv-card-photos img, [data-review-photo]");
+      if (!img) return;
+      e.preventDefault();
+      openReviewPhoto(img.getAttribute("src"), img.getAttribute("alt"));
+    });
+
     doc.getElementById("rvModalForm")?.addEventListener("submit", (e) => {
       e.preventDefault();
       const form = e.target;
