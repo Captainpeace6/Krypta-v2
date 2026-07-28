@@ -244,6 +244,17 @@
     `);
     markActiveNav();
 
+    /* ── Accessibility: Initialize ARIA states ── */
+    const menuBtn = doc.querySelector("[data-menu-toggle]");
+    if (menuBtn) {
+      menuBtn.setAttribute("aria-expanded", "false");
+      menuBtn.setAttribute("aria-controls", "mobileMenu");
+    }
+    doc.querySelectorAll("[data-cart-open]").forEach(btn => {
+      btn.setAttribute("aria-expanded", "false");
+      btn.setAttribute("aria-controls", "cartDrawer");
+    });
+
     /* Scroll-to-top button */
     body.insertAdjacentHTML("beforeend", `<button id="scrollTopBtn" aria-label="Back to top" title="Back to top">&#8593;</button>`);
     doc.getElementById("scrollTopBtn")?.addEventListener("click", () => {
@@ -777,7 +788,11 @@
       const wishBtn = event.target.closest("[data-wish]");
       const currToggle = event.target.closest("#kCurrToggle") || event.target.closest("#kCurrToggleMobile");
 
-      if (menuToggle) body.classList.toggle("menu-open");
+      if (menuToggle) {
+        const isOpen = body.classList.toggle("menu-open");
+        menuToggle.setAttribute("aria-expanded", isOpen.toString());
+        menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+      }
       if (cartOpen) openCart();
       if (cartClose) closeCart();
       if (qtyButton) updateCartQty(qtyButton.dataset.cartQty, Number(qtyButton.dataset.delta));
@@ -954,6 +969,7 @@
     cartDrawer?.classList.add("open");
     doc.getElementById("cartOverlay")?.classList.add("open");
     body.classList.add("cart-open");
+    doc.querySelectorAll("[data-cart-open]").forEach(btn => btn.setAttribute("aria-expanded", "true"));
     renderCartContent();
     if (cartDrawer && !cartDrawer._swipeReady) {
       cartDrawer._swipeReady = true;
@@ -967,6 +983,7 @@
     doc.getElementById("cartDrawer")?.classList.remove("open");
     doc.getElementById("cartOverlay")?.classList.remove("open");
     body.classList.remove("cart-open");
+    doc.querySelectorAll("[data-cart-open]").forEach(btn => btn.setAttribute("aria-expanded", "false"));
   }
 
   function showToast(msg) {
@@ -1088,7 +1105,12 @@
     }
 
     if (!cart.length) {
-      container.innerHTML = `<div class="cart-empty">Your bag is empty</div>`;
+      container.innerHTML = `
+        <div class="cart-empty">
+          <span>Your bag is empty</span>
+          <a class="k-btn-gold" href="men.html" data-cart-close>Shop The Drop</a>
+        </div>
+      `;
       return;
     }
 
@@ -1100,9 +1122,9 @@
           <div class="cart-item-meta">Size ${item.size} / ${formatPrice(item.price)}</div>
           <div class="cart-row">
             <div class="qty-control" aria-label="Quantity">
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1">-</button>
-              <span class="qty-val">${item.qty}</span>
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1">+</button>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1" aria-label="Decrease quantity">-</button>
+              <span class="qty-val" aria-live="polite">${item.qty}</span>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1" aria-label="Increase quantity">+</button>
             </div>
             <button class="cart-line-remove" type="button" data-cart-remove="${item.key}">Remove</button>
           </div>
