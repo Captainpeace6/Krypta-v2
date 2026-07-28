@@ -1,0 +1,3 @@
+## 2025-05-14 - Dynamic Panel Synchronization & Actionable Empty States
+**Learning:** In script-driven UIs, visual states (classes) often diverge from accessibility states. Triggers for menus/drawers must explicitly manage `aria-expanded` and `aria-label` in JavaScript to remain accessible. Additionally, empty states (like an empty cart) are UX dead-ends unless they provide a clear "Shop Now" CTA that also handles closing the current panel upon navigation.
+**Action:** Always synchronize ARIA attributes (expanded, label, controls) within the central open/close functions. Use existing data attributes (like `data-cart-close`) on injected CTAs to leverage global event delegation for panel closure.
