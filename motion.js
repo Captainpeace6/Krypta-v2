@@ -988,31 +988,37 @@
     if (typeof window.fbq === "function") window.fbq("track", eventName, params || {});
   }
 
-  function addToCart(productId, size, qty) {
+  function addToCart(productId, size, qty, variant) {
     qty = qty && qty > 0 ? qty : 1;
     const product = getProductById(productId);
     if (!product || !size) return;
 
+    /* Variant (e.g. Silver Set → Top / Skirt / Full Set) overrides name, price, image */
+    const name = variant ? variant.name : product.name;
+    const price = variant ? variant.price : product.price;
+    const img = variant && variant.img ? variant.img : product.img;
+
     fbTrack("AddToCart", {
       content_ids: [String(product.id)],
-      content_name: product.name,
+      content_name: name,
       content_type: "product",
-      value: (product.price || 0) * qty,
+      value: (price || 0) * qty,
       currency: "USD",
     });
 
-    const key = `${product.id}-${size}`;
+    const key = `${product.id}-${variant ? variant.key + "-" : ""}${size}`;
     const existing = cart.find((item) => item.key === key);
     if (existing) existing.qty += qty;
     else {
       cart.push({
         key,
         id: product.id,
-        name: product.name,
-        price: product.price,
-        img: product.img,
+        name,
+        price,
+        img,
         size,
-        qty
+        qty,
+        variant: variant ? variant.key : undefined
       });
     }
 
@@ -1300,6 +1306,7 @@
     });
 
     selectedSize = product.category === "women_wear" ? "Universal" : null;
+    let selectedVariant = product.variants ? product.variants[0] : null;
     let pdQty = 1;
 
     /* Track recently viewed */
@@ -1422,6 +1429,15 @@
               </div>
             </div>
             ` : `
+            ${product.variants ? `
+            <div class="pdp-variant-row">
+              <div class="size-row-header"><div class="eyebrow">Choose Your Piece</div></div>
+              <div class="variant-selector" id="variantSelector">
+                ${product.variants.map((v, i) => `<button class="variant-chip${i === 0 ? " active" : ""}" type="button" data-variant="${v.key}"><span class="variant-chip-label">${v.label}</span><span class="variant-chip-price">${formatPrice(v.price)}</span></button>`).join("")}
+              </div>
+              <div class="variant-hint">Buy the full set, or just the top or skirt on its own.</div>
+            </div>
+            ` : ""}
             <div>
               ${product.category === "women_wear" ? `
               <div class="size-row-header"><div class="eyebrow">Size</div></div>
@@ -1568,6 +1584,24 @@
       });
     });
 
+    /* Variant (piece) selector — updates price, name, image, and cart target */
+    doc.querySelectorAll("[data-variant]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const v = (product.variants || []).find((x) => x.key === button.dataset.variant);
+        if (!v) return;
+        selectedVariant = v;
+        doc.querySelectorAll("[data-variant]").forEach((b) => b.classList.toggle("active", b === button));
+        const priceEl = doc.querySelector(".detail-price");
+        if (priceEl) priceEl.textContent = formatPrice(v.price);
+        const psbPrice = doc.querySelector(".psb-price");
+        if (psbPrice) psbPrice.textContent = formatPrice(v.price);
+        const psbName = doc.querySelector(".psb-name");
+        if (psbName) psbName.textContent = v.name;
+        const mainImg = doc.getElementById("pgMainImg");
+        if (mainImg && v.img) mainImg.src = v.img;
+      });
+    });
+
     /* Qty stepper */
     const qtyValEl = doc.getElementById("pdpQtyVal");
     doc.getElementById("pdpQtyMinus")?.addEventListener("click", () => {
@@ -1583,7 +1617,7 @@
         setTimeout(() => doc.getElementById("sizeSelector")?.classList.remove("sizes-required"), 450);
         return;
       }
-      addToCart(product.id, selectedSize, pdQty);
+      addToCart(product.id, selectedSize, pdQty, selectedVariant);
     });
 
     doc.getElementById("notifyPdpForm")?.addEventListener("submit", (e) => {
@@ -1616,7 +1650,7 @@
           buyPanel.scrollIntoView({ behavior: "smooth", block: "center" });
           return;
         }
-        addToCart(product.id, selectedSize, pdQty);
+        addToCart(product.id, selectedSize, pdQty, selectedVariant);
       });
       if ("IntersectionObserver" in window) {
         new IntersectionObserver(function (entries) {
