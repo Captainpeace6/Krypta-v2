@@ -272,7 +272,10 @@ window.STOCK_DATA = {
   32:  { S: 5,  M: 10, L: 10, XL: 5 },
   70:  { XS: 30, S: 30, M: 30, L: 30 },
   80:  { XS: 30, S: 30, M: 30, L: 30 },
-  90:  { XS: 30, S: 30, M: 30, L: 30 },
+  // Silver Metallic Crop Set (id 90) — Top & Skirt tracked separately (Universal size).
+  // A Full Set sale draws down BOTH; set availability = min(top, skirt).
+  "90:top":   { Universal: 12 },
+  "90:skirt": { Universal: 12 },
   500: { XS: 9,  S: 12, M: 12, L: 12, XL: 0 }, // Blue  — real count
   501: { XS: 9,  S: 15, M: 13, L: 11, XL: 0 }, // Green — real count
   502: { XS: 7,  S: 12, M: 12, L: 11, XL: 0 }, // Red   — real count
@@ -300,7 +303,7 @@ window.getPageCategory = getPageCategory;
     var _o = JSON.parse(_s);
     Object.keys(_o).forEach(function (id) {
       if (id === '_savedAt') return;
-      var k = parseInt(id);
+      var k = id; // keep string key so composite keys like "90:top" survive
       if (!window.STOCK_DATA[k]) return;
       Object.keys(_o[id]).forEach(function (sz) {
         window.STOCK_DATA[k][sz] = _o[id][sz];
@@ -316,7 +319,7 @@ window.getPageCategory = getPageCategory;
     .then(function (data) {
       if (!data || !data.stock) return;
       Object.keys(data.stock).forEach(function (id) {
-        var k = parseInt(id);
+        var k = id; // keep string key so composite keys like "90:top" survive
         if (!window.STOCK_DATA[k]) return;
         Object.keys(data.stock[id]).forEach(function (sz) {
           window.STOCK_DATA[k][sz] = data.stock[id][sz];

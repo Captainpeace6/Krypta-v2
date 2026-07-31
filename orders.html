@@ -931,6 +931,9 @@ function printLabel(order, orderNum) {
     { id: 30, name: 'Gothic Skull Wide-Leg',     sizes: ['S','M','L','XL'], img: 'imgs/pants/womens-pant-5.jpg'    },
     { id: 31, name: 'Gold Baroque Wide-Leg',     sizes: ['S','M','L','XL'], img: 'imgs/pants/womens-pant-6-g5.jpg' },
     { id: 32, name: 'Creature Graphic Wide-Leg', sizes: ['S','M','L','XL'], img: 'imgs/pants/unisex-pant-7.jpg'   },
+    // Silver Metallic Crop Set — Top & Skirt tracked separately (Universal size)
+    { id: '90:top',   name: 'Silver Metallic — Crop Top',   sizes: ['Universal'], img: 'imgs/tops/top-90-g4.png' },
+    { id: '90:skirt', name: 'Silver Metallic — Crop Skirt', sizes: ['Universal'], img: 'imgs/tops/top-90-g5.png' },
   ];
   var STREET = [
     { id: 500, name: 'Street Track Pant — Blue',   sizes: ['XS','S','M','L','XL'], img: 'imgs/pants/womens-st-blue-01.jpg'   },
@@ -951,6 +954,8 @@ function printLabel(order, orderNum) {
     501: { XS: 9,  S: 15, M: 13, L: 11, XL: 0 },
     502: { XS: 7,  S: 12, M: 12, L: 11, XL: 0 },
     503: { XS: 12, S: 12, M: 9,  L: 7,  XL: 0 },
+    '90:top':   { Universal: 12 },
+    '90:skirt': { Universal: 12 },
   };
 
   function loadCached() {

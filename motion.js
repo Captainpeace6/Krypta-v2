@@ -1435,6 +1435,7 @@
               <div class="variant-selector" id="variantSelector">
                 ${product.variants.map((v, i) => `<button class="variant-chip${i === 0 ? " active" : ""}" type="button" data-variant="${v.key}"><span class="variant-chip-label">${v.label}</span><span class="variant-chip-price">${formatPrice(v.price)}</span></button>`).join("")}
               </div>
+              <div class="pdp-stock-note" id="pdpVariantStock"></div>
               <div class="variant-hint">Buy the full set, or just the top or skirt on its own.</div>
             </div>
             ` : ""}
@@ -1584,7 +1585,31 @@
       });
     });
 
-    /* Variant (piece) selector — updates price, name, image, and cart target */
+    /* Variant (piece) stock — Top & Skirt tracked separately; Full Set = min(both) */
+    function variantQty(v) {
+      const S = window.STOCK_DATA || {};
+      const def = window.DEFAULT_STOCK || 30;
+      const g = (key) => (S[key] && S[key].Universal != null) ? S[key].Universal : def;
+      const t = g("90:top"), s = g("90:skirt");
+      if (!v || v.key === "set") return Math.min(t, s);
+      if (v.key === "top") return t;
+      if (v.key === "skirt") return s;
+      return def;
+    }
+    function renderVariantStock() {
+      const note = doc.getElementById("pdpVariantStock");
+      if (!note || !product.variants) return;
+      const q = variantQty(selectedVariant);
+      const warn = (txt) => `<span class="pdp-stock-warn"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> ${txt}</span>`;
+      note.innerHTML = q <= 0 ? warn("Sold out — check back soon") : (q < 5 ? warn(`Only ${q} left`) : "");
+      /* Block add-to-bag when the selected piece is sold out */
+      const soldOut = q <= 0;
+      const addBtn = doc.getElementById("addToBagBtn");
+      const psbAdd = doc.getElementById("psbAddBtn");
+      [addBtn, psbAdd].forEach((b) => { if (b) { b.disabled = soldOut; b.textContent = soldOut ? "Sold Out" : "Add To Bag"; } });
+    }
+
+    /* Variant (piece) selector — updates price, name, image, stock, and cart target */
     doc.querySelectorAll("[data-variant]").forEach((button) => {
       button.addEventListener("click", () => {
         const v = (product.variants || []).find((x) => x.key === button.dataset.variant);
@@ -1599,8 +1624,16 @@
         if (psbName) psbName.textContent = v.name;
         const mainImg = doc.getElementById("pgMainImg");
         if (mainImg && v.img) mainImg.src = v.img;
+        renderVariantStock();
       });
     });
+
+    if (product.variants) {
+      renderVariantStock();
+      /* Re-render once live stock arrives from the backend (chain, don't clobber) */
+      const prevStockHook = window.__onStockUpdated;
+      window.__onStockUpdated = function () { if (prevStockHook) prevStockHook(); renderVariantStock(); };
+    }
 
     /* Qty stepper */
     const qtyValEl = doc.getElementById("pdpQtyVal");
