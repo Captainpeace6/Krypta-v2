@@ -592,7 +592,8 @@
       `<div class="nav-item has-dropdown">` +
         `<a class="nav-parent" href="${parentHref}" data-nav="${parentHref}">${label} <span class="nav-caret" aria-hidden="true">▾</span></a>` +
         `<div class="nav-dropdown">` +
-          items.map((it) => `<a href="${it.href}" data-nav="${it.href}">${it.label}</a>`).join("") +
+          `<span class="nav-dd-label">${label}'s Collection</span>` +
+          items.map((it) => `<a href="${it.href}" data-nav="${it.href}"><span class="nav-dd-arrow" aria-hidden="true">→</span>${it.label}</a>`).join("") +
         `</div>` +
       `</div>`;
     return (
