@@ -588,42 +588,53 @@
   }
 
   function navLinks() {
-    const configs = ["men", "women", "women_wear", "women_st", "tees", "anime"].map((key) => window.CATEGORY_CONFIGS[key]);
-    return configs.map((item) => `<a href="${item.href}" data-nav="${item.href}">${item.nav}</a>`).join("") +
+    const dropdown = (label, parentHref, items) =>
+      `<div class="nav-item has-dropdown">` +
+        `<a class="nav-parent" href="${parentHref}" data-nav="${parentHref}">${label} <span class="nav-caret" aria-hidden="true">▾</span></a>` +
+        `<div class="nav-dropdown">` +
+          items.map((it) => `<a href="${it.href}" data-nav="${it.href}">${it.label}</a>`).join("") +
+        `</div>` +
+      `</div>`;
+    return (
+      dropdown("Men", "men-all.html", [
+        { label: "Jeans", href: "men.html" },
+        { label: "T-Shirts", href: "t-shirts.html" },
+      ]) +
+      dropdown("Women", "women-all.html", [
+        { label: "Jeans", href: "women.html" },
+        { label: "T-Shirts", href: "t-shirts.html" },
+        { label: "Women Wear", href: "women-wear.html" },
+        { label: "Track Pants", href: "track-pants.html" },
+      ]) +
+      `<a href="anime.html" data-nav="anime.html">Anime</a>` +
       `<a href="lookbook.html" data-nav="lookbook.html">Lookbook</a>` +
-      `<a href="reviews.html" data-nav="reviews.html">Reviews</a>` +
-      `<a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>`;
+      `<a href="reviews.html" data-nav="reviews.html">Reviews</a>`
+    );
   }
 
   function mobileNavHTML() {
-    /* Category image tiles — Men / Women */
-    const menCfg = window.CATEGORY_CONFIGS.men;
-    const womenCfg = window.CATEGORY_CONFIGS.women;
-    const menImg = "imgs/jeans-dual-dragon.jpg";
-    const womenImg = "imgs/w-white-dragon.webp";
+    /* Tap-to-expand accordions — Men / Women (dropdowns don't work on touch) */
+    const accordion = (name, allHref, items) =>
+      `<div class="mm-acc">` +
+        `<button type="button" class="mm-acc-head" data-acc>${name}<span class="mm-acc-icon" aria-hidden="true"></span></button>` +
+        `<div class="mm-acc-body">` +
+          `<a href="${allHref}" data-nav="${allHref}">All ${name}'s</a>` +
+          items.map((it) => `<a href="${it.href}" data-nav="${it.href}">${it.label}</a>`).join("") +
+        `</div>` +
+      `</div>`;
     return `
-      <div class="mm-nav-tiles">
-        <a class="mm-nav-tile" href="${menCfg.href}" data-nav="${menCfg.href}">
-          <img src="${menImg}" alt="Men's Collection" loading="lazy">
-          <div class="mm-tile-label">
-            <span class="mm-tile-eyebrow">Collection</span>
-            <span class="mm-tile-name">Men</span>
-          </div>
-        </a>
-        <a class="mm-nav-tile" href="${womenCfg.href}" data-nav="${womenCfg.href}">
-          <img src="${womenImg}" alt="Women's Collection" loading="lazy">
-          <div class="mm-tile-label">
-            <span class="mm-tile-eyebrow">Collection</span>
-            <span class="mm-tile-name">Women</span>
-          </div>
-        </a>
-      </div>
-      <div class="mm-nav-section-label">More</div>
+      ${accordion("Men", "men-all.html", [
+        { label: "Jeans", href: "men.html" },
+        { label: "T-Shirts", href: "t-shirts.html" },
+      ])}
+      ${accordion("Women", "women-all.html", [
+        { label: "Jeans", href: "women.html" },
+        { label: "T-Shirts", href: "t-shirts.html" },
+        { label: "Women Wear", href: "women-wear.html" },
+        { label: "Track Pants", href: "track-pants.html" },
+      ])}
       <div class="mm-nav-wide">
-        <a href="women-wear.html" data-nav="women-wear.html">Women Wear</a>
-        <a href="t-shirts.html" data-nav="t-shirts.html">T-Shirts</a>
         <a href="anime.html" data-nav="anime.html">Anime Denim</a>
-        <a href="women-streetwear-trousers.html" data-nav="women-streetwear-trousers.html">Street Wear Track Pants</a>
         <a href="lookbook.html" data-nav="lookbook.html">Lookbook</a>
         <a href="reviews.html" data-nav="reviews.html">Reviews</a>
         <a href="checkout.html" data-nav="checkout.html">Bag &amp; Checkout</a>
@@ -760,6 +771,7 @@
   function bindChromeEvents() {
     body.addEventListener("click", (event) => {
       const menuToggle = event.target.closest("[data-menu-toggle]");
+      const accHead = event.target.closest("[data-acc]");
       const cartOpen = event.target.closest("[data-cart-open]");
       const cartClose = event.target.closest("[data-cart-close]");
       const qtyButton = event.target.closest("[data-cart-qty]");
@@ -778,6 +790,7 @@
       const currToggle = event.target.closest("#kCurrToggle") || event.target.closest("#kCurrToggleMobile");
 
       if (menuToggle) body.classList.toggle("menu-open");
+      if (accHead) { event.preventDefault(); accHead.closest(".mm-acc").classList.toggle("open"); }
       if (cartOpen) openCart();
       if (cartClose) closeCart();
       if (qtyButton) updateCartQty(qtyButton.dataset.cartQty, Number(qtyButton.dataset.delta));

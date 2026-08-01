@@ -57,6 +57,24 @@ const CATEGORY_CONFIGS = {
     heroIds: [30, 31, 32],
     featuredIds: [30, 31, 32]
   },
+  men_all: {
+    title: "Men",
+    label: "The Men's Collection",
+    nav: "Men",
+    href: "men-all.html",
+    description: "Everything men's — gothic denim and heavyweight graphic tees, engineered for presence.",
+    heroIds: [11, 10, 1, 3],
+    featuredIds: [11, 10, 12, 14, 1, 3]
+  },
+  women_all: {
+    title: "Women",
+    label: "The Women's Collection",
+    nav: "Women",
+    href: "women-all.html",
+    description: "Everything women's — wide-leg denim, festival women's wear, track pants, and heavyweight tees.",
+    heroIds: [30, 70, 90, 31],
+    featuredIds: [30, 31, 32, 70, 80, 90, 401, 500]
+  },
   all_jeans: {
     title: "Jeans",
     label: "Denim Archive",
@@ -104,12 +122,12 @@ const CATEGORY_CONFIGS = {
   },
   track: {
     title: "Track Pants",
-    label: "Drop 002 Motion",
+    label: "Motion & Street",
     nav: "Track Pants",
     href: "track-pants.html",
-    description: "Movement-ready bottoms with utility attitude, pulled into a real shoppable capsule instead of a placeholder.",
-    heroIds: [401, 402, 403, 404, 10],
-    featuredIds: [401, 402, 403, 404]
+    description: "Every KRYPTAA track pant in one place — the Drop-002 motion line and the unisex street colorways.",
+    heroIds: [401, 402, 500, 501, 403],
+    featuredIds: [401, 402, 403, 404, 500, 501, 502, 503]
   },
   women_st: {
     title: "Unisex Street Track Pants",
@@ -203,8 +221,16 @@ function getProductsByCategory(category) {
   if (category === "all_jeans") {
     return PRODUCTS.filter((product) => ["men", "women", "anime"].includes(product.category));
   }
+  // Gender landing pages — everything for that side of the shop
+  if (category === "men_all") {
+    return PRODUCTS.filter((product) => ["men", "tees"].includes(product.category));
+  }
+  if (category === "women_all") {
+    return PRODUCTS.filter((product) => ["women", "tees", "women_wear", "women_track", "women_st"].includes(product.category));
+  }
+  // Track Pants — both the women's Drop-002 line and the unisex street colorways
   if (category === "track") {
-    return getProductsByIds(CATEGORY_CONFIGS.track.featuredIds);
+    return PRODUCTS.filter((product) => ["women_track", "women_st"].includes(product.category));
   }
   return PRODUCTS.filter((product) => product.category === category);
 }
@@ -228,6 +254,8 @@ function getPageCategory() {
   const fromFile = {
     "men.html": "men",
     "women.html": "women",
+    "men-all.html": "men_all",
+    "women-all.html": "women_all",
     "jeans.html": "all_jeans",
     "t-shirts.html": "tees",
     "anime.html": "anime",
