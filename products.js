@@ -27,11 +27,6 @@ const RAW_PRODUCTS = [
   { id: 80, name: "Holographic Sequin Bra Top", price: 21, sizes: ["XS", "S", "M", "L"], noZoom: true, img: "imgs/tops/top-80.png", gallery: [{src:"imgs/tops/top-80.png",label:"Front"},{src:"imgs/tops/top-80-g2.png",label:"Front 2"},{src:"imgs/tops/top-80-g3.png",label:"Relaxed"},{src:"imgs/tops/top-80-g4.png",label:"Editorial"},{src:"imgs/tops/top-80-g5.png",label:"Back"}], category: "women_wear", collection: "Women Wear / Drop 001", tags: ["Holographic", "Sequin", "Festival"], availability: "In stock", desc: "Rainbow iridescent sequin halter bra with open-back chain tie. Catches every light on the dance floor. Drop 001 — Midnight Glow Statement." },
   { id: 90, name: "Silver Metallic Crop Set", price: 27, sizes: ["XS", "S", "M", "L"], noZoom: true, variants: [{ key: "set", label: "Full Set", name: "Silver Metallic Crop Set", price: 27, img: "imgs/tops/top-90.png" }, { key: "top", label: "Crop Top", name: "Silver Metallic Crop Top", price: 14, img: "imgs/tops/top-90-g4.png" }, { key: "skirt", label: "Mini Chainmail Skirt", name: "Silver Metallic Mini Chainmail Skirt", price: 14, img: "imgs/tops/top-90-g5.png" }], img: "imgs/tops/top-90.png", gallery: [{src:"imgs/tops/top-90.png",label:"Full Set"},{src:"imgs/tops/top-90-g2.png",label:"Editorial"},{src:"imgs/tops/top-90-g3.png",label:"Portrait"},{src:"imgs/tops/top-90-g4.png",label:"Crop Only"},{src:"imgs/tops/top-90-g5.png",label:"Skirt Detail"},{src:"imgs/tops/top-90-g6.png",label:"Side"}], category: "women_wear", collection: "Women Wear / Drop 001", tags: ["Silver", "Metallic", "Set"], availability: "In stock", desc: "High-shine silver metallic crop top paired with a matching mini chainmail skirt. Sculptural shoulder seam and liquid-chrome finish. Drop 001 Midnight Glow Statement." },
 
-  { id: 401, name: "Obsidian Grey Baggy Track Pant", price: 65, sizes: ["XS", "S", "M", "L"], img: "imgs/w-grey-baggy.webp", category: "women_track", collection: "Women's Track Pants / Drop 002", tags: ["Baggy", "Motion Fit", "Cyber Utility"], availability: "Drop 002 preview", desc: "A baggy grey motion pant styled from the women's archive into the missing track-pant lane the site needed." },
-  { id: 402, name: "Gothic Utility Track Cargo", price: 70, sizes: ["XS", "S", "M", "L"], img: "imgs/w-cargo.jpg", category: "women_track", collection: "Women's Track Pants / Drop 002", tags: ["Cargo", "Utility", "Adjustable"], availability: "Drop 002 preview", desc: "Cargo utility pockets and a relaxed technical leg for the cyberpunk side of KRYPTAA's women's drop." },
-  { id: 403, name: "Distressed Motion Track Pant", price: 62, sizes: ["XS", "S", "M", "L"], img: "imgs/w-distressed.webp", category: "women_track", collection: "Women's Track Pants / Drop 002", tags: ["Distressed", "Motion", "Black Wash"], availability: "Drop 002 preview", desc: "A distressed movement pant with the weight and attitude of denim but the styling language of trackwear." },
-  { id: 404, name: "Side Rip Technical Track Pant", price: 67, sizes: ["XS", "S", "M", "L"], img: "imgs/w-side-rip.webp", category: "women_track", collection: "Women's Track Pants / Drop 002", tags: ["Side Rip", "Technical", "Stacked"], availability: "Drop 002 preview", desc: "Side-rip details and stacked proportions give this track silhouette a sharper gothic finish." },
-
   { id: 500, name: "Unisex Street Track Pant — Blue", price: 42, sizes: ["XS", "S", "M", "L", "XL"], soldOutSizes: ["XL"], img: "imgs/pants/womens-st-blue-01.jpg", sizeChart: "imgs/pants/womens-st-sizechart.png", gallery: [{src:"imgs/pants/womens-st-blue-01.jpg",label:"Front"},{src:"imgs/pants/womens-st-blue-02.jpg",label:"Back"},{src:"imgs/pants/womens-st-blue-03.jpg",label:"Left Side"},{src:"imgs/pants/womens-st-blue-04.jpg",label:"Right Side"},{src:"imgs/pants/womens-st-blue-05.jpg",label:"45° Angle"},{src:"imgs/pants/womens-st-blue-06.jpg",label:"Detail"},{src:"imgs/pants/womens-st-blue-07.jpg",label:"Full Length"},{src:"imgs/pants/womens-st-sizechart.png",label:"Size Chart"}], category: "women_st", collection: "Unisex Street Track Pants / Drop 001", tags: ["Track Pant", "Blue", "Unisex"], availability: "Limited Drop", desc: "Wide-leg unisex street track pant in deep blue. Clean structured silhouette with a relaxed fit — built for presence and movement." },
   { id: 501, name: "Unisex Street Track Pant — Green", price: 42, sizes: ["XS", "S", "M", "L", "XL"], soldOutSizes: ["XL"], img: "imgs/pants/womens-st-green-01.jpg", sizeChart: "imgs/pants/womens-st-sizechart.png", gallery: [{src:"imgs/pants/womens-st-green-01.jpg",label:"Front"},{src:"imgs/pants/womens-st-green-02.jpg",label:"Back"},{src:"imgs/pants/womens-st-green-03.jpg",label:"Left Side"},{src:"imgs/pants/womens-st-green-04.jpg",label:"Right Side"},{src:"imgs/pants/womens-st-green-05.jpg",label:"45° Angle"},{src:"imgs/pants/womens-st-green-06.jpg",label:"Detail"},{src:"imgs/pants/womens-st-green-07.jpg",label:"Full Length"},{src:"imgs/pants/womens-st-sizechart.png",label:"Size Chart"}], category: "women_st", collection: "Unisex Street Track Pants / Drop 001", tags: ["Track Pant", "Green", "Unisex"], availability: "Limited Drop", desc: "Wide-leg unisex street track pant in muted green. Clean structured silhouette with a relaxed fit — built for presence and movement." },
   { id: 502, name: "Unisex Street Track Pant — Red", price: 42, sizes: ["XS", "S", "M", "L", "XL"], soldOutSizes: ["XL"], img: "imgs/pants/womens-st-red-01.jpg", sizeChart: "imgs/pants/womens-st-sizechart.png", gallery: [{src:"imgs/pants/womens-st-red-01.jpg",label:"Front"},{src:"imgs/pants/womens-st-red-02.jpg",label:"Back"},{src:"imgs/pants/womens-st-red-03.jpg",label:"Left Side"},{src:"imgs/pants/womens-st-red-04.jpg",label:"Right Side"},{src:"imgs/pants/womens-st-red-05.jpg",label:"45° Angle"},{src:"imgs/pants/womens-st-red-06.jpg",label:"Detail"},{src:"imgs/pants/womens-st-sizechart.png",label:"Size Chart"}], category: "women_st", collection: "Unisex Street Track Pants / Drop 001", tags: ["Track Pant", "Red", "Unisex"], availability: "Limited Drop", desc: "Wide-leg unisex street track pant in bold red. Clean structured silhouette with a relaxed fit — built for presence and movement." },
@@ -73,7 +68,7 @@ const CATEGORY_CONFIGS = {
     href: "women-all.html",
     description: "Everything women's — wide-leg denim, festival women's wear, track pants, and heavyweight tees.",
     heroIds: [30, 70, 90, 31],
-    featuredIds: [30, 31, 32, 70, 80, 90, 401, 500]
+    featuredIds: [30, 31, 32, 70, 80, 90, 500, 501]
   },
   all_jeans: {
     title: "Jeans",
@@ -117,8 +112,8 @@ const CATEGORY_CONFIGS = {
     nav: "Women Track",
     href: "women-track-pants.html",
     description: "The missing women's track-pant lane: baggy motion bottoms, utility cargos, side-rip details, and cyber-goth styling.",
-    heroIds: [401, 402, 403, 404, 207],
-    featuredIds: [401, 402, 403, 404]
+    heroIds: [500, 501, 502, 503],
+    featuredIds: [500, 501, 502, 503]
   },
   track: {
     title: "Track Pants",
@@ -126,8 +121,8 @@ const CATEGORY_CONFIGS = {
     nav: "Track Pants",
     href: "track-pants.html",
     description: "Every KRYPTAA track pant in one place — the Drop-002 motion line and the unisex street colorways.",
-    heroIds: [401, 402, 500, 501, 403],
-    featuredIds: [401, 402, 403, 404, 500, 501, 502, 503]
+    heroIds: [500, 501, 502, 503],
+    featuredIds: [500, 501, 502, 503]
   },
   women_st: {
     title: "Unisex Street Track Pants",
@@ -226,11 +221,11 @@ function getProductsByCategory(category) {
     return PRODUCTS.filter((product) => ["men", "tees"].includes(product.category));
   }
   if (category === "women_all") {
-    return PRODUCTS.filter((product) => ["women", "tees", "women_wear", "women_track", "women_st"].includes(product.category));
+    return PRODUCTS.filter((product) => ["women", "tees", "women_wear", "women_st"].includes(product.category));
   }
-  // Track Pants — both the women's Drop-002 line and the unisex street colorways
+  // Track Pants — the unisex street colorways
   if (category === "track") {
-    return PRODUCTS.filter((product) => ["women_track", "women_st"].includes(product.category));
+    return PRODUCTS.filter((product) => ["women_st"].includes(product.category));
   }
   return PRODUCTS.filter((product) => product.category === category);
 }
