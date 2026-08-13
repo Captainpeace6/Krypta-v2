@@ -138,9 +138,8 @@
 <main class="home-page">
   <!-- ░░ PANEL 0 — HERO ░░ -->
   <section class="v3-hero snap-panel" data-hero>
-<video class="hero-video-bg layer-bg" autoplay muted loop playsinline poster="imgs/hero-skate-poster.jpg">
-      <source src="imgs/hero-skate.mp4" type="video/mp4">
-    </video>
+<video class="hero-video-bg layer-bg" id="heroVideo" autoplay muted loop playsinline poster="imgs/hero-skate-poster.jpg" data-src-desktop="imgs/hero-skate.mp4" data-src-mobile="imgs/hero-skate-mobile.mp4"></video>
+    <script>(function(){var v=document.getElementById('heroVideo');if(!v)return;var m=window.matchMedia&&window.matchMedia('(max-width:768px)').matches;v.src=v.getAttribute(m?'data-src-mobile':'data-src-desktop');})();</script>
     <div class="hero-corner hero-corner-left">Defined By Power</div>
     <div class="hero-corner hero-corner-right">Driven By Aura</div>
     <div class="hero-rail hero-rail-right">Gothic And Street Wear Collection</div>
