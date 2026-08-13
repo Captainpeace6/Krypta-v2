@@ -868,6 +868,9 @@ function goToStripe() {
        transaction_id is the order ref shown to the customer; GA4 dedupes on it. */
     try {
       var pending = JSON.parse(localStorage.getItem("kryptaa_pending_purchase") || "null");
+      /* Stripe session id (from success_url) doubles as the Meta event_id so the
+         server-side Conversions API Purchase and this client Pixel event dedupe. */
+      var stripeSession = new URLSearchParams(window.location.search).get("session_id") || "";
       if (pending && typeof window.fbq === "function") {
         window.fbq("track", "Purchase", {
           content_ids: pending.content_ids || [],
@@ -875,7 +878,7 @@ function goToStripe() {
           num_items: pending.num_items || 1,
           value: pending.value || 0,
           currency: "USD"
-        });
+        }, stripeSession ? { eventID: stripeSession } : undefined);
       }
       if (pending && typeof window.gtag === "function") {
         window.gtag("event", "purchase", {
