@@ -1357,13 +1357,15 @@
     /* JSON-LD Product structured data */
     let ldTag = doc.getElementById("k-jsonld");
     if (!ldTag) { ldTag = doc.createElement("script"); ldTag.id = "k-jsonld"; ldTag.type = "application/ld+json"; doc.head.appendChild(ldTag); }
-    ldTag.textContent = JSON.stringify({
+    const _revs = (window.REVIEWS && window.REVIEWS[product.id]) || [];
+    const _ld = {
       "@context": "https://schema.org/",
       "@type": "Product",
       "name": product.name,
       "description": product.desc,
       "image": [`https://www.kryptaa.com/${product.img}`],
       "brand": { "@type": "Brand", "name": "KRYPTAA" },
+      "sku": "KRYPTAA-" + product.id,
       "offers": {
         "@type": "Offer",
         "url": `https://www.kryptaa.com/product-detail?id=${product.id}`,
@@ -1374,7 +1376,23 @@
           : "https://schema.org/InStock",
         "seller": { "@type": "Organization", "name": "KRYPTAA" }
       }
-    });
+    };
+    if (_revs.length) {
+      const _avg = _revs.reduce((s, r) => s + (+r.rating || 0), 0) / _revs.length;
+      _ld.aggregateRating = {
+        "@type": "AggregateRating",
+        "ratingValue": _avg.toFixed(1),
+        "reviewCount": _revs.length,
+        "bestRating": 5
+      };
+      _ld.review = _revs.slice(0, 5).map((r) => ({
+        "@type": "Review",
+        "reviewRating": { "@type": "Rating", "ratingValue": r.rating, "bestRating": 5 },
+        "author": { "@type": "Person", "name": r.author || "Verified Buyer" },
+        "reviewBody": r.body
+      }));
+    }
+    ldTag.textContent = JSON.stringify(_ld);
 
     const storyCards = [
       ["Technical Details", product.technical],
@@ -1534,7 +1552,7 @@
           <div class="faq-grid reveal">
             <details class="faq-item">
               <summary>What's your return policy?</summary>
-              <p class="faq-answer">We accept returns within 14 days of delivery on unworn items with original tags attached. Email us with your order number to start the process. Items marked as final sale or pre-order are non-refundable.</p>
+              <p class="faq-answer">We accept returns within 7 days of delivery on unworn items with original tags attached. Email us with your order number to start the process. Items marked as final sale or pre-order are non-refundable.</p>
             </details>
             <details class="faq-item">
               <summary>How long does shipping take?</summary>

@@ -258,7 +258,7 @@ if (isHome) {
     '<div>' +
       makeCatRow('men.html','imgs/jeans-gold-dragon.webp','Mens Collection','MEN\'S<br>JEANS','#FF5500', false) +
       makeCatRow('women.html','imgs/w-vintage-dragon.webp','Womens Collection','WOMEN\'S<br>JEANS','#FF5500', true) +
-      makeCatRow('t-shirts.html','imgs/img-angel.png','Drop 001','T-SHIRTS','#FF5500', false) +
+      makeCatRow('t-shirts.html','imgs/img-angel.webp','Drop 001','T-SHIRTS','#FF5500', false) +
       makeCatRow('women-tops.html','imgs/img-glorious.webp','New Arrivals','WOMEN<br>TOPS','#FF5500', true) +
       makeCatRow('anime.html','imgs/anime-gojo.jpg','Category Drop','ANIME<br>DENIM','#FF5500', false) +
       makeCatRow('track-pants.html','imgs/jeans-dual-dragon.jpg','Mens Drop 002','TRACK<br>PANTS','#FF5500', true) +
