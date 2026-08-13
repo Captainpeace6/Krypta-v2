@@ -1272,8 +1272,42 @@
     }
 
     const grid = doc.getElementById("productsGrid");
-    if (grid) grid.innerHTML = products.map(productCard).join("");
-    bindLayoutToggle();
+
+    /* ── Sort control (Featured / Newest / Price) ── */
+    const sortModes = {
+      featured: (list) => list,
+      newest:   (list) => list.slice().sort((a, b) => (NEW_PRODUCT_IDS.has(b.id) ? 1 : 0) - (NEW_PRODUCT_IDS.has(a.id) ? 1 : 0)),
+      "price-asc":  (list) => list.slice().sort((a, b) => (a.price || 0) - (b.price || 0)),
+      "price-desc": (list) => list.slice().sort((a, b) => (b.price || 0) - (a.price || 0)),
+    };
+    function paintGrid(mode) {
+      if (!grid) return;
+      const sorted = (sortModes[mode] || sortModes.featured)(products);
+      grid.innerHTML = sorted.map(productCard).join("");
+      grid.querySelectorAll(".product-card").forEach((el) => el.classList.add("is-visible"));
+      bindLayoutToggle();
+      if (window.__onStockUpdated) window.__onStockUpdated();
+    }
+
+    /* Inject the sort dropdown into the toolbar once */
+    const toolbar = doc.querySelector(".shop-toolbar-inner");
+    if (toolbar && !doc.getElementById("shopSort")) {
+      const wrap = doc.createElement("div");
+      wrap.className = "shop-sort-wrap";
+      wrap.innerHTML =
+        '<label class="shop-sort-label" for="shopSort">Sort</label>' +
+        '<select class="shop-sort" id="shopSort" aria-label="Sort products">' +
+          '<option value="featured">Featured</option>' +
+          '<option value="newest">Newest</option>' +
+          '<option value="price-asc">Price: Low to High</option>' +
+          '<option value="price-desc">Price: High to Low</option>' +
+        '</select>';
+      const countEl = doc.getElementById("shopCount");
+      if (countEl) toolbar.insertBefore(wrap, countEl); else toolbar.appendChild(wrap);
+      doc.getElementById("shopSort").addEventListener("change", (e) => paintGrid(e.target.value));
+    }
+
+    paintGrid("featured");
   }
 
   function bindLayoutToggle() {

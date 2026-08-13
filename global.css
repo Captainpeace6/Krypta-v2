@@ -5334,3 +5334,21 @@ details.faq-item[open] summary { color: #f0ede8; }
 /* rv-strip cards: kill the forced min-height + grid stretch that gapped image↔text */
 .rv-strip-row .product-card { min-height: 0; }
 .rv-strip-row .product-card-link { display: block; }
+
+/* ═══ #3 Shop sort control ═══ */
+.shop-sort-wrap { display: inline-flex; align-items: center; gap: 8px; }
+.shop-sort-label {
+  font-family: var(--f-mono, 'Space Mono', monospace); font-size: 0.54rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: rgba(240,237,232,0.45);
+}
+.shop-sort {
+  appearance: none; -webkit-appearance: none;
+  background: rgba(255,255,255,0.02) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23d2ae5b' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 12px center;
+  border: 1px solid rgba(210,174,91,0.28); color: rgba(240,237,232,0.82);
+  font-family: var(--f-mono, 'Space Mono', monospace); font-size: 0.56rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 8px 30px 8px 12px; cursor: pointer; transition: border-color 0.2s ease;
+}
+.shop-sort:hover, .shop-sort:focus { border-color: rgba(210,174,91,0.6); outline: none; }
+.shop-sort option { background: #0a0907; color: #f0ede8; }
+@media (max-width: 600px) { .shop-sort-label { display: none; } }
