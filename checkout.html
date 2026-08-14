@@ -607,10 +607,10 @@
       </div>
       <div class="checkout-items" id="checkoutItems"></div>
 
-      <!-- Promo banner — click to apply KRYPTAA10 -->
-      <div class="co-promo-banner" id="coPromoBanner" onclick="quickApplyPromo('KRYPTAA10')" role="button" tabindex="0" aria-label="Apply coupon KRYPTAA10 for 10% off">
-        <span class="co-promo-tag">10% Off</span>
-        <span class="co-promo-code">KRYPTAA10</span>
+      <!-- Promo banner — click to apply KRYPTAA13 -->
+      <div class="co-promo-banner" id="coPromoBanner" onclick="quickApplyPromo('KRYPTAA13')" role="button" tabindex="0" aria-label="Apply coupon KRYPTAA13 for 13% off">
+        <span class="co-promo-tag">13% Off</span>
+        <span class="co-promo-code">KRYPTAA13</span>
         <span class="co-promo-action">Tap to apply →</span>
       </div>
 
@@ -659,7 +659,7 @@
 <script>
 /* ── Coupon state ── */
 var appliedCoupon = null; /* null or { code, discountRate } */
-var VALID_COUPONS = { 'KRYPTAA10': 0.10 };
+var VALID_COUPONS = { 'KRYPTAA13': 0.13, 'KRYPTAA10': 0.10 };
 
 function quickApplyPromo(code) {
   var input  = document.getElementById('coCouponInput');

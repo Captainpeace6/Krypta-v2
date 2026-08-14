@@ -97,6 +97,26 @@
     if (idx === -1) wishlist.push(n); else wishlist.splice(idx, 1);
     saveWishlist();
     updateWishlistUI();
+    if (body.dataset.page === "wishlist") renderWishlist();
+  }
+
+  function renderWishlist() {
+    const grid = doc.getElementById("wishlistGrid");
+    if (!grid) return;
+    const items = wishlist.map((id) => (typeof getProductById === "function" ? getProductById(id) : null)).filter(Boolean);
+    const empty = doc.getElementById("wishlistEmpty");
+    const line = doc.getElementById("wishCountLine");
+    setText("shopCount", `${items.length} saved`);
+    if (line) line.textContent = items.length ? `${items.length} piece${items.length > 1 ? "s" : ""} saved — yours until they're gone.` : "";
+    if (!items.length) {
+      grid.innerHTML = "";
+      if (empty) empty.style.display = "";
+      return;
+    }
+    if (empty) empty.style.display = "none";
+    grid.innerHTML = items.map(productCard).join("");
+    grid.querySelectorAll(".product-card").forEach((el) => el.classList.add("is-visible"));
+    if (window.__onStockUpdated) window.__onStockUpdated();
   }
   function updateWishlistUI() {
     const count = wishlist.length;
@@ -322,46 +342,58 @@
       </div>
     `);
 
-    /* Exit-intent popup */
-    if (!sessionStorage.getItem("k_exit_shown")) {
+    /* First-order offer popup — exit-intent OR 15s, once per visitor, not on checkout */
+    if (body.dataset.page !== "checkout" && !(function(){ try { return localStorage.getItem("k_offer_seen"); } catch(e){ return 0; } })()) {
       body.insertAdjacentHTML("beforeend", `
         <div class="k-exit-popup" id="kExitPopup" role="dialog" aria-modal="true" aria-label="Join the drop">
           <div class="k-exit-box">
             <button class="k-exit-close" id="kExitClose" aria-label="Close">✕</button>
-            <div class="k-exit-eyebrow">— Wait —</div>
-            <div class="k-exit-heading">Don't Miss The Drop</div>
-            <div class="k-exit-sub">Every piece is limited. Get early access before they're gone.</div>
-            <form class="k-exit-form" action="${MC_POST}" method="POST" id="kExitForm">
+            <div class="k-exit-eyebrow">— First Drop Offer —</div>
+            <div class="k-exit-heading">Get 13% Off</div>
+            <div class="k-exit-sub" id="kExitSub">Join the drop for <strong>13% off your first order</strong>, early access, and restock alerts.</div>
+            <form class="k-exit-form" id="kExitForm">
               <div style="position:absolute;left:-5000px" aria-hidden="true"><input type="text" name="${MC_HONEYPOT}" tabindex="-1" value=""></div>
-              <input class="k-exit-input" type="email" name="EMAIL" placeholder="your@email.com" required>
-              <button class="k-exit-btn" type="submit">Lock In</button>
+              <input class="k-exit-input" type="email" name="EMAIL" placeholder="enter your email" required>
+              <button class="k-exit-btn" type="submit">Unlock My 13%</button>
             </form>
-            <button class="k-exit-no" id="kExitNo">No thanks, I'll miss out</button>
+            <div class="k-exit-success" id="kExitSuccess" style="display:none;">
+              <div class="k-exit-code-label">Your code</div>
+              <div class="k-exit-code">KRYPTAA13</div>
+              <div class="k-exit-code-note">Enter it at checkout for 13% off your first order.</div>
+            </div>
+            <button class="k-exit-no" id="kExitNo">No thanks</button>
+            <div class="k-exit-fine">No spam · Unsubscribe anytime.</div>
           </div>
         </div>
       `);
 
+      const markSeen = () => { try { localStorage.setItem("k_offer_seen", "1"); } catch (e) {} };
       const closeExitPopup = () => {
         const p = doc.getElementById("kExitPopup");
         if (p) { p.classList.remove("open"); setTimeout(() => p.remove(), 350); }
       };
-      doc.getElementById("kExitClose")?.addEventListener("click", closeExitPopup);
-      doc.getElementById("kExitNo")?.addEventListener("click", closeExitPopup);
+      doc.getElementById("kExitClose")?.addEventListener("click", () => { markSeen(); closeExitPopup(); });
+      doc.getElementById("kExitNo")?.addEventListener("click", () => { markSeen(); closeExitPopup(); });
       doc.getElementById("kExitForm")?.addEventListener("submit", (e) => {
         e.preventDefault();
         const input = e.target.querySelector('input[type="email"]');
         mcSubscribe(input.value, "", () => {});
-        setTimeout(closeExitPopup, 800);
+        markSeen();
+        const form = doc.getElementById("kExitForm"); if (form) form.style.display = "none";
+        const succ = doc.getElementById("kExitSuccess"); if (succ) succ.style.display = "block";
+        const sub = doc.getElementById("kExitSub"); if (sub) sub.textContent = "You're in — here's your code:";
+        const noBtn = doc.getElementById("kExitNo"); if (noBtn) noBtn.textContent = "Start shopping";
       });
 
-      let exitFired = false;
-      doc.addEventListener("mouseleave", (e) => {
-        if (!exitFired && e.clientY < 8) {
-          exitFired = true;
-          sessionStorage.setItem("k_exit_shown", "1");
-          setTimeout(() => doc.getElementById("kExitPopup")?.classList.add("open"), 200);
-        }
-      });
+      let offerShown = false;
+      const showOffer = () => {
+        if (offerShown) return;
+        offerShown = true;
+        markSeen();
+        setTimeout(() => doc.getElementById("kExitPopup")?.classList.add("open"), 150);
+      };
+      doc.addEventListener("mouseleave", (e) => { if (e.clientY < 8) showOffer(); });
+      setTimeout(showOffer, 15000);
     }
 
     /* Review modal */
@@ -638,6 +670,7 @@
         <a href="anime.html" data-nav="anime.html">Anime Denim</a>
         <a href="lookbook.html" data-nav="lookbook.html">Lookbook</a>
         <a href="reviews.html" data-nav="reviews.html">Reviews</a>
+        <a href="wishlist.html" data-nav="wishlist.html">Wishlist</a>
         <a href="checkout.html" data-nav="checkout.html">Bag &amp; Checkout</a>
         <a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>
         <a href="track.html" data-nav="track.html">Track My Order</a>
@@ -773,6 +806,7 @@
     body.addEventListener("click", (event) => {
       const menuToggle = event.target.closest("[data-menu-toggle]");
       const accHead = event.target.closest("[data-acc]");
+      const wishNav = event.target.closest("#kWishNav");
       const cartOpen = event.target.closest("[data-cart-open]");
       const cartClose = event.target.closest("[data-cart-close]");
       const qtyButton = event.target.closest("[data-cart-qty]");
@@ -792,6 +826,7 @@
 
       if (menuToggle) body.classList.toggle("menu-open");
       if (accHead) { event.preventDefault(); accHead.closest(".mm-acc").classList.toggle("open"); }
+      if (wishNav) { event.preventDefault(); window.location.href = "wishlist.html"; }
       if (cartOpen) openCart();
       if (cartClose) closeCart();
       if (qtyButton) updateCartQty(qtyButton.dataset.cartQty, Number(qtyButton.dataset.delta));
@@ -2115,6 +2150,7 @@
     if (page === "home") renderHome();
     if (page === "shop") renderShop();
     if (page === "product") renderProductDetail();
+    if (page === "wishlist") renderWishlist();
     /* checkout page renders its own summary via inline script in checkout.html */
   }
 

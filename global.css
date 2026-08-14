@@ -5352,3 +5352,40 @@ details.faq-item[open] summary { color: #f0ede8; }
 .shop-sort:hover, .shop-sort:focus { border-color: rgba(210,174,91,0.6); outline: none; }
 .shop-sort option { background: #0a0907; color: #f0ede8; }
 @media (max-width: 600px) { .shop-sort-label { display: none; } }
+
+/* ═══ #2 First-order offer popup — code reveal ═══ */
+.k-exit-success {
+  margin: 18px 0 6px; padding: 18px 16px; text-align: center;
+  border: 1px dashed rgba(210,174,91,0.5); background: rgba(210,174,91,0.06);
+}
+.k-exit-code-label {
+  font-family: var(--f-mono, 'Space Mono', monospace); font-size: 0.55rem;
+  letter-spacing: 0.24em; text-transform: uppercase; color: rgba(240,237,232,0.5); margin-bottom: 6px;
+}
+.k-exit-code {
+  font-family: var(--f-mono, 'Space Mono', monospace); font-size: 1.5rem;
+  letter-spacing: 0.14em; color: var(--k-gold, #d2ae5b); font-weight: 700;
+}
+.k-exit-code-note {
+  font-family: var(--f-body, 'Inter', sans-serif); font-size: 0.72rem;
+  line-height: 1.5; color: rgba(240,237,232,0.6); margin-top: 8px;
+}
+.k-exit-fine {
+  font-family: var(--f-mono, 'Space Mono', monospace); font-size: 0.54rem;
+  letter-spacing: 0.1em; color: rgba(240,237,232,0.35); margin-top: 12px;
+}
+
+/* ═══ #1 Wishlist page ═══ */
+.wishlist-empty {
+  text-align: center; padding: 50px 24px 110px;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+}
+.wishlist-empty-glyph { font-size: 3rem; color: rgba(210,174,91,0.35); line-height: 1; }
+.wishlist-empty-label {
+  font-family: var(--f-mono, 'Space Mono', monospace); font-size: 0.6rem;
+  letter-spacing: 0.28em; text-transform: uppercase; color: rgba(210,174,91,0.65);
+}
+.wishlist-empty-sub {
+  font-family: var(--f-body, 'Inter', sans-serif); font-size: 0.9rem;
+  color: rgba(240,237,232,0.55); max-width: 320px; line-height: 1.6; margin: 0 0 8px;
+}
