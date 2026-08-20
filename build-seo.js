@@ -293,3 +293,48 @@ try {
   lb = lb.replace(/product-detail(?:\.html)?\?id=(\d+)/g, (m, id) => { const p = getProductById(id); return p ? productUrl(p) : m; });
   if (lb !== before) { fs.writeFileSync(lbPath, lb); console.log('✓ lookbook.html product links rewritten to clean URLs'); }
 } catch (e) {}
+
+/* ─── sitemap.xml (Phase 3): generated from the same product data ───
+   Only canonical, indexable, HTTP-200 URLs on the preferred host (https + www).
+   Excluded on purpose: checkout, cart/bag, orders, inventory (admin), wishlist,
+   track (order-tracking utility), logo-sting (splash), 404, product-detail.html
+   (legacy ?id= shell — clean /products/ pages are the canonical product URLs),
+   and duplicate/empty collections (women-streetwear-trousers = dup of track-pants;
+   jeans = orphan; women-tops / women-track-pants = empty). See Phase 3 report. */
+const SITEMAP_LASTMOD = new Date().toISOString().slice(0, 10);
+// Intended-primary collection URLs (one per search intent; duplicates excluded)
+const SITEMAP_COLLECTIONS = [
+  ['men-all.html', '0.9'],   // All Men's (nav parent)
+  ['women-all.html', '0.9'], // All Women's (nav parent)
+  ['men.html', '0.8'],       // Men's Denim
+  ['women.html', '0.8'],     // Women's Denim
+  ['anime.html', '0.8'],     // Anime Denim
+  ['t-shirts.html', '0.8'],  // T-Shirts
+  ['women-wear.html', '0.7'],// Women Wear
+  ['track-pants.html', '0.7']// Track Pants (primary; women-streetwear-trousers is the dup)
+];
+// Informational / editorial pages with meaningful standalone content
+const SITEMAP_INFO = [
+  ['lookbook.html', '0.6'],
+  ['reviews.html', '0.5'],
+  ['info.html', '0.4']       // Shipping & Returns
+];
+function sitemapNode(loc, priority, changefreq) {
+  return '  <url>\n' +
+    '    <loc>' + BASE + loc + '</loc>\n' +
+    '    <lastmod>' + SITEMAP_LASTMOD + '</lastmod>\n' +
+    '    <changefreq>' + changefreq + '</changefreq>\n' +
+    '    <priority>' + priority + '</priority>\n' +
+    '  </url>\n';
+}
+let sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+sm += sitemapNode('', '1.0', 'weekly'); // homepage -> https://www.kryptaa.com/
+SITEMAP_COLLECTIONS.forEach(([loc, pr]) => { sm += sitemapNode(loc, pr, 'weekly'); });
+// All 27 clean product pages, deterministic order by slug
+[...PRODUCTS].sort((a, b) => productSlug(a).localeCompare(productSlug(b)))
+  .forEach((p) => { sm += sitemapNode(productUrl(p), '0.7', 'weekly'); });
+SITEMAP_INFO.forEach(([loc, pr]) => { sm += sitemapNode(loc, pr, 'monthly'); });
+sm += '</urlset>\n';
+fs.writeFileSync(path.join(__dirname, 'sitemap.xml'), sm);
+const smCount = (sm.match(/<url>/g) || []).length;
+console.log(`\n✓ sitemap.xml: ${smCount} URLs (1 home + ${SITEMAP_COLLECTIONS.length} collections + ${PRODUCTS.length} products + ${SITEMAP_INFO.length} info)`);
