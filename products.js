@@ -152,6 +152,47 @@ const SEO_META = {
   all_jeans:  { title: "Gothic & Graphic Denim Jeans | KRYPTAA", desc: "Gothic and graphic denim jeans by KRYPTAA — men's and women's wide-leg, embroidered, acid-wash and anime-print jeans. Limited underground drops." },
 };
 
+/* Stable per-product slugs (single source shared by build-seo.js + motion.js).
+   Generated once from product names; kept explicit so a later title tweak does
+   NOT silently change a live URL. New products auto-slug via slugify() below. */
+const SLUGS = {
+  1: "medusa-serpent-oversized-tee",
+  3: "angel-of-death-heavyweight-tee",
+  4: "broken-skull-heavyweight-tee",
+  5: "need-some-money-oversized-tee",
+  10: "vintage-distressed-wide-leg",
+  11: "red-gothic-embroidery-denim",
+  12: "acid-rust-patchwork-jeans",
+  14: "ice-cargo-wide-leg-denim",
+  30: "gothic-skull-wide-leg",
+  31: "gold-baroque-wide-leg",
+  32: "creature-graphic-wide-leg",
+  70: "rhinestone-mesh-hooded-crop",
+  80: "holographic-sequin-bra-top",
+  90: "silver-metallic-crop-set",
+  108: "six-eyes-gojo-satoru-denim",
+  109: "cursed-energy-jjk-collage",
+  110: "cursed-energy-jjk-vol-2",
+  111: "demon-back-baki-denim",
+  112: "shinigami-death-note-denim",
+  113: "straw-hat-one-piece-jeans",
+  114: "horror-anime-black-denim",
+  115: "six-eyes-gojo-vol-2",
+  116: "black-red-anime-denim",
+  500: "unisex-street-track-pant-blue",
+  501: "unisex-street-track-pant-green",
+  502: "unisex-street-track-pant-red",
+  503: "unisex-street-track-pant-yellow",
+};
+function slugify(s) {
+  return String(s || "").toLowerCase().replace(/&/g, "and").replace(/[^\w\s-]/g, "").trim().replace(/[\s_]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
+}
+function productSlug(product) { return SLUGS[product.id] || slugify(product.name); }
+/* Clean product URL (relative — product pages carry <base href="/"> so it
+   resolves from root there too). Fallback keeps unknown products working. */
+function productUrl(product) { return "products/" + productSlug(product) + ".html"; }
+function productSeoTitle(product) { return product.name + " | KRYPTAA"; }
+
 const HOME_FEATURE_IDS = [11, 30, 12, 31, 108, 14, 32, 304];
 
 const STORY_DEFAULTS = {
@@ -327,6 +368,11 @@ window.RAW_PRODUCTS = RAW_PRODUCTS;
 window.PRODUCTS = PRODUCTS;
 window.CATEGORY_CONFIGS = CATEGORY_CONFIGS;
 window.SEO_META = SEO_META;
+window.SLUGS = SLUGS;
+window.slugify = slugify;
+window.productSlug = productSlug;
+window.productUrl = productUrl;
+window.productSeoTitle = productSeoTitle;
 window.HOME_FEATURE_IDS = HOME_FEATURE_IDS;
 window.formatPrice = formatPrice;
 window.getProductById = getProductById;

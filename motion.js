@@ -903,7 +903,7 @@
     doc.getElementById("kQvKicker").textContent = product.collection;
     doc.getElementById("kQvName").textContent = product.name;
     doc.getElementById("kQvPrice").textContent = formatPrice(product.price);
-    doc.getElementById("kQvLink").href = `product-detail?id=${product.id}`;
+    doc.getElementById("kQvLink").href = (typeof productUrl === "function") ? productUrl(product) : `product-detail?id=${product.id}`;
     const sizesEl = doc.getElementById("kQvSizes");
     const addBtn = doc.getElementById("kQvAddBtn");
     if (product.category === "women_wear") {
@@ -1172,7 +1172,7 @@
       const cats = [...new Set(cart.map((i) => { const p = typeof getProductById === "function" ? getProductById(i.id) : null; return p ? p.category : null; }).filter(Boolean))];
       const avPicks = (window.PRODUCTS || []).filter((p) => cats.includes(p.category) && !inCartIds.has(p.id) && !/archive/i.test(p.availability || "")).slice(0, 3);
       alsoViewed.innerHTML = avPicks.length > 0
-        ? `<div class="cav-label">You may also like</div><div class="cav-row">${avPicks.map((p) => `<a class="cav-card" href="product-detail.html?id=${p.id}"><img src="${p.img}" alt="${p.name}" loading="lazy"><div class="cav-name">${p.name}</div><div class="cav-price">${formatPrice(p.price)}</div></a>`).join("")}</div>`
+        ? `<div class="cav-label">You may also like</div><div class="cav-row">${avPicks.map((p) => `<a class="cav-card" href="${productUrl(p)}"><img src="${p.img}" alt="${p.name}" loading="lazy"><div class="cav-name">${p.name}</div><div class="cav-price">${formatPrice(p.price)}</div></a>`).join("")}</div>`
         : "";
     }
   }
@@ -1186,7 +1186,7 @@
     const isNew = NEW_PRODUCT_IDS.has(product.id);
     return `
       <article class="product-card reveal${isSoldOut ? " is-sold-out" : ""}">
-        <a class="product-card-link" href="product-detail?id=${product.id}" aria-label="View ${product.name}">
+        <a class="product-card-link" href="${(typeof productUrl === "function") ? productUrl(product) : "product-detail?id=" + product.id}" aria-label="View ${product.name}">
           <div class="product-card-media">
             <img src="${product.img}" alt="${product.name}" loading="lazy">
             ${isNew ? `<div class="k-new-badge">New</div>` : ""}
@@ -1376,7 +1376,7 @@
     const target = doc.getElementById("productDetail");
     if (!target) return;
 
-    const id = new URLSearchParams(window.location.search).get("id");
+    const id = doc.body.dataset.productId || new URLSearchParams(window.location.search).get("id");
     const product = id && typeof getProductById === "function" ? getProductById(id) : null;
     if (!product) {
       target.innerHTML = `
@@ -1390,7 +1390,7 @@
       return;
     }
 
-    doc.title = `${product.name} — KRYPTAA`;
+    doc.title = (typeof productSeoTitle === "function") ? productSeoTitle(product) : `${product.name} | KRYPTAA`;
 
     fbTrack("ViewContent", {
       content_ids: [String(product.id)],
@@ -1420,20 +1420,22 @@
       if (!tag) { tag = doc.createElement("meta"); tag.setAttribute(attr, key); doc.head.appendChild(tag); }
       tag.setAttribute("content", val);
     };
+    const cleanUrl = `https://www.kryptaa.com/${(typeof productUrl === "function") ? productUrl(product) : "product-detail?id=" + product.id}`;
     setMeta("name", "description", product.desc);
-    setMeta("property", "og:title", `${product.name} — KRYPTAA`);
+    setMeta("property", "og:title", doc.title);
     setMeta("property", "og:description", product.desc);
     setMeta("property", "og:image", `https://www.kryptaa.com/${product.img}`);
-    setMeta("property", "og:url", `https://www.kryptaa.com/product-detail?id=${product.id}`);
+    setMeta("property", "og:url", cleanUrl);
 
-    /* Canonical URL */
+    /* Canonical → the clean product URL (matches the static /products/ page;
+       on the legacy ?id= page this cross-canonicals to the new URL). */
     let canonicalTag = doc.querySelector("link[rel='canonical']");
     if (!canonicalTag) {
       canonicalTag = doc.createElement("link");
       canonicalTag.rel = "canonical";
       doc.head.appendChild(canonicalTag);
     }
-    canonicalTag.href = `https://www.kryptaa.com/product-detail?id=${product.id}`;
+    canonicalTag.href = cleanUrl;
 
     /* JSON-LD Product structured data */
     let ldTag = doc.getElementById("k-jsonld");
@@ -1447,12 +1449,15 @@
       "image": [`https://www.kryptaa.com/${product.img}`],
       "brand": { "@type": "Brand", "name": "KRYPTAA" },
       "sku": "KRYPTAA-" + product.id,
+      "itemCondition": "https://schema.org/NewCondition",
       "offers": {
         "@type": "Offer",
-        "url": `https://www.kryptaa.com/product-detail?id=${product.id}`,
+        "url": cleanUrl,
         "priceCurrency": "USD",
         "price": product.price,
-        "availability": /sold.?out|archive/i.test(product.availability)
+        "availability": (product.category === "anime" || /pre.?order|production/i.test(product.availability || ""))
+          ? "https://schema.org/PreOrder"
+          : /sold.?out|archive/i.test(product.availability || "")
           ? "https://schema.org/OutOfStock"
           : "https://schema.org/InStock",
         "seller": { "@type": "Organization", "name": "KRYPTAA" }
@@ -1821,7 +1826,7 @@
           </div>
           <div class="pdp-pairs-grid">
             ${pairs.map((p) => `
-              <a class="pdp-pair-card reveal" href="product-detail?id=${p.id}">
+              <a class="pdp-pair-card reveal" href="${productUrl(p)}">
                 <div class="pdp-pair-img-wrap"><img src="${p.img}" alt="${p.name}" loading="lazy"></div>
                 <div class="pdp-pair-info">
                   <div class="pdp-pair-name">${p.name}</div>
