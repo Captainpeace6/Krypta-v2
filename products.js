@@ -71,9 +71,9 @@ const CATEGORY_CONFIGS = {
     featuredIds: [30, 31, 32, 70, 80, 90, 500, 501]
   },
   all_jeans: {
-    title: "Jeans",
+    title: "All Denim",
     label: "Denim Archive",
-    nav: "Jeans",
+    nav: "All Denim",
     href: "jeans.html",
     description: "Men's and women's denim — gothic embroidery, acid wash, skull prints, baroque gold, and creature art.",
     heroIds: [11, 30, 31, 12, 32],
@@ -105,15 +105,6 @@ const CATEGORY_CONFIGS = {
     description: "Rhinestone mesh, holographic sequin, silver metallic — KRYPTAA women's wear built for festival nights and after-dark statements.",
     heroIds: [70, 80, 90],
     featuredIds: [70, 80, 90]
-  },
-  women_track: {
-    title: "Women Track Pants",
-    label: "Drop 002 Motion",
-    nav: "Women Track",
-    href: "women-track-pants.html",
-    description: "The missing women's track-pant lane: baggy motion bottoms, utility cargos, side-rip details, and cyber-goth styling.",
-    heroIds: [500, 501, 502, 503],
-    featuredIds: [500, 501, 502, 503]
   },
   track: {
     title: "Track Pants",
@@ -238,7 +229,6 @@ function productFamily(product) {
   if (product.category === "tees") return "tees";
   if (product.category === "tops") return "tops";
   if (product.category === "women_wear") return "women_wear";
-  if (product.category === "women_track") return "denim";
   return "denim";
 }
 
@@ -300,6 +290,22 @@ function getCategoryConfig(category) {
   return CATEGORY_CONFIGS[category] || CATEGORY_CONFIGS.men;
 }
 
+/* Single source for a product's ONE primary breadcrumb path — its preferred
+   collection URL + label. Shared by the static generator (build-seo.js), the
+   BreadcrumbList JSON-LD, and the JS-rendered visible breadcrumb (motion.js),
+   so all three stay identical. women_st -> the preferred track-pants.html. */
+const PRODUCT_BREADCRUMB = {
+  men:        { href: "men.html",         label: "Men's Denim" },
+  women:      { href: "women.html",        label: "Women's Denim" },
+  anime:      { href: "anime.html",        label: "Anime Denim" },
+  tees:       { href: "t-shirts.html",     label: "T-Shirts" },
+  women_wear: { href: "women-wear.html",   label: "Women's Wear" },
+  women_st:   { href: "track-pants.html",  label: "Track Pants" }
+};
+function productBreadcrumb(category) {
+  return PRODUCT_BREADCRUMB[category] || { href: "index.html", label: "Shop" };
+}
+
 function getPageCategory() {
   const explicit = document.body.dataset.shop;
   if (explicit) return explicit;
@@ -312,8 +318,7 @@ function getPageCategory() {
     "jeans.html": "all_jeans",
     "t-shirts.html": "tees",
     "anime.html": "anime",
-    "women-wear.html": "women_wear", "women-tops.html": "women_wear",
-    "women-track-pants.html": "women_track",
+    "women-wear.html": "women_wear",
     "track-pants.html": "track",
     "women-streetwear-trousers.html": "women_st",
     "shop-template.html": "all_jeans"
@@ -380,6 +385,7 @@ window.getProductsByCategory = getProductsByCategory;
 window.getProductsByIds = getProductsByIds;
 window.getFeaturedProducts = getFeaturedProducts;
 window.getCategoryConfig = getCategoryConfig;
+window.productBreadcrumb = productBreadcrumb;
 window.getPageCategory = getPageCategory;
 
 // Merge any stock edits saved from the admin dashboard into STOCK_DATA

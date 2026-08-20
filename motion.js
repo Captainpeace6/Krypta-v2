@@ -1515,12 +1515,12 @@
       <nav class="k-breadcrumb" aria-label="Breadcrumb">
         <a href="index.html">Home</a>
         <span class="bc-sep">›</span>
-        <a href="${getCategoryConfig(product.category).href}">${getCategoryConfig(product.category).nav}</a>
+        <a href="${productBreadcrumb(product.category).href}">${productBreadcrumb(product.category).label}</a>
         <span class="bc-sep">›</span>
         <span class="bc-current">${product.name}</span>
       </nav>
       <div class="detail-back-row">
-        <a class="detail-back-btn" href="${getCategoryConfig(product.category).href}" aria-label="Back to shop">
+        <a class="detail-back-btn" href="${productBreadcrumb(product.category).href}" aria-label="Back to shop">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
           Back
         </a>
@@ -1530,7 +1530,7 @@
           ${galleryHTML}
         </div>
         <div class="detail-copy reveal">
-          <a class="eyebrow" href="${getCategoryConfig(product.category).href}">${product.collection}</a>
+          <a class="eyebrow" href="${productBreadcrumb(product.category).href}">${product.collection}</a>
           <h1 class="detail-title">${product.name}</h1>
           <div class="detail-price">${formatPrice(product.price)}</div>
           <button class="pdp-review-anchor" type="button" id="pdpReviewAnchor" aria-label="Jump to reviews"></button>

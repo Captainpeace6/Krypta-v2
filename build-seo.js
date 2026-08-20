@@ -119,6 +119,10 @@ for (const { file, category, html: original } of shopFiles()) {
   if (!products.length || !seo) { skipped.push(`${file} (${category}: ${products.length} products${seo ? '' : ', no SEO_META'})`); continue; }
 
   const url = BASE + file;
+  // Duplicate-collection consolidation: women-streetwear-trousers.html holds the
+  // same products as track-pants.html, so it canonicalizes to the preferred URL.
+  const CANONICAL_OVERRIDE = { women_st: 'track-pants.html' };
+  const canonUrl = BASE + (CANONICAL_OVERRIDE[category] || file);
   const cards = products.map(staticProductCard).join('\n');
   let html = original;
 
@@ -129,7 +133,7 @@ for (const { file, category, html: original } of shopFiles()) {
     /<title>[\s\S]*?<\/title>/);
   html = upsertHead(html,
     /<link rel="canonical"[^>]*>/,
-    `<link rel="canonical" href="${url}">`,
+    `<link rel="canonical" href="${canonUrl}">`,
     /<link rel="icon"[^>]*>/);
   if (!/SEO:noscript/.test(html)) {
     html = html.replace(/<\/head>/, `<noscript><style>/*SEO:noscript*/.reveal{opacity:1!important;transform:none!important}.product-card{opacity:1!important}</style></noscript>\n</head>`);
@@ -157,12 +161,23 @@ const REVIEWS = W.REVIEWS || {};
 const getProductById = W.getProductById;
 const productUrl = W.productUrl, productSlug = W.productSlug, productSeoTitle = W.productSeoTitle;
 
+// Reuse the site's canonical footer (single source) so product pages carry the
+// same crawlable static collection links as the rest of the site.
+let SITE_FOOTER = '';
+try {
+  const ref = fs.readFileSync(path.join(__dirname, 'men.html'), 'utf8');
+  const m = ref.match(/<footer class="site-footer">[\s\S]*?<\/footer>/);
+  if (m) SITE_FOOTER = m[0];
+} catch (e) {}
+
 function productPage(product) {
   const cleanRel = productUrl(product);            // products/<slug>.html
   const cleanAbs = BASE + cleanRel;
-  const cat = getCategoryConfig(product.category) || {};
-  const catHref = cat.href || 'index.html';
-  const catTitle = cat.title || 'Shop';
+  // One primary breadcrumb path per product — shared with motion.js + JSON-LD
+  // via products.js productBreadcrumb() so all three stay identical.
+  const bc = W.productBreadcrumb(product.category);
+  const catHref = bc.href;
+  const catTitle = bc.label;
   const title = productSeoTitle(product);
   const descFull = product.desc || '';
   const metaDesc = descFull.length > 160 ? descFull.slice(0, 157).replace(/\s+\S*$/, '') + '…' : descFull;
@@ -270,6 +285,7 @@ function productPage(product) {
     </div>
   </section>
 </main>
+${SITE_FOOTER}
 </body>
 </html>
 `;
@@ -299,8 +315,8 @@ try {
    Excluded on purpose: checkout, cart/bag, orders, inventory (admin), wishlist,
    track (order-tracking utility), logo-sting (splash), 404, product-detail.html
    (legacy ?id= shell — clean /products/ pages are the canonical product URLs),
-   and duplicate/empty collections (women-streetwear-trousers = dup of track-pants;
-   jeans = orphan; women-tops / women-track-pants = empty). See Phase 3 report. */
+   and the duplicate collection women-streetwear-trousers (canonicalizes to
+   track-pants). jeans.html is included as the All Denim landing (Phase 4). */
 const SITEMAP_LASTMOD = new Date().toISOString().slice(0, 10);
 // Intended-primary collection URLs (one per search intent; duplicates excluded)
 const SITEMAP_COLLECTIONS = [
@@ -311,7 +327,8 @@ const SITEMAP_COLLECTIONS = [
   ['anime.html', '0.8'],     // Anime Denim
   ['t-shirts.html', '0.8'],  // T-Shirts
   ['women-wear.html', '0.7'],// Women Wear
-  ['track-pants.html', '0.7']// Track Pants (primary; women-streetwear-trousers is the dup)
+  ['track-pants.html', '0.7'],// Track Pants (primary; women-streetwear-trousers canonicalizes here)
+  ['jeans.html', '0.7']      // All Denim (cross-category denim landing)
 ];
 // Informational / editorial pages with meaningful standalone content
 const SITEMAP_INFO = [
