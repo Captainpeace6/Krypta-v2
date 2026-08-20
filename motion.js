@@ -1285,19 +1285,22 @@
     const products = getProductsByCategory(category);
     try { localStorage.setItem("k_last_shop", window.location.pathname); } catch(e) {}
 
-    doc.title = `${config.title} — KRYPTAA Gothic Streetwear`;
+    const seo = (window.SEO_META && window.SEO_META[category]) || {};
+    const seoTitle = seo.title || `${config.title} — KRYPTAA Gothic Streetwear`;
+    const seoDesc = seo.desc || config.description;
+    doc.title = seoTitle;
     setText("shopTitle", config.title);
     setText("shopLabel", config.label);
     setText("shopDescription", config.description);
     setText("shopCount", `${products.length} pieces`);
 
-    /* Dynamic SEO for shop pages */
+    /* Keep meta identical to the static SEO build (materially equivalent — no cloaking) */
     const _sm = (attr, key, val) => { let t = doc.querySelector(`meta[${attr}="${key}"]`); if (!t) { t = doc.createElement("meta"); t.setAttribute(attr, key); doc.head.appendChild(t); } t.setAttribute("content", val); };
     const _coverImg = config.heroIds && config.heroIds.length ? (getProductsByIds([config.heroIds[0]])[0] || {}) : {};
     const _ogImg = `https://www.kryptaa.com/${_coverImg.img || "imgs/kryptaa-sigil.webp"}`;
-    _sm("name", "description", config.description);
-    _sm("property", "og:title", `${config.title} — KRYPTAA`);
-    _sm("property", "og:description", config.description);
+    _sm("name", "description", seoDesc);
+    _sm("property", "og:title", seoTitle);
+    _sm("property", "og:description", seoDesc);
     _sm("property", "og:image", _ogImg);
     _sm("name", "twitter:image", _ogImg);
 
@@ -1342,7 +1345,16 @@
       doc.getElementById("shopSort").addEventListener("change", (e) => paintGrid(e.target.value));
     }
 
-    paintGrid("featured");
+    /* Hydrate: if the SEO build pre-rendered the grid, keep that HTML and just
+       make it interactive — do NOT clear/rebuild. Otherwise render from JS. */
+    if (grid && grid.querySelector(".product-card")) {
+      grid.querySelectorAll(".product-card").forEach((el) => el.classList.add("is-visible"));
+      updateWishlistUI();
+      bindLayoutToggle();
+      if (window.__onStockUpdated) window.__onStockUpdated();
+    } else {
+      paintGrid("featured");
+    }
   }
 
   function bindLayoutToggle() {

@@ -135,6 +135,23 @@ const CATEGORY_CONFIGS = {
   }
 };
 
+/* SEO metadata per collection — single source shared by the static SEO
+   generator (build-seo.js) AND motion.js, so crawler HTML and JS-rendered
+   pages produce identical <title>/description (no cloaking, no drift).
+   Provisional keyword-aware copy; refine in the keyword-research phase. */
+const SEO_META = {
+  men:        { title: "Men's Gothic Streetwear & Baggy Denim | KRYPTAA", desc: "Shop KRYPTAA men's gothic streetwear — baggy wide-leg denim with gothic embroidery, acid wash and cargo silhouettes. Limited Drop 001. Free shipping over $75." },
+  women:      { title: "Women's Gothic Streetwear & Wide-Leg Denim | KRYPTAA", desc: "KRYPTAA women's gothic streetwear — wide-leg denim with skull, baroque gold and creature graphics. High-waist, floor-length stacked fits. Limited drops." },
+  anime:      { title: "Anime Denim & Graphic Jeans | KRYPTAA", desc: "Anime-inspired graphic denim by KRYPTAA — Gojo, JJK, Baki and more sublimated onto dark straight jeans. Drop 002, limited pre-order." },
+  tees:       { title: "Heavyweight Gothic Graphic T-Shirts | KRYPTAA", desc: "Heavyweight 300GSM gothic graphic tees by KRYPTAA — oversized drop-shoulder cotton with dark serpent, angel and skull artwork. Limited Drop 001." },
+  women_st:   { title: "Unisex Streetwear Track Pants | KRYPTAA", desc: "Unisex wide-leg street track pants by KRYPTAA in four bold colours. Clean structured silhouette, relaxed fit — built for presence and movement." },
+  men_all:    { title: "Men's Streetwear — Denim & Graphic Tees | KRYPTAA", desc: "The full KRYPTAA men's collection — gothic baggy denim and heavyweight graphic tees. Underground streetwear, limited drops. Free shipping over $75." },
+  women_all:  { title: "Women's Streetwear — Denim, Wear & Track Pants | KRYPTAA", desc: "The full KRYPTAA women's collection — wide-leg denim, rave and festival wear, streetwear track pants and graphic tees. Limited underground drops." },
+  track:      { title: "Streetwear Track Pants — Motion & Street | KRYPTAA", desc: "KRYPTAA streetwear track pants — motion-ready bottoms and unisex street colourways with utility attitude. Relaxed, wide-leg, built to move." },
+  women_wear: { title: "Rave & Festival Women's Wear | KRYPTAA", desc: "KRYPTAA rave and festival women's wear — rhinestone mesh, holographic sequin and silver metallic sets built to catch light after dark." },
+  all_jeans:  { title: "Gothic & Graphic Denim Jeans | KRYPTAA", desc: "Gothic and graphic denim jeans by KRYPTAA — men's and women's wide-leg, embroidered, acid-wash and anime-print jeans. Limited underground drops." },
+};
+
 const HOME_FEATURE_IDS = [11, 30, 12, 31, 108, 14, 32, 304];
 
 const STORY_DEFAULTS = {
@@ -309,6 +326,7 @@ window.RAW_PRODUCTS = RAW_PRODUCTS;
 
 window.PRODUCTS = PRODUCTS;
 window.CATEGORY_CONFIGS = CATEGORY_CONFIGS;
+window.SEO_META = SEO_META;
 window.HOME_FEATURE_IDS = HOME_FEATURE_IDS;
 window.formatPrice = formatPrice;
 window.getProductById = getProductById;
