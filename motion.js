@@ -1421,9 +1421,10 @@
       tag.setAttribute("content", val);
     };
     const cleanUrl = `https://www.kryptaa.com/${(typeof productUrl === "function") ? productUrl(product) : "product-detail?id=" + product.id}`;
-    setMeta("name", "description", product.desc);
+    const _metaDesc = (typeof productMetaDesc === "function") ? productMetaDesc(product) : product.desc;
+    setMeta("name", "description", _metaDesc);
     setMeta("property", "og:title", doc.title);
-    setMeta("property", "og:description", product.desc);
+    setMeta("property", "og:description", _metaDesc);
     setMeta("property", "og:image", `https://www.kryptaa.com/${product.img}`);
     setMeta("property", "og:url", cleanUrl);
 

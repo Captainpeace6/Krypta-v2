@@ -180,7 +180,7 @@ function productPage(product) {
   const catTitle = bc.label;
   const title = productSeoTitle(product);
   const descFull = product.desc || '';
-  const metaDesc = descFull.length > 160 ? descFull.slice(0, 157).replace(/\s+\S*$/, '') + '…' : descFull;
+  const metaDesc = W.productMetaDesc(product);
   const imgAbs = BASE + product.img;
   const isAnime = product.category === 'anime';
   const av = product.availability || '';

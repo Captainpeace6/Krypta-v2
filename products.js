@@ -35,20 +35,20 @@ const RAW_PRODUCTS = [
 
 const CATEGORY_CONFIGS = {
   men: {
-    title: "Men",
+    title: "Men's Denim",
     label: "Shadow Denim",
     nav: "Men",
     href: "men.html",
-    description: "Vintage washes, gothic embroidery, acid distressing and cargo silhouettes — engineered for presence.",
+    description: "Baggy wide-leg denim — vintage washes, gothic embroidery, acid distressing and cargo silhouettes, engineered for presence.",
     heroIds: [11, 10, 12, 14],
     featuredIds: [11, 10, 12, 14]
   },
   women: {
-    title: "Women",
+    title: "Women's Denim",
     label: "Dark Feminine",
     nav: "Women",
     href: "women.html",
-    description: "Wide-leg gothic denim with skull prints, baroque gold, and creature art — cut for the underground.",
+    description: "Women's wide-leg gothic denim — skull prints, baroque gold and creature art on high-waist, floor-length cuts.",
     heroIds: [30, 31, 32],
     featuredIds: [30, 31, 32]
   },
@@ -75,7 +75,7 @@ const CATEGORY_CONFIGS = {
     label: "Denim Archive",
     nav: "All Denim",
     href: "jeans.html",
-    description: "Men's and women's denim — gothic embroidery, acid wash, skull prints, baroque gold, and creature art.",
+    description: "The full denim archive — gothic embroidery, acid wash, baroque gold and creature graphics on wide-leg cuts. Every gothic jean and graphic-denim piece in one place.",
     heroIds: [11, 30, 31, 12, 32],
     featuredIds: [11, 30, 12, 31]
   },
@@ -84,21 +84,21 @@ const CATEGORY_CONFIGS = {
     label: "Heavyweight Cotton",
     nav: "T-Shirts",
     href: "t-shirts.html",
-    description: "300GSM gothic graphics with dense structure, oversized drape, and sharp print clarity.",
+    description: "Heavyweight 300GSM gothic graphics — dense structure, oversized drape, and sharp print clarity.",
     heroIds: [1, 3, 4, 5],
     featuredIds: [1, 3, 4, 5]
   },
   anime: {
-    title: "Anime",
+    title: "Anime Denim",
     label: "Drop 002 · Graphic Denim",
     nav: "Anime",
     href: "anime.html",
-    description: "Anime iconography treated as dark denim art rather than novelty graphics.",
+    description: "Anime iconography treated as dark denim art — not novelty graphics. Anime denim built for the street.",
     heroIds: [108, 115, 109, 110, 116],
     featuredIds: [108, 115, 109, 116]
   },
   women_wear: {
-    title: "Women Wear",
+    title: "Women's Wear",
     label: "Drop 001 — New Arrivals",
     nav: "Women Wear",
     href: "women-wear.html",
@@ -111,7 +111,7 @@ const CATEGORY_CONFIGS = {
     label: "Motion & Street",
     nav: "Track Pants",
     href: "track-pants.html",
-    description: "Every KRYPTAA track pant in one place — the Drop-002 motion line and the unisex street colorways.",
+    description: "Unisex streetwear track pants — wide-leg street colourways, structured and built to move.",
     heroIds: [500, 501, 502, 503],
     featuredIds: [500, 501, 502, 503]
   },
@@ -131,16 +131,16 @@ const CATEGORY_CONFIGS = {
    pages produce identical <title>/description (no cloaking, no drift).
    Provisional keyword-aware copy; refine in the keyword-research phase. */
 const SEO_META = {
-  men:        { title: "Men's Gothic Streetwear & Baggy Denim | KRYPTAA", desc: "Shop KRYPTAA men's gothic streetwear — baggy wide-leg denim with gothic embroidery, acid wash and cargo silhouettes. Limited Drop 001. Free shipping over $75." },
-  women:      { title: "Women's Gothic Streetwear & Wide-Leg Denim | KRYPTAA", desc: "KRYPTAA women's gothic streetwear — wide-leg denim with skull, baroque gold and creature graphics. High-waist, floor-length stacked fits. Limited drops." },
-  anime:      { title: "Anime Denim & Graphic Jeans | KRYPTAA", desc: "Anime-inspired graphic denim by KRYPTAA — Gojo, JJK, Baki and more sublimated onto dark straight jeans. Drop 002, limited pre-order." },
-  tees:       { title: "Heavyweight Gothic Graphic T-Shirts | KRYPTAA", desc: "Heavyweight 300GSM gothic graphic tees by KRYPTAA — oversized drop-shoulder cotton with dark serpent, angel and skull artwork. Limited Drop 001." },
-  women_st:   { title: "Unisex Streetwear Track Pants | KRYPTAA", desc: "Unisex wide-leg street track pants by KRYPTAA in four bold colours. Clean structured silhouette, relaxed fit — built for presence and movement." },
-  men_all:    { title: "Men's Streetwear — Denim & Graphic Tees | KRYPTAA", desc: "The full KRYPTAA men's collection — gothic baggy denim and heavyweight graphic tees. Underground streetwear, limited drops. Free shipping over $75." },
-  women_all:  { title: "Women's Streetwear — Denim, Wear & Track Pants | KRYPTAA", desc: "The full KRYPTAA women's collection — wide-leg denim, rave and festival wear, streetwear track pants and graphic tees. Limited underground drops." },
-  track:      { title: "Streetwear Track Pants — Motion & Street | KRYPTAA", desc: "KRYPTAA streetwear track pants — motion-ready bottoms and unisex street colourways with utility attitude. Relaxed, wide-leg, built to move." },
-  women_wear: { title: "Rave & Festival Women's Wear | KRYPTAA", desc: "KRYPTAA rave and festival women's wear — rhinestone mesh, holographic sequin and silver metallic sets built to catch light after dark." },
-  all_jeans:  { title: "Gothic & Graphic Denim Jeans | KRYPTAA", desc: "Gothic and graphic denim jeans by KRYPTAA — men's and women's wide-leg, embroidered, acid-wash and anime-print jeans. Limited underground drops." },
+  men:        { title: "Men's Baggy Jeans — Wide-Leg Gothic Denim | KRYPTAA", desc: "Men's baggy jeans by KRYPTAA — wide-leg gothic denim with embroidery, acid wash and cargo silhouettes. Baggy denim built for presence. Limited Drop 001." },
+  women:      { title: "Women's Wide-Leg Jeans — Gothic Baggy Denim | KRYPTAA", desc: "Women's wide-leg jeans by KRYPTAA — high-waist gothic denim with skull, baroque gold and creature graphics. Floor-length stacked, baggy fits. Limited drops." },
+  anime:      { title: "Anime Jeans & Graphic Denim | KRYPTAA", desc: "Anime jeans by KRYPTAA — anime graphic denim sublimated onto dark straight-leg jeans. Anime streetwear built as art, not novelty. Drop 002, limited pre-order." },
+  tees:       { title: "Heavyweight Graphic Tees — Gothic 300GSM Cotton | KRYPTAA", desc: "Heavyweight graphic tees by KRYPTAA — 300GSM oversized drop-shoulder cotton with serpent, angel and skull artwork. Gothic graphic tees, built heavy. Drop 001." },
+  women_st:   { title: "Unisex Streetwear Track Pants | KRYPTAA", desc: "Unisex streetwear track pants by KRYPTAA in four bold colours. Wide-leg structured silhouette, relaxed fit — built for presence and movement." },
+  men_all:    { title: "Men's Gothic Streetwear — Denim & Graphic Tees | KRYPTAA", desc: "Men's gothic streetwear by KRYPTAA — the full men's collection of baggy denim and heavyweight graphic tees. Alternative, underground, limited drops." },
+  women_all:  { title: "Women's Gothic Streetwear — Denim, Wear & Tees | KRYPTAA", desc: "Women's gothic streetwear by KRYPTAA — the full women's collection of wide-leg denim, festival wear, track pants and graphic tees. Alternative, dark, limited drops." },
+  track:      { title: "Streetwear Track Pants — Unisex Wide-Leg | KRYPTAA", desc: "KRYPTAA streetwear track pants — unisex wide-leg colourways with utility attitude. Baggy, relaxed, built to move. Limited drop." },
+  women_wear: { title: "Rave Outfits & Festival Clothing — Women's | KRYPTAA", desc: "Rave outfits and festival clothing by KRYPTAA — rhinestone mesh, holographic sequin and silver metallic sets built to catch light after dark. EDM-ready." },
+  all_jeans:  { title: "Gothic Jeans — Graphic & Embroidered Denim | KRYPTAA", desc: "Gothic jeans by KRYPTAA — graphic denim, gothic embroidery, baroque gold and acid-wash across the denim archive. Alternative jeans, limited underground drops." },
 };
 
 /* Stable per-product slugs (single source shared by build-seo.js + motion.js).
@@ -182,7 +182,46 @@ function productSlug(product) { return SLUGS[product.id] || slugify(product.name
 /* Clean product URL (relative — product pages carry <base href="/"> so it
    resolves from root there too). Fallback keeps unknown products working. */
 function productUrl(product) { return "products/" + productSlug(product) + ".html"; }
-function productSeoTitle(product) { return product.name + " | KRYPTAA"; }
+/* Phase 6 on-page SEO: per-product title + meta-description overrides, keyed to
+   the Phase 5 keyword map. Titles carry the product's primary keyword; metas are
+   unique, click-oriented, and make no unverified/licensing claims. Visible product
+   copy (product.desc) is left untouched — this only controls <title> + meta. */
+const PRODUCT_SEO = {
+  1:   { title: "Medusa Serpent Oversized Heavyweight Tee | KRYPTAA", desc: "Black 300GSM oversized tee with a Medusa serpent back print. Heavyweight gothic graphic tee, cut wide. Limited Drop 001." },
+  3:   { title: "Angel of Death Heavyweight Gothic Tee | KRYPTAA", desc: "Heavyweight 300GSM gothic tee with an Angel of Death graphic. Oversized drop-shoulder cotton. Limited drop." },
+  4:   { title: "Broken Skull Heavyweight Graphic Tee | KRYPTAA", desc: "Oversized 300GSM heavyweight tee with a broken-skull graphic. Gothic streetwear, built heavy. Limited Drop 001." },
+  5:   { title: "Need Some Money Oversized Statement Tee | KRYPTAA", desc: "Oversized heavyweight statement tee with a Need Some Money print. Streetwear graphic cotton. Limited drop." },
+  10:  { title: "Vintage Distressed Wide-Leg Baggy Jeans | KRYPTAA", desc: "Vintage-wash distressed wide-leg baggy jeans with a gothic streetwear cut. Men's underground denim. Limited drop." },
+  11:  { title: "Red Gothic Embroidery Wide-Leg Denim | KRYPTAA", desc: "Wide-leg denim with red gothic embroidery. Baggy gothic jeans built for presence. Limited Drop 001." },
+  12:  { title: "Acid Rust Patchwork Baggy Jeans | KRYPTAA", desc: "Acid-wash rust patchwork baggy jeans with raw distressing. Gothic wide-leg denim. Limited drop." },
+  14:  { title: "Ice Cargo Wide-Leg Cargo Jeans | KRYPTAA", desc: "Ice-wash wide-leg cargo denim with utility pockets. Baggy gothic cargo jeans. Limited Drop 001." },
+  30:  { title: "Gothic Skull Wide-Leg Jeans — Women's | KRYPTAA", desc: "Women's high-waist wide-leg jeans with a gothic skull print. Floor-length stacked fit. Limited drop." },
+  31:  { title: "Gold Baroque Wide-Leg Jeans — Women's | KRYPTAA", desc: "Women's wide-leg denim with gold baroque embroidery. High-waist gothic jeans. Limited Drop 001." },
+  32:  { title: "Creature Graphic Wide-Leg Jeans — Women's | KRYPTAA", desc: "Women's wide-leg denim with a dark creature graphic. Gothic graphic jeans, stacked fit. Limited drop." },
+  70:  { title: "Rhinestone Mesh Hooded Crop Top | KRYPTAA", desc: "Rhinestone mesh hooded crop top for rave and festival nights. Sheer sparkle, after-dark statement. Drop 001." },
+  80:  { title: "Holographic Sequin Bra Top | KRYPTAA", desc: "Holographic sequin bra top built to catch light on the floor. Festival and rave wear. Limited drop." },
+  90:  { title: "Silver Metallic Crop Set — Festival | KRYPTAA", desc: "Silver metallic crop two-piece set for festivals and after-dark. Reflective rave wear. Limited drop." },
+  500: { title: "Unisex Street Track Pants — Blue | KRYPTAA", desc: "Wide-leg unisex street track pants in deep blue. Structured streetwear silhouette, relaxed fit. Drop 001." },
+  501: { title: "Unisex Street Track Pants — Green | KRYPTAA", desc: "Wide-leg unisex street track pants in muted green. Structured streetwear fit, built to move. Drop 001." },
+  502: { title: "Unisex Street Track Pants — Red | KRYPTAA", desc: "Wide-leg unisex street track pants in bold red. Structured streetwear silhouette, relaxed fit. Drop 001." },
+  503: { title: "Unisex Street Track Pants — Yellow | KRYPTAA", desc: "Wide-leg unisex street track pants in gold yellow. Structured streetwear fit, built for presence. Drop 001." },
+  108: { title: "Six Eyes Gojo Satoru Anime Denim Jeans | KRYPTAA", desc: "Gojo Satoru Six Eyes anime graphic denim jeans. Jujutsu Kaisen streetwear on dark straight-leg denim. Drop 002." },
+  109: { title: "Jujutsu Kaisen Cursed Energy Collage Denim | KRYPTAA", desc: "Jujutsu Kaisen cursed-energy collage anime denim. JJK graphic jeans on dark straight denim. Drop 002." },
+  110: { title: "Jujutsu Kaisen Denim Vol. 2 — JJK Jeans | KRYPTAA", desc: "Jujutsu Kaisen anime denim, volume 2. JJK graphic jeans on dark straight denim. Limited pre-order." },
+  111: { title: "Baki Hanma Demon Back Anime Denim | KRYPTAA", desc: "Baki Demon Back anime graphic denim jeans. Dark straight-leg anime streetwear. Drop 002 pre-order." },
+  112: { title: "Death Note Shinigami Anime Denim Jeans | KRYPTAA", desc: "Death Note shinigami anime graphic denim. Dark straight-leg anime jeans. Drop 002 pre-order." },
+  113: { title: "One Piece Straw Hat Anime Denim Jeans | KRYPTAA", desc: "One Piece Straw Hat anime graphic denim jeans. Dark straight-leg anime streetwear. Drop 002 pre-order." },
+  114: { title: "Horror Anime Black Graphic Denim | KRYPTAA", desc: "Horror-anime black graphic denim jeans. Dark straight-leg anime streetwear. Drop 002 pre-order." },
+  115: { title: "Six Eyes Gojo Satoru Denim Vol. 2 | KRYPTAA", desc: "Gojo Satoru Six Eyes anime denim, volume 2. Jujutsu Kaisen graphic jeans on dark denim. Drop 002." },
+  116: { title: "Black & Red Anime Graphic Denim | KRYPTAA", desc: "Black-and-red anime graphic denim jeans. Dark straight-leg anime streetwear. Drop 002 pre-order." }
+};
+function productSeoTitle(product) { return (PRODUCT_SEO[product.id] && PRODUCT_SEO[product.id].title) || (product.name + " | KRYPTAA"); }
+function productMetaDesc(product) {
+  const o = PRODUCT_SEO[product.id];
+  if (o && o.desc) return o.desc;
+  const d = String(product.desc || "");
+  return d.length > 160 ? d.slice(0, 157).replace(/\s+\S*$/, "") + "…" : d;
+}
 
 const HOME_FEATURE_IDS = [11, 30, 12, 31, 108, 14, 32, 304];
 
@@ -378,6 +417,7 @@ window.slugify = slugify;
 window.productSlug = productSlug;
 window.productUrl = productUrl;
 window.productSeoTitle = productSeoTitle;
+window.productMetaDesc = productMetaDesc;
 window.HOME_FEATURE_IDS = HOME_FEATURE_IDS;
 window.formatPrice = formatPrice;
 window.getProductById = getProductById;
