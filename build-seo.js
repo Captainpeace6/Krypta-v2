@@ -29,6 +29,14 @@ const formatPrice = W.formatPrice || ((n) => '$' + Number(n).toFixed(2));
 const SEO_META = W.SEO_META || {};
 
 const BASE = 'https://www.kryptaa.com/';
+
+/* Phase 8 CRO: trust strip under Add To Bag — gold monochrome SVG icons (KRYPTAA style, not bright badges) */
+const TRUST_STRIP = `<div class="pdp-trust-strip">
+        <div class="pdp-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Secure Stripe Checkout</span></div>
+        <div class="pdp-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><span>Free Shipping Over $75</span></div>
+        <div class="pdp-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg><span>Easy Returns</span></div>
+        <div class="pdp-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Verified Customer Reviews</span></div>
+      </div>`;
 const MC_POST = 'https://gmail.us12.list-manage.com/subscribe/post?u=450fbc81f41740fcc252b9629&id=010b1e7bb0&f_id=00e455e0f0';
 const MC_HONEYPOT = 'b_450fbc81f41740fcc252b9629_010b1e7bb0';
 const NEW_IDS = new Set([108, 109, 111, 112, 113, 50, 51, 52, 60, 61, 62]);
@@ -282,6 +290,7 @@ function productPage(product) {
       <p>${esc(descFull)}</p>
       <div class="detail-tags">${tags}</div>
       <div class="buy-panel">${buy}</div>
+      ${TRUST_STRIP}
     </div>
   </section>
 </main>
@@ -332,9 +341,15 @@ const SITEMAP_COLLECTIONS = [
 ];
 // Informational / editorial pages with meaningful standalone content
 const SITEMAP_INFO = [
+  ['about.html', '0.7'],     // brand story
   ['lookbook.html', '0.6'],
   ['reviews.html', '0.5'],
-  ['info.html', '0.4']       // Shipping & Returns
+  ['faq.html', '0.5'],
+  ['size-guide.html', '0.5'],
+  ['info.html', '0.4'],      // Shipping & Returns
+  ['contact.html', '0.4'],
+  ['privacy.html', '0.3'],
+  ['terms.html', '0.3']
 ];
 function sitemapNode(loc, priority, changefreq) {
   return '  <url>\n' +

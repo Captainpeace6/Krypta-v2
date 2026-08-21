@@ -27,8 +27,8 @@
                 path.endsWith('/Krypta-v2/') ||
                 path === '/Krypta-v2';
 
-  var PRELOAD_DURATION = REDUCE ? 400  : 2400; // ms
-  var SHATTER_DURATION = REDUCE ? 0    : 900;  // ms
+  var PRELOAD_DURATION = REDUCE ? 400  : 1200; // ms — first-session only (gated by sessionStorage k_entered)
+  var SHATTER_DURATION = REDUCE ? 0    : 500;  // ms — total intro ~1.7s, animations preserved
 
   /* ─────────────────────────────────────────────
      1. GRAIN OVERLAY
