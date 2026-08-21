@@ -636,23 +636,23 @@
   <!-- ── ANALYTICS VIEW ── -->
   <div id="analyticsView" class="od-view">
     <div class="od-main">
-      <div class="view-intro"><div class="view-intro-title">Analytics</div><div class="view-intro-sub">Google Analytics 4 · G-242EQ24FP3</div></div>
-      <div class="exec-kpi-grid">
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Sessions</div><div class="exec-kpi-val">Waiting · GA4</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Users</div><div class="exec-kpi-val">Waiting · GA4</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Page Views</div><div class="exec-kpi-val">Waiting · GA4</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Engaged Sessions</div><div class="exec-kpi-val">Waiting · GA4</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Avg Engagement</div><div class="exec-kpi-val">Waiting · GA4</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Bounce Rate</div><div class="exec-kpi-val">Waiting · GA4</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Conversions</div><div class="exec-kpi-val">Waiting · GA4</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Revenue</div><div class="exec-kpi-val">Waiting · GA4</div></div>
+      <div class="view-intro"><div class="view-intro-title">Analytics</div><div class="view-intro-sub">Google Analytics 4 · G-242EQ24FP3 &nbsp;·&nbsp; <span id="gaStatus">Last 30 days · loading…</span></div></div>
+      <div class="exec-kpi-grid" id="gaKpiGrid">
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Sessions</div><div class="exec-kpi-val" id="gaSessions">Waiting · GA4</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Users</div><div class="exec-kpi-val" id="gaUsers">Waiting · GA4</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Page Views</div><div class="exec-kpi-val" id="gaPageViews">Waiting · GA4</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Engaged Sessions</div><div class="exec-kpi-val" id="gaEngaged">Waiting · GA4</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Avg Engagement</div><div class="exec-kpi-val" id="gaEngTime">Waiting · GA4</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Bounce Rate</div><div class="exec-kpi-val" id="gaBounce">Waiting · GA4</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Conversions</div><div class="exec-kpi-val" id="gaConversions">Waiting · GA4</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Revenue</div><div class="exec-kpi-val" id="gaRevenue">Waiting · GA4</div></div>
       </div>
       <div class="dash-section"><div class="dash-section-title">Conversion Funnel</div>
         <div class="funnel">
-          <div class="funnel-step"><span class="fs-name">Product View</span><span class="fs-val wait">Waiting · GA4</span></div><div class="funnel-arrow">↓</div>
-          <div class="funnel-step"><span class="fs-name">Add to Cart</span><span class="fs-val wait">Waiting · GA4</span></div><div class="funnel-arrow">↓</div>
-          <div class="funnel-step"><span class="fs-name">Checkout</span><span class="fs-val wait">Waiting · GA4</span></div><div class="funnel-arrow">↓</div>
-          <div class="funnel-step"><span class="fs-name">Purchase</span><span class="fs-val wait">Waiting · GA4</span></div>
+          <div class="funnel-step"><span class="fs-name">Product View</span><span class="fs-val wait" id="gaFView">Waiting · GA4</span></div><div class="funnel-arrow">↓</div>
+          <div class="funnel-step"><span class="fs-name">Add to Cart</span><span class="fs-val wait" id="gaFCart">Waiting · GA4</span></div><div class="funnel-arrow">↓</div>
+          <div class="funnel-step"><span class="fs-name">Checkout</span><span class="fs-val wait" id="gaFCheckout">Waiting · GA4</span></div><div class="funnel-arrow">↓</div>
+          <div class="funnel-step"><span class="fs-name">Purchase</span><span class="fs-val wait" id="gaFPurchase">Waiting · GA4</span></div>
         </div>
       </div>
       <div class="waiting-block"><div class="wb-title">Waiting for GA4 ecommerce data</div><div class="wb-sub">view_item &amp; add_to_cart events are not yet firing — connect the GA4 Data API</div></div>
@@ -829,6 +829,7 @@
       window.scrollTo(0, 0);
       if (btn.dataset.view === 'dashboardView') fetchLowStockAlerts();
       if (btn.dataset.view === 'customersView') renderCustomers(allOrders);
+      if (btn.dataset.view === 'analyticsView') renderAnalytics();
     });
   });
 
@@ -1307,6 +1308,29 @@
     document.getElementById('custHistory').innerHTML = orders.slice(0,12).map(function(o){ var dt=new Date((o.created||0)*1000).toLocaleDateString('en-US',{day:'numeric',month:'short',year:'numeric'});
       return '<div class="dash-recent-row"><div class="dash-recent-left"><div class="dash-recent-name">'+escHtml((o.customer&&o.customer.name)||'Customer')+'</div><div class="dash-recent-date">'+dt+'</div></div><div class="dash-recent-amt">'+kMoney(o.total)+'</div></div>';
     }).join('') || '<div class="od-empty" style="padding:16px 0;">No orders yet.</div>';
+  }
+
+  function renderAnalytics(){
+    var key=savedKey(); if(!key) return;
+    var st=document.getElementById('gaStatus');
+    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/ga4-report?range=30', { headers:{ 'X-Admin-Key': key } })
+      .then(function(r){ return r.ok?r.json():null; })
+      .then(function(d){
+        if(!d || !d.configured){ if(st) st.textContent = 'Waiting for connection' + (d&&d.reason? ' \u00b7 '+d.reason : ''); return; }
+        function put(id,val){ var e=document.getElementById(id); if(e){ e.textContent=val; var c=e.closest('.exec-kpi'); if(c) c.classList.remove('is-wait'); } }
+        put('gaSessions', Number(d.sessions).toLocaleString());
+        put('gaUsers', Number(d.users).toLocaleString());
+        put('gaPageViews', Number(d.pageViews).toLocaleString());
+        put('gaEngaged', Number(d.engagedSessions).toLocaleString());
+        put('gaEngTime', Math.floor(d.avgEngagementSec/60)+'m '+Math.round(d.avgEngagementSec%60)+'s');
+        put('gaBounce', (d.bounceRate*100).toFixed(1)+'%');
+        put('gaConversions', Number(d.conversions).toLocaleString()+' \u00b7 '+d.convRate.toFixed(2)+'%');
+        put('gaRevenue', '$'+Number(d.revenue).toLocaleString('en-US',{maximumFractionDigits:2}));
+        function putF(id,val){ var e=document.getElementById(id); if(e){ e.textContent=Number(val).toLocaleString(); e.classList.remove('wait'); } }
+        putF('gaFView', d.funnel.view_item); putF('gaFCart', d.funnel.add_to_cart); putF('gaFCheckout', d.funnel.begin_checkout); putF('gaFPurchase', d.funnel.purchase);
+        if(st) st.textContent = 'Last '+d.rangeDays+' days \u00b7 live';
+      })
+      .catch(function(e){ if(st) st.textContent='Waiting for connection \u00b7 '+e.message; });
   }
 
   /* ── Filter engine (search + period + amount) ── */
