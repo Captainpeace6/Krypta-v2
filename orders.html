@@ -1744,8 +1744,11 @@
     var engRate = (ga&&ga.sessions)? (ga.engagedSessions/ga.sessions*100):null;
     var storeConv = sessions? (orders.length/sessions*100):null;
     var f = ga? (ga.funnel||{}):{};
-    var cartAband = (f && f.add_to_cart>0)? (1-(f.purchase/f.add_to_cart))*100 : null;
-    var checkoutAband = (f && f.begin_checkout>0)? (1-(f.purchase/f.begin_checkout))*100 : null;
+    // GA4 purchase count is unreliable while events aggregate (24–48h): if real orders exist but
+    // GA4 reports 0 purchases, don't compute misleading abandonment % — show "processing" instead.
+    var gaPurchaseReliable = !(orders.length>0 && (f.purchase||0)===0);
+    var cartAband = (f && f.add_to_cart>0 && gaPurchaseReliable)? (1-(f.purchase/f.add_to_cart))*100 : null;
+    var checkoutAband = (f && f.begin_checkout>0 && gaPurchaseReliable)? (1-(f.purchase/f.begin_checkout))*100 : null;
     var items = (ga && ga.items) ? ga.items : [];
     var channels = (ga && ga.channels) ? ga.channels : [];
     var gaPages = (ga && ga.pages) ? ga.pages : [];
