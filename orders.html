@@ -257,6 +257,11 @@
 
     .health-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:34px; }
     @media(min-width:680px){ .health-grid{ grid-template-columns:repeat(4,1fr); } }
+    .seo-cols { display:grid; grid-template-columns:1fr; gap:20px; margin-bottom:8px; }
+    @media(min-width:820px){ .seo-cols{ grid-template-columns:1fr 1fr; } }
+    .seo-cols .funnel { align-items:stretch; }
+    .seo-cols .funnel-step { width:100%; }
+    .fs-sub { font-size:11px; opacity:.6; margin-left:8px; font-weight:400; }
     .health-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; position:relative; }
     .health-card-lbl { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px; }
     .health-status { display:flex; align-items:center; gap:9px; font-family:'Cinzel',serif; font-size:16px; font-weight:700; color:var(--text); }
@@ -662,22 +667,29 @@
   <!-- ── SEO VIEW ── -->
   <div id="seoView" class="od-view">
     <div class="od-main">
-      <div class="view-intro"><div class="view-intro-title">SEO Overview</div><div class="view-intro-sub">Search Console · Core Web Vitals</div></div>
+      <div class="view-intro"><div class="view-intro-title">SEO Overview</div><div class="view-intro-sub">Google Search Console &nbsp;·&nbsp; <span id="gscStatus">loading…</span></div></div>
       <div class="exec-kpi-grid">
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Organic Clicks</div><div class="exec-kpi-val">Waiting · GSC</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Impressions</div><div class="exec-kpi-val">Waiting · GSC</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">CTR</div><div class="exec-kpi-val">Waiting · GSC</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Avg Position</div><div class="exec-kpi-val">Waiting · GSC</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Indexed Pages</div><div class="exec-kpi-val">Waiting · GSC</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Top Keyword</div><div class="exec-kpi-val">Waiting · GSC</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Organic Clicks</div><div class="exec-kpi-val" id="gscClicks">Waiting · GSC</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Impressions</div><div class="exec-kpi-val" id="gscImpr">Waiting · GSC</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">CTR</div><div class="exec-kpi-val" id="gscCtr">Waiting · GSC</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Avg Position</div><div class="exec-kpi-val" id="gscPos">Waiting · GSC</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Indexed Pages</div><div class="exec-kpi-val" id="gscIndexed">Waiting · GSC</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Top Keyword</div><div class="exec-kpi-val" id="gscTopKw">Waiting · GSC</div></div>
+      </div>
+      <div class="seo-cols">
+        <div class="dash-section"><div class="dash-section-title">Top Keywords</div>
+          <div class="funnel" id="gscKwList"><div class="funnel-step"><span class="fs-name">Waiting for Search Console</span><span class="fs-val wait">—</span></div></div>
+        </div>
+        <div class="dash-section"><div class="dash-section-title">Top Landing Pages</div>
+          <div class="funnel" id="gscLpList"><div class="funnel-step"><span class="fs-name">Waiting for Search Console</span><span class="fs-val wait">—</span></div></div>
+        </div>
       </div>
       <div class="health-grid">
-        <div class="health-card"><div class="health-card-lbl">Sitemap Health</div><div class="health-status"><span class="health-dot excellent"></span>Live</div><div class="health-note">46 URLs · auto-generated</div></div>
-        <div class="health-card"><div class="health-card-lbl">Broken Links</div><div class="health-status"><span class="health-dot excellent"></span>0 Found</div><div class="health-note">Last build crawl</div></div>
+        <div class="health-card"><div class="health-card-lbl">Sitemap Status</div><div class="health-status wait" id="gscSitemapStatus"><span class="health-dot wait"></span>Waiting</div><div class="health-note" id="gscSitemapNote">Connect Search Console</div></div>
+        <div class="health-card"><div class="health-card-lbl">Index Coverage</div><div class="health-status wait" id="gscIndexStatus"><span class="health-dot wait"></span>Waiting</div><div class="health-note" id="gscIndexNote">Submitted vs indexed URLs</div></div>
+        <div class="health-card"><div class="health-card-lbl">Best Landing Page</div><div class="health-status wait" id="gscBestLpStatus"><span class="health-dot wait"></span>Waiting</div><div class="health-note" id="gscBestLpNote">Connect Search Console</div></div>
         <div class="health-card"><div class="health-card-lbl">Core Web Vitals</div><div class="health-status wait"><span class="health-dot wait"></span>Re-test</div><div class="health-note">Run PageSpeed Insights</div></div>
-        <div class="health-card"><div class="health-card-lbl">Best Landing Page</div><div class="health-status wait"><span class="health-dot wait"></span>Waiting</div><div class="health-note">Connect Search Console</div></div>
       </div>
-      <div class="waiting-block"><div class="wb-title">Waiting for Search Console connection</div><div class="wb-sub">Connect GSC to populate clicks, impressions, CTR, position, keywords &amp; landing pages</div></div>
     </div>
   </div>
 
@@ -705,7 +717,7 @@
       <div class="view-intro"><div class="view-intro-title">Integrations</div><div class="view-intro-sub">Connection status · never fabricated</div></div>
       <div class="settings-grid">
         <div class="settings-row"><span class="settings-dot partial"></span><div class="settings-info"><div class="settings-name">Google Analytics 4</div><div class="settings-status">Connected · ecommerce events partial</div></div></div>
-        <div class="settings-row"><span class="settings-dot off"></span><div class="settings-info"><div class="settings-name">Google Search Console</div><div class="settings-status">Not Connected</div></div></div>
+        <div class="settings-row"><span class="settings-dot on"></span><div class="settings-info"><div class="settings-name">Google Search Console</div><div class="settings-status">Connected · search performance</div></div></div>
         <div class="settings-row"><span class="settings-dot partial"></span><div class="settings-info"><div class="settings-name">Meta Pixel</div><div class="settings-status">Connected · ecommerce events partial</div></div></div>
         <div class="settings-row"><span class="settings-dot on"></span><div class="settings-info"><div class="settings-name">Stripe</div><div class="settings-status">Connected · live payments</div></div></div>
         <div class="settings-row"><span class="settings-dot off"></span><div class="settings-info"><div class="settings-name">Bing Webmaster Tools</div><div class="settings-status">Not Connected</div></div></div>
@@ -830,6 +842,7 @@
       if (btn.dataset.view === 'dashboardView') fetchLowStockAlerts();
       if (btn.dataset.view === 'customersView') renderCustomers(allOrders);
       if (btn.dataset.view === 'analyticsView') renderAnalytics();
+      if (btn.dataset.view === 'seoView') renderSEO();
     });
   });
 
@@ -1331,6 +1344,78 @@
         if(st) st.textContent = 'Last '+d.rangeDays+' days \u00b7 live';
       })
       .catch(function(e){ if(st) st.textContent='Waiting for connection \u00b7 '+e.message; });
+  }
+
+  function renderSEO(){
+    var key=savedKey(); if(!key) return;
+    var st=document.getElementById('gscStatus');
+    if(st) st.textContent='loading…';
+    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/gsc-report?range=28', { headers:{ 'X-Admin-Key': key } })
+      .then(function(r){ return r.ok?r.json():null; })
+      .then(function(d){
+        if(!d || !d.configured){ if(st) st.textContent = 'Waiting for connection' + (d&&d.reason? ' · '+d.reason : ''); return; }
+        function put(id,val){ var e=document.getElementById(id); if(e){ e.textContent=val; var c=e.closest('.exec-kpi'); if(c) c.classList.remove('is-wait'); } }
+        function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+        function shortUrl(u){ try{ var x=new URL(u); return (x.pathname==='/'?'/ (home)':x.pathname)+(x.search||''); }catch(e){ return u; } }
+        put('gscClicks', Number(d.clicks).toLocaleString());
+        put('gscImpr', Number(d.impressions).toLocaleString());
+        put('gscCtr', (d.ctr*100).toFixed(1)+'%');
+        put('gscPos', d.position?d.position.toFixed(1):'—');
+        var ic=d.indexCoverage||{submitted:0,indexed:0};
+        put('gscIndexed', ic.indexed?Number(ic.indexed).toLocaleString():(d.pages&&d.pages.length?String(d.pages.length):'0'));
+        put('gscTopKw', (d.keywords&&d.keywords[0])? d.keywords[0].query : '—');
+        // Keyword list
+        var kwEl=document.getElementById('gscKwList');
+        if(kwEl){
+          if(d.keywords&&d.keywords.length){
+            kwEl.innerHTML=d.keywords.map(function(k){
+              return '<div class="funnel-step"><span class="fs-name">'+esc(k.query)+'<span class="fs-sub">pos '+k.position.toFixed(1)+' · '+(k.ctr*100).toFixed(1)+'% CTR</span></span><span class="fs-val">'+Number(k.clicks).toLocaleString()+' · '+Number(k.impressions).toLocaleString()+' impr</span></div>';
+            }).join('');
+          } else { kwEl.innerHTML='<div class="funnel-step"><span class="fs-name">No keyword data yet</span><span class="fs-val wait">—</span></div>'; }
+        }
+        // Landing pages
+        var lpEl=document.getElementById('gscLpList');
+        if(lpEl){
+          if(d.pages&&d.pages.length){
+            lpEl.innerHTML=d.pages.map(function(p){
+              return '<div class="funnel-step"><span class="fs-name">'+esc(shortUrl(p.page))+'<span class="fs-sub">pos '+p.position.toFixed(1)+'</span></span><span class="fs-val">'+Number(p.clicks).toLocaleString()+' · '+Number(p.impressions).toLocaleString()+' impr</span></div>';
+            }).join('');
+          } else { lpEl.innerHTML='<div class="funnel-step"><span class="fs-name">No landing-page data yet</span><span class="fs-val wait">—</span></div>'; }
+        }
+        // Sitemap status card
+        var sm=(d.sitemaps&&d.sitemaps[0])||null;
+        var smS=document.getElementById('gscSitemapStatus'), smN=document.getElementById('gscSitemapNote');
+        if(smS){
+          if(sm){
+            var ok=(sm.errors===0 && !sm.isPending);
+            smS.className='health-status'; smS.innerHTML='<span class="health-dot '+(ok?'excellent':'wait')+'"></span>'+(sm.isPending?'Pending':(sm.errors>0?sm.errors+' errors':'Submitted'));
+            if(smN) smN.textContent=(sm.path?sm.path.replace(/^https?:\/\/[^/]+/,''):'sitemap')+(sm.warnings?' · '+sm.warnings+' warnings':' · clean');
+          } else {
+            smS.className='health-status'; smS.innerHTML='<span class="health-dot wait"></span>None found';
+            if(smN) smN.textContent='No sitemap submitted in GSC';
+          }
+        }
+        // Index coverage card
+        var idxS=document.getElementById('gscIndexStatus'), idxN=document.getElementById('gscIndexNote');
+        if(idxS){
+          if(ic.submitted>0){
+            var pct=Math.round((ic.indexed/ic.submitted)*100);
+            idxS.className='health-status'; idxS.innerHTML='<span class="health-dot '+(pct>=80?'excellent':'wait')+'"></span>'+pct+'% indexed';
+            if(idxN) idxN.textContent=Number(ic.indexed).toLocaleString()+' of '+Number(ic.submitted).toLocaleString()+' submitted URLs';
+          } else {
+            idxS.className='health-status'; idxS.innerHTML='<span class="health-dot wait"></span>N/A';
+            if(idxN) idxN.textContent='Sitemap has no indexed-count data';
+          }
+        }
+        // Best landing page card
+        var bpS=document.getElementById('gscBestLpStatus'), bpN=document.getElementById('gscBestLpNote');
+        if(bpS && d.pages && d.pages.length){
+          bpS.className='health-status'; bpS.innerHTML='<span class="health-dot excellent"></span>'+Number(d.pages[0].clicks).toLocaleString()+' clicks';
+          if(bpN) bpN.textContent=shortUrl(d.pages[0].page);
+        }
+        if(st) st.textContent = d.startDate+' → '+d.endDate+' · live';
+      })
+      .catch(function(e){ if(st) st.textContent='Waiting for connection · '+e.message; });
   }
 
   /* ── Filter engine (search + period + amount) ── */
