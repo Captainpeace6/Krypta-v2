@@ -319,6 +319,30 @@
     .fr-badge.mod { color:#e0b06a; border-color:rgba(224,176,106,0.4); }
     .fr-badge.high { color:#e0897f; border-color:rgba(224,137,127,0.4); }
     .fr-badge.na { color:var(--text-faint); border-color:rgba(240,237,232,0.16); }
+    /* ── Marketing Intelligence ── */
+    .mk-platform-grid { display:grid; grid-template-columns:1fr; gap:14px; margin:10px 0 14px; }
+    @media(min-width:760px){ .mk-platform-grid{ grid-template-columns:repeat(3,1fr); } }
+    .mk-plat { border:1px solid rgba(210,174,91,0.18); border-radius:4px; padding:16px 18px; background:var(--surface); }
+    .mk-plat-head { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:12px; }
+    .mk-plat-name { font-family:'Cinzel',serif; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text); }
+    .mk-plat-badge { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; padding:3px 8px; border-radius:3px; border:1px solid; }
+    .mk-plat-badge.on { color:#9fe0a8; border-color:rgba(159,224,168,0.4); }
+    .mk-plat-badge.off { color:var(--text-faint); border-color:rgba(240,237,232,0.16); }
+    .mk-plat-badge.err { color:#e0897f; border-color:rgba(224,137,127,0.4); }
+    .mk-plat-badge.proc { color:#e0b06a; border-color:rgba(224,176,106,0.4); }
+    .mk-plat-row { display:flex; justify-content:space-between; font-family:'Space Mono',monospace; font-size:11px; padding:5px 0; border-bottom:1px solid rgba(240,237,232,0.05); }
+    .mk-plat-row span:first-child { color:var(--text-faint); }
+    .mk-bar-row { display:flex; align-items:center; gap:10px; margin-bottom:9px; font-family:'Space Mono',monospace; font-size:11px; }
+    .mk-bar-label { width:130px; flex-shrink:0; color:var(--text-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .mk-bar-track { flex:1; height:10px; background:rgba(240,237,232,0.06); border-radius:2px; overflow:hidden; }
+    .mk-bar-fill { height:100%; background:var(--gold); border-radius:2px; }
+    .mk-bar-val { width:110px; text-align:right; flex-shrink:0; color:var(--text); }
+    .mk-range-btns { display:inline-flex; gap:5px; margin-left:12px; }
+    .mk-range-btns button { font-family:'Space Mono',monospace; font-size:10px; background:none; border:1px solid rgba(210,174,91,0.22); color:var(--text-faint); padding:3px 10px; border-radius:3px; cursor:pointer; }
+    .mk-range-btns button.active { color:var(--gold); border-color:var(--gold); }
+    .mk-tl { display:flex; align-items:flex-end; gap:3px; height:120px; margin-top:8px; }
+    .mk-tl-bar { flex:1; background:rgba(210,174,91,0.35); border-radius:2px 2px 0 0; min-height:2px; position:relative; }
+    .mk-tl-bar:hover { background:var(--gold); }
     .health-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; position:relative; }
     .health-card-lbl { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px; }
     .health-status { display:flex; align-items:center; gap:9px; font-family:'Cinzel',serif; font-size:16px; font-weight:700; color:var(--text); }
@@ -491,8 +515,8 @@
       <button class="od-nav-btn" data-view="customersView">Customers</button>
       <button class="od-nav-btn" data-view="analyticsView">Analytics</button>
       <button class="od-nav-btn" data-view="conversionView">Conversion</button>
-      <button class="od-nav-btn" data-view="seoView">SEO</button>
       <button class="od-nav-btn" data-view="marketingView">Marketing</button>
+      <button class="od-nav-btn" data-view="seoView">SEO</button>
       <button class="od-nav-btn" data-view="settingsView">Settings</button>
     </nav>
     <div class="od-header-right">
@@ -556,6 +580,7 @@
       <div class="seo-health-bar">
         <div class="shb-item"><span class="shb-lbl">Bing SEO Health</span><span class="shb-val wait" id="bingHealthVal">Waiting for Bing</span></div>
         <div class="shb-item"><span class="shb-lbl">Behavior Health</span><span class="shb-val wait" id="behaviorHealthVal">Waiting for Clarity</span></div>
+        <div class="shb-item"><span class="shb-lbl">Marketing Health</span><span class="shb-val wait" id="marketingHealthVal">Awaiting ads</span></div>
       </div>
 
       <!-- TODAY'S PRIORITIES -->
@@ -888,18 +913,66 @@
   <!-- ── MARKETING VIEW ── -->
   <div id="marketingView" class="od-view">
     <div class="od-main">
-      <div class="view-intro"><div class="view-intro-title">Marketing</div><div class="view-intro-sub">Acquisition channels · campaigns</div></div>
+      <div class="view-intro"><div class="view-intro-title">Marketing Intelligence</div><div class="view-intro-sub">Paid + attribution · ROAS &nbsp;·&nbsp; <span id="mkStatus">loading…</span></div></div>
+
       <div class="exec-kpi-grid">
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Organic Search</div><div class="exec-kpi-val">Waiting · GA4</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Direct</div><div class="exec-kpi-val">Waiting · GA4</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Instagram</div><div class="exec-kpi-val">Waiting · GA4</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">TikTok</div><div class="exec-kpi-val">Waiting · GA4</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Pinterest</div><div class="exec-kpi-val">Waiting · GA4</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Email</div><div class="exec-kpi-val">Waiting · GA4</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Referral</div><div class="exec-kpi-val">Waiting · GA4</div></div>
-        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Campaign ROAS</div><div class="exec-kpi-val">Waiting · Meta</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Total Ad Spend</div><div class="exec-kpi-val" id="mkSpend">—</div><div class="exec-kpi-sub" id="mkSpendSub">Google + Meta + Microsoft</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Total Revenue</div><div class="exec-kpi-val" id="mkRevenue">—</div><div class="exec-kpi-sub">GA4 purchases / orders</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">ROAS</div><div class="exec-kpi-val" id="mkRoas">—</div><div class="exec-kpi-sub">revenue ÷ spend</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">CPA</div><div class="exec-kpi-val" id="mkCpa">—</div><div class="exec-kpi-sub">spend ÷ purchases</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">CAC</div><div class="exec-kpi-val" id="mkCac">—</div><div class="exec-kpi-sub">spend ÷ new customers</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Avg Order Value</div><div class="exec-kpi-val" id="mkAov">—</div><div class="exec-kpi-sub">revenue ÷ orders</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Profit Estimate</div><div class="exec-kpi-val" id="mkProfit">—</div><div class="exec-kpi-sub" id="mkProfitSub">rev − spend − ship − coupons</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Marketing Health</div><div class="exec-kpi-val" id="mkHealth">—</div><div class="exec-kpi-sub" id="mkHealthSub"></div></div>
       </div>
-      <div class="waiting-block"><div class="wb-title">Waiting for Google Analytics + channel connections</div><div class="wb-sub">Per-source visitors, orders, revenue, conversion &amp; ROAS populate once GA4 + Meta Ads are wired</div></div>
+
+      <div class="cro-provider-head">Ad Platforms</div>
+      <div class="mk-platform-grid">
+        <div class="mk-plat"><div class="mk-plat-head"><span class="mk-plat-name">Google Ads</span><span class="mk-plat-badge off" id="mkGoogleBadge">Not Connected</span></div><div id="mkGoogleBody"></div></div>
+        <div class="mk-plat"><div class="mk-plat-head"><span class="mk-plat-name">Meta Ads</span><span class="mk-plat-badge off" id="mkMetaBadge">Not Connected</span></div><div id="mkMetaBody"></div></div>
+        <div class="mk-plat"><div class="mk-plat-head"><span class="mk-plat-name">Microsoft Ads</span><span class="mk-plat-badge off" id="mkMsftBadge">Not Connected</span></div><div id="mkMsftBody"></div></div>
+      </div>
+
+      <div class="dash-section"><div class="dash-section-title">Campaign Performance</div>
+        <div class="cro-table-wrap">
+          <table class="cro-table"><thead><tr><th>Campaign</th><th>Platform</th><th>Spend</th><th>Clicks</th><th>CTR</th><th>CPC</th><th>Conv</th><th>Revenue</th><th>ROAS</th><th>CPA</th></tr></thead>
+          <tbody id="mkCampaigns"><tr><td colspan="10" class="muted">Loading…</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <div class="cro-cols">
+        <div class="dash-section"><div class="dash-section-title">Best Performing Campaigns <span class="cl-src">by revenue</span></div><div class="cro-list" id="mkBest"></div></div>
+        <div class="dash-section"><div class="dash-section-title">Worst / Consider Pausing</div><div class="cro-list" id="mkWorst"></div></div>
+      </div>
+
+      <div class="dash-section"><div class="dash-section-title">Attribution Dashboard <span class="cl-src">GA4</span></div>
+        <div class="cro-table-wrap">
+          <table class="cro-table"><thead><tr><th>Channel</th><th>Sessions</th><th>Orders</th><th>Revenue</th><th>Conv %</th><th>AOV</th></tr></thead>
+          <tbody id="mkAttribution"><tr><td colspan="6" class="muted">Loading…</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <div class="cro-cols">
+        <div class="dash-section"><div class="dash-section-title">Audience Intelligence <span class="cl-src">GA4 + orders</span></div><div id="mkAudience"></div></div>
+        <div class="dash-section"><div class="dash-section-title">Budget Allocation <span class="cl-src">by platform</span></div><div id="mkBudget"></div></div>
+      </div>
+
+      <div class="dash-section"><div class="dash-section-title">Product Advertising Performance <span class="cl-src">GA4 + ads</span></div>
+        <div class="cro-table-wrap">
+          <table class="cro-table"><thead><tr><th>Product</th><th>Views</th><th>Cart Adds</th><th>Orders</th><th>Conv %</th><th>Revenue</th><th>Ad Spend</th><th>ROAS</th></tr></thead>
+          <tbody id="mkProducts"><tr><td colspan="8" class="muted">Loading…</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <div class="dash-section"><div class="dash-section-title">Revenue Timeline <span class="mk-range-btns" id="mkRangeBtns"><button data-r="7">7D</button><button data-r="30" class="active">30D</button><button data-r="90">90D</button></span><span class="cl-src">revenue · orders (spend when connected)</span></div>
+        <div class="mk-tl" id="mkTimeline"></div>
+        <div id="mkTimelineMeta" style="font-family:'Space Mono',monospace;font-size:10px;color:var(--text-faint);margin-top:8px;"></div>
+      </div>
+
+      <div class="cro-cols">
+        <div class="dash-section"><div class="dash-section-title">AI Marketing Advisor</div><div class="cro-list cro-advisor" id="mkAdvisor"></div></div>
+        <div class="dash-section"><div class="dash-section-title">Executive Alerts</div><div class="cro-list" id="mkAlerts"></div></div>
+      </div>
     </div>
   </div>
 
@@ -1071,9 +1144,10 @@
       if (btn.dataset.view === 'customersView') renderCustomers(allOrders);
       if (btn.dataset.view === 'analyticsView') renderAnalytics();
       if (btn.dataset.view === 'conversionView') renderConversion();
+      if (btn.dataset.view === 'marketingView') renderMarketing();
       if (btn.dataset.view === 'seoView') { renderSEO(); renderBing(); }
       if (btn.dataset.view === 'settingsView') { renderBing(); renderClarity(); }
-      if (btn.dataset.view === 'dashboardView') { renderBing(); renderClarity(); }
+      if (btn.dataset.view === 'dashboardView') { renderBing(); renderClarity(); renderMarketingHealth(); }
     });
   });
 
@@ -2111,6 +2185,175 @@
     if(rf) rf.addEventListener('click', function(){ rf.textContent='Refreshing…'; renderClarity(); setTimeout(function(){ rf.textContent='Refresh Status'; },1200); });
   })();
 
+  /* ── Marketing Intelligence (Phase 9.9) ── */
+  var __mkRange = 30, __mkOrders = [];
+  function renderMarketing(){
+    var key=savedKey(); if(!key) return;
+    var st=document.getElementById('mkStatus'); if(st) st.textContent='loading…';
+    function getj(u){ return fetch('https://kryptaa-backend.netlify.app/.netlify/functions/'+u,{headers:{'X-Admin-Key':key}}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}); }
+    Promise.all([ getj('ga4-report?range=30'), getj('marketing-report') ]).then(function(res){
+      var ga=(res[0]&&res[0].configured)?res[0]:null;
+      var mk=res[1]||null;
+      try{ mkCompute(allOrders||[], ga, mk); }catch(e){ if(st) st.textContent='error · '+e.message; }
+    });
+  }
+
+  function mkCompute(orders, ga, mk){
+    __mkOrders = orders;
+    var st=document.getElementById('mkStatus');
+    // Orders aggregation (real)
+    var revenue=0, custMap={}, shipTotal=0, couponSaved=0, couponCount=0, prodMap={};
+    orders.forEach(function(o){
+      revenue+=parseFloat(o.total||0);
+      var em=((o.customer&&o.customer.email)||'').toLowerCase().trim(); if(em) custMap[em]=(custMap[em]||0)+1;
+      if(o.coupon||o.discount){ couponCount++; couponSaved+=parseFloat(o.discount||0); }
+      (o.items||[]).forEach(function(i){ if(croIsShip(i)){ shipTotal+=parseFloat(i.price||0)*(i.qty||1); } else { var pn=i.name||'—'; if(!prodMap[pn]) prodMap[pn]={qty:0,rev:0}; prodMap[pn].qty+=(i.qty||1); prodMap[pn].rev+=parseFloat(i.price||0)*(i.qty||1); } });
+    });
+    var orderCount=orders.length;
+    var custCount=Object.keys(custMap).length;
+    var newCust=Object.keys(custMap).filter(function(e){return custMap[e]===1;}).length;
+    var aov=orderCount?revenue/orderCount:0;
+
+    // Marketing (ads) — real connection state
+    var plats=(mk&&mk.platforms)||{google:{status:'Not Connected'},meta:{status:'Not Connected'},microsoft:{status:'Not Connected'}};
+    var mkt=(mk&&mk.totals)||{};
+    var spend=(mkt.spend!=null)?mkt.spend:null;   // null → not connected
+    var campaigns=(mk&&mk.campaigns)||[];
+    var anyAds=(mkt.connectedCount||0)>0;
+
+    function put(id,val,real){ var e=document.getElementById(id); if(e){ e.textContent=val; var c=e.closest('.exec-kpi'); if(c){ if(real) c.classList.remove('is-wait'); else c.classList.add('is-wait'); } } }
+    put('mkRevenue', croMoney(revenue), true);
+    put('mkSpend', spend!=null?croMoney(spend):'Not Connected', spend!=null);
+    var sp=document.getElementById('mkSpendSub'); if(sp) sp.textContent = anyAds?('from '+mkt.connectedCount+' platform'+(mkt.connectedCount===1?'':'s')):'no ad platforms connected';
+    put('mkRoas', (spend!=null&&spend>0)?(revenue/spend).toFixed(2)+'×':'Not Connected', spend!=null&&spend>0);
+    put('mkCpa', (spend!=null&&spend>0&&orderCount)?croMoney(spend/orderCount):'Not Connected', spend!=null&&spend>0&&orderCount>0);
+    put('mkCac', (spend!=null&&spend>0&&newCust)?croMoney(spend/newCust):(spend==null?'Not Connected':'Unavailable'), spend!=null&&spend>0&&newCust>0);
+    put('mkAov', croMoney(aov), true);
+    var profit=revenue-shipTotal-couponSaved-(spend||0);
+    put('mkProfit', croMoney(profit), true);
+    var pfs=document.getElementById('mkProfitSub'); if(pfs) pfs.textContent='rev − ship'+(couponSaved>0?' − coupons':'')+(spend!=null?' − ad spend':' (ad spend N/A)')+' · excl. COGS';
+
+    // Marketing Health — only from connected ad data
+    var mh=document.getElementById('mkHealth'), mhs=document.getElementById('mkHealthSub');
+    if(mh){ if(!anyAds){ mh.textContent='Awaiting ads'; mhs.textContent='connect a platform to score'; mh.closest('.exec-kpi').classList.add('is-wait'); }
+      else { var roas=spend>0?revenue/spend:0; var lbl=roas>=3?'Excellent':(roas>=2?'Good':(roas>=1?'Average':'Poor')); mh.textContent=lbl; mhs.textContent=roas.toFixed(2)+'× ROAS'; mh.closest('.exec-kpi').classList.remove('is-wait'); } }
+
+    // Platform cards
+    function platCard(p, bodyId, badgeId){
+      var badge=document.getElementById(badgeId), body=document.getElementById(bodyId);
+      var status=(p&&p.status)||'Not Connected';
+      var cls=status==='Connected'?'on':(status==='Permission Error'?'err':(status==='Processing'?'proc':'off'));
+      if(badge){ badge.textContent=status; badge.className='mk-plat-badge '+cls; }
+      if(body){
+        if(status==='Connected'){
+          body.innerHTML=[['Campaigns',croNum(p.campaignCount||0)],['Spend',croMoney(p.spend)],['Clicks',croNum(p.clicks)],['Impressions',croNum(p.impressions)],['CTR',(p.ctr||0).toFixed(2)+'%'],['CPC',croMoney(p.cpc)],['Conversions',croNum(p.conversions)],['ROAS',p.roas!=null?p.roas.toFixed(2)+'×':'—']].map(function(r){return '<div class="mk-plat-row"><span>'+r[0]+'</span><span>'+r[1]+'</span></div>';}).join('');
+        } else {
+          body.innerHTML='<div class="mk-plat-row"><span>Status</span><span>'+status+'</span></div><div style="font-family:\'Space Mono\',monospace;font-size:10px;color:var(--text-faint);margin-top:8px;line-height:1.5;">'+croEsc((p&&p.reason)||'')+'</div>';
+        }
+      }
+    }
+    platCard(plats.google,'mkGoogleBody','mkGoogleBadge');
+    platCard(plats.meta,'mkMetaBody','mkMetaBadge');
+    platCard(plats.microsoft,'mkMsftBody','mkMsftBadge');
+
+    // Campaign table
+    var ct=document.getElementById('mkCampaigns');
+    if(ct){
+      if(campaigns.length){
+        var sorted=campaigns.slice().sort(function(a,b){return (b.spend||0)-(a.spend||0);});
+        ct.innerHTML=sorted.map(function(c){
+          var roas=c.roas!=null?c.roas:( (c.spend>0&&c.revenue)?c.revenue/c.spend:null );
+          var badge=roas==null?'':(roas>=3?'<span class="fr-badge low">Excellent</span>':(roas>=2?'<span class="fr-badge low">Good</span>':(roas>=1?'<span class="fr-badge mod">Average</span>':'<span class="fr-badge high">Poor</span>')));
+          return '<tr><td>'+croEsc(c.name)+' '+badge+'</td><td>'+croEsc(c.platform)+'</td><td>'+croMoney(c.spend)+'</td><td>'+croNum(c.clicks)+'</td><td>'+(c.ctr||0).toFixed(1)+'%</td><td>'+croMoney(c.cpc)+'</td><td>'+croNum(c.conversions)+'</td><td>'+croMoney(c.revenue)+'</td><td>'+(roas!=null?roas.toFixed(2)+'×':'—')+'</td><td>'+(c.cpa!=null?croMoney(c.cpa):'—')+'</td></tr>';
+        }).join('');
+      } else { ct.innerHTML='<tr><td colspan="10" class="muted">No connected ad platforms — connect Google, Meta or Microsoft Ads to see campaigns.</td></tr>'; }
+    }
+    // Best / Worst
+    var best=document.getElementById('mkBest'), worst=document.getElementById('mkWorst');
+    if(best){ if(campaigns.length){ best.innerHTML=campaigns.slice().sort(function(a,b){return (b.revenue||0)-(a.revenue||0);}).slice(0,10).map(function(c){return '<div class="cro-item"><span class="ci-dot good"></span><div class="ci-body"><div class="ci-title">'+croEsc(c.name)+'</div><div class="ci-sub">'+croMoney(c.revenue)+' rev · '+croNum(c.conversions)+' conv · '+(c.roas!=null?c.roas.toFixed(2)+'× ROAS':'—')+'</div></div></div>';}).join(''); } else { best.innerHTML='<div class="cro-item"><span class="ci-dot info"></span><div class="ci-body"><div class="ci-title">No campaign data yet</div><div class="ci-sub">Connect an ad platform with active campaigns</div></div></div>'; } }
+    if(worst){ var w=campaigns.filter(function(c){return c.spend>0 && ((c.revenue||0)===0 || (c.spend>=100&&(c.conversions||0)===0));}).sort(function(a,b){return (b.spend||0)-(a.spend||0);}).slice(0,10); if(w.length){ worst.innerHTML=w.map(function(c){return '<div class="cro-item"><span class="ci-dot bad"></span><div class="ci-body"><div class="ci-title">'+croEsc(c.name)+'</div><div class="ci-sub">'+croMoney(c.spend)+' spend · '+croMoney(c.revenue)+' rev</div></div><span class="fr-badge high">Consider Pausing</span></div>';}).join(''); } else { worst.innerHTML='<div class="cro-item"><span class="ci-dot info"></span><div class="ci-body"><div class="ci-title">No underperforming campaigns</div><div class="ci-sub">Appears once ad platforms are connected</div></div></div>'; } }
+
+    // Attribution (GA4 channels)
+    var at=document.getElementById('mkAttribution');
+    var channels=(ga&&ga.channels)?ga.channels:[];
+    if(at){ if(channels.length){ at.innerHTML=channels.map(function(c){ var conv=c.sessions?((c.conversions||0)/c.sessions*100):0; var caov=(c.conversions>0)?(c.revenue/c.conversions):0; return '<tr><td>'+croEsc(c.channel)+'</td><td>'+croNum(c.sessions)+'</td><td>'+((c.conversions||0)?croNum(c.conversions):'<span class="muted">—</span>')+'</td><td>'+((c.revenue||0)?croMoney(c.revenue):'<span class="muted">—</span>')+'</td><td>'+(c.sessions?conv.toFixed(1)+'%':'—')+'</td><td>'+(caov?croMoney(caov):'<span class="muted">—</span>')+'</td></tr>'; }).join(''); } else { at.innerHTML='<tr><td colspan="6" class="muted">Waiting for GA4 channel data.</td></tr>'; } }
+
+    // Audience (GA4 + orders)
+    var au=document.getElementById('mkAudience');
+    if(au){
+      var aud=(ga&&ga.audience)?ga.audience:{devices:[],countries:[],newVsReturning:[]};
+      function bars(title, rows, fmt){ if(!rows||!rows.length) return '<div class="mk-bar-row"><span class="mk-bar-label">'+title+'</span><span class="mk-bar-val muted">—</span></div>'; var max=Math.max.apply(null,rows.map(function(r){return r.value;}))||1; return '<div style="font-family:\'Space Mono\',monospace;font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;margin:12px 0 6px;">'+title+'</div>'+rows.map(function(r){return '<div class="mk-bar-row"><span class="mk-bar-label">'+croEsc(r.key||'—')+'</span><span class="mk-bar-track"><span class="mk-bar-fill" style="width:'+Math.round(r.value/max*100)+'%"></span></span><span class="mk-bar-val">'+(fmt?fmt(r.value):croNum(r.value))+'</span></div>';}).join(''); }
+      au.innerHTML =
+        '<div class="mk-bar-row"><span class="mk-bar-label">New customers</span><span class="mk-bar-val">'+croNum(newCust)+'</span></div>'+
+        '<div class="mk-bar-row"><span class="mk-bar-label">Returning customers</span><span class="mk-bar-val">'+croNum(custCount-newCust)+'</span></div>'+
+        bars('Devices (GA4 sessions)', aud.devices)+
+        bars('Users: new vs returning (GA4)', aud.newVsReturning)+
+        bars('Top countries (GA4 sessions)', aud.countries);
+    }
+
+    // Budget Allocation
+    var bud=document.getElementById('mkBudget');
+    if(bud){ var conn=[['Google',plats.google],['Meta',plats.meta],['Microsoft',plats.microsoft]].filter(function(x){return x[1]&&x[1].status==='Connected'&&x[1].spend>0;}); if(conn.length){ var tot=conn.reduce(function(s,x){return s+x[1].spend;},0)||1; bud.innerHTML=conn.map(function(x){return '<div class="mk-bar-row"><span class="mk-bar-label">'+x[0]+'</span><span class="mk-bar-track"><span class="mk-bar-fill" style="width:'+Math.round(x[1].spend/tot*100)+'%"></span></span><span class="mk-bar-val">'+croMoney(x[1].spend)+' · '+Math.round(x[1].spend/tot*100)+'%</span></div>';}).join(''); } else { bud.innerHTML='<div style="font-family:\'Space Mono\',monospace;font-size:11px;color:var(--text-faint);padding:8px 0;">No ad spend to allocate — connect an ad platform.</div>'; } }
+
+    // Product Advertising Performance
+    var pp=document.getElementById('mkProducts');
+    if(pp){ var items=(ga&&ga.items)?ga.items:[]; var names={}; items.forEach(function(i){names[i.name]=true;}); Object.keys(prodMap).forEach(function(n){names[n]=true;});
+      var prows=Object.keys(names).map(function(n){ var gi=items.find(function(i){return i.name===n;})||{}; var om=prodMap[n]||{qty:0,rev:0}; var views=gi.views||0; var orders2=om.qty||gi.purchased||0; var rev=om.rev>0?om.rev:(gi.revenue||0); return {name:n,views:views,carts:gi.addToCart||0,orders:orders2,rev:rev,conv:views?(orders2/views*100):null}; }).sort(function(a,b){return b.rev-a.rev||b.views-a.views;}).slice(0,15);
+      if(prows.length){ pp.innerHTML=prows.map(function(r){ return '<tr><td>'+croEsc(r.name)+'</td><td>'+(r.views?croNum(r.views):'<span class="muted">—</span>')+'</td><td>'+(r.carts?croNum(r.carts):'<span class="muted">—</span>')+'</td><td><b>'+croNum(r.orders)+'</b></td><td>'+(r.conv!=null?r.conv.toFixed(1)+'%':'<span class="muted">—</span>')+'</td><td>'+(r.rev?croMoney(r.rev):'<span class="muted">—</span>')+'</td><td><span class="muted">Not Connected</span></td><td><span class="muted">—</span></td></tr>'; }).join(''); } else { pp.innerHTML='<tr><td colspan="8" class="muted">Product + GA4 item data populates this.</td></tr>'; } }
+
+    // Timelines
+    mkPaintTimeline();
+
+    // AI Marketing Advisor
+    var adv=[];
+    if(!anyAds) adv.push({t:'Connect Google, Meta or Microsoft Ads',s:'Ad spend, ROAS, CPA & campaign performance stay "Not Connected" until an ad platform is linked',tag:'Ads'});
+    channels.filter(function(c){return c.sessions>=20 && (c.conversions||0)===0;}).slice(0,2).forEach(function(c){ adv.push({t:c.channel+': traffic without conversions',s:croNum(c.sessions)+' sessions, 0 conversions — review landing pages / offer',tag:'Attribution'}); });
+    var items2=(ga&&ga.items)?ga.items:[]; items2.filter(function(i){return i.views>=1000 && i.purchased===0;}).slice(0,2).forEach(function(i){ adv.push({t:'Improve “'+i.name+'” product page',s:croNum(i.views)+' views, 0 purchases',tag:'Product'}); });
+    campaigns.filter(function(c){return c.roas!=null&&c.roas<1&&c.spend>0;}).slice(0,2).forEach(function(c){ adv.push({t:'Reduce spend on “'+c.name+'” (ROAS < 1)',s:croMoney(c.spend)+' spend → '+croMoney(c.revenue)+' revenue',tag:'Budget'}); });
+    if(!adv.length) adv.push({t:'No marketing actions flagged',s:'Signals healthy for the connected data',tag:'OK'});
+    var advEl=document.getElementById('mkAdvisor'); if(advEl) advEl.innerHTML=adv.map(function(a){return '<div class="cro-item"><span class="ci-dot"></span><div class="ci-body"><div class="ci-title">'+croEsc(a.t)+'</div><div class="ci-sub">'+croEsc(a.s)+'</div></div><span class="ci-tag">'+croEsc(a.tag)+'</span></div>';}).join('');
+
+    // Executive Alerts
+    var al=[];
+    [['Google Ads',plats.google],['Meta Ads',plats.meta],['Microsoft Ads',plats.microsoft]].forEach(function(x){ if(x[1].status==='Not Connected') al.push({t:x[0]+' not connected',lvl:'info'}); else if(x[1].status==='Permission Error') al.push({t:x[0]+' token/permission error',lvl:'bad'}); });
+    var lastOrder=orders.reduce(function(m,o){return Math.max(m,o.created||0);},0);
+    if(orderCount>0 && lastOrder>0){ var daysSince=(Date.now()/1000-lastOrder)/86400; if(daysSince>3) al.push({t:'No purchases in '+Math.floor(daysSince)+' days',lvl:'warn'}); }
+    channels.filter(function(c){return c.sessions>=50&&(c.conversions||0)===0;}).slice(0,2).forEach(function(c){ al.push({t:c.channel+': '+croNum(c.sessions)+' sessions, 0 conversions',lvl:'warn'}); });
+    if(!al.length) al.push({t:'No marketing anomalies detected',lvl:'good'});
+    var alEl=document.getElementById('mkAlerts'); if(alEl) alEl.innerHTML=al.map(function(a){return '<div class="cro-item"><span class="ci-dot '+a.lvl+'"></span><div class="ci-body"><div class="ci-title">'+croEsc(a.t)+'</div></div></div>';}).join('');
+
+    if(st) st.textContent = (anyAds?'live · '+mkt.connectedCount+' ad platform(s)':'ad platforms not connected')+' · '+orderCount+' orders · '+croMoney(revenue)+' revenue';
+  }
+
+  function mkPaintTimeline(){
+    var el=document.getElementById('mkTimeline'), meta=document.getElementById('mkTimelineMeta'); if(!el) return;
+    var days=__mkRange, now=Date.now()/1000, buckets=[];
+    for(var i=days-1;i>=0;i--){ buckets.push({start:now-(i+1)*86400, end:now-i*86400, rev:0, orders:0}); }
+    (__mkOrders||[]).forEach(function(o){ var c=o.created||0; for(var k=0;k<buckets.length;k++){ if(c>=buckets[k].start && c<buckets[k].end){ buckets[k].rev+=parseFloat(o.total||0); buckets[k].orders++; break; } } });
+    var max=Math.max.apply(null,buckets.map(function(b){return b.rev;}))||1;
+    el.innerHTML=buckets.map(function(b){ return '<div class="mk-tl-bar" style="height:'+Math.max(2,Math.round(b.rev/max*100))+'%" title="'+croMoney(b.rev)+' · '+b.orders+' orders"></div>'; }).join('');
+    var totRev=buckets.reduce(function(s,b){return s+b.rev;},0), totOrd=buckets.reduce(function(s,b){return s+b.orders;},0);
+    if(meta) meta.textContent='Last '+days+' days · '+croMoney(totRev)+' revenue · '+totOrd+' orders · ad spend overlay: Not Connected';
+  }
+  (function(){ var box=document.getElementById('mkRangeBtns'); if(box) box.addEventListener('click', function(e){ var b=e.target.closest('button'); if(!b) return; __mkRange=parseInt(b.dataset.r,10)||30; box.querySelectorAll('button').forEach(function(x){x.classList.toggle('active',x===b);}); mkPaintTimeline(); }); })();
+
+  /* Dashboard Marketing Health chip (lightweight) */
+  function renderMarketingHealth(){
+    var key=savedKey(); if(!key) return;
+    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/marketing-report', { headers:{ 'X-Admin-Key': key } })
+      .then(function(r){ return r.ok?r.json():null; })
+      .then(function(mk){
+        var el=document.getElementById('marketingHealthVal'); if(!el) return;
+        var conn=(mk&&mk.totals&&mk.totals.connectedCount)||0;
+        var spend=(mk&&mk.totals&&mk.totals.spend);
+        if(!conn){ el.textContent='Awaiting ads'; el.className='shb-val wait'; return; }
+        // revenue from orders / spend from ads
+        var rev=(allOrders||[]).reduce(function(s,o){return s+parseFloat(o.total||0);},0);
+        if(spend>0){ var roas=rev/spend; el.textContent = roas>=3?'🟢 Excellent':(roas>=2?'🟡 Good':(roas>=1?'🟠 Needs Attention':'🔴 Critical')); el.className='shb-val '+(roas>=2?'ok':'wait'); }
+        else { el.textContent='Connected'; el.className='shb-val ok'; }
+      }).catch(function(){});
+  }
+
   /* ── Filter engine (search + period + amount) ── */
   function applyFilters() {
     var q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
@@ -2220,6 +2463,7 @@
         renderStats(allOrders); renderOrders(allOrders); renderDashboard(allOrders);
         renderBing();
         renderClarity();
+        renderMarketingHealth();
         startPolling(key);
       })
       .catch(function() {
@@ -2238,7 +2482,7 @@
   });
 
   var key = savedKey();
-  if (key) { showDashboard(); loadOrders(key); requestNotifPermission(); startPolling(key); renderBing(); renderClarity(); } else { showGate(); }
+  if (key) { showDashboard(); loadOrders(key); requestNotifPermission(); startPolling(key); renderBing(); renderClarity(); renderMarketingHealth(); } else { showGate(); }
 })();
 
 /* ── Print label ── */
