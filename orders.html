@@ -305,6 +305,20 @@
     .cro-item .ci-tag { font-family:'Space Mono', monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-faint); border:1px solid rgba(240,237,232,0.14); border-radius:3px; padding:3px 8px; flex-shrink:0; }
     .cro-advisor .cro-item { border-color:rgba(210,174,91,0.2); }
     .cro-advisor .ci-dot { background:var(--gold); }
+    /* ── Behavior Intelligence / Clarity ── */
+    .cro-provider-head { font-family:'Cinzel', serif; font-size:15px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); margin:40px 0 4px; padding-top:26px; border-top:1px solid rgba(210,174,91,0.16); }
+    .cl-src { font-family:'Space Mono', monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-faint); border:1px solid rgba(240,237,232,0.14); border-radius:3px; padding:2px 7px; margin-left:8px; vertical-align:middle; }
+    .cro-table th em { font-style:normal; color:rgba(210,174,91,0.55); font-size:8px; margin-left:4px; }
+    .cl-btn-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .cl-btn { display:flex; align-items:center; justify-content:space-between; gap:8px; font-family:'Space Mono', monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); background:none; border:1px solid rgba(210,174,91,0.28); border-radius:4px; padding:11px 14px; cursor:pointer; text-decoration:none; transition:background .2s,border-color .2s; }
+    .cl-btn:hover { background:rgba(210,174,91,0.08); border-color:var(--gold); }
+    .cl-btn.disabled { color:var(--text-faint); border-color:rgba(240,237,232,0.12); cursor:default; pointer-events:none; }
+    .cl-btn .cl-arrow { opacity:.6; }
+    .fr-badge { font-family:'Space Mono', monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; padding:3px 9px; border-radius:3px; border:1px solid; flex-shrink:0; }
+    .fr-badge.low { color:#9fe0a8; border-color:rgba(159,224,168,0.4); }
+    .fr-badge.mod { color:#e0b06a; border-color:rgba(224,176,106,0.4); }
+    .fr-badge.high { color:#e0897f; border-color:rgba(224,137,127,0.4); }
+    .fr-badge.na { color:var(--text-faint); border-color:rgba(240,237,232,0.16); }
     .health-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; position:relative; }
     .health-card-lbl { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px; }
     .health-status { display:flex; align-items:center; gap:9px; font-family:'Cinzel',serif; font-size:16px; font-weight:700; color:var(--text); }
@@ -541,6 +555,7 @@
       <!-- SEARCH ENGINE HEALTH (Bing) -->
       <div class="seo-health-bar">
         <div class="shb-item"><span class="shb-lbl">Bing SEO Health</span><span class="shb-val wait" id="bingHealthVal">Waiting for Bing</span></div>
+        <div class="shb-item"><span class="shb-lbl">Behavior Health</span><span class="shb-val wait" id="behaviorHealthVal">Waiting for Clarity</span></div>
       </div>
 
       <!-- TODAY'S PRIORITIES -->
@@ -767,14 +782,40 @@
         </div>
       </div>
 
-      <!-- Heatmap / Clarity -->
-      <div class="health-grid">
-        <div class="health-card"><div class="health-card-lbl">Rage Clicks</div><div class="health-status wait"><span class="health-dot wait"></span>Connect Clarity</div><div class="health-note">Microsoft Clarity</div></div>
-        <div class="health-card"><div class="health-card-lbl">Dead Clicks</div><div class="health-status wait"><span class="health-dot wait"></span>Connect Clarity</div><div class="health-note">Microsoft Clarity</div></div>
-        <div class="health-card"><div class="health-card-lbl">Scroll Depth</div><div class="health-status wait"><span class="health-dot wait"></span>Connect Clarity</div><div class="health-note">Microsoft Clarity</div></div>
-        <div class="health-card"><div class="health-card-lbl">Session Recordings</div><div class="health-status wait"><span class="health-dot wait"></span>Connect Clarity</div><div class="health-note">Microsoft Clarity</div></div>
+      <!-- ── BEHAVIOR INTELLIGENCE · Microsoft Clarity ── -->
+      <div class="cro-provider-head">Behavior Intelligence &middot; Microsoft Clarity</div>
+      <div class="view-intro-sub" style="margin:-6px 0 16px;"><span id="clarityStatus">loading…</span></div>
+      <div class="exec-kpi-grid">
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Sessions · Clarity</div><div class="exec-kpi-val" id="clSessions">—</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Rage Clicks</div><div class="exec-kpi-val" id="clRage">—</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Dead Clicks</div><div class="exec-kpi-val" id="clDead">—</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Quick Backs</div><div class="exec-kpi-val" id="clQuick">—</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Excessive Scroll</div><div class="exec-kpi-val" id="clExcess">—</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">JS Errors</div><div class="exec-kpi-val" id="clErrors">—</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Avg Scroll Depth</div><div class="exec-kpi-val" id="clScroll">—</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Active Time / Session</div><div class="exec-kpi-val" id="clActive">—</div></div>
       </div>
-      <div class="waiting-block"><div class="wb-title">Heatmaps &amp; session recordings — connect Microsoft Clarity</div><div class="wb-sub">Install the free Clarity script to unlock rage/dead clicks, scroll depth, heatmaps &amp; recordings. Ad-spend (ROAS/CPA) fills in once Meta/Google Ads spend is connected.</div></div>
+
+      <div class="cro-cols">
+        <div class="dash-section"><div class="dash-section-title">Heatmaps <span class="cl-src">Clarity UI</span></div>
+          <div class="cl-btn-grid" id="clHeatmaps"></div>
+        </div>
+        <div class="dash-section"><div class="dash-section-title">Session Recordings <span class="cl-src">Clarity UI</span></div>
+          <div class="funnel" id="clRecStats"></div>
+          <div class="cl-btn-grid" id="clRecordings"></div>
+        </div>
+      </div>
+
+      <div class="dash-section"><div class="dash-section-title">Page-Level CRO Intelligence <span class="cl-src">GA4 + Clarity + GSC</span></div>
+        <div class="cro-table-wrap">
+          <table class="cro-table"><thead><tr><th>Page</th><th>Sessions<em>GA4</em></th><th>Bounce<em>GA4</em></th><th>Scroll<em>Clarity</em></th><th>Rage<em>Clarity</em></th><th>Dead<em>Clarity</em></th></tr></thead>
+          <tbody id="croPageCro"><tr><td colspan="6" class="muted">Loading…</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <div class="dash-section"><div class="dash-section-title">Product Friction Score <span class="cl-src">GA4 + Clarity</span></div>
+        <div class="cro-list" id="croFriction"></div>
+      </div>
     </div>
   </div>
 
@@ -892,6 +933,25 @@
         <div class="bing-card-actions">
           <button class="bing-btn" id="bingReconnectBtn" type="button">Reconnect</button>
           <button class="bing-btn ghost" id="bingRefreshBtn" type="button">Refresh</button>
+        </div>
+      </div>
+
+      <div class="bing-card" id="clarityIntegrationCard">
+        <div class="bing-card-head">
+          <div class="bing-card-title">Microsoft Clarity Integration</div>
+          <div class="bing-card-badge wait" id="clarityCardBadge">Not Connected</div>
+        </div>
+        <div class="bing-card-grid">
+          <div class="bing-field"><div class="bf-lbl">Project ID</div><div class="bf-val" id="clarityProjectId">—</div></div>
+          <div class="bing-field"><div class="bf-lbl">Website</div><div class="bf-val" id="clarityWebsite">www.kryptaa.com</div></div>
+          <div class="bing-field"><div class="bf-lbl">Tracking Status</div><div class="bf-val" id="clarityTracking">—</div></div>
+          <div class="bing-field"><div class="bf-lbl">Recording Status</div><div class="bf-val" id="clarityRecording">—</div></div>
+          <div class="bing-field"><div class="bf-lbl">Last Data Sync</div><div class="bf-val" id="claritySync">—</div></div>
+          <div class="bing-field"><div class="bf-lbl">API Status</div><div class="bf-val" id="clarityApi">—</div></div>
+        </div>
+        <div class="bing-card-actions">
+          <button class="bing-btn" id="clarityOpenBtn" type="button">Open Clarity</button>
+          <button class="bing-btn ghost" id="clarityRefreshBtn" type="button">Refresh Status</button>
         </div>
       </div>
     </div>
@@ -1012,8 +1072,8 @@
       if (btn.dataset.view === 'analyticsView') renderAnalytics();
       if (btn.dataset.view === 'conversionView') renderConversion();
       if (btn.dataset.view === 'seoView') { renderSEO(); renderBing(); }
-      if (btn.dataset.view === 'settingsView') renderBing();
-      if (btn.dataset.view === 'dashboardView') renderBing();
+      if (btn.dataset.view === 'settingsView') { renderBing(); renderClarity(); }
+      if (btn.dataset.view === 'dashboardView') { renderBing(); renderClarity(); }
     });
   });
 
@@ -1712,16 +1772,24 @@
     var st=document.getElementById('croStatus'); if(st) st.textContent='loading…';
     var B='https://kryptaa-backend.netlify.app/.netlify/functions/';
     function getj(u){ return fetch(B+u,{headers:{'X-Admin-Key':key}}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}); }
-    Promise.all([ getj('ga4-report?range=30'), getj('gsc-report?range=28'), getj('bing-report') ]).then(function(res){
+    Promise.all([ getj('ga4-report?range=30'), getj('gsc-report?range=28'), getj('bing-report'), getj('clarity-report') ]).then(function(res){
       var ga=(res[0]&&res[0].configured)?res[0]:null;
       var gsc=(res[1]&&res[1].configured)?res[1]:null;
       var bing=(res[2]&&res[2].configured)?res[2]:null;
-      try { croCompute(allOrders||[], ga, gsc, bing); }
+      var clarity=res[3]||null;
+      try { croCompute(allOrders||[], ga, gsc, bing, clarity); }
       catch(e){ if(st) st.textContent='error · '+e.message; }
     });
   }
 
-  function croCompute(orders, ga, gsc, bing){
+  /* Build a Clarity deep link for a given area; falls back to the generic dashboard when no project id. */
+  function clarityLink(cl, area){
+    var pid = cl && cl.projectId;
+    if(!pid) return 'https://clarity.microsoft.com/';
+    return 'https://clarity.microsoft.com/projects/view/'+pid+'/'+(area||'dashboard');
+  }
+
+  function croCompute(orders, ga, gsc, bing, clarity){
     var st=document.getElementById('croStatus');
     /* ── Orders aggregation (real) ── */
     var revenue=0, custMap={}, prodMap={}, shipMap={}, couponCount=0;
@@ -1893,8 +1961,155 @@
       } else { lp.innerHTML='<tr><td colspan="7" class="muted">Waiting for Search Console + GA4 page data.</td></tr>'; }
     }
 
+    /* ── Behavior Intelligence (Microsoft Clarity) ── */
+    croRenderClarity(clarity, ga, gsc, orders, items);
+
     if(st) st.textContent='live · '+croNum(sessions)+' sessions · '+orders.length+' orders'+((sessions>0&&(f.add_to_cart||0)===0)?' · GA4 funnel processing':'');
   }
+
+  function croRenderClarity(clarity, ga, gsc, orders, items){
+    var cst=document.getElementById('clarityStatus');
+    var configured = clarity && clarity.configured;
+    var t = (configured && clarity.totals) ? clarity.totals : null;
+    var hasData = t && (t.sessions>0 || t.rageClicks>0 || t.deadClicks>0);
+    function clput(id,val,real){ var e=document.getElementById(id); if(e){ e.textContent=val; var c=e.closest('.exec-kpi'); if(c){ if(real) c.classList.remove('is-wait'); else c.classList.add('is-wait'); } } }
+
+    if(!configured){
+      var reason=(clarity&&clarity.reason)||'';
+      if(cst) cst.textContent = 'Not connected — install Microsoft Clarity'+(reason?' · '+reason:'');
+      ['clSessions','clRage','clDead','clQuick','clExcess','clErrors','clScroll','clActive'].forEach(function(id){ clput(id,'—',false); });
+    } else if(!hasData){
+      if(cst) cst.textContent = 'Connected · processing — no behavior data yet (allow a few hours)';
+      ['clSessions','clRage','clDead','clQuick','clExcess','clErrors','clScroll','clActive'].forEach(function(id){ clput(id,'No data yet',false); });
+    } else {
+      if(cst) cst.textContent = 'live · last '+ (clarity.rangeDays||3) +' days'+(clarity.stale?' · cached':'');
+      clput('clSessions', croNum(t.sessions), true);
+      clput('clRage', croNum(t.rageClicks), true);
+      clput('clDead', croNum(t.deadClicks), true);
+      clput('clQuick', croNum(t.quickBacks), true);
+      clput('clExcess', croNum(t.excessiveScroll), true);
+      clput('clErrors', croNum(t.scriptErrors), true);
+      clput('clScroll', t.avgScrollDepth!=null? Math.round(t.avgScrollDepth)+'%':'—', t.avgScrollDepth!=null);
+      clput('clActive', t.engagementActiveMin!=null && t.sessions? Math.round(t.engagementActiveMin/t.sessions)+'s avg':'Open in Clarity', t.engagementActiveMin!=null);
+    }
+
+    /* Heatmap deep-link buttons (Clarity UI — no API) */
+    var hm=document.getElementById('clHeatmaps');
+    if(hm){
+      var hbase=clarityLink(clarity,'heatmaps');
+      var dash=clarityLink(clarity,'dashboard');
+      var hbtns=[
+        ['Homepage Heatmap',hbase],['Product Heatmaps',hbase],['Collection Heatmaps',hbase],
+        ['Mobile Heatmaps',hbase],['Click Heatmap',hbase],['Scroll Heatmap',hbase],
+        ['Desktop Heatmaps',hbase],['Clarity Dashboard',dash]
+      ];
+      hm.innerHTML=hbtns.map(function(b){ return '<a class="cl-btn'+(configured?'':' ')+'" href="'+b[1]+'" target="_blank" rel="noopener">'+b[0]+'<span class="cl-arrow">↗</span></a>'; }).join('');
+    }
+
+    /* Session recordings — counts (API) + deep links (UI) */
+    var rs=document.getElementById('clRecStats');
+    if(rs){
+      if(hasData){
+        var rows=[
+          ['Recorded sessions', croNum(t.sessions)],
+          ['Sessions w/ rage clicks', croNum(t.rageClicks)],
+          ['Sessions w/ dead clicks', croNum(t.deadClicks)],
+          ['Sessions w/ JS errors', croNum(t.scriptErrors)],
+          ['Sessions w/ quick backs', croNum(t.quickBacks)]
+        ];
+        rs.innerHTML=rows.map(function(r,i){ return '<div class="funnel-step"><span class="fs-name">'+r[0]+'</span><span class="fs-val">'+r[1]+'</span></div>'+(i<rows.length-1?'<div class="funnel-arrow">·</div>':''); }).join('');
+      } else { rs.innerHTML='<div class="funnel-step"><span class="fs-name">Recording counts</span><span class="fs-val wait">'+(configured?'processing':'—')+'</span></div>'; }
+    }
+    var rc=document.getElementById('clRecordings');
+    if(rc){
+      var rbase=clarityLink(clarity,'impressions');
+      var rbtns=[['All Recordings',rbase],['Rage-Click Sessions',rbase],['Dead-Click Sessions',rbase],['Error Sessions',rbase],['Mobile Recordings',rbase]];
+      rc.innerHTML=rbtns.map(function(b){ return '<a class="cl-btn" href="'+b[1]+'" target="_blank" rel="noopener">'+b[0]+'<span class="cl-arrow">↗</span></a>'; }).join('');
+    }
+
+    /* Page-Level CRO Intelligence — GA4 (sessions/bounce) + Clarity (scroll/rage/dead) merged by path */
+    var pc=document.getElementById('croPageCro');
+    if(pc){
+      function pth(u){ try{ return new URL(u,'https://www.kryptaa.com').pathname; }catch(e){ return u; } }
+      var map={};
+      (ga&&ga.pages?ga.pages:[]).forEach(function(p){ var k=p.path; map[k]=map[k]||{path:k}; map[k].sessions=p.sessions; map[k].bounce=p.bounceRate; });
+      (configured&&clarity.pages?clarity.pages:[]).forEach(function(p){ var k=pth(p.url); map[k]=map[k]||{path:k}; map[k].scroll=p.scroll; map[k].rage=p.rage; map[k].dead=p.dead; });
+      var prows=Object.keys(map).map(function(k){return map[k];}).sort(function(a,b){return (b.sessions||0)-(a.sessions||0);}).slice(0,15);
+      if(prows.length){
+        pc.innerHTML=prows.map(function(r){
+          return '<tr><td>'+croEsc(r.path||'/')+'</td>'
+            +'<td>'+(r.sessions!=null?croNum(r.sessions):'<span class="muted">—</span>')+'</td>'
+            +'<td>'+(r.bounce!=null?(r.bounce*100).toFixed(0)+'%':'<span class="muted">—</span>')+'</td>'
+            +'<td>'+(r.scroll!=null?Math.round(r.scroll)+'%':'<span class="muted">—</span>')+'</td>'
+            +'<td>'+(r.rage!=null?croNum(r.rage):'<span class="muted">—</span>')+'</td>'
+            +'<td>'+(r.dead!=null?croNum(r.dead):'<span class="muted">—</span>')+'</td></tr>';
+        }).join('');
+      } else { pc.innerHTML='<tr><td colspan="6" class="muted">Waiting for GA4 + Clarity page data.</td></tr>'; }
+    }
+
+    /* Product Friction Score — GA4 item funnel (+ Clarity when matchable). INSUFFICIENT DATA when sparse. */
+    var fr=document.getElementById('croFriction');
+    if(fr){
+      var fitems=(items&&items.length)?items.slice(0,12):[];
+      if(!fitems.length){
+        fr.innerHTML='<div class="cro-item"><span class="ci-dot info"></span><div class="ci-body"><div class="ci-title">Insufficient data for friction scoring</div><div class="ci-sub">Product-level GA4 item data (view_item/add_to_cart) fills in within 24–48h of the events going live</div></div><span class="fr-badge na">Insufficient data</span></div>';
+      } else {
+        fr.innerHTML=fitems.map(function(it){
+          var lvl,badge,label,sub;
+          if((it.views||0) < 10){ lvl='na'; label='Insufficient data'; sub=croNum(it.views||0)+' views — need ≥10 to score'; }
+          else {
+            var atcRate=it.views? (it.addToCart/it.views):0;
+            var buyRate=it.addToCart? (it.purchased/it.addToCart):0;
+            if(atcRate<0.02 || (it.addToCart>0 && it.purchased===0 && it.addToCart>=5)){ lvl='high'; label='High friction'; }
+            else if(atcRate<0.06 || buyRate<0.3){ lvl='mod'; label='Moderate friction'; }
+            else { lvl='low'; label='Low friction'; }
+            sub=croNum(it.views)+' views · '+(atcRate*100).toFixed(1)+'% add-to-cart · '+croNum(it.purchased)+' sold';
+          }
+          badge='<span class="fr-badge '+lvl+'">'+label+'</span>';
+          return '<div class="cro-item"><span class="ci-dot '+(lvl==='high'?'bad':(lvl==='mod'?'warn':(lvl==='low'?'good':'info')))+'"></span><div class="ci-body"><div class="ci-title">'+croEsc(it.name)+'</div><div class="ci-sub">'+sub+'</div></div>'+badge+'</div>';
+        }).join('');
+      }
+    }
+
+    /* Dashboard Behavior Health chip */
+    var bh=document.getElementById('behaviorHealthVal');
+    if(bh){
+      if(!configured){ bh.textContent='Not connected'; bh.className='shb-val wait'; }
+      else if(!hasData){ bh.textContent='Processing'; bh.className='shb-val wait'; }
+      else { bh.textContent='Connected · Clarity'; bh.className='shb-val ok'; }
+    }
+  }
+
+  /* Lightweight Clarity fetch for the Dashboard chip + Settings card (Conversion uses croRenderClarity). */
+  function renderClarity(){
+    var key=savedKey(); if(!key) return;
+    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/clarity-report', { headers:{ 'X-Admin-Key': key } })
+      .then(function(r){ return r.ok?r.json():null; })
+      .then(function(cl){
+        var configured=cl&&cl.configured;
+        var t=(configured&&cl.totals)?cl.totals:null;
+        var hasData=t&&(t.sessions>0||t.rageClicks>0||t.deadClicks>0);
+        window.__clarityProjectId = cl&&cl.projectId;
+        var bh=document.getElementById('behaviorHealthVal');
+        if(bh){ if(!configured){bh.textContent='Not connected';bh.className='shb-val wait';} else if(!hasData){bh.textContent='Processing';bh.className='shb-val wait';} else {bh.textContent='Connected · Clarity';bh.className='shb-val ok';} }
+        var badge=document.getElementById('clarityCardBadge');
+        function sf(id,v){ var e=document.getElementById(id); if(e) e.textContent=(v==null||v==='')?'—':v; }
+        if(!configured){
+          if(badge){ badge.textContent='Not Connected'; badge.className='bing-card-badge off'; }
+          sf('clarityProjectId', cl&&cl.projectId?cl.projectId:'—'); sf('clarityTracking','Not installed'); sf('clarityRecording','—'); sf('claritySync','—'); sf('clarityApi',(cl&&cl.reason)||'Not connected');
+        } else {
+          if(badge){ badge.textContent=hasData?'Connected':'Processing'; badge.className='bing-card-badge '+(hasData?'ok':'wait'); }
+          sf('clarityProjectId', cl.projectId||'—'); sf('clarityTracking','Installed · receiving'); sf('clarityRecording', hasData?'Recording':'Processing'); sf('claritySync', new Date(cl.updatedAt||Date.now()).toLocaleString()); sf('clarityApi', cl.stale?'Live · cached':'Live');
+        }
+      }).catch(function(){});
+  }
+
+  (function(){
+    var op=document.getElementById('clarityOpenBtn');
+    if(op) op.addEventListener('click', function(){ var pid=window.__clarityProjectId; window.open(pid?('https://clarity.microsoft.com/projects/view/'+pid+'/dashboard'):'https://clarity.microsoft.com/', '_blank', 'noopener'); });
+    var rf=document.getElementById('clarityRefreshBtn');
+    if(rf) rf.addEventListener('click', function(){ rf.textContent='Refreshing…'; renderClarity(); setTimeout(function(){ rf.textContent='Refresh Status'; },1200); });
+  })();
 
   /* ── Filter engine (search + period + amount) ── */
   function applyFilters() {
@@ -2004,6 +2219,7 @@
         checkForNewOrders(allOrders);
         renderStats(allOrders); renderOrders(allOrders); renderDashboard(allOrders);
         renderBing();
+        renderClarity();
         startPolling(key);
       })
       .catch(function() {
@@ -2022,7 +2238,7 @@
   });
 
   var key = savedKey();
-  if (key) { showDashboard(); loadOrders(key); requestNotifPermission(); startPolling(key); renderBing(); } else { showGate(); }
+  if (key) { showDashboard(); loadOrders(key); requestNotifPermission(); startPolling(key); renderBing(); renderClarity(); } else { showGate(); }
 })();
 
 /* ── Print label ── */
