@@ -285,6 +285,26 @@
     .shb-val { font-size:14px; color:var(--text); }
     .shb-val.ok { color:#9fe0a8; }
     .shb-val.wait { color:var(--text-faint); }
+    /* ── Conversion (CRO) view ── */
+    .cro-cols { display:grid; grid-template-columns:1fr; gap:20px; margin-bottom:8px; }
+    @media(min-width:860px){ .cro-cols{ grid-template-columns:1fr 1fr; } }
+    .cro-table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .cro-table { width:100%; border-collapse:collapse; font-family:'Space Mono', monospace; font-size:11px; min-width:520px; }
+    .cro-table th { text-align:right; padding:9px 12px; color:var(--text-faint); font-weight:400; letter-spacing:0.08em; text-transform:uppercase; border-bottom:1px solid rgba(210,174,91,0.16); white-space:nowrap; }
+    .cro-table th:first-child, .cro-table td:first-child { text-align:left; }
+    .cro-table td { padding:11px 12px; border-bottom:1px solid rgba(240,237,232,0.06); color:var(--text); white-space:nowrap; }
+    .cro-table td b { color:var(--gold); }
+    .cro-table .muted { color:var(--text-faint); }
+    .cro-list { display:flex; flex-direction:column; gap:10px; }
+    .cro-item { display:flex; align-items:flex-start; gap:12px; padding:13px 16px; border:1px solid rgba(240,237,232,0.08); border-radius:4px; background:var(--surface); }
+    .cro-item .ci-dot { width:7px; height:7px; border-radius:50%; margin-top:6px; flex-shrink:0; }
+    .cro-item .ci-dot.warn { background:#e0b06a; } .cro-item .ci-dot.bad { background:#e0897f; } .cro-item .ci-dot.good { background:#9fe0a8; } .cro-item .ci-dot.info { background:var(--text-faint); }
+    .cro-item .ci-body { flex:1; min-width:0; }
+    .cro-item .ci-title { font-size:14px; color:var(--text); font-family:'Cormorant Garamond', serif; }
+    .cro-item .ci-sub { font-family:'Space Mono', monospace; font-size:10px; color:var(--text-faint); letter-spacing:0.06em; margin-top:3px; }
+    .cro-item .ci-tag { font-family:'Space Mono', monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-faint); border:1px solid rgba(240,237,232,0.14); border-radius:3px; padding:3px 8px; flex-shrink:0; }
+    .cro-advisor .cro-item { border-color:rgba(210,174,91,0.2); }
+    .cro-advisor .ci-dot { background:var(--gold); }
     .health-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; position:relative; }
     .health-card-lbl { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px; }
     .health-status { display:flex; align-items:center; gap:9px; font-family:'Cinzel',serif; font-size:16px; font-weight:700; color:var(--text); }
@@ -456,6 +476,7 @@
       <button class="od-nav-btn" data-view="stockView">Stock</button>
       <button class="od-nav-btn" data-view="customersView">Customers</button>
       <button class="od-nav-btn" data-view="analyticsView">Analytics</button>
+      <button class="od-nav-btn" data-view="conversionView">Conversion</button>
       <button class="od-nav-btn" data-view="seoView">SEO</button>
       <button class="od-nav-btn" data-view="marketingView">Marketing</button>
       <button class="od-nav-btn" data-view="settingsView">Settings</button>
@@ -692,6 +713,71 @@
     </div>
   </div>
 
+  <!-- ── CONVERSION (CRO) VIEW ── -->
+  <div id="conversionView" class="od-view">
+    <div class="od-main">
+      <div class="view-intro"><div class="view-intro-title">Conversion Intelligence</div><div class="view-intro-sub">CRO &middot; powered by your orders + GA4 + GSC &nbsp;·&nbsp; <span id="croStatus">loading…</span></div></div>
+
+      <!-- Conversion KPI cards -->
+      <div class="exec-kpi-grid">
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Conversion Score</div><div class="exec-kpi-val" id="croScore">—</div><div class="exec-kpi-sub" id="croScoreSub"></div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Conversion Rate</div><div class="exec-kpi-val" id="croConvRate">—</div><div class="exec-kpi-sub" id="croConvRateSub"></div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Revenue (period)</div><div class="exec-kpi-val" id="croRevenue">—</div><div class="exec-kpi-sub" id="croRevenueSub"></div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Traffic Quality</div><div class="exec-kpi-val" id="croTraffic">—</div><div class="exec-kpi-sub" id="croTrafficSub"></div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Cart Abandonment</div><div class="exec-kpi-val" id="croCartAband">—</div><div class="exec-kpi-sub" id="croCartAbandSub"></div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Returning Customers</div><div class="exec-kpi-val" id="croReturning">—</div><div class="exec-kpi-sub" id="croReturningSub"></div></div>
+      </div>
+
+      <!-- AI Business Advisor -->
+      <div class="dash-section"><div class="dash-section-title">AI Business Advisor &middot; today</div><div class="cro-list cro-advisor" id="croAdvisor"></div></div>
+
+      <!-- Executive Alerts -->
+      <div class="dash-section"><div class="dash-section-title">Executive Alerts</div><div class="cro-list" id="croAlerts"></div></div>
+
+      <!-- Customer Journey -->
+      <div class="dash-section"><div class="dash-section-title">Customer Journey &middot; where drop-off happens</div>
+        <div class="funnel" id="croJourney"></div>
+      </div>
+
+      <!-- Product Intelligence -->
+      <div class="dash-section"><div class="dash-section-title">Product Intelligence</div>
+        <div class="cro-table-wrap">
+          <table class="cro-table"><thead><tr><th>Product</th><th>Views</th><th>Add to Cart</th><th>Purchases</th><th>Conv %</th><th>Revenue</th><th>Rev / Visitor</th></tr></thead>
+          <tbody id="croProducts"><tr><td colspan="7" class="muted">Loading…</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <div class="cro-cols">
+        <!-- Checkout Intelligence -->
+        <div class="dash-section"><div class="dash-section-title">Checkout Intelligence</div><div class="funnel" id="croCheckout"></div></div>
+        <!-- Marketing Attribution -->
+        <div class="dash-section"><div class="dash-section-title">Marketing Attribution &middot; by channel</div>
+          <div class="cro-table-wrap">
+            <table class="cro-table"><thead><tr><th>Channel</th><th>Sessions</th><th>Orders</th><th>Revenue</th><th>Conv %</th></tr></thead>
+            <tbody id="croAttribution"><tr><td colspan="5" class="muted">Loading…</td></tr></tbody></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Landing Page Performance -->
+      <div class="dash-section"><div class="dash-section-title">Landing Page Performance</div>
+        <div class="cro-table-wrap">
+          <table class="cro-table"><thead><tr><th>Page</th><th>Clicks</th><th>Impr</th><th>Position</th><th>Sessions</th><th>Bounce</th><th>Engage</th></tr></thead>
+          <tbody id="croLanding"><tr><td colspan="7" class="muted">Loading…</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <!-- Heatmap / Clarity -->
+      <div class="health-grid">
+        <div class="health-card"><div class="health-card-lbl">Rage Clicks</div><div class="health-status wait"><span class="health-dot wait"></span>Connect Clarity</div><div class="health-note">Microsoft Clarity</div></div>
+        <div class="health-card"><div class="health-card-lbl">Dead Clicks</div><div class="health-status wait"><span class="health-dot wait"></span>Connect Clarity</div><div class="health-note">Microsoft Clarity</div></div>
+        <div class="health-card"><div class="health-card-lbl">Scroll Depth</div><div class="health-status wait"><span class="health-dot wait"></span>Connect Clarity</div><div class="health-note">Microsoft Clarity</div></div>
+        <div class="health-card"><div class="health-card-lbl">Session Recordings</div><div class="health-status wait"><span class="health-dot wait"></span>Connect Clarity</div><div class="health-note">Microsoft Clarity</div></div>
+      </div>
+      <div class="waiting-block"><div class="wb-title">Heatmaps &amp; session recordings — connect Microsoft Clarity</div><div class="wb-sub">Install the free Clarity script to unlock rage/dead clicks, scroll depth, heatmaps &amp; recordings. Ad-spend (ROAS/CPA) fills in once Meta/Google Ads spend is connected.</div></div>
+    </div>
+  </div>
+
   <!-- ── SEO VIEW ── -->
   <div id="seoView" class="od-view">
     <div class="od-main">
@@ -924,6 +1010,7 @@
       if (btn.dataset.view === 'dashboardView') fetchLowStockAlerts();
       if (btn.dataset.view === 'customersView') renderCustomers(allOrders);
       if (btn.dataset.view === 'analyticsView') renderAnalytics();
+      if (btn.dataset.view === 'conversionView') renderConversion();
       if (btn.dataset.view === 'seoView') { renderSEO(); renderBing(); }
       if (btn.dataset.view === 'settingsView') renderBing();
       if (btn.dataset.view === 'dashboardView') renderBing();
@@ -1612,6 +1699,198 @@
         field('bingSyncStatus', d.partial ? 'Live · partial (some endpoints unavailable)' : 'Live');
       })
       .catch(function(e){ bingWaiting('Waiting for connection · '+e.message); });
+  }
+
+  /* ── Conversion Intelligence / CRO (Phase 9.7) ── */
+  function croMoney(n){ return '$' + Number(n||0).toLocaleString('en-US',{maximumFractionDigits:2}); }
+  function croNum(n){ return Number(n||0).toLocaleString(); }
+  function croEsc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function croIsShip(i){ try { return (typeof isShipping==='function') ? isShipping(i) : /shipping|delivery/i.test(i.name||''); } catch(e){ return /shipping|delivery/i.test(i.name||''); } }
+
+  function renderConversion(){
+    var key=savedKey(); if(!key) return;
+    var st=document.getElementById('croStatus'); if(st) st.textContent='loading…';
+    var B='https://kryptaa-backend.netlify.app/.netlify/functions/';
+    function getj(u){ return fetch(B+u,{headers:{'X-Admin-Key':key}}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}); }
+    Promise.all([ getj('ga4-report?range=30'), getj('gsc-report?range=28'), getj('bing-report') ]).then(function(res){
+      var ga=(res[0]&&res[0].configured)?res[0]:null;
+      var gsc=(res[1]&&res[1].configured)?res[1]:null;
+      var bing=(res[2]&&res[2].configured)?res[2]:null;
+      try { croCompute(allOrders||[], ga, gsc, bing); }
+      catch(e){ if(st) st.textContent='error · '+e.message; }
+    });
+  }
+
+  function croCompute(orders, ga, gsc, bing){
+    var st=document.getElementById('croStatus');
+    /* ── Orders aggregation (real) ── */
+    var revenue=0, custMap={}, prodMap={}, shipMap={}, couponCount=0;
+    orders.forEach(function(o){
+      revenue += parseFloat(o.total||0);
+      var em=((o.customer&&o.customer.email)||'').toLowerCase().trim();
+      if(em) custMap[em]=(custMap[em]||0)+1;
+      if(o.coupon || o.discount) couponCount++;
+      (o.items||[]).forEach(function(i){
+        if(croIsShip(i)){ var sn=(i.name||'Shipping'); shipMap[sn]=(shipMap[sn]||0)+1; }
+        else { var pn=(i.name||'—'); if(!prodMap[pn]) prodMap[pn]={qty:0,rev:0}; var q=i.qty||1; prodMap[pn].qty+=q; prodMap[pn].rev += (parseFloat(i.price||0)*q); }
+      });
+    });
+    var customerCount=Object.keys(custMap).length;
+    var returning=Object.keys(custMap).filter(function(e){return custMap[e]>1;}).length;
+    var returningPct = customerCount? (returning/customerCount*100):0;
+
+    /* ── GA4 metrics ── */
+    var sessions = ga? (ga.sessions||0):0;
+    var engRate = (ga&&ga.sessions)? (ga.engagedSessions/ga.sessions*100):null;
+    var storeConv = sessions? (orders.length/sessions*100):null;
+    var f = ga? (ga.funnel||{}):{};
+    var cartAband = (f && f.add_to_cart>0)? (1-(f.purchase/f.add_to_cart))*100 : null;
+    var checkoutAband = (f && f.begin_checkout>0)? (1-(f.purchase/f.begin_checkout))*100 : null;
+    var items = (ga && ga.items) ? ga.items : [];
+    var channels = (ga && ga.channels) ? ga.channels : [];
+    var gaPages = (ga && ga.pages) ? ga.pages : [];
+
+    /* ── Conversion Score (0–100), only if we have sessions ── */
+    var score=null, scoreLabel='';
+    if(sessions){
+      var cvC=Math.min(100,(storeConv/3)*100);
+      var enC=engRate!=null?engRate:50;
+      var bnC=(ga&&ga.bounceRate!=null)?(100-ga.bounceRate*100):50;
+      score=Math.max(0,Math.min(100,Math.round(cvC*0.5+enC*0.3+bnC*0.2)));
+      scoreLabel = score>=70?'Strong':(score>=40?'Needs work':'Early / low');
+    }
+
+    function put(id,val,subId,sub){ var e=document.getElementById(id); if(e){ e.textContent=val; var c=e.closest('.exec-kpi'); if(c && val!=='—' && String(val).indexOf('Waiting')<0) c.classList.remove('is-wait'); } if(subId){ var s2=document.getElementById(subId); if(s2) s2.textContent=sub||''; } }
+    put('croScore', score!=null?String(score)+' / 100':'Waiting · GA4', 'croScoreSub', score!=null?scoreLabel:'needs sessions');
+    put('croConvRate', storeConv!=null?storeConv.toFixed(2)+'%':'Waiting · GA4', 'croConvRateSub', storeConv!=null?'orders ÷ '+croNum(sessions)+' sessions':'');
+    put('croRevenue', croMoney(revenue), 'croRevenueSub', orders.length+' order'+(orders.length===1?'':'s'));
+    put('croTraffic', engRate!=null?engRate.toFixed(0)+'% engaged':'Waiting · GA4', 'croTrafficSub', (ga&&ga.bounceRate!=null)?(ga.bounceRate*100).toFixed(0)+'% bounce':'');
+    put('croCartAband', cartAband!=null?cartAband.toFixed(0)+'%':'Processing', 'croCartAbandSub', cartAband!=null?'add-to-cart → purchase':'GA4 events 24–48h');
+    put('croReturning', returningPct.toFixed(0)+'%', 'croReturningSub', returning+' of '+customerCount+' customers');
+
+    /* ── Customer Journey funnel ── */
+    var jr=document.getElementById('croJourney');
+    if(jr){
+      var steps=[
+        {n:'Landing / Sessions', v:sessions, real:sessions>0},
+        {n:'Product Views', v:f.view_item||0, real:(f.view_item||0)>0},
+        {n:'Add to Cart', v:f.add_to_cart||0, real:(f.add_to_cart||0)>0},
+        {n:'Checkout', v:f.begin_checkout||0, real:(f.begin_checkout||0)>0},
+        {n:'Purchase', v:Math.max(orders.length, f.purchase||0), real:true}
+      ];
+      jr.innerHTML=steps.map(function(s,idx){
+        var drop='';
+        if(idx>0){ var prev=steps[idx-1].v; if(prev>0 && s.v>0){ var d=(1-(s.v/prev))*100; drop=' <span class="fs-sub">'+d.toFixed(0)+'% drop</span>'; } }
+        var val = s.real ? croNum(s.v) : 'processing';
+        var arrow = idx<steps.length-1 ? '<div class="funnel-arrow">↓</div>' : '';
+        return '<div class="funnel-step"><span class="fs-name">'+s.n+drop+'</span><span class="fs-val'+(s.real?'':' wait')+'">'+val+'</span></div>'+arrow;
+      }).join('');
+    }
+
+    /* ── AI Business Advisor ── */
+    var adv=[];
+    if(bing && bing.sitemaps && bing.sitemaps.length===0) adv.push({t:'Submit your sitemap to Bing Webmaster Tools',s:'No sitemap submitted yet — speeds up Bing indexing',tag:'SEO'});
+    if(bing && bing.indexNow && !bing.indexNow.configured) adv.push({t:'Enable IndexNow for instant indexing',s:'Add an IndexNow key so Bing/Yandex index new drops instantly',tag:'SEO'});
+    if(gsc && gsc.sitemaps && gsc.sitemaps.some(function(s){return s.isPending;})) adv.push({t:'Fix & resubmit your Google sitemap',s:'A submitted sitemap is still pending in Search Console',tag:'SEO'});
+    items.filter(function(i){return i.views>=5 && i.purchased===0;}).slice(0,2).forEach(function(i){ adv.push({t:'Improve “'+i.name+'” — viewed but not converting',s:croNum(i.views)+' views · 0 purchases — try better images, copy or price',tag:'Product'}); });
+    if(sessions>0 && (f.add_to_cart||0)===0) adv.push({t:'GA4 ecommerce data is still processing',s:'view_item & add_to_cart now fire — product funnels fill in within 24–48h',tag:'Analytics'});
+    var topSeller=Object.keys(prodMap).sort(function(a,b){return prodMap[b].qty-prodMap[a].qty;})[0];
+    if(topSeller) adv.push({t:'Keep “'+topSeller+'” in stock — your top seller',s:croNum(prodMap[topSeller].qty)+' units sold — restock & promote',tag:'Inventory'});
+    var hasSocial=channels.some(function(c){return /social|pinterest|instagram|tiktok/i.test(c.channel||'');});
+    if(channels.length>0 && !hasSocial) adv.push({t:'Untapped: no social traffic yet',s:'No Pinterest / Instagram / TikTok sessions — high-ROI channels unused',tag:'Marketing'});
+    if(!adv.length) adv.push({t:'All key signals healthy',s:'No urgent actions detected from current data',tag:'OK'});
+    var advEl=document.getElementById('croAdvisor');
+    if(advEl) advEl.innerHTML=adv.map(function(a){ return '<div class="cro-item"><span class="ci-dot"></span><div class="ci-body"><div class="ci-title">'+croEsc(a.t)+'</div><div class="ci-sub">'+croEsc(a.s)+'</div></div><span class="ci-tag">'+croEsc(a.tag)+'</span></div>'; }).join('');
+
+    /* ── Executive Alerts ── */
+    var al=[];
+    items.filter(function(i){return i.views>=10 && i.purchased===0;}).slice(0,3).forEach(function(i){ al.push({t:'“'+i.name+'” viewed '+croNum(i.views)+' times with 0 sales',lvl:'bad'}); });
+    if(cartAband!=null && cartAband>70) al.push({t:'Cart abandonment is high ('+cartAband.toFixed(0)+'%)',lvl:'warn'});
+    if(checkoutAband!=null && checkoutAband>60) al.push({t:'Checkout abandonment elevated ('+checkoutAband.toFixed(0)+'%)',lvl:'warn'});
+    if(bing && bing.sitemaps && bing.sitemaps.length===0) al.push({t:'Bing has no sitemap submitted',lvl:'info'});
+    channels.filter(function(c){return c.sessions>=20 && (c.conversions||0)===0;}).slice(0,2).forEach(function(c){ al.push({t:c.channel+' drove '+croNum(c.sessions)+' sessions but 0 conversions',lvl:'warn'}); });
+    if(!al.length) al.push({t:'No anomalies detected in the current window',lvl:'good'});
+    var alEl=document.getElementById('croAlerts');
+    if(alEl) alEl.innerHTML=al.map(function(a){ return '<div class="cro-item"><span class="ci-dot '+a.lvl+'"></span><div class="ci-body"><div class="ci-title">'+croEsc(a.t)+'</div></div></div>'; }).join('');
+
+    /* ── Product Intelligence table ── */
+    var prodNames={};
+    items.forEach(function(i){ prodNames[i.name]=true; });
+    Object.keys(prodMap).forEach(function(n){ prodNames[n]=true; });
+    var rows=Object.keys(prodNames).map(function(n){
+      var gi=items.find(function(i){return i.name===n;})||{};
+      var om=prodMap[n]||{qty:0,rev:0};
+      var purchases = om.qty || gi.purchased || 0;
+      var rev = om.rev>0 ? om.rev : (gi.revenue||0);
+      var views = gi.views||0;
+      return { name:n, views:views, atc:gi.addToCart||0, purchases:purchases, rev:rev,
+        conv: views? (purchases/views*100):null, rpv: views? (rev/views):null };
+    }).sort(function(a,b){ return b.rev-a.rev || b.purchases-a.purchases || b.views-a.views; }).slice(0,20);
+    var pEl=document.getElementById('croProducts');
+    if(pEl){
+      if(rows.length){
+        pEl.innerHTML=rows.map(function(r){
+          return '<tr><td>'+croEsc(r.name)+'</td>'
+            +'<td>'+(r.views?croNum(r.views):'<span class="muted">—</span>')+'</td>'
+            +'<td>'+(r.atc?croNum(r.atc):'<span class="muted">—</span>')+'</td>'
+            +'<td><b>'+croNum(r.purchases)+'</b></td>'
+            +'<td>'+(r.conv!=null?r.conv.toFixed(1)+'%':'<span class="muted">—</span>')+'</td>'
+            +'<td>'+(r.rev?croMoney(r.rev):'<span class="muted">—</span>')+'</td>'
+            +'<td>'+(r.rpv!=null?croMoney(r.rpv):'<span class="muted">—</span>')+'</td></tr>';
+        }).join('');
+      } else { pEl.innerHTML='<tr><td colspan="7" class="muted">No product data yet — sales + GA4 item views populate this.</td></tr>'; }
+    }
+
+    /* ── Checkout Intelligence ── */
+    var co=document.getElementById('croCheckout');
+    if(co){
+      var shipRows=Object.keys(shipMap).map(function(sn){ return {n:sn,c:shipMap[sn]}; });
+      var rowsC=[];
+      rowsC.push({n:'Coupon usage', v:couponCount+' / '+orders.length+' orders', wait:false});
+      if(shipRows.length){ shipRows.forEach(function(s){ rowsC.push({n:'Shipping · '+s.n, v:croNum(s.c)+' order'+(s.c===1?'':'s'), wait:false}); }); }
+      else { rowsC.push({n:'Shipping selections', v:'—', wait:true}); }
+      rowsC.push({n:'Cart abandonment', v:cartAband!=null?cartAband.toFixed(0)+'%':'processing', wait:cartAband==null});
+      rowsC.push({n:'Checkout abandonment', v:checkoutAband!=null?checkoutAband.toFixed(0)+'%':'processing', wait:checkoutAband==null});
+      rowsC.push({n:'Avg checkout time', v:'not tracked', wait:true});
+      co.innerHTML=rowsC.map(function(r,idx){ var arrow=idx<rowsC.length-1?'<div class="funnel-arrow">·</div>':''; return '<div class="funnel-step"><span class="fs-name">'+croEsc(r.n)+'</span><span class="fs-val'+(r.wait?' wait':'')+'">'+croEsc(r.v)+'</span></div>'+arrow; }).join('');
+    }
+
+    /* ── Marketing Attribution ── */
+    var at=document.getElementById('croAttribution');
+    if(at){
+      if(channels.length){
+        at.innerHTML=channels.map(function(c){
+          var conv=c.sessions?((c.conversions||0)/c.sessions*100):0;
+          return '<tr><td>'+croEsc(c.channel)+'</td><td>'+croNum(c.sessions)+'</td>'
+            +'<td>'+((c.conversions||0)?croNum(c.conversions):'<span class="muted">—</span>')+'</td>'
+            +'<td>'+((c.revenue||0)?croMoney(c.revenue):'<span class="muted">—</span>')+'</td>'
+            +'<td>'+(c.sessions?conv.toFixed(1)+'%':'<span class="muted">—</span>')+'</td></tr>';
+        }).join('');
+      } else { at.innerHTML='<tr><td colspan="5" class="muted">Waiting for GA4 channel data (ROAS/CPA need ad-spend connection).</td></tr>'; }
+    }
+
+    /* ── Landing Page Performance (GSC + GA4 merged) ── */
+    var lp=document.getElementById('croLanding');
+    if(lp){
+      var byPath={};
+      function pth(u){ try { return new URL(u).pathname; } catch(e){ return u; } }
+      (gsc&&gsc.pages?gsc.pages:[]).forEach(function(p){ var k=pth(p.page); byPath[k]=byPath[k]||{path:k}; byPath[k].clicks=p.clicks; byPath[k].impr=p.impressions; byPath[k].pos=p.position; });
+      gaPages.forEach(function(p){ var k=p.path; byPath[k]=byPath[k]||{path:k}; byPath[k].sessions=p.sessions; byPath[k].bounce=p.bounceRate; byPath[k].eng=p.avgEngagementSec; });
+      var lrows=Object.keys(byPath).map(function(k){return byPath[k];}).sort(function(a,b){return (b.clicks||0)-(a.clicks||0) || (b.sessions||0)-(a.sessions||0);}).slice(0,15);
+      if(lrows.length){
+        lp.innerHTML=lrows.map(function(r){
+          return '<tr><td>'+croEsc(r.path||'/')+'</td>'
+            +'<td>'+(r.clicks!=null?croNum(r.clicks):'<span class="muted">—</span>')+'</td>'
+            +'<td>'+(r.impr!=null?croNum(r.impr):'<span class="muted">—</span>')+'</td>'
+            +'<td>'+(r.pos!=null?r.pos.toFixed(1):'<span class="muted">—</span>')+'</td>'
+            +'<td>'+(r.sessions!=null?croNum(r.sessions):'<span class="muted">—</span>')+'</td>'
+            +'<td>'+(r.bounce!=null?(r.bounce*100).toFixed(0)+'%':'<span class="muted">—</span>')+'</td>'
+            +'<td>'+(r.eng!=null?Math.round(r.eng)+'s':'<span class="muted">—</span>')+'</td></tr>';
+        }).join('');
+      } else { lp.innerHTML='<tr><td colspan="7" class="muted">Waiting for Search Console + GA4 page data.</td></tr>'; }
+    }
+
+    if(st) st.textContent='live · '+croNum(sessions)+' sessions · '+orders.length+' orders'+((sessions>0&&(f.add_to_cart||0)===0)?' · GA4 funnel processing':'');
   }
 
   /* ── Filter engine (search + period + amount) ── */
