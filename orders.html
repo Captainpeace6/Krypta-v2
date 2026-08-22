@@ -262,6 +262,29 @@
     .seo-cols .funnel { align-items:stretch; }
     .seo-cols .funnel-step { width:100%; }
     .fs-sub { font-size:11px; opacity:.6; margin-left:8px; font-weight:400; }
+    .seo-provider-head { font-family:'Cinzel', serif; font-size:15px; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin:38px 0 4px; padding-top:26px; border-top:1px solid rgba(210,174,91,0.16); }
+    .seo-provider-head:first-of-type { border-top:none; padding-top:0; margin-top:8px; }
+    .bing-card { border:1px solid rgba(210,174,91,0.22); border-radius:4px; padding:22px 24px; margin-top:26px; background:var(--surface); }
+    .bing-card-head { display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:20px; }
+    .bing-card-title { font-family:'Cinzel', serif; font-size:14px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); }
+    .bing-card-badge { font-family:'Space Mono', monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; padding:5px 11px; border-radius:3px; border:1px solid; }
+    .bing-card-badge.ok { color:#9fe0a8; border-color:rgba(159,224,168,0.4); }
+    .bing-card-badge.wait { color:var(--text-faint); border-color:rgba(240,237,232,0.18); }
+    .bing-card-badge.off { color:#e0a89f; border-color:rgba(224,168,159,0.4); }
+    .bing-card-grid { display:grid; grid-template-columns:1fr; gap:16px 28px; margin-bottom:22px; }
+    @media(min-width:680px){ .bing-card-grid{ grid-template-columns:1fr 1fr; } }
+    .bf-lbl { font-family:'Space Mono', monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-faint); margin-bottom:5px; }
+    .bf-val { font-size:15px; color:var(--text); word-break:break-word; }
+    .bing-card-actions { display:flex; gap:12px; flex-wrap:wrap; }
+    .bing-btn { font-family:'Cormorant Garamond', serif; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:var(--bg); background:var(--gold); border:1px solid var(--gold); padding:9px 22px; border-radius:3px; cursor:pointer; transition:opacity .2s; }
+    .bing-btn:hover { opacity:0.85; }
+    .bing-btn.ghost { background:none; color:var(--gold); }
+    .seo-health-bar { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:24px; }
+    .shb-item { display:flex; align-items:center; gap:12px; border:1px solid var(--border,rgba(210,174,91,0.14)); border-radius:4px; padding:12px 18px; background:var(--surface); }
+    .shb-lbl { font-family:'Space Mono', monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-faint); }
+    .shb-val { font-size:14px; color:var(--text); }
+    .shb-val.ok { color:#9fe0a8; }
+    .shb-val.wait { color:var(--text-faint); }
     .health-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 20px; position:relative; }
     .health-card-lbl { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px; }
     .health-status { display:flex; align-items:center; gap:9px; font-family:'Cinzel',serif; font-size:16px; font-weight:700; color:var(--text); }
@@ -494,6 +517,11 @@
       <!-- BUSINESS HEALTH SCORE -->
       <div class="health-score-wrap" id="healthScoreWrap"></div>
 
+      <!-- SEARCH ENGINE HEALTH (Bing) -->
+      <div class="seo-health-bar">
+        <div class="shb-item"><span class="shb-lbl">Bing SEO Health</span><span class="shb-val wait" id="bingHealthVal">Waiting for Bing</span></div>
+      </div>
+
       <!-- TODAY'S PRIORITIES -->
       <div class="dash-section"><div class="dash-section-title">Today's Priorities</div><div class="priorities-list" id="prioritiesList"></div></div>
 
@@ -667,7 +695,9 @@
   <!-- ── SEO VIEW ── -->
   <div id="seoView" class="od-view">
     <div class="od-main">
-      <div class="view-intro"><div class="view-intro-title">SEO Overview</div><div class="view-intro-sub">Google Search Console &nbsp;·&nbsp; <span id="gscStatus">loading…</span></div></div>
+      <div class="view-intro"><div class="view-intro-title">SEO Overview</div><div class="view-intro-sub">Unified Google + Bing search performance</div></div>
+      <div class="seo-provider-head">Google Search Console</div>
+      <div class="view-intro-sub" style="margin:-6px 0 16px;">G-242EQ24FP3 &nbsp;·&nbsp; <span id="gscStatus">loading…</span></div>
       <div class="exec-kpi-grid">
         <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Organic Clicks</div><div class="exec-kpi-val" id="gscClicks">Waiting · GSC</div></div>
         <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Impressions</div><div class="exec-kpi-val" id="gscImpr">Waiting · GSC</div></div>
@@ -689,6 +719,41 @@
         <div class="health-card"><div class="health-card-lbl">Index Coverage</div><div class="health-status wait" id="gscIndexStatus"><span class="health-dot wait"></span>Waiting</div><div class="health-note" id="gscIndexNote">Submitted vs indexed URLs</div></div>
         <div class="health-card"><div class="health-card-lbl">Best Landing Page</div><div class="health-status wait" id="gscBestLpStatus"><span class="health-dot wait"></span>Waiting</div><div class="health-note" id="gscBestLpNote">Connect Search Console</div></div>
         <div class="health-card"><div class="health-card-lbl">Core Web Vitals</div><div class="health-status wait"><span class="health-dot wait"></span>Re-test</div><div class="health-note">Run PageSpeed Insights</div></div>
+      </div>
+
+      <!-- ── BING WEBMASTER — unified into the same SEO overview ── -->
+      <div class="seo-provider-head">Bing Webmaster</div>
+      <div class="view-intro-sub" style="margin:-6px 0 16px;">Bing Webmaster Tools &nbsp;·&nbsp; <span id="bingStatus">loading…</span></div>
+      <div class="exec-kpi-grid">
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Bing Clicks</div><div class="exec-kpi-val" id="bingClicks">Waiting · Bing</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Impressions</div><div class="exec-kpi-val" id="bingImpr">Waiting · Bing</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">CTR</div><div class="exec-kpi-val" id="bingCtr">Waiting · Bing</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Avg Position</div><div class="exec-kpi-val" id="bingPos">Waiting · Bing</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Indexed Pages</div><div class="exec-kpi-val" id="bingIndexed">Waiting · Bing</div></div>
+        <div class="exec-kpi is-wait"><div class="exec-kpi-lbl">Crawl Errors</div><div class="exec-kpi-val" id="bingCrawlErr">Waiting · Bing</div></div>
+      </div>
+      <div class="seo-cols">
+        <div class="dash-section"><div class="dash-section-title">Bing Top Keywords</div>
+          <div class="funnel" id="bingKwList"><div class="funnel-step"><span class="fs-name">Waiting for Bing</span><span class="fs-val wait">—</span></div></div>
+        </div>
+        <div class="dash-section"><div class="dash-section-title">Bing Top Pages</div>
+          <div class="funnel" id="bingPgList"><div class="funnel-step"><span class="fs-name">Waiting for Bing</span><span class="fs-val wait">—</span></div></div>
+        </div>
+      </div>
+      <div class="health-grid">
+        <div class="health-card"><div class="health-card-lbl">Sitemap Status</div><div class="health-status wait" id="bingSitemapStatus"><span class="health-dot wait"></span>Waiting</div><div class="health-note" id="bingSitemapNote">Connect Bing</div></div>
+        <div class="health-card"><div class="health-card-lbl">Referring Backlinks</div><div class="health-status wait" id="bingBacklinksStatus"><span class="health-dot wait"></span>Waiting</div><div class="health-note" id="bingBacklinksNote">Inbound links</div></div>
+        <div class="health-card"><div class="health-card-lbl">IndexNow</div><div class="health-status wait" id="bingIndexNowStatus"><span class="health-dot wait"></span>—</div><div class="health-note" id="bingIndexNowNote">Instant indexing</div></div>
+        <div class="health-card"><div class="health-card-lbl">Robots.txt</div><div class="health-status wait" id="bingRobotsStatus"><span class="health-dot wait"></span>Waiting</div><div class="health-note" id="bingRobotsNote">Crawl access</div></div>
+      </div>
+      <div class="dash-section"><div class="dash-section-title">Bing Crawl &amp; Index Report</div>
+        <div class="funnel">
+          <div class="funnel-step"><span class="fs-name">Last Crawl Date</span><span class="fs-val wait" id="bingLastCrawl">Waiting · Bing</span></div>
+          <div class="funnel-step"><span class="fs-name">Index Status</span><span class="fs-val wait" id="bingIndexStatus">Waiting · Bing</span></div>
+          <div class="funnel-step"><span class="fs-name">Robots.txt Status</span><span class="fs-val wait" id="bingRobotsReport">Waiting · Bing</span></div>
+          <div class="funnel-step"><span class="fs-name">Sitemap Status</span><span class="fs-val wait" id="bingSitemapReport">Waiting · Bing</span></div>
+          <div class="funnel-step"><span class="fs-name">Crawl Errors</span><span class="fs-val wait" id="bingCrawlErrReport">Waiting · Bing</span></div>
+        </div>
       </div>
     </div>
   </div>
@@ -720,11 +785,28 @@
         <div class="settings-row"><span class="settings-dot on"></span><div class="settings-info"><div class="settings-name">Google Search Console</div><div class="settings-status">Connected · search performance</div></div></div>
         <div class="settings-row"><span class="settings-dot partial"></span><div class="settings-info"><div class="settings-name">Meta Pixel</div><div class="settings-status">Connected · ecommerce events partial</div></div></div>
         <div class="settings-row"><span class="settings-dot on"></span><div class="settings-info"><div class="settings-name">Stripe</div><div class="settings-status">Connected · live payments</div></div></div>
-        <div class="settings-row"><span class="settings-dot off"></span><div class="settings-info"><div class="settings-name">Bing Webmaster Tools</div><div class="settings-status">Not Connected</div></div></div>
+        <div class="settings-row"><span class="settings-dot off" id="setBingDot"></span><div class="settings-info"><div class="settings-name">Bing Webmaster Tools</div><div class="settings-status" id="setBingStatus">Not Connected</div></div></div>
         <div class="settings-row"><span class="settings-dot off"></span><div class="settings-info"><div class="settings-name">Ahrefs Webmaster Tools</div><div class="settings-status">Not Connected</div></div></div>
         <div class="settings-row"><span class="settings-dot on"></span><div class="settings-info"><div class="settings-name">Mailchimp</div><div class="settings-status">Connected · newsletter</div></div></div>
         <div class="settings-row"><span class="settings-dot off"></span><div class="settings-info"><div class="settings-name">Pinterest</div><div class="settings-status">Not Connected</div></div></div>
         <div class="settings-row"><span class="settings-dot off"></span><div class="settings-info"><div class="settings-name">TikTok</div><div class="settings-status">Not Connected</div></div></div>
+      </div>
+
+      <div class="bing-card" id="bingIntegrationCard">
+        <div class="bing-card-head">
+          <div class="bing-card-title">Bing Webmaster Integration</div>
+          <div class="bing-card-badge wait" id="bingCardBadge">Waiting for API</div>
+        </div>
+        <div class="bing-card-grid">
+          <div class="bing-field"><div class="bf-lbl">Connected Account</div><div class="bf-val" id="bingAccount">—</div></div>
+          <div class="bing-field"><div class="bf-lbl">Connected Website</div><div class="bf-val" id="bingWebsite">—</div></div>
+          <div class="bing-field"><div class="bf-lbl">Last Sync</div><div class="bf-val" id="bingLastSync">—</div></div>
+          <div class="bing-field"><div class="bf-lbl">Sync Status</div><div class="bf-val" id="bingSyncStatus">—</div></div>
+        </div>
+        <div class="bing-card-actions">
+          <button class="bing-btn" id="bingReconnectBtn" type="button">Reconnect</button>
+          <button class="bing-btn ghost" id="bingRefreshBtn" type="button">Refresh</button>
+        </div>
       </div>
     </div>
   </div>
@@ -842,9 +924,19 @@
       if (btn.dataset.view === 'dashboardView') fetchLowStockAlerts();
       if (btn.dataset.view === 'customersView') renderCustomers(allOrders);
       if (btn.dataset.view === 'analyticsView') renderAnalytics();
-      if (btn.dataset.view === 'seoView') renderSEO();
+      if (btn.dataset.view === 'seoView') { renderSEO(); renderBing(); }
+      if (btn.dataset.view === 'settingsView') renderBing();
+      if (btn.dataset.view === 'dashboardView') renderBing();
     });
   });
+
+  /* ── Bing Settings card actions ── */
+  (function(){
+    var rc=document.getElementById('bingReconnectBtn');
+    if(rc) rc.addEventListener('click', function(){ window.open('https://www.bing.com/webmasters/home', '_blank', 'noopener'); });
+    var rf=document.getElementById('bingRefreshBtn');
+    if(rf) rf.addEventListener('click', function(){ rf.textContent='Refreshing…'; renderBing(); setTimeout(function(){ rf.textContent='Refresh'; }, 1200); });
+  })();
 
   /* ── Low stock alert fetch ── */
   function fetchLowStockAlerts() {
@@ -1418,6 +1510,110 @@
       .catch(function(e){ if(st) st.textContent='Waiting for connection · '+e.message; });
   }
 
+  function bingEsc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function bingShortUrl(u){ try{ var x=new URL(u); return (x.pathname==='/'?'/ (home)':x.pathname)+(x.search||''); }catch(e){ return u; } }
+  function bingWaiting(msg){
+    // reset SEO Bing section + settings card + dashboard health to an honest waiting state
+    var ids=['bingClicks','bingImpr','bingCtr','bingPos','bingIndexed','bingCrawlErr'];
+    ids.forEach(function(id){ var e=document.getElementById(id); if(e){ e.textContent='Waiting · Bing'; var c=e.closest('.exec-kpi'); if(c) c.classList.add('is-wait'); } });
+    var rep=['bingLastCrawl','bingIndexStatus','bingRobotsReport','bingSitemapReport','bingCrawlErrReport'];
+    rep.forEach(function(id){ var e=document.getElementById(id); if(e){ e.textContent='Waiting · Bing'; e.classList.add('wait'); } });
+    var bs=document.getElementById('bingStatus'); if(bs) bs.textContent=msg||'Waiting for Bing data';
+    var bh=document.getElementById('bingHealthVal'); if(bh){ bh.textContent='Waiting for Bing'; bh.className='shb-val wait'; }
+  }
+  function renderBing(){
+    var key=savedKey(); if(!key) return;
+    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/bing-report', { headers:{ 'X-Admin-Key': key } })
+      .then(function(r){ return r.ok?r.json():null; })
+      .then(function(d){
+        // ── Settings integration card + row (always update, even when not configured) ──
+        var badge=document.getElementById('bingCardBadge');
+        var setDot=document.getElementById('setBingDot'), setStat=document.getElementById('setBingStatus');
+        function field(id,val){ var e=document.getElementById(id); if(e) e.textContent=(val==null||val==='')?'—':val; }
+        // IndexNow (available even in waiting state)
+        var inConf = d && d.indexNow && d.indexNow.configured;
+        var inS=document.getElementById('bingIndexNowStatus'), inN=document.getElementById('bingIndexNowNote');
+        if(inS){ inS.className='health-status'; inS.innerHTML='<span class="health-dot '+(inConf?'excellent':'wait')+'"></span>'+(inConf?'Enabled':'Not Configured'); }
+        if(inN) inN.textContent = inConf ? 'Instant indexing active' : 'Add IndexNow key to enable';
+
+        if(!d || !d.configured){
+          var reason=(d&&d.reason)||'';
+          var state='Not Connected';
+          if(/auth failed|Authentication/i.test(reason)) state='Authentication Required';
+          else if(/Missing/i.test(reason)) state='Waiting for API';
+          bingWaiting('Waiting for connection'+(reason?' · '+reason:''));
+          if(badge){ badge.textContent=state; badge.className='bing-card-badge '+(state==='Authentication Required'?'off':'wait'); }
+          if(setDot) setDot.className='settings-dot '+(state==='Authentication Required'?'off':'off');
+          if(setStat) setStat.textContent=state;
+          field('bingAccount', null); field('bingWebsite', null); field('bingLastSync', null); field('bingSyncStatus', state);
+          return;
+        }
+        // ── Configured: populate everything ──
+        function put(id,val){ var e=document.getElementById(id); if(e){ e.textContent=val; var c=e.closest('.exec-kpi'); if(c) c.classList.remove('is-wait'); } }
+        put('bingClicks', Number(d.clicks||0).toLocaleString());
+        put('bingImpr', Number(d.impressions||0).toLocaleString());
+        put('bingCtr', ((d.ctr||0)*100).toFixed(1)+'%');
+        put('bingPos', d.avgPosition?d.avgPosition.toFixed(1):'—');
+        put('bingIndexed', d.indexedPages!=null?Number(d.indexedPages).toLocaleString():'No data');
+        put('bingCrawlErr', (d.crawl&&d.crawl.crawlErrors!=null)?Number(d.crawl.crawlErrors).toLocaleString():(d.crawlIssueCount!=null?Number(d.crawlIssueCount).toLocaleString():'No data'));
+        // Keyword list
+        var kwEl=document.getElementById('bingKwList');
+        if(kwEl){
+          if(d.keywords&&d.keywords.length){
+            kwEl.innerHTML=d.keywords.slice(0,10).map(function(k){
+              return '<div class="funnel-step"><span class="fs-name">'+bingEsc(k.query)+'<span class="fs-sub">pos '+(k.position||0).toFixed(1)+' · '+((k.ctr||0)*100).toFixed(1)+'% CTR</span></span><span class="fs-val">'+Number(k.clicks||0).toLocaleString()+' · '+Number(k.impressions||0).toLocaleString()+' impr</span></div>';
+            }).join('');
+          } else { kwEl.innerHTML='<div class="funnel-step"><span class="fs-name">No keyword data available</span><span class="fs-val wait">—</span></div>'; }
+        }
+        // Pages list
+        var pgEl=document.getElementById('bingPgList');
+        if(pgEl){
+          if(d.pages&&d.pages.length){
+            pgEl.innerHTML=d.pages.slice(0,10).map(function(p){
+              return '<div class="funnel-step"><span class="fs-name">'+bingEsc(bingShortUrl(p.page))+'<span class="fs-sub">pos '+(p.position||0).toFixed(1)+'</span></span><span class="fs-val">'+Number(p.clicks||0).toLocaleString()+' · '+Number(p.impressions||0).toLocaleString()+' impr</span></div>';
+            }).join('');
+          } else { pgEl.innerHTML='<div class="funnel-step"><span class="fs-name">No page data available</span><span class="fs-val wait">—</span></div>'; }
+        }
+        // Health cards
+        var sm=(d.sitemaps&&d.sitemaps[0])||null;
+        var smS=document.getElementById('bingSitemapStatus'), smN=document.getElementById('bingSitemapNote');
+        if(smS){
+          if(sm){ smS.className='health-status'; smS.innerHTML='<span class="health-dot '+(/success|ok|indexed/i.test(sm.status||'')?'excellent':'wait')+'"></span>'+(sm.status||'Submitted'); if(smN) smN.textContent=bingShortUrl(sm.url); }
+          else { smS.className='health-status'; smS.innerHTML='<span class="health-dot wait"></span>None'; if(smN) smN.textContent='No sitemap submitted'; }
+        }
+        var blS=document.getElementById('bingBacklinksStatus'), blN=document.getElementById('bingBacklinksNote');
+        if(blS){
+          if(d.backlinks!=null){ blS.className='health-status'; blS.innerHTML='<span class="health-dot excellent"></span>'+Number(d.backlinks).toLocaleString(); if(blN) blN.textContent='Inbound links'; }
+          else { blS.className='health-status'; blS.innerHTML='<span class="health-dot wait"></span>No data'; if(blN) blN.textContent='Inbound links'; }
+        }
+        var rbS=document.getElementById('bingRobotsStatus'), rbN=document.getElementById('bingRobotsNote');
+        if(rbS){
+          if(d.robotsStatus){ rbS.className='health-status'; rbS.innerHTML='<span class="health-dot '+(/access/i.test(d.robotsStatus)?'excellent':'wait')+'"></span>'+d.robotsStatus; }
+          else { rbS.className='health-status'; rbS.innerHTML='<span class="health-dot wait"></span>No data'; }
+          if(rbN) rbN.textContent='Crawl access';
+        }
+        // Reports funnel
+        function rep(id,val){ var e=document.getElementById(id); if(e){ e.textContent=val; e.classList.remove('wait'); } }
+        rep('bingLastCrawl', d.crawl&&d.crawl.lastCrawlDate ? new Date(d.crawl.lastCrawlDate).toLocaleDateString() : 'No data');
+        rep('bingIndexStatus', d.indexedPages!=null ? Number(d.indexedPages).toLocaleString()+' pages' : 'No data');
+        rep('bingRobotsReport', d.robotsStatus || 'No data');
+        rep('bingSitemapReport', sm ? (sm.status||'Submitted') : 'None submitted');
+        rep('bingCrawlErrReport', d.crawl&&d.crawl.crawlErrors!=null ? Number(d.crawl.crawlErrors).toLocaleString() : 'No data');
+        // Status lines
+        var bs=document.getElementById('bingStatus'); if(bs) bs.textContent='live · synced '+new Date(d.updatedAt||Date.now()).toLocaleTimeString()+(d.partial?' · some endpoints unavailable':'');
+        var bh=document.getElementById('bingHealthVal'); if(bh){ bh.textContent='Connected'; bh.className='shb-val ok'; }
+        // Settings card
+        if(badge){ badge.textContent='Connected'; badge.className='bing-card-badge ok'; }
+        if(setDot) setDot.className='settings-dot on';
+        if(setStat) setStat.textContent='Connected · search performance';
+        field('bingAccount','Bing Webmaster API (server-side key)');
+        field('bingWebsite', d.siteUrl);
+        field('bingLastSync', new Date(d.updatedAt||Date.now()).toLocaleString());
+        field('bingSyncStatus', d.partial ? 'Live · partial (some endpoints unavailable)' : 'Live');
+      })
+      .catch(function(e){ bingWaiting('Waiting for connection · '+e.message); });
+  }
+
   /* ── Filter engine (search + period + amount) ── */
   function applyFilters() {
     var q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
@@ -1525,6 +1721,7 @@
         allOrders = data.orders || [];
         checkForNewOrders(allOrders);
         renderStats(allOrders); renderOrders(allOrders); renderDashboard(allOrders);
+        renderBing();
         startPolling(key);
       })
       .catch(function() {
@@ -1543,7 +1740,7 @@
   });
 
   var key = savedKey();
-  if (key) { showDashboard(); loadOrders(key); requestNotifPermission(); startPolling(key); } else { showGate(); }
+  if (key) { showDashboard(); loadOrders(key); requestNotifPermission(); startPolling(key); renderBing(); } else { showGate(); }
 })();
 
 /* ── Print label ── */
