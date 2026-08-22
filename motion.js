@@ -1037,6 +1037,29 @@
     if (typeof window.fbq === "function") window.fbq("track", eventName, params || {});
   }
 
+  /* GA4 ecommerce event helper (Phase 9.5). Fires to gtag if present; safe no-op otherwise.
+     De-dupes rapid duplicate fires (e.g. double-invoked renders) within a short window. */
+  var _gaLastEvent = {};
+  function gaEvent(eventName, params) {
+    if (typeof window.gtag !== "function") return;
+    try {
+      var sig = eventName + "|" + JSON.stringify(params && params.items ? params.items : params);
+      var now = Date.now();
+      if (_gaLastEvent[eventName] && _gaLastEvent[eventName].sig === sig && (now - _gaLastEvent[eventName].t) < 1500) return;
+      _gaLastEvent[eventName] = { sig: sig, t: now };
+      window.gtag("event", eventName, params || {});
+    } catch (e) { /* never break the store on analytics */ }
+  }
+  function gaItem(product, name, price, qty, variantKey) {
+    return {
+      item_id: String(product.id) + (variantKey ? "-" + variantKey : ""),
+      item_name: name || product.name,
+      item_category: product.category || undefined,
+      price: price != null ? price : product.price,
+      quantity: qty && qty > 0 ? qty : 1
+    };
+  }
+
   function addToCart(productId, size, qty, variant) {
     qty = qty && qty > 0 ? qty : 1;
     const product = getProductById(productId);
@@ -1053,6 +1076,12 @@
       content_type: "product",
       value: (price || 0) * qty,
       currency: "USD",
+    });
+
+    gaEvent("add_to_cart", {
+      currency: "USD",
+      value: (price || 0) * qty,
+      items: [gaItem(product, name, price, qty, variant ? variant.key : undefined)]
     });
 
     const key = `${product.id}-${variant ? variant.key + "-" : ""}${size}`;
@@ -1398,6 +1427,12 @@
       content_type: "product",
       value: product.price || 0,
       currency: "USD",
+    });
+
+    gaEvent("view_item", {
+      currency: "USD",
+      value: product.price || 0,
+      items: [gaItem(product, product.name, product.price, 1)]
     });
 
     selectedSize = product.category === "women_wear" ? "Universal" : null;
