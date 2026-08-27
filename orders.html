@@ -1117,6 +1117,18 @@
   }
 
   function savedKey() { try { return sessionStorage.getItem(SESSION_KEY); } catch(e) { return null; } }
+  /* Shared 5-min client cache for backend report endpoints — dedupes calls across views so we don't
+     re-fetch the same report on every tab (and don't burn Clarity's 10-calls/day limit). Returns parsed JSON. */
+  var __repCache={};
+  function cachedReport(path){
+    var key=savedKey(); if(!key) return Promise.resolve(null);
+    var now=Date.now();
+    if(__repCache[path] && (now-__repCache[path].t)<300000) return __repCache[path].p;
+    var p=fetch('https://kryptaa-backend.netlify.app/.netlify/functions/'+path,{headers:{'X-Admin-Key':key}})
+      .then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});
+    __repCache[path]={t:now,p:p};
+    return p;
+  }
   function saveKey(k) { try { sessionStorage.setItem(SESSION_KEY, k); } catch(e) {} }
   function clearKey()  { try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {} }
 
@@ -1533,7 +1545,7 @@
   function enrichDashboardWithConnectors(salesScore, custScore, invScore, orderCount){
     var key=savedKey(); if(!key) return;
     var B='https://kryptaa-backend.netlify.app/.netlify/functions/';
-    function getj(u){ return fetch(B+u,{headers:{'X-Admin-Key':key}}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}); }
+    function getj(u){ return cachedReport(u); }
     function setCell(id,val){ var e=document.getElementById(id); if(e){ e.textContent=val; e.classList.remove('wait'); var c=e.closest('.exec-kpi'); if(c) c.classList.remove('is-wait'); } }
     Promise.all([getj('ga4-report?range=30'),getj('gsc-report?range=28'),getj('bing-report'),getj('clarity-report')]).then(function(res){
       var ga=(res[0]&&res[0].configured)?res[0]:null;
@@ -1694,8 +1706,7 @@
   function renderAnalytics(){
     var key=savedKey(); if(!key) return;
     var st=document.getElementById('gaStatus');
-    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/ga4-report?range=30', { headers:{ 'X-Admin-Key': key } })
-      .then(function(r){ return r.ok?r.json():null; })
+    cachedReport('ga4-report?range=30')
       .then(function(d){
         if(!d || !d.configured){ if(st) st.textContent = 'Waiting for connection' + (d&&d.reason? ' \u00b7 '+d.reason : ''); return; }
         function put(id,val){ var e=document.getElementById(id); if(e){ e.textContent=val; var c=e.closest('.exec-kpi'); if(c) c.classList.remove('is-wait'); } }
@@ -1718,8 +1729,7 @@
     var key=savedKey(); if(!key) return;
     var st=document.getElementById('gscStatus');
     if(st) st.textContent='loading…';
-    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/gsc-report?range=28', { headers:{ 'X-Admin-Key': key } })
-      .then(function(r){ return r.ok?r.json():null; })
+    cachedReport('gsc-report?range=28')
       .then(function(d){
         if(!d || !d.configured){ if(st) st.textContent = 'Waiting for connection' + (d&&d.reason? ' · '+d.reason : ''); return; }
         function put(id,val){ var e=document.getElementById(id); if(e){ e.textContent=val; var c=e.closest('.exec-kpi'); if(c) c.classList.remove('is-wait'); } }
@@ -1799,8 +1809,7 @@
   }
   function renderBing(){
     var key=savedKey(); if(!key) return;
-    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/bing-report', { headers:{ 'X-Admin-Key': key } })
-      .then(function(r){ return r.ok?r.json():null; })
+    cachedReport('bing-report')
       .then(function(d){
         // ── Settings integration card + row (always update, even when not configured) ──
         var badge=document.getElementById('bingCardBadge');
@@ -1900,7 +1909,7 @@
     var key=savedKey(); if(!key) return;
     var st=document.getElementById('croStatus'); if(st) st.textContent='loading…';
     var B='https://kryptaa-backend.netlify.app/.netlify/functions/';
-    function getj(u){ return fetch(B+u,{headers:{'X-Admin-Key':key}}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}); }
+    function getj(u){ return cachedReport(u); }
     Promise.all([ getj('ga4-report?range=30'), getj('gsc-report?range=28'), getj('bing-report'), getj('clarity-report') ]).then(function(res){
       var ga=(res[0]&&res[0].configured)?res[0]:null;
       var gsc=(res[1]&&res[1].configured)?res[1]:null;
@@ -2212,8 +2221,7 @@
   /* Lightweight Clarity fetch for the Dashboard chip + Settings card (Conversion uses croRenderClarity). */
   function renderClarity(){
     var key=savedKey(); if(!key) return;
-    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/clarity-report', { headers:{ 'X-Admin-Key': key } })
-      .then(function(r){ return r.ok?r.json():null; })
+    cachedReport('clarity-report')
       .then(function(cl){
         var configured=cl&&cl.configured;
         var t=(configured&&cl.totals)?cl.totals:null;
@@ -2245,7 +2253,7 @@
   function renderMarketing(){
     var key=savedKey(); if(!key) return;
     var st=document.getElementById('mkStatus'); if(st) st.textContent='loading…';
-    function getj(u){ return fetch('https://kryptaa-backend.netlify.app/.netlify/functions/'+u,{headers:{'X-Admin-Key':key}}).then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}); }
+    function getj(u){ return cachedReport(u); }
     Promise.all([ getj('ga4-report?range=30'), getj('marketing-report') ]).then(function(res){
       var ga=(res[0]&&res[0].configured)?res[0]:null;
       var mk=res[1]||null;
@@ -2395,8 +2403,7 @@
   /* Dashboard Marketing Health chip (lightweight) */
   function renderMarketingHealth(){
     var key=savedKey(); if(!key) return;
-    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/marketing-report', { headers:{ 'X-Admin-Key': key } })
-      .then(function(r){ return r.ok?r.json():null; })
+    cachedReport('marketing-report')
       .then(function(mk){
         var el=document.getElementById('marketingHealthVal'); if(!el) return;
         var conn=(mk&&mk.totals&&mk.totals.connectedCount)||0;
