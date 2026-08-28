@@ -1,0 +1,3 @@
+## 2025-05-15 - Accessible & Actionable Panels
+**Learning:** In script-driven UIs, visual state changes (like opening a drawer) are invisible to screen readers unless ARIA attributes (`aria-expanded`, `aria-controls`) are explicitly synchronized in the same JavaScript functions that manage the visibility. Furthermore, empty interactive states (like an empty cart) are "dead-ends" that should always provide a clear, accessible path back to the primary user flow (e.g., a "Shop" CTA).
+**Action:** Always include ARIA synchronization in panel toggle functions and ensure every 'empty' state includes a helpful, descriptive call-to-action button.

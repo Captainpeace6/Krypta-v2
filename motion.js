@@ -134,7 +134,7 @@
       <div class="k-anno-bar" role="note">Drop 001 Live &nbsp;·&nbsp; Free Shipping Over $75</div>
       <nav id="navbar" class="site-nav">
         <div class="nav-left">
-          <button class="nav-toggle" type="button" data-menu-toggle aria-label="Open menu"><span></span><span></span></button>
+          <button class="nav-toggle" type="button" data-menu-toggle aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span></button>
           <div class="nav-links" id="desktopNav">${navLinks()}</div>
         </div>
         <a class="nav-brand" href="index.html" aria-label="KRYPTAA home">
@@ -154,7 +154,7 @@
           </div>
           <button class="k-curr-toggle" type="button" id="kCurrToggle" aria-label="Switch currency"><span id="kCurrLabel">$ USD</span></button>
           <button class="k-wish-nav" type="button" id="kWishNav" aria-label="Wishlist"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="k-wish-count" id="kWishCount" style="display:none">0</span></button>
-          <button class="cart-trigger" type="button" data-cart-open><svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 8V5.5C7 3.57 8.34 2 10 2C11.66 2 13 3.57 13 5.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M2.5 8H17.5L16 20H4L2.5 8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 13H13" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.4"/></svg><span class="cart-trigger-label">BAG</span><span class="cart-count-pill" id="cartCountNav">0</span></button>
+          <button class="cart-trigger" type="button" data-cart-open aria-expanded="false" aria-controls="cartDrawer"><svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 8V5.5C7 3.57 8.34 2 10 2C11.66 2 13 3.57 13 5.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M2.5 8H17.5L16 20H4L2.5 8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 13H13" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.4"/></svg><span class="cart-trigger-label">BAG</span><span class="cart-count-pill" id="cartCountNav">0</span></button>
         </div>
       </nav>
       <div class="mobile-menu" id="mobileMenu">
@@ -1003,6 +1003,7 @@
     cartDrawer?.classList.add("open");
     doc.getElementById("cartOverlay")?.classList.add("open");
     body.classList.add("cart-open");
+    doc.querySelectorAll("[data-cart-open]").forEach(el => el.setAttribute("aria-expanded", "true"));
     renderCartContent();
     if (cartDrawer && !cartDrawer._swipeReady) {
       cartDrawer._swipeReady = true;
@@ -1016,6 +1017,7 @@
     doc.getElementById("cartDrawer")?.classList.remove("open");
     doc.getElementById("cartOverlay")?.classList.remove("open");
     body.classList.remove("cart-open");
+    doc.querySelectorAll("[data-cart-open]").forEach(el => el.setAttribute("aria-expanded", "false"));
   }
 
   function showToast(msg) {
@@ -1171,10 +1173,13 @@
         : `<div class="csp-text" style="color:rgba(125,186,125,0.85)">✓ &nbsp;Free shipping unlocked</div><div class="csp-track"><div class="csp-fill" style="width:100%;background:rgba(125,186,125,0.7)"></div></div>`;
     }
 
+    const footer = doc.querySelector(".cart-footer");
     if (!cart.length) {
-      container.innerHTML = `<div class="cart-empty">Your bag is empty</div>`;
+      container.innerHTML = `<div class="cart-empty"><span>Your bag is empty</span><a class="k-btn-gold" href="men.html" data-cart-close>Shop The Drop</a></div>`;
+      if (footer) footer.style.display = "none";
       return;
     }
+    if (footer) footer.style.display = "";
 
     container.innerHTML = cart.map((item) => `
       <div class="cart-item">
@@ -1183,10 +1188,10 @@
           <div class="cart-item-name">${item.name}</div>
           <div class="cart-item-meta">Size ${item.size} / ${formatPrice(item.price)}</div>
           <div class="cart-row">
-            <div class="qty-control" aria-label="Quantity">
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1">-</button>
-              <span class="qty-val">${item.qty}</span>
-              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1">+</button>
+            <div class="qty-control">
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="-1" aria-label="Decrease quantity">−</button>
+              <span class="qty-val" aria-live="polite">${item.qty}</span>
+              <button class="qty-btn" type="button" data-cart-qty="${item.key}" data-delta="1" aria-label="Increase quantity">+</button>
             </div>
             <button class="cart-line-remove" type="button" data-cart-remove="${item.key}">Remove</button>
           </div>
