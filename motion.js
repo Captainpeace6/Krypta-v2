@@ -349,17 +349,17 @@
           <div class="k-exit-box">
             <button class="k-exit-close" id="kExitClose" aria-label="Close">✕</button>
             <div class="k-exit-eyebrow">— First Drop Offer —</div>
-            <div class="k-exit-heading">Get 13% Off</div>
-            <div class="k-exit-sub" id="kExitSub">Join the drop for <strong>13% off your first order</strong>, early access, and restock alerts.</div>
+            <div class="k-exit-heading">Get 12% Off</div>
+            <div class="k-exit-sub" id="kExitSub">Join the drop for <strong>12% off your first order</strong>, early access, and restock alerts.</div>
             <form class="k-exit-form" id="kExitForm">
               <div style="position:absolute;left:-5000px" aria-hidden="true"><input type="text" name="${MC_HONEYPOT}" tabindex="-1" value=""></div>
               <input class="k-exit-input" type="email" name="EMAIL" placeholder="enter your email" required>
-              <button class="k-exit-btn" type="submit">Unlock My 13%</button>
+              <button class="k-exit-btn" type="submit">Unlock My 12%</button>
             </form>
             <div class="k-exit-success" id="kExitSuccess" style="display:none;">
               <div class="k-exit-code-label">Your code</div>
-              <div class="k-exit-code">KRYPTAA13</div>
-              <div class="k-exit-code-note">Enter it at checkout for 13% off your first order.</div>
+              <div class="k-exit-code">KRYPTAA12</div>
+              <div class="k-exit-code-note">Enter it at checkout for 12% off your first order.</div>
             </div>
             <button class="k-exit-no" id="kExitNo">No thanks</button>
             <div class="k-exit-fine">No spam · Unsubscribe anytime.</div>
