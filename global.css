@@ -6005,3 +6005,21 @@ details.faq-item[open] summary { color: #f0ede8; }
 .hpw-product { font-size: 0.68rem; color: rgba(240,237,232,0.5); }
 .hpw-cta { text-align: center; position: relative; z-index: 2; }
 @media (max-width: 767px) { .snap-photowall { min-height: 100vh; justify-content: center; } .hpw-item { width: 46vw; } }
+
+/* PDP pre-order note */
+.pdp-preorder-note { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-family: var(--f-mono); font-size: 0.56rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold, #d2ae5b); line-height: 1.6; }
+
+/* Collection SEO copy block (anime.html) */
+.collection-seo { padding: clamp(48px,7vw,96px) 20px; border-top: 1px solid rgba(210,174,91,0.14); }
+.collection-seo-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(28px,5vw,72px); max-width: 1180px; margin: 0 auto; }
+.collection-seo-copy h2 { font-family: var(--f-display, 'Cinzel', serif); font-weight: 400; font-size: clamp(1.3rem, 2.4vw, 1.9rem); letter-spacing: 0.04em; line-height: 1.25; color: var(--k-bone, #f0ede8); margin: 10px 0 18px; }
+.collection-seo-copy p { font-size: 0.95rem; line-height: 1.8; color: rgba(240,237,232,0.78); margin: 0 0 16px; }
+.collection-seo-copy a { color: var(--gold, #d2ae5b); text-decoration: none; border-bottom: 1px solid rgba(210,174,91,0.4); }
+.collection-seo-faq h3 { font-family: var(--f-mono); font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(210,174,91,0.8); margin: 0 0 14px; }
+.collection-seo-faq details { border-top: 1px solid rgba(210,174,91,0.16); padding: 12px 0; }
+.collection-seo-faq details:last-child { border-bottom: 1px solid rgba(210,174,91,0.16); }
+.collection-seo-faq summary { cursor: pointer; font-size: 0.92rem; color: var(--k-bone, #f0ede8); list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+.collection-seo-faq summary::after { content: "+"; color: var(--gold, #d2ae5b); }
+.collection-seo-faq details[open] summary::after { content: "–"; }
+.collection-seo-faq details p { margin: 10px 0 0; font-size: 0.88rem; line-height: 1.7; color: rgba(240,237,232,0.7); }
+@media (max-width: 820px) { .collection-seo-grid { grid-template-columns: 1fr; } }

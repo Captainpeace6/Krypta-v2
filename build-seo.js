@@ -45,7 +45,7 @@ const NEW_IDS = new Set([108, 109, 111, 112, 113, 50, 51, 52, 60, 61, 62]);
 /* Mirror of motion.js productCard() — keep in sync. Adds `is-visible`. */
 function staticProductCard(product) {
   const isTee = product.category === 'tees' || product.category === 'tops';
-  const isAnime = product.category === 'anime';
+  const isAnime = product.category === 'anime' && !product.buyable; // buyable anime pieces check out normally (pre-order)
   const isArchive = /archive/i.test(product.availability || '');
   const isLowStock = /low.?quantity|low.?stock/i.test(product.availability || '');
   const isSoldOut = !isAnime && isArchive;
@@ -211,7 +211,7 @@ function productPage(product) {
   const descFull = product.desc || '';
   const metaDesc = W.productMetaDesc(product);
   const imgAbs = BASE + product.img;
-  const isAnime = product.category === 'anime';
+  const isAnime = product.category === 'anime' && !product.buyable; // buyable anime pieces check out normally (pre-order)
   const av = product.availability || '';
   const availability = (isAnime || /pre.?order|production/i.test(av)) ? 'https://schema.org/PreOrder'
     : /sold.?out|archive/i.test(av) ? 'https://schema.org/OutOfStock'

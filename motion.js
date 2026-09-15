@@ -1246,7 +1246,7 @@
 
   function productCard(product) {
     const isTee = product.category === "tees" || product.category === "tops";
-    const isAnime = product.category === "anime";
+    const isAnime = product.category === "anime" && !product.buyable; // buyable anime pieces check out normally (pre-order)
     const isArchive = /archive/i.test(product.availability);
     const isLowStock = /low.?quantity|low.?stock/i.test(product.availability);
     const isSoldOut = !isAnime && isArchive;
@@ -1585,7 +1585,7 @@
     `;
 
     const isArchivePDP = /archive/i.test(product.availability);
-    const isAnimePDP = product.category === "anime";
+    const isAnimePDP = product.category === "anime" && !product.buyable;
 
     target.innerHTML = `
       <nav class="k-breadcrumb" aria-label="Breadcrumb">
@@ -1690,6 +1690,7 @@
               </div>
               <button class="k-btn-gold" type="button" id="addToBagBtn">Add To Bag</button>
             </div>
+            ${/pre-?order/i.test(product.availability || "") && !isAnimePDP ? `<div class="pdp-preorder-note"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Pre-order · made in small batches · ships in 3–4 weeks · charged today, cancel anytime before dispatch</div>` : ``}
             ${isArchivePDP || isAnimePDP ? `` : `
             <button class="pdp-buy-now" type="button" id="buyNowBtn">
               <span>Buy Now</span>
