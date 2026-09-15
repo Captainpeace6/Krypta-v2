@@ -5961,3 +5961,24 @@ details.faq-item[open] summary { color: #f0ede8; }
 /* Home review card — up to 3 photos side by side */
 .hr-card-photos.hr-multi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
 .hr-card-photos.hr-multi img { aspect-ratio: 2 / 3; max-height: none; height: auto; }
+
+
+/* ── Reviews: customer photo wall ── */
+.rv-photowall { max-width: 1180px; margin: 0 auto 56px; padding: 0 20px; }
+.rv-photowall-head { text-align: center; margin-bottom: 22px; }
+.rv-photowall-head h2 { font-family: var(--f-display, 'Cinzel', serif); font-weight: 400; font-size: clamp(1.1rem, 2.2vw, 1.6rem); letter-spacing: 0.06em; color: var(--k-bone, #f0ede8); margin: 10px 0 6px; }
+.rv-photowall-head p { font-family: var(--f-mono); font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(240,237,232,0.5); margin: 0; }
+.rv-photowall-scroller { position: relative; }
+.rv-photowall-track { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 2px 2px 8px; }
+.rv-photowall-track::-webkit-scrollbar { display: none; }
+.rv-pw-item { flex: 0 0 auto; width: clamp(150px, 19vw, 220px); margin: 0; scroll-snap-align: start; border: 1px solid rgba(210,174,91,0.18); background: #0a0a0a; }
+.rv-pw-item img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; display: block; cursor: zoom-in; transition: filter .3s ease; }
+.rv-pw-item img:hover { filter: brightness(1.08); }
+.rv-pw-item figcaption { padding: 8px 10px 10px; display: flex; flex-direction: column; gap: 3px; }
+.rv-pw-author { font-family: var(--f-mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--k-bone, #f0ede8); }
+.rv-pw-author .rv-verified { margin-left: 4px; padding: 1px 4px; }
+.rv-pw-product { font-size: 0.7rem; color: rgba(240,237,232,0.5); }
+.rv-pw-arrow { position: absolute; top: 38%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(210,174,91,0.45); background: rgba(6,6,6,0.85); color: var(--gold, #d2ae5b); font-size: 1.4rem; line-height: 1; cursor: pointer; z-index: 2; display: flex; align-items: center; justify-content: center; }
+.rv-pw-prev { left: -8px; } .rv-pw-next { right: -8px; }
+.rv-pw-arrow:hover { background: rgba(210,174,91,0.15); }
+@media (max-width: 640px) { .rv-pw-item { width: 44vw; } .rv-pw-arrow { display: none; } }
