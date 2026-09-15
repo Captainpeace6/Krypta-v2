@@ -5886,3 +5886,29 @@ details.faq-item[open] summary { color: #f0ede8; }
   margin: 8px 0 4px;
 }
 .about-quote em { color: var(--k-gold, #d2ae5b); font-style: normal; }
+
+
+/* ── Fit finder (PDP) ── */
+.fit-finder { margin-top: 12px; }
+.fit-finder-toggle {
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--gold, #d2ae5b); font-family: var(--f-mono); font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase;
+  border-bottom: 1px solid rgba(210,174,91,0.35);
+}
+.fit-finder-toggle:hover { border-bottom-color: var(--gold, #d2ae5b); }
+.fit-finder-body { margin-top: 14px; padding: 16px; border: 1px solid rgba(210,174,91,0.22); background: rgba(255,255,255,0.015); }
+.ff-q + .ff-q { margin-top: 14px; }
+.ff-label { font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(240,237,232,0.55); margin-bottom: 8px; }
+.ff-opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.ff-opts button {
+  border: 1px solid var(--k-line-cold, rgba(255,255,255,0.14)); background: rgba(255,255,255,0.02); color: var(--k-bone, #f0ede8);
+  font-family: var(--f-mono); font-size: 0.6rem; letter-spacing: 0.06em; padding: 9px 12px; cursor: pointer; transition: border-color .2s, color .2s, background .2s;
+}
+.ff-opts button:hover { border-color: rgba(210,174,91,0.6); }
+.ff-opts button.active { border-color: var(--gold, #d2ae5b); color: var(--gold, #d2ae5b); background: rgba(210,174,91,0.08); }
+.ff-result { margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(210,174,91,0.22); }
+.ff-rec { font-family: var(--f-display, 'Cinzel', serif); font-size: 1.05rem; letter-spacing: 0.06em; color: var(--k-bone, #f0ede8); }
+.ff-rec span { color: var(--gold, #d2ae5b); font-size: 1.4rem; margin-left: 6px; }
+.ff-why { margin-top: 6px; font-size: 0.8rem; line-height: 1.6; color: rgba(240,237,232,0.72); }
+.ff-why strong { color: var(--k-bone, #f0ede8); }
+.ff-apply { margin-left: 8px; background: var(--gold, #d2ae5b); color: #060606; border: 0; padding: 7px 12px; font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; }

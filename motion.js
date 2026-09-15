@@ -1645,6 +1645,35 @@
                 ${product.sizes.map((size) => { const so = (product.soldOutSizes || []).includes(size); return `<button class="size-chip${so ? " is-sold-out" : ""}" type="button" data-size="${size}"${so ? " disabled" : ""}>${size}</button>`; }).join("")}
               </div>
               <div class="pdp-stock-note" id="pdpStockNote"></div>
+              ${/^(XS|S|M|L|XL|2XL)$/.test(String(product.sizes[0])) ? `
+              <div class="fit-finder" id="fitFinder">
+                <button class="fit-finder-toggle" type="button" id="fitFinderToggle" aria-expanded="false">Not sure? Find my size →</button>
+                <div class="fit-finder-body" id="fitFinderBody" hidden>
+                  <div class="ff-q">
+                    <div class="ff-label">1 · Your height</div>
+                    <div class="ff-opts" data-ff="height">
+                      <button type="button" data-v="short">Under 5'5" / 165cm</button>
+                      <button type="button" data-v="mid">5'5"–5'10" / 165–178cm</button>
+                      <button type="button" data-v="tall">Over 5'10" / 178cm</button>
+                    </div>
+                  </div>
+                  <div class="ff-q">
+                    <div class="ff-label">2 · Size you usually wear</div>
+                    <div class="ff-opts" data-ff="usual">
+                      ${(() => { const L = ["XS","S","M","L","XL","2XL"]; const own = L.filter((z) => product.sizes.includes(z)); const lo = Math.max(0, L.indexOf(own[0]) - 1), hi = Math.min(L.length - 1, L.indexOf(own[own.length - 1]) + 1); return L.slice(lo, hi + 1).map((z) => `<button type="button" data-v="${z}">${z}</button>`).join(""); })()}
+                    </div>
+                  </div>
+                  <div class="ff-q">
+                    <div class="ff-label">3 · How do you want it to sit?</div>
+                    <div class="ff-opts" data-ff="fit">
+                      <button type="button" data-v="fitted">Closer to the body</button>
+                      <button type="button" data-v="true">As designed</button>
+                      <button type="button" data-v="baggy">Extra baggy</button>
+                    </div>
+                  </div>
+                  <div class="ff-result" id="ffResult" hidden></div>
+                </div>
+              </div>` : ``}
               <div class="size-tip">${product.fit ? product.fit.split(".")[0] + "." : "KRYPTAA fits true to oversized — size up for a more dramatic shoulder."}</div>
               `}
             </div>
@@ -1772,6 +1801,60 @@
           : `<button class="k-btn-gold psb-btn" type="button" id="psbAddBtn">Add To Bag</button>`}
       </div>
     `;
+
+    /* ── Fit finder: 3 answers → recommended size (selects the chip) ──
+       KRYPTAA cuts run oversized, so "as designed" = usual size; "fitted"
+       steps down one; "extra baggy" steps up one. Tall + baggy on bottoms
+       steps up (inseam). Clamped to the sizes this product actually has. */
+    (function () {
+      const ff = doc.getElementById("fitFinder"); if (!ff) return;
+      const toggle = doc.getElementById("fitFinderToggle");
+      const bodyEl = doc.getElementById("fitFinderBody");
+      const result = doc.getElementById("ffResult");
+      const answers = {};
+      const LADDER = ["XS", "S", "M", "L", "XL", "2XL"];
+      toggle.addEventListener("click", () => {
+        const open = bodyEl.hidden; bodyEl.hidden = !open;
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.textContent = open ? "Close size finder" : "Not sure? Find my size →";
+        if (open) gaEvent("fit_finder_open", { item_id: String(product.id) });
+      });
+      ff.querySelectorAll(".ff-opts").forEach((group) => {
+        group.querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
+          answers[group.dataset.ff] = b.dataset.v;
+          group.querySelectorAll("button").forEach((x) => x.classList.toggle("active", x === b));
+          if (answers.height && answers.usual && answers.fit) recommend();
+        }));
+      });
+      function recommend() {
+        const isBottom = /^(men|women|women_st|anime)$/.test(product.category);
+        let idx = LADDER.indexOf(answers.usual);
+        if (answers.fit === "fitted") idx -= 1;
+        if (answers.fit === "baggy") idx += 1;
+        if (isBottom && answers.height === "tall" && answers.fit !== "fitted") idx += 1;
+        if (isBottom && answers.height === "short" && answers.fit === "baggy") idx -= 1;
+        const avail = product.sizes.filter((z) => !(product.soldOutSizes || []).includes(z));
+        // clamp to the product's own ladder
+        const own = LADDER.filter((z) => product.sizes.includes(z));
+        idx = Math.max(LADDER.indexOf(own[0]), Math.min(LADDER.indexOf(own[own.length - 1]), idx));
+        let rec = LADDER[idx];
+        let note = "";
+        if (!avail.includes(rec)) {
+          const alt = avail.length ? avail.reduce((best, z) => Math.abs(LADDER.indexOf(z) - idx) < Math.abs(LADDER.indexOf(best) - idx) ? z : best, avail[0]) : null;
+          note = alt ? ` — <strong>${rec}</strong> is sold out, closest available is <strong>${alt}</strong>` : ` — <strong>${rec}</strong> is sold out`;
+          rec = alt || rec;
+        }
+        const why = answers.fit === "baggy" ? "sized up for extra drape" : answers.fit === "fitted" ? "sized down for a closer cut" : "true to your usual size — the cut is already oversized";
+        result.hidden = false;
+        result.innerHTML = `<div class="ff-rec">We recommend <span>${rec}</span></div><div class="ff-why">${why}${note}. <button type="button" class="ff-apply" data-apply="${rec}">Select ${rec}</button></div>`;
+        result.querySelector(".ff-apply").addEventListener("click", () => {
+          const chip = doc.querySelector(`#sizeSelector [data-size="${rec}"]`);
+          if (chip && !chip.disabled) chip.click();
+          gaEvent("fit_finder_select", { item_id: String(product.id), size: rec });
+        });
+        gaEvent("fit_finder_result", { item_id: String(product.id), size: rec, usual: answers.usual, fit: answers.fit, height: answers.height });
+      }
+    })();
 
     doc.querySelectorAll("[data-size]").forEach((button) => {
       button.addEventListener("click", () => {
