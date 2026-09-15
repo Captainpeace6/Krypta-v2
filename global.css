@@ -5957,3 +5957,7 @@ details.faq-item[open] summary { color: #f0ede8; }
 
 /* Founder badge — gold variant of the verified pill */
 .rv-founder, .hr-founder { color: var(--gold, #d2ae5b) !important; border-color: rgba(210,174,91,0.55) !important; }
+
+/* Home review card — up to 3 photos side by side */
+.hr-card-photos.hr-multi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.hr-card-photos.hr-multi img { aspect-ratio: 2 / 3; max-height: none; height: auto; }
