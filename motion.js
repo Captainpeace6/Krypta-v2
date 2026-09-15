@@ -145,7 +145,7 @@
 
   function mountChrome() {
     body.insertAdjacentHTML("afterbegin", `
-      <div class="k-anno-bar" role="note">Drop 001 Live &nbsp;·&nbsp; Free Shipping Over $75</div>
+      <div class="k-anno-bar" role="note">Drop 001 Live &nbsp;·&nbsp; Free Shipping Over $60</div>
       <nav id="navbar" class="site-nav">
         <div class="nav-left">
           <button class="nav-toggle" type="button" data-menu-toggle aria-label="Open menu"><span></span><span></span></button>
@@ -401,7 +401,7 @@
           if (h) h.textContent = "Save " + formatPrice(disc) + " right now";
           if (sub) sub.innerHTML = "You have <strong>" + formatPrice(total) + "</strong> in your bag. Use <strong>KRYPTAA12</strong> at checkout for 12% off — limited drops don't restock.";
           if (form) { form.innerHTML = '<a class="k-exit-btn" href="checkout.html" style="display:block;width:100%;text-align:center;text-decoration:none;box-sizing:border-box">Finish checkout — ' + formatPrice(total - disc) + '</a>'; form.style.display = "block"; }
-          const fine = doc.querySelector("#kExitPopup .k-exit-fine"); if (fine) fine.textContent = "Code applies at checkout · Free shipping over $75";
+          const fine = doc.querySelector("#kExitPopup .k-exit-fine"); if (fine) fine.textContent = "Code applies at checkout · Free shipping over $60";
           if (succ) succ.remove();
           if (noBtn) noBtn.textContent = "Keep browsing";
         } catch (e) {}
@@ -1198,8 +1198,8 @@
       if (mbbTotal) mbbTotal.textContent = formatPrice(totalVal);
     }
 
-    /* Free-shipping progress bar (threshold matches backend: $75) */
-    const FREE_SHIP = 75;
+    /* Free-shipping progress bar (threshold matches backend: $60) */
+    const FREE_SHIP = 60;
     const shippingBar = doc.getElementById("cartShippingBar");
     if (shippingBar) {
       const remaining = Math.max(0, FREE_SHIP - totalVal);
@@ -1304,7 +1304,7 @@
   function renderHome() {
     const heroMedia = doc.getElementById("homeHeroMedia");
     if (heroMedia) {
-      heroMedia.innerHTML = getProductsByIds([14, 1, 70]).map((product) => `<img src="${product.hero || product.img}" alt="${product.name} — KRYPTAA">`).join("");
+      heroMedia.innerHTML = getProductsByIds([11, 14, 1]).map((product) => `<img src="${product.hero || product.img}" alt="${product.name} — KRYPTAA">`).join("");
     }
 
     const collectionGrid = doc.getElementById("collectionGrid");
@@ -1328,7 +1328,7 @@
 
     const editorialImage = doc.getElementById("editorialImage");
     if (editorialImage) {
-      editorialImage.innerHTML = `<img src="imgs/kryptaa-brand-frame.jpg" alt="KRYPTAA Defined by Power, Driven by Aura">`;
+      editorialImage.innerHTML = `<a href="products/red-gothic-embroidery-denim.html" aria-label="Red Gothic Embroidery Denim"><img src="imgs/pants/mens-pant-2-editorial.webp" alt="Red Gothic Embroidery Denim worn on the street — KRYPTAA Drop 001"></a>`;
     }
 
     const featured = doc.getElementById("featuredProducts");
@@ -1712,7 +1712,7 @@
           </div>
           <div class="pdp-trust-strip">
             <div class="pdp-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Secure Stripe Checkout</span></div>
-            <div class="pdp-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><span>Free Shipping Over $75</span></div>
+            <div class="pdp-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><span>Free Shipping Over $60</span></div>
             <div class="pdp-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg><span>Easy Returns</span></div>
             <div class="pdp-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Verified Customer Reviews</span></div>
           </div>
