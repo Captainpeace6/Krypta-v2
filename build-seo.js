@@ -153,8 +153,10 @@ for (const { file, category, html: original } of shopFiles()) {
   html = html.replace(/<div class="shop-count" id="shopCount">[\s\S]*?<\/div>/, `<div class="shop-count" id="shopCount">${products.length} pieces</div>`);
   // Idempotency: strip any prior injected block(s), then replace the grid's full inner content.
   html = html.replace(/<!--SEO:products-->[\s\S]*?<!--\/SEO:products-->/g, '');
+  // Function-form replacement: card HTML contains prices like "$21.00", and a
+  // string replacement would read "$2" as a capture-group reference.
   html = html.replace(/(<section class="products-grid[^"]*" id="productsGrid">)[\s\S]*?(<\/section>)/,
-    `$1\n<!--SEO:products-->${cards}\n      <!--/SEO:products-->\n      $2`);
+    (m, open, close) => `${open}\n<!--SEO:products-->${cards}\n      <!--/SEO:products-->\n      ${close}`);
 
   if (html !== original) { fs.writeFileSync(path.join(__dirname, file), html); processed++; console.log(`✓ ${file.padEnd(32)} ${category.padEnd(11)} ${products.length} products`); }
 }
