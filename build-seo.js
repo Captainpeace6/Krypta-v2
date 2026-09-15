@@ -165,6 +165,23 @@ if (skipped.length) console.log('Skipped: ' + skipped.join(', '));
 /* ─── Product pages: /products/<slug>.html (Phase 2) ─── */
 const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const PRODUCTS = W.PRODUCTS || [];
+
+/* FAQPage schema — same Q/As the PDP renders in its FAQ accordion (motion.js).
+   Google shows these as expandable rich results under the product listing. */
+function faqLd(product) {
+  const qa = [
+    ["What's your return policy?", "We accept returns within 7 days of delivery on unworn items with original tags attached. Email us with your order number to start the process. Items marked as final sale or pre-order are non-refundable."],
+    ["How long does shipping take?", "US: 5–7 business days. India: 10–15 business days. Rest of world: 10–18 business days. Tracking is sent automatically after your order is confirmed."],
+    ["How do I pick the right size?", product.fit || "KRYPTAA garments are cut oversized. For a structured silhouette go true to size; for a more dramatic drape size up. Use the Size Chart for exact measurements."],
+    ["Is this product in stock or pre-order?", `This piece is currently listed as: ${product.availability}. Pre-order items ship once production is complete — we'll email you with an update. In-stock items ship within 3 business days.`],
+    ["Do you ship to India?", "Yes — India is fully supported at checkout. Enter your full address and use +91 in the phone field. Duties and taxes may apply on delivery depending on your state."],
+  ];
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: qa.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+  };
+}
 const REVIEWS = W.REVIEWS || {};
 const getProductById = W.getProductById;
 const productUrl = W.productUrl, productSlug = W.productSlug, productSeoTitle = W.productSeoTitle;
@@ -270,6 +287,7 @@ function productPage(product) {
 <link rel="icon" type="image/webp" href="imgs/kryptaa-sigil.webp">
 <script type="application/ld+json" id="k-jsonld">${JSON.stringify(ld)}</script>
 <script type="application/ld+json" id="k-breadcrumb">${JSON.stringify(crumbLd)}</script>
+<script type="application/ld+json" id="k-faq">${JSON.stringify(faqLd(product))}</script>
 <script defer src="products.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -375,3 +393,40 @@ console.log(`\n✓ sitemap.xml: ${smCount} URLs (1 home + ${SITEMAP_COLLECTIONS.
 
 /* Google Merchant Center feed (feed/google-merchant.xml) — same product source */
 try { require('child_process').execFileSync(process.execPath, [path.join(__dirname, 'build-feed.js')], { stdio: 'inherit' }); } catch (e) { console.error('build-feed failed:', e.message); }
+
+
+/* ── ItemList schema on collection pages ──
+   Collection grids render client-side, so crawlers see no product links in
+   the HTML. Inject a schema.org ItemList (top products, in display order)
+   into each static collection page's <head>, replacing any prior copy. */
+(function () {
+  const CATEGORY_CONFIGS = W.CATEGORY_CONFIGS || {};
+  let done = 0;
+  for (const key of Object.keys(CATEGORY_CONFIGS)) {
+    const cfg = CATEGORY_CONFIGS[key];
+    const file = path.join(__dirname, cfg.href);
+    if (!cfg.href || !fs.existsSync(file)) continue;
+    const list = (getProductsByCategory(key) || []).slice(0, 30);
+    if (!list.length) continue;
+    const ld = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: `${cfg.title} — KRYPTAA`,
+      numberOfItems: list.length,
+      itemListElement: list.map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `https://www.kryptaa.com/products/${productSlug(p)}.html`,
+        name: p.name,
+        image: `https://www.kryptaa.com/${String(p.img).replace(/^\/+/, '')}`,
+      })),
+    };
+    const tag = `<script type="application/ld+json" id="k-itemlist">${JSON.stringify(ld)}</script>`;
+    let html = fs.readFileSync(file, 'utf8');
+    html = html.replace(/<script type="application\/ld\+json" id="k-itemlist">[\s\S]*?<\/script>\n?/, '');
+    html = html.replace('</head>', tag + '\n</head>');
+    fs.writeFileSync(file, html);
+    done++;
+  }
+  console.log(`✓ ItemList schema injected into ${done} collection pages`);
+})();
