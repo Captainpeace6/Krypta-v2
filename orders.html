@@ -702,6 +702,8 @@
       </div>
       <div class="stock-summary" id="stockSummary"></div>
       <div class="stock-movers" id="stockMovers"></div>
+      <div class="stock-section-label">Back-in-Stock Waitlist</div>
+      <div class="stock-movers" id="restockWaitlist"><span class="wait">Loading waitlist…</span></div>
       <div class="stock-section-label">Men's Denim</div>
       <div class="stock-grid" id="mensStockGrid"></div>
       <div class="stock-section-label">Women's Denim</div>
@@ -749,7 +751,7 @@
           <div class="funnel-step"><span class="fs-name">Purchase</span><span class="fs-val wait" id="gaFPurchase">Waiting · GA4</span></div>
         </div>
       </div>
-      <div class="waiting-block"><div class="wb-title">Waiting for GA4 ecommerce data</div><div class="wb-sub">view_item &amp; add_to_cart events are not yet firing — connect the GA4 Data API</div></div>
+      <div class="waiting-block" id="gaEcomWait"><div class="wb-title">Waiting for GA4 ecommerce data</div><div class="wb-sub">view_item &amp; add_to_cart events are not yet firing — connect the GA4 Data API</div></div>
     </div>
   </div>
 
@@ -1720,6 +1722,8 @@
         put('gaRevenue', '$'+Number(d.revenue).toLocaleString('en-US',{maximumFractionDigits:2}));
         function putF(id,val){ var e=document.getElementById(id); if(e){ e.textContent=Number(val).toLocaleString(); e.classList.remove('wait'); } }
         putF('gaFView', d.funnel.view_item); putF('gaFCart', d.funnel.add_to_cart); putF('gaFCheckout', d.funnel.begin_checkout); putF('gaFPurchase', d.funnel.purchase);
+        /* Hide the "waiting" banner once any ecommerce event has actually arrived */
+        var gw=document.getElementById('gaEcomWait'); if(gw) gw.style.display=((d.funnel.view_item||0)+(d.funnel.add_to_cart||0)+(d.funnel.begin_checkout||0)+(d.funnel.purchase||0))>0?'none':'';
         if(st) st.textContent = 'Last '+d.rangeDays+' days \u00b7 live';
       })
       .catch(function(e){ if(st) st.textContent='Waiting for connection \u00b7 '+e.message; });
@@ -2689,7 +2693,35 @@ function printLabel(order, orderNum) {
     el.style.color = highlight ? 'var(--gold)' : '';
   }
 
+  /* Back-in-stock waitlist: shoppers who hit "Notify me" on sold-out pieces.
+     Auto-emails on restock (update-stock 0→>0); this panel also lets you send now. */
+  function renderRestockWaitlist(){
+    var el=document.getElementById('restockWaitlist'); if(!el) return;
+    var key=savedKey(); if(!key){ el.innerHTML='<span class="wait">Not connected</span>'; return; }
+    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/restock-notify',{headers:{'X-Admin-Key':key}})
+      .then(function(r){return r.ok?r.json():null;})
+      .then(function(d){
+        if(!d||!d.counts){ el.innerHTML='<span class="wait">No data</span>'; return; }
+        var ids=Object.keys(d.counts); if(!ids.length){ el.innerHTML='<span class="wait">No one waiting yet — waitlist fills from "Notify me" on sold-out products</span>'; return; }
+        var CAT=window.PRODUCTS||[];
+        el.innerHTML=ids.map(function(id){
+          var p=CAT.find(function(x){return String(x.id)===String(id);});
+          return '<div class="stock-mover-row" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(210,174,91,.12)">'
+            +'<span>'+(p?p.name:'Product '+id)+' <span class="wait">· '+d.counts[id]+' waiting</span></span>'
+            +'<button class="stock-save-btn" data-restock-id="'+id+'" style="padding:6px 12px;font-size:10px">Email waitlist</button></div>';
+        }).join('');
+        el.querySelectorAll('[data-restock-id]').forEach(function(b){ b.addEventListener('click',function(){
+          if(!confirm('Email everyone waiting for this product now?')) return;
+          b.disabled=true; b.textContent='Sending…';
+          fetch('https://kryptaa-backend.netlify.app/.netlify/functions/restock-notify',{method:'POST',headers:{'X-Admin-Key':key,'Content-Type':'application/json'},body:JSON.stringify({id:b.getAttribute('data-restock-id')})})
+            .then(function(r){return r.json();}).then(function(res){ b.textContent='Sent '+(res.sent||0); setTimeout(renderRestockWaitlist,1500); })
+            .catch(function(){ b.textContent='Failed'; b.disabled=false; });
+        }); });
+      }).catch(function(){ el.innerHTML='<span class="wait">Unavailable</span>'; });
+  }
+
   function renderStockSummary(stock){
+    renderRestockWaitlist();
     stock = stock || {};
     var CAT = window.PRODUCTS || [];
     var orders = window.__kOrders || [];

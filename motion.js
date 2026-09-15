@@ -23,6 +23,18 @@
     doc.head.appendChild(s);
   }
 
+  /* Back-in-stock waitlist on our backend (product id + email) so we can
+     email the shopper the moment stock is restored. Fire-and-forget. */
+  function restockRequest(email, productId, productName) {
+    if (!email || !productId) return;
+    try {
+      fetch("https://kryptaa-backend.netlify.app/.netlify/functions/restock-request", {
+        method: "POST", headers: { "Content-Type": "application/json" }, keepalive: true,
+        body: JSON.stringify({ email, id: String(productId), product: productName || "" }),
+      }).catch(() => {});
+    } catch (e) {}
+  }
+
   /* Restock notify strips are rendered per product card — delegate one listener */
   doc.addEventListener("submit", (e) => {
     const form = e.target.closest ? e.target.closest("[data-notify-card]") : null;
@@ -30,6 +42,8 @@
     e.preventDefault();
     const input = form.querySelector('input[type="email"]');
     const product = form.querySelector('input[name="PRODUCT"]');
+    const pid = form.querySelector('input[name="PRODUCT_ID"]');
+    restockRequest(input.value, pid ? pid.value : "", product ? product.value : "");
     mcSubscribe(input.value, product ? product.value : "", (ok) => {
       if (ok) {
         form.innerHTML = '<span class="notify-strip-done">✓ You\'re on the list.</span>';
@@ -1239,6 +1253,7 @@
             <div class="notify-strip-label">Notify me when back</div>
             <form class="notify-strip-row" action="${MC_POST}" method="POST" data-notify-card>
               <input type="hidden" name="PRODUCT" value="${product.name}">
+              <input type="hidden" name="PRODUCT_ID" value="${product.id}">
               <div style="position:absolute;left:-5000px" aria-hidden="true"><input type="text" name="${MC_HONEYPOT}" tabindex="-1" value=""></div>
               <input type="email" name="EMAIL" placeholder="your@email.com" required>
               <button type="submit">Notify</button>
@@ -1628,6 +1643,7 @@
               ${product.restockDate ? `<div class="notify-restock-note">Est. Restock — ${product.restockDate}</div>` : ''}
               <form class="notify-pdp-row" action="${MC_POST}" method="POST" id="notifyPdpForm">
                 <input type="hidden" name="PRODUCT" value="${product.name}">
+                <input type="hidden" name="PRODUCT_ID" value="${product.id}">
                 <div style="position:absolute;left:-5000px" aria-hidden="true"><input type="text" name="${MC_HONEYPOT}" tabindex="-1" value=""></div>
                 <input type="email" name="EMAIL" placeholder="your@email.com" required>
                 <button type="submit">Notify Me</button>
@@ -1817,6 +1833,7 @@
       e.preventDefault();
       const email = e.target.querySelector('input[name="EMAIL"]').value;
       const prod = e.target.querySelector('input[name="PRODUCT"]');
+      restockRequest(email, product.id, prod ? prod.value : "");
       mcSubscribe(email, prod ? prod.value : "", (ok) => {
         if (ok) {
           e.target.style.display = "none";

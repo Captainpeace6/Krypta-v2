@@ -372,3 +372,6 @@ sm += '</urlset>\n';
 fs.writeFileSync(path.join(__dirname, 'sitemap.xml'), sm);
 const smCount = (sm.match(/<url>/g) || []).length;
 console.log(`\n✓ sitemap.xml: ${smCount} URLs (1 home + ${SITEMAP_COLLECTIONS.length} collections + ${PRODUCTS.length} products + ${SITEMAP_INFO.length} info)`);
+
+/* Google Merchant Center feed (feed/google-merchant.xml) — same product source */
+try { require('child_process').execFileSync(process.execPath, [path.join(__dirname, 'build-feed.js')], { stdio: 'inherit' }); } catch (e) { console.error('build-feed failed:', e.message); }
