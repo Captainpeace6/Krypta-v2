@@ -554,7 +554,7 @@
           + r.photos.slice(0, 3).map(function (src, i) { return '<img src="' + esc(src) + '" alt="Customer photo ' + (i + 1) + ' — ' + esc(r.author||"") + '" data-review-photo loading="lazy">'; }).join("")
           + '<span class="hr-photo-hint">⤢ tap to expand</span></div>'
         : '';
-      var badge = r.founder ? '<span class="hr-verified hr-founder">✓ Founder</span>' : r.verified ? '<span class="hr-verified">✓ Verified</span>' : '';
+      var badge = r.verified ? '<span class="hr-verified">✓ Verified</span>' : '';
       return '<article class="hr-card">'
         + '<div class="hr-card-stars">' + starStr(r.rating) + '</div>'
         + '<p class="hr-card-body">' + esc(r.body) + '</p>'

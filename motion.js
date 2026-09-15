@@ -2082,7 +2082,7 @@
             return '<div class="rv-card reveal">' +
               '<div class="rv-card-header">' +
                 starsHtml(r.rating) +
-                '<span class="rv-card-author">' + r.author + (r.founder ? '<span class="rv-verified rv-founder">✓ Founder</span>' : r.verified ? '<span class="rv-verified">✓ Verified</span>' : '') + '</span>' +
+                '<span class="rv-card-author">' + r.author + (r.verified ? '<span class="rv-verified">✓ Verified</span>' : '') + '</span>' +
                 '<span class="rv-card-date">' + r.date + '</span>' +
               '</div>' +
               (r.size ? '<div class="rv-card-size">Size: ' + r.size + '</div>' : '') +
