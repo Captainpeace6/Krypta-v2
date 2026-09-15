@@ -217,6 +217,18 @@
   </section>
 
   <!-- ░░ PANEL 1 — EDITORIAL ░░ -->
+  <!-- ░░ PANEL — REAL PEOPLE, REAL FITS (customer photo wall) ░░ -->
+  <section class="home-section snap-panel snap-photowall" data-anim="generic" aria-label="Customer photos">
+    <div class="layer-bg"></div>
+    <div class="section-shell layer-copy">
+      <div class="eyebrow">— The Underground, Worn —</div>
+      <h2 class="hpw-title">Real people. Real fits.</h2>
+      <p class="hpw-sub" id="homePhotoWallCount"></p>
+    </div>
+    <div class="hpw-track" id="homePhotoWallTrack" data-stagger></div>
+    <div class="section-shell hpw-cta"><a class="k-btn-outline" href="reviews.html">See all reviews →</a></div>
+  </section>
+
   <section class="home-section snap-panel snap-editorial">
     <div class="layer-bg"></div>
     <div class="section-shell editorial-split">
@@ -543,6 +555,19 @@
     var count = all.length, avg = count ? all.reduce(function (s,r){ return s + (+r.rating||0); }, 0) / count : 0;
     var st = document.getElementById("hrStars"); if (st) st.textContent = starStr(avg);
     var at = document.getElementById("hrAggText"); if (at) at.textContent = count ? (avg.toFixed(1) + " / 5  ·  " + count + " reviews") : "Be the first";
+
+    /* Photo wall panel under the hero — every review photo, verified buyers first */
+    (function () {
+      var pw = document.getElementById("homePhotoWallTrack"); if (!pw) return;
+      var shots = [];
+      all.forEach(function (r) { (r.photos || []).forEach(function (src) { shots.push({ src: src, author: r.author, product: r.product, verified: r.verified, size: r.size }); }); });
+      shots.sort(function (a, b) { return (b.verified ? 1 : 0) - (a.verified ? 1 : 0); });
+      var pc = document.getElementById("homePhotoWallCount"); if (pc) pc.textContent = shots.length + " photos · " + all.filter(function (r) { return (r.photos || []).length; }).length + " reviews";
+      pw.innerHTML = shots.map(function (sh) {
+        return '<figure class="hpw-item"><img src="' + esc(sh.src) + '" alt="' + esc(sh.product) + ' worn by ' + esc(sh.author) + '" data-review-photo loading="lazy">'
+          + '<figcaption><span class="hpw-author">' + esc(sh.author) + (sh.verified ? ' <span class="hr-verified">✓</span>' : '') + '</span><span class="hpw-product">' + esc(sh.product) + '</span></figcaption></figure>';
+      }).join("");
+    })();
 
     var track = document.getElementById("homeReviewTrack");
     var dotsWrap = document.getElementById("homeReviewDots");

@@ -400,6 +400,17 @@ const REVIEWS = {
 };
 window.REVIEWS = REVIEWS;
 
+/* Card rating line: "★★★★★ 5.0 (2)" — only rendered when the product has reviews. */
+function productRatingHtml(id) {
+  const revs = REVIEWS[id] || [];
+  if (!revs.length) return "";
+  const avg = revs.reduce((s, r) => s + (Number(r.rating) || 0), 0) / revs.length;
+  const full = Math.round(avg);
+  const stars = "★".repeat(full) + "☆".repeat(5 - full);
+  return `<div class="product-card-rating" aria-label="Rated ${avg.toFixed(1)} out of 5 from ${revs.length} review${revs.length === 1 ? "" : "s"}"><span class="pcr-stars">${stars}</span><span class="pcr-num">${avg.toFixed(1)}</span><span class="pcr-count">(${revs.length})</span></div>`;
+}
+window.productRatingHtml = productRatingHtml;
+
 window.STOCK_DATA = {
   1:   { S: 30, M: 30, L: 30, XL: 30 },
   3:   { S: 30, M: 30, L: 30, XL: 30 },

@@ -213,7 +213,22 @@
     var fig = panel.querySelector('.layer-figure');
     var cp  = panel.querySelector('.layer-copy');
 
-    switch (idx) {
+    /* Generic panels (e.g. the photo wall) get a simple stagger-in and are
+       excluded from the index-based choreography below, so inserting one
+       doesn't shift the hand-tuned cases. */
+    if (panel.dataset.anim === 'generic') {
+      if (bg) tl.fromTo(bg, { opacity: 0 }, { opacity: 1, duration: 0.8 }, 0);
+      var items = panel.querySelectorAll('[data-stagger] > *');
+      if (items.length) tl.fromTo(items, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.55, stagger: 0.06, ease: 'power2.out' }, 0.15);
+      var head = panel.querySelectorAll('.layer-copy > *');
+      if (head.length) tl.fromTo(head, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: 'power2.out' }, 0.05);
+      animHUD(panel, tl, 0.8);
+      return;
+    }
+    var choreo = panels.filter(function (p) { return p.dataset.anim !== 'generic'; });
+    var caseIdx = choreo.indexOf(panel);
+
+    switch (caseIdx) {
 
       /* ────────────────────────────────────────────
          PANEL 0 — HERO

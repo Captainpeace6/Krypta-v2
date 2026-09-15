@@ -1264,6 +1264,7 @@
           <div class="product-card-content">
             <div class="product-card-kicker">${product.collection}</div>
             <h3>${product.name}</h3>
+            ${productRatingHtml(product.id)}
             <p class="product-card-desc">${product.desc}</p>
             <div class="product-card-tags">${product.tags.slice(0, 3).map((tag) => `<span>${tag}</span>`).join("")}</div>
             <div class="product-card-footer">

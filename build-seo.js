@@ -27,6 +27,7 @@ const getProductsByCategory = W.getProductsByCategory;
 const getCategoryConfig = W.getCategoryConfig;
 const formatPrice = W.formatPrice || ((n) => '$' + Number(n).toFixed(2));
 const SEO_META = W.SEO_META || {};
+const productRatingHtml = W.productRatingHtml || (() => '');
 
 const BASE = 'https://www.kryptaa.com/';
 
@@ -64,6 +65,7 @@ function staticProductCard(product) {
           <div class="product-card-content">
             <div class="product-card-kicker">${product.collection}</div>
             <h3>${product.name}</h3>
+            ${productRatingHtml(product.id)}
             <p class="product-card-desc">${product.desc}</p>
             <div class="product-card-tags">${tags.slice(0, 3).map((tag) => `<span>${tag}</span>`).join('')}</div>
             <div class="product-card-footer">
