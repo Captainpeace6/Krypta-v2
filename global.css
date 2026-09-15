@@ -3431,6 +3431,28 @@ body[data-page="product"] { padding-bottom: 66px; }
 }
 .pdp-add-row .k-btn-gold { flex: 1; min-width: 140px; }
 
+/* Buy Now — express path to Stripe Checkout (Apple Pay / Google Pay / Link) */
+.pdp-buy-now {
+  width: 100%;
+  margin-top: 10px;
+  padding: 13px 16px;
+  background: transparent;
+  border: 1px solid rgba(210,174,91,0.55);
+  color: var(--gold, #d2ae5b);
+  font-family: var(--f-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: background .25s, border-color .25s;
+}
+.pdp-buy-now:hover { background: rgba(210,174,91,0.08); border-color: var(--gold, #d2ae5b); }
+.pdp-buy-now-wallets { font-size: 0.5rem; letter-spacing: 0.12em; color: rgba(240,237,232,0.55); text-transform: none; display: inline-flex; align-items: center; gap: 4px; }
+
 /* ── 3. Low-stock urgency badge ── */
 .low-stock-badge {
   display: inline-flex;

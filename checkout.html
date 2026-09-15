@@ -674,6 +674,16 @@ function quickApplyPromo(code) {
   if (banner) banner.classList.add('co-promo-used');
 }
 
+/* ?express=1 (Buy Now on a product page): skip the cart review, go straight to Stripe */
+window.addEventListener("load", function () {
+  try {
+    if (/[?&]express=1/.test(location.search) && !/success=true/.test(location.search)) {
+      var c = JSON.parse(localStorage.getItem("kryptaa_cart") || "[]");
+      if (c.length) setTimeout(goToStripe, 250);
+    }
+  } catch (e) {}
+});
+
 function goToStripe() {
   var cart;
   try { cart = JSON.parse(localStorage.getItem("kryptaa_cart") || "[]"); } catch (e) { cart = []; }

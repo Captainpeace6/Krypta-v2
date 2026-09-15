@@ -382,6 +382,30 @@
       `);
 
       const markSeen = () => { try { localStorage.setItem("k_offer_seen", "1"); } catch (e) {} };
+
+      /* Cart-aware offer: if the visitor already has items in the bag, the
+         popup sells the checkout (with the bag total) instead of an email signup. */
+      (function () {
+        try {
+          const bag = JSON.parse(localStorage.getItem("kryptaa_cart") || "[]");
+          const total = bag.reduce((t, i) => t + (parseFloat(i.price) || 0) * (i.qty || 1), 0);
+          if (!bag.length || total <= 0) return;
+          const disc = total * 0.12;
+          const h = doc.querySelector("#kExitPopup .k-exit-heading");
+          const eyebrow = doc.querySelector("#kExitPopup .k-exit-eyebrow");
+          const sub = doc.getElementById("kExitSub");
+          const form = doc.getElementById("kExitForm");
+          const succ = doc.getElementById("kExitSuccess");
+          const noBtn = doc.getElementById("kExitNo");
+          if (eyebrow) eyebrow.textContent = "— Your bag is waiting —";
+          if (h) h.textContent = "Save " + formatPrice(disc) + " right now";
+          if (sub) sub.innerHTML = "You have <strong>" + formatPrice(total) + "</strong> in your bag. Use <strong>KRYPTAA12</strong> at checkout for 12% off — limited drops don't restock.";
+          if (form) { form.innerHTML = '<a class="k-exit-btn" href="checkout.html" style="display:block;width:100%;text-align:center;text-decoration:none;box-sizing:border-box">Finish checkout — ' + formatPrice(total - disc) + '</a>'; form.style.display = "block"; }
+          const fine = doc.querySelector("#kExitPopup .k-exit-fine"); if (fine) fine.textContent = "Code applies at checkout · Free shipping over $75";
+          if (succ) succ.remove();
+          if (noBtn) noBtn.textContent = "Keep browsing";
+        } catch (e) {}
+      })();
       const closeExitPopup = () => {
         const p = doc.getElementById("kExitPopup");
         if (p) { p.classList.remove("open"); setTimeout(() => p.remove(), 350); }
@@ -1280,7 +1304,7 @@
   function renderHome() {
     const heroMedia = doc.getElementById("homeHeroMedia");
     if (heroMedia) {
-      heroMedia.innerHTML = getProductsByIds([1, 14, 70]).map((product) => `<img src="${product.hero || product.img}" alt="${product.name} — KRYPTAA">`).join("");
+      heroMedia.innerHTML = getProductsByIds([14, 1, 70]).map((product) => `<img src="${product.hero || product.img}" alt="${product.name} — KRYPTAA">`).join("");
     }
 
     const collectionGrid = doc.getElementById("collectionGrid");
@@ -1636,6 +1660,11 @@
               </div>
               <button class="k-btn-gold" type="button" id="addToBagBtn">Add To Bag</button>
             </div>
+            ${isArchivePDP || isAnimePDP ? `` : `
+            <button class="pdp-buy-now" type="button" id="buyNowBtn">
+              <span>Buy Now</span>
+              <span class="pdp-buy-now-wallets">Apple Pay · Google Pay · Link</span>
+            </button>`}
             ${isArchivePDP ? `
             <div class="notify-pdp-box">
               <div class="notify-pdp-title">— Notify Me —</div>
@@ -1827,6 +1856,19 @@
         return;
       }
       addToCart(product.id, selectedSize, pdQty, selectedVariant);
+    });
+
+    /* Buy Now: same validation as Add To Bag, then straight to Stripe Checkout
+       (Apple Pay / Google Pay / Link show there) via checkout.html?express=1. */
+    doc.getElementById("buyNowBtn")?.addEventListener("click", () => {
+      if (!selectedSize) {
+        doc.getElementById("sizeSelector")?.classList.add("sizes-required");
+        doc.getElementById("sizeSelector")?.scrollIntoView({ behavior: "smooth", block: "center" });
+        setTimeout(() => doc.getElementById("sizeSelector")?.classList.remove("sizes-required"), 450);
+        return;
+      }
+      addToCart(product.id, selectedSize, pdQty, selectedVariant);
+      window.location.href = "checkout.html?express=1";
     });
 
     doc.getElementById("notifyPdpForm")?.addEventListener("submit", (e) => {

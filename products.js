@@ -223,7 +223,9 @@ function productMetaDesc(product) {
   return d.length > 160 ? d.slice(0, 157).replace(/\s+\S*$/, "") + "…" : d;
 }
 
-const HOME_FEATURE_IDS = [11, 30, 12, 31, 108, 14, 32, 304];
+/* Home "featured" order — proven sellers first (Ice Cargo, Red Track, Broken
+   Skull are the only pieces that have converted), then the strongest visuals. */
+const HOME_FEATURE_IDS = [14, 502, 4, 11, 30, 12, 31, 32];
 
 const STORY_DEFAULTS = {
   tees: {
@@ -298,10 +300,15 @@ function getProductById(id) {
   return PRODUCTS.find((product) => String(product.id) === String(id));
 }
 
+/* Archived pieces (availability "Archive …") stay reachable on their own
+   collection page but are kept out of site-wide grids so dead stock doesn't
+   dilute the browse experience. */
+const isArchived = (product) => /archive/i.test(String(product.availability || ""));
+
 function getProductsByCategory(category) {
-  if (!category || category === "all") return PRODUCTS;
+  if (!category || category === "all") return PRODUCTS.filter((p) => !isArchived(p));
   if (category === "all_jeans") {
-    return PRODUCTS.filter((product) => ["men", "women", "anime"].includes(product.category));
+    return PRODUCTS.filter((product) => ["men", "women", "anime"].includes(product.category) && !isArchived(product));
   }
   // Gender landing pages — everything for that side of the shop
   if (category === "men_all") {
