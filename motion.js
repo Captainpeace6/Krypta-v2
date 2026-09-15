@@ -1690,7 +1690,14 @@
               </div>
               <button class="k-btn-gold" type="button" id="addToBagBtn">Add To Bag</button>
             </div>
-            ${/pre-?order/i.test(product.availability || "") && !isAnimePDP ? `<div class="pdp-preorder-note"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Pre-order · made in small batches · ships in 3–4 weeks · charged today, cancel anytime before dispatch</div>` : ``}
+            ${/pre-?order/i.test(product.availability || "") && !isAnimePDP ? `<div class="pdp-preorder-box">
+              <div class="pdp-preorder-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Pre-order — how it works</div>
+              <ul>
+                <li><strong>Price:</strong> ${formatPrice(product.price)} — charged in full at checkout. No hidden fees; US shipping free over $60.</li>
+                <li><strong>Making time:</strong> each pair is made to order. Allow <strong>30+ days</strong> for production, then 7–14 business days shipping.</li>
+                <li><strong>Cancel anytime</strong> before dispatch for a full refund — email hello@kryptaa.com with your order number.</li>
+              </ul>
+            </div>` : ``}
             ${isArchivePDP || isAnimePDP ? `` : `
             <button class="pdp-buy-now" type="button" id="buyNowBtn">
               <span>Buy Now</span>
