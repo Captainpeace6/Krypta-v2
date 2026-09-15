@@ -378,6 +378,9 @@ const REVIEWS = {
   1: [
     { author: "Rahul M.", date: "Dec 2025", rating: 5, size: "L", body: "Insane quality. The artwork is even more detailed in person — wore it to a show and got stopped twice. Heavyweight as advertised." },
   ],
+  11: [
+    { author: "Vishwaksena", date: "Sep 2026", rating: 5, size: "M", founder: true, body: "I made these, so I'll say it straight: this is the piece I reach for first. The red embroidery runs the whole leg, the studs on the hem catch light when you walk, and the wide-leg stacks exactly how I wanted. Worn on the street, in the car, everywhere — it holds up.", photos: ["imgs/pants/mens-pant-2-onbody-1.webp", "imgs/pants/mens-pant-2-onbody-3.webp", "imgs/pants/mens-pant-2-onbody-2.webp"] },
+  ],
   14: [
     { author: "PruthV", date: "Jul 2026", rating: 5, size: "L", verified: true, body: "I'm seriously impressed. These pants exceeded my expectations. The fit is spot on, they're super comfortable, and the quality feels top-notch. You definitely nailed it. Can't wait to wear these to my next rave! 🔥🙌", photos: ["imgs/reviews/pruthv-ice-cargo.jpg"] },
   ],

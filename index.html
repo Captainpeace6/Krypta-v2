@@ -534,7 +534,7 @@
     var all = [];
     Object.keys(R).forEach(function (pid) {
       (R[pid] || []).forEach(function (rv) {
-        all.push({ product: pname(pid), author: rv.author, rating: rv.rating, size: rv.size, body: rv.body, photos: rv.photos || [], verified: !!rv.verified });
+        all.push({ product: pname(pid), author: rv.author, rating: rv.rating, size: rv.size, body: rv.body, photos: rv.photos || [], verified: !!rv.verified, founder: !!rv.founder });
       });
     });
     /* Verified real reviews first (PruthV leads), then by rating */
@@ -552,7 +552,7 @@
       var photo = (r.photos && r.photos.length)
         ? '<div class="hr-card-photos"><img src="' + esc(r.photos[0]) + '" alt="Customer photo — ' + esc(r.author||"") + '" data-review-photo loading="lazy"><span class="hr-photo-hint">⤢ tap to expand</span></div>'
         : '';
-      var badge = r.verified ? '<span class="hr-verified">✓ Verified</span>' : '';
+      var badge = r.founder ? '<span class="hr-verified hr-founder">✓ Founder</span>' : r.verified ? '<span class="hr-verified">✓ Verified</span>' : '';
       return '<article class="hr-card">'
         + '<div class="hr-card-stars">' + starStr(r.rating) + '</div>'
         + '<p class="hr-card-body">' + esc(r.body) + '</p>'

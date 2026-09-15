@@ -5929,3 +5929,31 @@ details.faq-item[open] summary { color: #f0ede8; }
 /* Editorial panel image is now a link to the product; keep it filling the frame */
 .editorial-image > a { display: block; width: 100%; height: 100%; }
 .editorial-image > a img { filter: contrast(1.08) saturate(1) brightness(0.9); }
+
+/* ── Mobile: editorial panel shows the product photo BEHIND the copy ──
+   (cinematic.css hides the figure under 767px; we bring it back as a
+   full-bleed backdrop with a dark gradient so the headline stays legible) */
+@media (max-width: 767px) {
+  .snap-editorial .section-shell.editorial-split { position: relative; min-height: 78vh; }
+  .snap-editorial .editorial-image.layer-figure {
+    display: block !important;
+    position: absolute !important; inset: 0 !important; z-index: 0 !important;
+    width: 100% !important; height: 100% !important;
+    opacity: 1 !important; transform: none !important;
+    min-height: 0 !important; margin: 0 !important;
+  }
+  .snap-editorial .editorial-image.layer-figure > a,
+  .snap-editorial .editorial-image.layer-figure img { width: 100%; height: 100%; min-height: 0; display: block; }
+  .snap-editorial .editorial-image.layer-figure img { object-fit: cover; object-position: 62% 40%; filter: contrast(1.08) saturate(1) brightness(0.62); }
+  .snap-editorial .editorial-image.layer-figure::after {
+    background: linear-gradient(180deg, rgba(6,6,6,0.15) 0%, rgba(6,6,6,0.55) 45%, rgba(6,6,6,0.9) 100%);
+  }
+  .snap-editorial .editorial-copy.layer-copy {
+    position: relative; z-index: 2; justify-content: flex-end; display: flex; flex-direction: column; min-height: 78vh;
+    background: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.85);
+  }
+}
+
+/* Founder badge — gold variant of the verified pill */
+.rv-founder, .hr-founder { color: var(--gold, #d2ae5b) !important; border-color: rgba(210,174,91,0.55) !important; }
