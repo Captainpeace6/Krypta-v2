@@ -739,21 +739,6 @@
 
 </div><!-- /.snap-footer-panel -->
 <script>
-(function(){
-  var target = new Date('2026-06-19T00:00:00');
-  function tick(){
-    var now = new Date(), diff = target - now;
-    if(diff <= 0){ document.getElementById('cdTimer').innerHTML='<span class="cd-launched">The Drop Is Live</span>'; return; }
-    var d=Math.floor(diff/864e5), h=Math.floor((diff%864e5)/36e5), m=Math.floor((diff%36e5)/6e4), s=Math.floor((diff%6e4)/1e3);
-    document.getElementById('cdDays').textContent=String(d).padStart(2,'0');
-    document.getElementById('cdHours').textContent=String(h).padStart(2,'0');
-    document.getElementById('cdMins').textContent=String(m).padStart(2,'0');
-    document.getElementById('cdSecs').textContent=String(s).padStart(2,'0');
-  }
-  tick(); setInterval(tick,1000);
-})();
-</script>
-<script>
 /* ── Join The Drop + Popup — Mailchimp audience integration (KRYPTAA Drop List) ── */
 /* JSONP: Mailchimp's subscribe endpoint has no CORS headers, so a script-tag callback is used */
 var KRYPTAA_MC_JSONP = 'https://gmail.us12.list-manage.com/subscribe/post-json?u=450fbc81f41740fcc252b9629&id=010b1e7bb0&f_id=00e455e0f0';
