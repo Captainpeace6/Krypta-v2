@@ -223,22 +223,15 @@
       ? avg.toFixed(1) + " / 5  ·  Based on " + count + " review" + (count === 1 ? "" : "s")
       : "Be the first to review";
 
-    /* Customer photo wall — every review photo, newest first, tap to expand */
+    /* Customer photo wall — one tile per fit, tap to arrow through its angles */
     (function () {
       var track = document.getElementById("rvPhotoWallTrack"); var sec = document.getElementById("rvPhotoWall"); if (!track || !sec) return;
-      var shots = [];
-      all.forEach(function (r) { (r.photos || []).forEach(function (src) { shots.push({ src: src, author: r.author, product: r.product, verified: r.verified, size: r.size }); }); });
-      if (!shots.length) return;
-      shots.sort(function (a, b) { return (b.verified ? 1 : 0) - (a.verified ? 1 : 0); }); // verified buyers lead
+      var n = window.kRenderPhotoWall ? window.kRenderPhotoWall(track, all) : 0;
+      if (!n) return;
       sec.hidden = false;
-      var pc = document.getElementById("rvPhotoWallCount"); if (pc) pc.textContent = shots.length + " photos from " + all.filter(function (r) { return (r.photos || []).length; }).length + " reviews";
-      track.innerHTML = shots.map(function (sh) {
-        return '<figure class="rv-pw-item">'
-          + '<img src="' + esc(sh.src) + '" alt="' + esc(sh.product) + ' worn by ' + esc(sh.author) + '" data-review-photo loading="lazy">'
-          + '<figcaption><span class="rv-pw-author">' + esc(sh.author) + (sh.verified ? ' <span class="rv-verified">✓</span>' : '') + '</span><span class="rv-pw-product">' + esc(sh.product) + (sh.size ? ' · ' + esc(sh.size) : '') + '</span></figcaption>'
-          + '</figure>';
-      }).join("");
-      var step = function () { var it = track.querySelector('.rv-pw-item'); return it ? (it.getBoundingClientRect().width + 10) * 2 : 400; };
+      var photos = all.reduce(function (s, r) { return s + (r.photos || []).length; }, 0);
+      var pc = document.getElementById("rvPhotoWallCount"); if (pc) pc.textContent = n + " fits · " + photos + " photos · tap a fit to see every angle";
+      var step = function () { var it = track.querySelector('.kpw-item'); return it ? (it.getBoundingClientRect().width + 10) * 2 : 400; };
       sec.querySelector('.rv-pw-prev').addEventListener('click', function () { track.scrollBy({ left: -step(), behavior: 'smooth' }); });
       sec.querySelector('.rv-pw-next').addEventListener('click', function () { track.scrollBy({ left: step(), behavior: 'smooth' }); });
     })();

@@ -35,6 +35,63 @@
     } catch (e) {}
   }
 
+  /* ── Grouped photo wall: one tile per review (cover + "+N" stack + peek
+        thumbs); tap opens a lightbox that arrows through that fit only.
+        Used by reviews.html and the home panel. ── */
+  window.kRenderPhotoWall = function (trackEl, reviews, opts) {
+    opts = opts || {};
+    const escH = (t) => String(t == null ? "" : t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    const fits = reviews.filter((r) => (r.photos || []).length).sort((a, b) => (b.verified ? 1 : 0) - (a.verified ? 1 : 0));
+    if (!trackEl || !fits.length) return 0;
+    const badgeCls = opts.badgeClass || "rv-verified";
+    trackEl.innerHTML = fits.map((r, i) => {
+      const extra = r.photos.length - 1;
+      return `<figure class="kpw-item" data-fit="${i}">
+        <img src="${escH(r.photos[0])}" alt="${escH(r.product)} worn by ${escH(r.author)}" loading="lazy">
+        ${extra > 0 ? `<span class="kpw-stack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="7" width="14" height="14"/><path d="M7 3h14v14"/></svg>+${extra}</span>
+        <span class="kpw-peek">${r.photos.slice(1, 3).map((p) => `<img src="${escH(p)}" alt="" loading="lazy">`).join("")}</span>` : ""}
+        <figcaption><span class="kpw-author">${escH(r.author)}${r.verified ? ` <span class="${badgeCls}">✓ Verified</span>` : ""}</span><span class="kpw-product">${escH(r.product)}${r.size ? " · " + escH(r.size) : ""}</span></figcaption>
+      </figure>`;
+    }).join("");
+    trackEl.addEventListener("click", (e) => {
+      const fig = e.target.closest(".kpw-item"); if (!fig) return;
+      openFitLightbox(fits[Number(fig.dataset.fit)], 0);
+    });
+    return fits.length;
+  };
+  window.kOpenFit = function (fit) { openFitLightbox(fit, 0); };
+  function openFitLightbox(fit, start) {
+    let lb = doc.getElementById("kFitLightbox");
+    if (!lb) {
+      lb = doc.createElement("div"); lb.id = "kFitLightbox"; lb.className = "kfl";
+      lb.innerHTML = `<button class="kfl-close" type="button" aria-label="Close">&times;</button>
+        <button class="kfl-arr kfl-prev" type="button" aria-label="Previous">&#8249;</button>
+        <div class="kfl-stage"><img class="kfl-img" alt=""></div>
+        <button class="kfl-arr kfl-next" type="button" aria-label="Next">&#8250;</button>
+        <div class="kfl-meta"><div><div class="kfl-author"></div><div class="kfl-product"></div></div><div class="kfl-dots"></div></div>`;
+      doc.body.appendChild(lb);
+      lb.addEventListener("click", (e) => { if (e.target === lb || e.target.classList.contains("kfl-close")) closeFit(); });
+      lb.querySelector(".kfl-prev").addEventListener("click", () => step(-1));
+      lb.querySelector(".kfl-next").addEventListener("click", () => step(1));
+      doc.addEventListener("keydown", (e) => { if (!lb.classList.contains("open")) return; if (e.key === "Escape") closeFit(); if (e.key === "ArrowLeft") step(-1); if (e.key === "ArrowRight") step(1); });
+      let tx = null; lb.addEventListener("touchstart", (e) => { tx = e.touches[0].clientX; }, { passive: true });
+      lb.addEventListener("touchend", (e) => { if (tx == null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1); tx = null; }, { passive: true });
+    }
+    let idx = start || 0;
+    const labels = ["Front", "Back", "Side", "Detail"];
+    function render() {
+      const img = lb.querySelector(".kfl-img"); img.src = fit.photos[idx]; img.alt = fit.product + " — " + fit.author;
+      lb.querySelector(".kfl-author").innerHTML = fit.author + (fit.verified ? ' <span class="rv-verified">✓ Verified</span>' : "");
+      lb.querySelector(".kfl-product").textContent = fit.product + (fit.size ? " · " + fit.size : "") + " · " + (idx + 1) + " of " + fit.photos.length;
+      lb.querySelector(".kfl-dots").innerHTML = fit.photos.map((_, i) => `<i class="${i === idx ? "on" : ""}"></i>`).join("");
+      lb.classList.toggle("single", fit.photos.length < 2);
+    }
+    function step(d) { idx = (idx + d + fit.photos.length) % fit.photos.length; render(); }
+    function closeFit() { lb.classList.remove("open"); doc.body.style.overflow = ""; }
+    render(); lb.classList.add("open"); doc.body.style.overflow = "hidden";
+    gaEvent("photo_wall_open", { author: fit.author, product: fit.product });
+  }
+
   /* Restock notify strips are rendered per product card — delegate one listener */
   doc.addEventListener("submit", (e) => {
     const form = e.target.closest ? e.target.closest("[data-notify-card]") : null;

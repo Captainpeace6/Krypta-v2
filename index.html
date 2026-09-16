@@ -556,18 +556,19 @@
     var st = document.getElementById("hrStars"); if (st) st.textContent = starStr(avg);
     var at = document.getElementById("hrAggText"); if (at) at.textContent = count ? (avg.toFixed(1) + " / 5  ·  " + count + " reviews") : "Be the first";
 
-    /* Photo wall panel under the hero — every review photo, verified buyers first */
+    /* Photo wall panel under the hero — one tile per fit, verified buyers first */
     (function () {
       var pw = document.getElementById("homePhotoWallTrack"); if (!pw) return;
-      var shots = [];
-      all.forEach(function (r) { (r.photos || []).forEach(function (src) { shots.push({ src: src, author: r.author, product: r.product, verified: r.verified, size: r.size }); }); });
-      shots.sort(function (a, b) { return (b.verified ? 1 : 0) - (a.verified ? 1 : 0); });
-      var pc = document.getElementById("homePhotoWallCount"); if (pc) pc.textContent = shots.length + " photos · " + all.filter(function (r) { return (r.photos || []).length; }).length + " reviews";
-      pw.innerHTML = shots.map(function (sh) {
-        return '<figure class="hpw-item"><img src="' + esc(sh.src) + '" alt="' + esc(sh.product) + ' worn by ' + esc(sh.author) + '" data-review-photo loading="lazy">'
-          + '<figcaption><span class="hpw-author">' + esc(sh.author) + (sh.verified ? ' <span class="hr-verified">✓</span>' : '') + '</span><span class="hpw-product">' + esc(sh.product) + '</span></figcaption></figure>';
-      }).join("");
+      var n = window.kRenderPhotoWall ? window.kRenderPhotoWall(pw, all, { badgeClass: "hr-verified" }) : 0;
+      var photos = all.reduce(function (s, r) { return s + (r.photos || []).length; }, 0);
+      var pc = document.getElementById("homePhotoWallCount"); if (pc) pc.textContent = n + " fits · " + photos + " photos · tap a fit to see every angle";
     })();
+
+    document.addEventListener("click", function (e) {
+      var ph = e.target.closest(".hr-card-photos[data-fit-idx]"); if (!ph) return;
+      var r = all[Number(ph.getAttribute("data-fit-idx"))]; if (!r || !window.kOpenFit) return;
+      e.preventDefault(); window.kOpenFit(r);
+    }, true);
 
     var track = document.getElementById("homeReviewTrack");
     var dotsWrap = document.getElementById("homeReviewDots");
@@ -575,9 +576,9 @@
 
     track.innerHTML = all.map(function (r) {
       var photo = (r.photos && r.photos.length)
-        ? '<div class="hr-card-photos' + (r.photos.length > 1 ? ' hr-multi' : '') + '">'
-          + r.photos.slice(0, 3).map(function (src, i) { return '<img src="' + esc(src) + '" alt="Customer photo ' + (i + 1) + ' — ' + esc(r.author||"") + '" data-review-photo loading="lazy">'; }).join("")
-          + '<span class="hr-photo-hint">⤢ tap to expand</span></div>'
+        ? '<div class="hr-card-photos" data-fit-idx="' + all.indexOf(r) + '"><img src="' + esc(r.photos[0]) + '" alt="Customer photo — ' + esc(r.author||"") + '" loading="lazy">'
+          + (r.photos.length > 1 ? '<span class="kpw-stack">+' + (r.photos.length - 1) + '</span>' : '')
+          + '<span class="hr-photo-hint">⤢ ' + (r.photos.length > 1 ? 'tap for all angles' : 'tap to expand') + '</span></div>'
         : '';
       var badge = r.verified ? '<span class="hr-verified">✓ Verified</span>' : '';
       return '<article class="hr-card">'
