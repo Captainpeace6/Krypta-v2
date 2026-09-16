@@ -434,3 +434,40 @@ try { require('child_process').execFileSync(process.execPath, [path.join(__dirna
   }
   console.log(`✓ ItemList schema injected into ${done} collection pages`);
 })();
+
+/* ── Collection copy blocks (collection-copy.js) ──
+   Injects <section class="collection-seo"> + FAQPage JSON-LD before </main>
+   on each collection page, replacing any prior injected block. */
+(function () {
+  const COPY = require(path.join(__dirname, 'collection-copy.js'));
+  const escT = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  let done = 0;
+  for (const file of Object.keys(COPY)) {
+    const fp = path.join(__dirname, file); if (!fs.existsSync(fp)) continue;
+    const c = COPY[file];
+    const faqHtml = c.faq.map(([q, a]) => `<details><summary>${escT(q)}</summary><p>${escT(a)}</p></details>`).join('\n        ');
+    const ld = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: c.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) };
+    const block = `<!--SEO:collection-copy-->
+  <section class="collection-seo section-shell">
+    <div class="collection-seo-grid">
+      <div class="collection-seo-copy">
+        <div class="eyebrow">${escT(c.eyebrow)}</div>
+        <h2>${escT(c.h2)}</h2>
+        ${c.paras.map((p) => `<p>${escT(p)}</p>`).join('\n        ')}
+      </div>
+      <div class="collection-seo-faq">
+        <h3>Questions we get</h3>
+        ${faqHtml}
+      </div>
+    </div>
+  </section>
+  <script type="application/ld+json">${JSON.stringify(ld)}</script>
+<!--/SEO:collection-copy-->
+`;
+    let html = fs.readFileSync(fp, 'utf8');
+    html = html.replace(/<!--SEO:collection-copy-->[\s\S]*?<!--\/SEO:collection-copy-->\n?/, '');
+    html = html.replace(/<\/main>/, () => block + '</main>');
+    fs.writeFileSync(fp, html); done++;
+  }
+  console.log(`✓ collection copy + FAQ schema injected into ${done} pages`);
+})();
