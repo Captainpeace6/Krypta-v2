@@ -382,7 +382,7 @@ const REVIEWS = {
     { author: "Vishwaksena", date: "Sep 2026", rating: 5, size: "M", body: "Late-night fit check. The sand wash looks even better under street light — the rips read heavy without falling apart, and the stack sits right on the shoe. Paired with the Angel of Death tee, it's the whole Drop 001 mood in one look.", photos: ["imgs/pants/mens-pant-1-onbody-1.webp", "imgs/pants/mens-pant-1-onbody-2.webp"] },
   ],
   11: [
-    { author: "Cheekz", date: "Sep 2026", rating: 5, size: "M", body: "These pants are fucking insane. 🔥 The fit is perfect, the design is unique, and the whole piece has an amazing gothic streetwear aesthetic. You don’t come across pants like these every day. Definitely worth it.", photos: ["imgs/pants/mens-pant-2-cheekz-1.webp", "imgs/pants/mens-pant-2-cheekz-2.webp", "imgs/pants/mens-pant-2-cheekz-3.webp"] },
+    { author: "Cheekz", date: "Sep 2026", rating: 5, size: "M", body: "These pants are f***ing insane. 🔥 The fit is perfect, the design is unique, and the whole piece has an amazing gothic streetwear aesthetic. You don’t come across pants like these every day. Definitely worth it.", photos: ["imgs/pants/mens-pant-2-cheekz-1.webp", "imgs/pants/mens-pant-2-cheekz-2.webp", "imgs/pants/mens-pant-2-cheekz-3.webp"] },
     { author: "Vishwaksena", date: "Sep 2026", rating: 5, size: "M", body: "This is the piece I reach for first. The red embroidery runs the whole leg, the studs on the hem catch light when you walk, and the wide-leg stacks exactly how it should over sneakers. Worn on the street, in the car, everywhere — it holds up.", photos: ["imgs/pants/mens-pant-2-onbody-1.webp", "imgs/pants/mens-pant-2-onbody-3.webp", "imgs/pants/mens-pant-2-onbody-2.webp"] },
   ],
   14: [
