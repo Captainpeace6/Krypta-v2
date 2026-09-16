@@ -6062,3 +6062,30 @@ details.faq-item[open] summary { color: #f0ede8; }
 .kfl-product { font-size: 0.78rem; color: rgba(240,237,232,0.6); margin-top: 3px; }
 .kfl-dots { display: flex; gap: 6px; } .kfl-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(240,237,232,0.35); } .kfl-dots i.on { background: var(--gold, #d2ae5b); }
 @media (max-width: 640px) { .kfl-arr { width: 38px; height: 38px; } .kfl-prev { left: 8px; } .kfl-next { right: 8px; } }
+
+/* ── Mobile menu: stronger, brighter, easier to read ── */
+.mobile-menu { background: rgba(4,4,4,0.98); }
+.mobile-menu a { color: #f3efe5; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.2em; }
+.mm-acc-head { color: #f3efe5; font-weight: 700; font-size: 0.86rem; letter-spacing: 0.22em; padding: 15px 2px; border-bottom: 1px solid rgba(210,174,91,0.14); }
+.mm-acc-icon::before, .mm-acc-icon::after { background: var(--gold, #d2ae5b); }
+.mm-acc-icon::before { height: 2px; }
+.mm-acc-icon::after { width: 2px; height: 13px; }
+.mm-acc-body a { color: #f3efe5; font-weight: 600; font-size: 0.74rem; padding: 12px 2px 12px 18px; }
+.mm-acc-body a::before { content: "—"; color: var(--gold, #d2ae5b); margin-right: 8px; }
+.mm-nav-wide a { color: #f3efe5; font-weight: 700; font-size: 0.76rem; padding: 13px 0; border-bottom: 1px solid rgba(210,174,91,0.16); }
+.mm-nav-wide a::after { opacity: 0.9; color: var(--gold, #d2ae5b); }
+.mm-nav-section-label { color: rgba(210,174,91,0.85); font-size: 0.56rem; font-weight: 700; }
+.mm-tile-name, .mm-tile-label { color: #f3efe5; font-weight: 700; }
+
+/* ── Mobile: carousel + photo-wall arrows must be obvious ── */
+@media (max-width: 640px) {
+  .hr-arrow { width: 44px; height: 44px; font-size: 26px; background: rgba(6,6,6,0.92); border-color: rgba(210,174,91,0.85); color: var(--gold, #d2ae5b); box-shadow: 0 0 0 1px rgba(0,0,0,0.6), 0 4px 14px rgba(0,0,0,0.6); }
+  .hr-prev { left: 6px; } .hr-next { right: 6px; }
+  .rv-pw-arrow { display: flex; width: 40px; height: 40px; background: rgba(6,6,6,0.92); border-color: rgba(210,174,91,0.85); box-shadow: 0 4px 14px rgba(0,0,0,0.6); }
+  .rv-pw-prev { left: 4px; } .rv-pw-next { right: 4px; }
+  .rv-photowall { padding: 0 8px; }
+  .hpw-track { padding-left: 16px; }
+}
+/* "more →" hint under horizontal tracks on touch devices */
+.k-swipe-hint { display: none; font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(210,174,91,0.75); text-align: center; margin: 6px 0 0; }
+@media (hover: none) and (pointer: coarse) { .k-swipe-hint { display: block; } }
