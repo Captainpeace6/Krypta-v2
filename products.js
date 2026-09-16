@@ -401,6 +401,29 @@ const REVIEWS = {
 };
 window.REVIEWS = REVIEWS;
 
+/* Approved customer reviews submitted through the site are merged in from the
+   backend (reviews-public). Resolves with the merged map; never rejects, and
+   gives up after 2.5s so pages still render on a slow connection. */
+let __dynRevs = null;
+window.kLoadReviews = function () {
+  if (__dynRevs) return __dynRevs;
+  __dynRevs = new Promise((resolve) => {
+    const done = () => resolve(window.REVIEWS);
+    const t = setTimeout(done, 2500);
+    fetch("https://kryptaa-backend.netlify.app/.netlify/functions/reviews-public")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d && d.reviews) Object.keys(d.reviews).forEach((pid) => {
+          const list = (REVIEWS[pid] = REVIEWS[pid] || []);
+          d.reviews[pid].forEach((r) => { if (!list.some((x) => x.key === r.key)) list.unshift(r); });
+        });
+      })
+      .catch(() => {})
+      .finally(() => { clearTimeout(t); done(); });
+  });
+  return __dynRevs;
+};
+
 /* Card rating line: "★★★★★ 5.0 (2)" — only rendered when the product has reviews. */
 function productRatingHtml(id) {
   const revs = REVIEWS[id] || [];

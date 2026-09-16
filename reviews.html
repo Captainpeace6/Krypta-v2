@@ -199,7 +199,8 @@
   function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
   function starStr(n){ n = Math.max(0, Math.min(5, Math.round(n||0))); return "★★★★★".slice(0, n) + "☆☆☆☆☆".slice(0, 5 - n); }
 
-  ready(function () {
+  ready(function () { (window.kLoadReviews ? window.kLoadReviews() : Promise.resolve()).then(build); });
+  function build() {
     var R = window.REVIEWS || {};
     var P = window.PRODUCTS || [];
     function pname(id){ var p = P.find(function(x){ return String(x.id) === String(id); }); return p ? p.name : ""; }

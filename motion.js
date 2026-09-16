@@ -2098,8 +2098,8 @@
       });
     })();
 
-    /* ── Customer reviews ── */
-    (function () {
+    /* ── Customer reviews (static map + approved submissions from the backend) ── */
+    (window.kLoadReviews ? window.kLoadReviews() : Promise.resolve()).then(function () {
       var revSection = doc.getElementById("reviewsSection");
       var summaryEl = doc.getElementById("reviewsSummary");
       var gridEl = doc.getElementById("reviewsGrid");
@@ -2179,7 +2179,7 @@
         doc.getElementById("rvSent").style.display = "none";
         doc.getElementById("rvModalOverlay")?.classList.add("open");
       });
-    })();
+    });
 
     /* ── "You might also like" — same-category products ── */
     (function () {

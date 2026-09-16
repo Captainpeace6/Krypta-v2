@@ -718,6 +718,7 @@
     <div class="od-main">
       <div class="view-intro"><div class="view-intro-title">Customer Intelligence</div><div class="view-intro-sub">Derived from order history · updates live</div></div>
       <div class="cust-snapshot" id="custPageSnapshot"></div>
+      <div class="dash-section"><div class="dash-section-title">Customer Reviews — Moderation</div><div id="reviewModeration"><div class="od-empty" style="padding:16px 0;">Loading…</div></div></div>
       <div class="dash-cols">
         <div class="dash-section" style="margin-bottom:0;"><div class="dash-section-title">Top Customers</div><div id="custTopList"><div class="od-empty" style="padding:16px 0;">Loading…</div></div></div>
         <div class="dash-section" style="margin-bottom:0;"><div class="dash-section-title">Top Locations</div><div id="custLocations"><div class="od-empty" style="padding:16px 0;">Loading…</div></div></div>
@@ -1674,7 +1675,43 @@
   }
 
   /* ── Customers page (Phase 9.2) ── */
+  /* Review moderation: submissions from the site form land here as "pending".
+     Approve (choosing which product page it belongs to) → live on the site
+     within ~5 min via reviews-public. Photos can be dropped individually. */
+  function renderReviewModeration(){
+    var el=document.getElementById('reviewModeration'); if(!el) return;
+    var key=savedKey(); if(!key){ el.innerHTML='<div class="od-empty">Not connected</div>'; return; }
+    var B='https://kryptaa-backend.netlify.app/.netlify/functions/';
+    fetch(B+'reviews-admin',{headers:{'X-Admin-Key':key}}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+      if(!d||!d.reviews){ el.innerHTML='<div class="od-empty">Unavailable</div>'; return; }
+      var CAT=(window.PRODUCTS||[]).filter(function(p){return true;});
+      var list=d.reviews; if(!list.length){ el.innerHTML='<div class="od-empty">No submissions yet</div>'; return; }
+      var esc=function(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
+      el.innerHTML=list.map(function(r){
+        var opts=CAT.map(function(p){return '<option value="'+p.id+'"'+(String(r.productId)===String(p.id)?' selected':'')+'>'+esc(p.name)+'</option>';}).join('');
+        var photos=(r.photos||[]).map(function(src,i){return '<label style="display:inline-block;margin:6px 8px 0 0;text-align:center;font-size:10px"><img src="'+src+'" style="width:64px;height:96px;object-fit:cover;display:block;border:1px solid rgba(210,174,91,.3)"><input type="checkbox" data-keep="'+i+'" checked> keep</label>';}).join('');
+        var badge={pending:'#d2ae5b',approved:'#7bd88f',rejected:'#c66'}[r.status]||'#aaa';
+        return '<div class="rv-mod" data-key="'+esc(r.key)+'" style="border:1px solid rgba(210,174,91,.18);padding:12px 14px;margin-bottom:10px">'
+          +'<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center"><div><strong>'+esc(r.name)+'</strong> · '+'★'.repeat(r.rating||0)+' · '+esc(r.size||'')+' <span class="wait">· '+esc(String(r.date).slice(0,10))+'</span></div><span style="font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:'+badge+'">'+r.status+'</span></div>'
+          +'<div style="margin:8px 0;color:rgba(240,237,232,.85);white-space:pre-wrap">'+esc(r.review)+'</div>'
+          +'<div class="wait" style="font-size:11px">Submitted for: '+esc(r.product)+'</div>'
+          +(photos?'<div>'+photos+'</div>':'')
+          +'<div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap"><label style="font-size:11px" class="wait">Publish under</label><select data-pid style="background:#111;color:#f0ede8;border:1px solid rgba(210,174,91,.35);padding:6px">'+opts+'</select>'
+          +'<button class="stock-save-btn" data-act="approve" style="padding:6px 12px;font-size:10px">'+(r.status==='approved'?'Re-approve':'Approve & publish')+'</button>'
+          +'<button class="stock-save-btn" data-act="reject" style="padding:6px 12px;font-size:10px;opacity:.7">Reject</button></div>'
+          +'</div>';
+      }).join('');
+      el.querySelectorAll('[data-act]').forEach(function(b){ b.addEventListener('click',function(){
+        var box=b.closest('.rv-mod'); var payload={key:box.getAttribute('data-key'),action:b.getAttribute('data-act'),productId:box.querySelector('[data-pid]').value,
+          photosKeep:[].slice.call(box.querySelectorAll('[data-keep]')).filter(function(c){return c.checked;}).map(function(c){return Number(c.getAttribute('data-keep'));})};
+        b.disabled=true; b.textContent='Saving…';
+        fetch(B+'reviews-admin',{method:'POST',headers:{'X-Admin-Key':key,'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(function(r){return r.json();}).then(function(){ renderReviewModeration(); }).catch(function(){ b.textContent='Failed'; b.disabled=false; });
+      }); });
+    }).catch(function(){ el.innerHTML='<div class="od-empty">Unavailable</div>'; });
+  }
+
   function renderCustomers(orders){
+    renderReviewModeration();
     if(!document.getElementById('custPageSnapshot')) return;
     var cust={}, totalRev=0;
     orders.forEach(function(o){ var t=parseFloat(o.total||0), c=o.created||0; totalRev+=t;
