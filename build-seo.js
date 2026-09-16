@@ -369,6 +369,7 @@ const SITEMAP_INFO = [
   ['lookbook.html', '0.6'],
   ['reviews.html', '0.5'],
   ['faq.html', '0.5'],
+  ['journal.html', '0.7'],
   ['size-guide.html', '0.5'],
   ['info.html', '0.4'],      // Shipping & Returns
   ['contact.html', '0.4'],
@@ -390,6 +391,7 @@ SITEMAP_COLLECTIONS.forEach(([loc, pr]) => { sm += sitemapNode(loc, pr, 'weekly'
 [...PRODUCTS].sort((a, b) => productSlug(a).localeCompare(productSlug(b)))
   .forEach((p) => { sm += sitemapNode(productUrl(p), '0.7', 'weekly'); });
 SITEMAP_INFO.forEach(([loc, pr]) => { sm += sitemapNode(loc, pr, 'monthly'); });
+try { require(path.join(__dirname, 'journal-posts.js')).forEach((j) => { sm += sitemapNode('journal/' + j.slug + '.html', '0.6', 'monthly'); }); } catch (e) {}
 sm += '</urlset>\n';
 fs.writeFileSync(path.join(__dirname, 'sitemap.xml'), sm);
 const smCount = (sm.match(/<url>/g) || []).length;
@@ -471,3 +473,6 @@ try { require('child_process').execFileSync(process.execPath, [path.join(__dirna
   }
   console.log(`✓ collection copy + FAQ schema injected into ${done} pages`);
 })();
+
+/* Journal (journal.html + journal/*.html) */
+try { require('child_process').execFileSync(process.execPath, [path.join(__dirname, 'build-journal.js')], { stdio: 'inherit' }); } catch (e) { console.error('build-journal failed:', e.message); }

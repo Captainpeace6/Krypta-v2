@@ -768,6 +768,7 @@
         <a href="anime.html" data-nav="anime.html">Anime Denim</a>
         <a href="lookbook.html" data-nav="lookbook.html">Lookbook</a>
         <a href="reviews.html" data-nav="reviews.html">Reviews</a>
+        <a href="journal.html" data-nav="journal.html">Journal</a>
         <a href="wishlist.html" data-nav="wishlist.html">Wishlist</a>
         <a href="checkout.html" data-nav="checkout.html">Bag &amp; Checkout</a>
         <a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>
