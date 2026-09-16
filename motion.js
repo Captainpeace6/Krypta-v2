@@ -60,35 +60,38 @@
     return fits.length;
   };
   window.kOpenFit = function (fit) { openFitLightbox(fit, 0); };
+  /* Lightbox state lives here (not in a per-open closure) so the arrow /
+     key / swipe handlers — bound once — always act on the fit currently open. */
+  const kfl = { fit: null, idx: 0, el: null };
+  function kflRender() {
+    const lb = kfl.el, fit = kfl.fit; if (!lb || !fit) return;
+    const img = lb.querySelector(".kfl-img"); img.src = fit.photos[kfl.idx]; img.alt = fit.product + " — " + fit.author;
+    lb.querySelector(".kfl-author").innerHTML = fit.author + (fit.verified ? ' <span class="rv-verified">✓ Verified</span>' : "");
+    lb.querySelector(".kfl-product").textContent = fit.product + (fit.size ? " · " + fit.size : "") + " · " + (kfl.idx + 1) + " of " + fit.photos.length;
+    lb.querySelector(".kfl-dots").innerHTML = fit.photos.map((_, i) => `<i class="${i === kfl.idx ? "on" : ""}"></i>`).join("");
+    lb.classList.toggle("single", fit.photos.length < 2);
+  }
+  function kflStep(d) { if (!kfl.fit) return; kfl.idx = (kfl.idx + d + kfl.fit.photos.length) % kfl.fit.photos.length; kflRender(); }
+  function kflClose() { if (!kfl.el) return; kfl.el.classList.remove("open"); doc.body.style.overflow = ""; }
   function openFitLightbox(fit, start) {
-    let lb = doc.getElementById("kFitLightbox");
-    if (!lb) {
-      lb = doc.createElement("div"); lb.id = "kFitLightbox"; lb.className = "kfl";
+    if (!kfl.el) {
+      const lb = doc.createElement("div"); lb.id = "kFitLightbox"; lb.className = "kfl";
       lb.innerHTML = `<button class="kfl-close" type="button" aria-label="Close">&times;</button>
         <button class="kfl-arr kfl-prev" type="button" aria-label="Previous">&#8249;</button>
         <div class="kfl-stage"><img class="kfl-img" alt=""></div>
         <button class="kfl-arr kfl-next" type="button" aria-label="Next">&#8250;</button>
         <div class="kfl-meta"><div><div class="kfl-author"></div><div class="kfl-product"></div></div><div class="kfl-dots"></div></div>`;
-      doc.body.appendChild(lb);
-      lb.addEventListener("click", (e) => { if (e.target === lb || e.target.classList.contains("kfl-close")) closeFit(); });
-      lb.querySelector(".kfl-prev").addEventListener("click", () => step(-1));
-      lb.querySelector(".kfl-next").addEventListener("click", () => step(1));
-      doc.addEventListener("keydown", (e) => { if (!lb.classList.contains("open")) return; if (e.key === "Escape") closeFit(); if (e.key === "ArrowLeft") step(-1); if (e.key === "ArrowRight") step(1); });
+      doc.body.appendChild(lb); kfl.el = lb;
+      lb.addEventListener("click", (e) => { if (e.target === lb || e.target.classList.contains("kfl-close")) kflClose(); });
+      lb.querySelector(".kfl-prev").addEventListener("click", (e) => { e.stopPropagation(); kflStep(-1); });
+      lb.querySelector(".kfl-next").addEventListener("click", (e) => { e.stopPropagation(); kflStep(1); });
+      lb.querySelector(".kfl-stage").addEventListener("click", (e) => { e.stopPropagation(); if (kfl.fit && kfl.fit.photos.length > 1) kflStep(1); });
+      doc.addEventListener("keydown", (e) => { if (!lb.classList.contains("open")) return; if (e.key === "Escape") kflClose(); if (e.key === "ArrowLeft") kflStep(-1); if (e.key === "ArrowRight") kflStep(1); });
       let tx = null; lb.addEventListener("touchstart", (e) => { tx = e.touches[0].clientX; }, { passive: true });
-      lb.addEventListener("touchend", (e) => { if (tx == null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1); tx = null; }, { passive: true });
+      lb.addEventListener("touchend", (e) => { if (tx == null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 40) kflStep(dx < 0 ? 1 : -1); tx = null; }, { passive: true });
     }
-    let idx = start || 0;
-    const labels = ["Front", "Back", "Side", "Detail"];
-    function render() {
-      const img = lb.querySelector(".kfl-img"); img.src = fit.photos[idx]; img.alt = fit.product + " — " + fit.author;
-      lb.querySelector(".kfl-author").innerHTML = fit.author + (fit.verified ? ' <span class="rv-verified">✓ Verified</span>' : "");
-      lb.querySelector(".kfl-product").textContent = fit.product + (fit.size ? " · " + fit.size : "") + " · " + (idx + 1) + " of " + fit.photos.length;
-      lb.querySelector(".kfl-dots").innerHTML = fit.photos.map((_, i) => `<i class="${i === idx ? "on" : ""}"></i>`).join("");
-      lb.classList.toggle("single", fit.photos.length < 2);
-    }
-    function step(d) { idx = (idx + d + fit.photos.length) % fit.photos.length; render(); }
-    function closeFit() { lb.classList.remove("open"); doc.body.style.overflow = ""; }
-    render(); lb.classList.add("open"); doc.body.style.overflow = "hidden";
+    kfl.fit = fit; kfl.idx = start || 0;
+    kflRender(); kfl.el.classList.add("open"); doc.body.style.overflow = "hidden";
     gaEvent("photo_wall_open", { author: fit.author, product: fit.product });
   }
 
