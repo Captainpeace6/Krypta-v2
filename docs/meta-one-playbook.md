@@ -10,9 +10,9 @@ Everything below is paste-ready. Every link carries UTMs so GA4 shows exactly wh
 **Category:** Clothing (Brand)
 **Bio:**
 ```
-Gothic luxury streetwear · Drop 001 live
+⚡ Defined by Power. Gothic streetwear.
 Wide-leg denim · 300GSM tees · track pants
-Free US shipping over $60 · Ships in 24h
+Free US shipping over $60 · Drop 001 live
 Real people, real fits ↓
 ```
 **Profile links (in this order):**
@@ -92,7 +92,7 @@ On-screen: *Real customer. Real fit.*
 Links: Red Gothic set (reel)
 
 **R2 — Red Gothic, 3-angle mirror cut (founder shots)**
-Caption: `Front. Side. Studded raw hem. One pair, every angle. Size for the waist — the leg does the rest. $67, ships in 24h.`
+Caption: `Front. Side. Studded raw hem. One pair, every angle. Size for the waist — the leg does the rest. $67, free US shipping.`
 On-screen: *Every angle.*
 Links: Red Gothic set (reel)
 
