@@ -5200,8 +5200,8 @@ details.faq-item[open] summary { color: #f0ede8; }
 .nav-caret { font-size: 0.7em; opacity: 0.65; transition: transform 0.28s ease; display: inline-block; }
 .nav-item.has-dropdown:hover .nav-caret { transform: rotate(180deg); }
 .nav-dropdown {
-  position: absolute; top: 100%; left: 50%;
-  transform: translateX(-50%) translateY(10px);
+  position: absolute; top: 100%; left: 0;
+  transform: translateY(10px);
   display: flex; flex-direction: column; min-width: 216px; padding: 6px 0 10px;
   background: linear-gradient(180deg, rgba(16,13,9,0.985), rgba(6,5,4,0.985));
   border: 1px solid rgba(210,174,91,0.38);
@@ -5214,7 +5214,7 @@ details.faq-item[open] summary { color: #f0ede8; }
 .nav-item.has-dropdown:hover .nav-dropdown,
 .nav-item.has-dropdown:focus-within .nav-dropdown {
   opacity: 1; visibility: visible; pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 /* Dropdown collection label */
 .nav-dd-label {
