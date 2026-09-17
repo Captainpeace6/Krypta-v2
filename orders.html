@@ -1074,7 +1074,10 @@
 
   function startPolling(key) {
     if (pollInterval) clearInterval(pollInterval);
+    // Every 5 min, and only while the tab is visible — polling every 60s around the clock burned
+    // through Netlify's monthly function credits (Sep 2026) and took the whole backend offline.
     pollInterval = setInterval(function() {
+      if (document.hidden) return;
       fetch(BACKEND, { headers: { 'X-Admin-Key': key } })
         .then(function(r) { if (!r.ok) return null; return r.json(); })
         .then(function(data) {
@@ -1084,7 +1087,7 @@
           renderStats(allOrders); renderOrders(allOrders); renderDashboard(allOrders);
         })
         .catch(function() {});
-    }, 60000);
+    }, 300000);
   }
 
   function getProductImage(name) {
