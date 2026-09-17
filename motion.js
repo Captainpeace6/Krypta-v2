@@ -717,6 +717,43 @@
     }
   }
 
+  /* PDP info accordion — shipping / returns / sizing without leaving the page.
+     Every figure here mirrors info.html; change both together. */
+  function pdpInfoAccordion(product) {
+    const isPre = /pre-?order/i.test(product.availability || "");
+    const row = (id, label, body, open) =>
+      `<div class="pdp-acc-item${open ? " open" : ""}">` +
+        `<button type="button" class="pdp-acc-head" aria-expanded="${open ? "true" : "false"}" aria-controls="pdpAcc-${id}">${label}<span class="pdp-acc-icon" aria-hidden="true"></span></button>` +
+        `<div class="pdp-acc-body" id="pdpAcc-${id}"${open ? "" : " hidden"}>${body}</div>` +
+      `</div>`;
+    const shipping =
+      `<ul>` +
+        `<li><strong>US:</strong> $9.99 flat · <strong>free over $60</strong> (applied automatically)</li>` +
+        `<li><strong>Delivery:</strong> ${isPre ? "made to order — allow 30+ days, then" : "3–7 days processing +"} 7–14 business days shipping (US) · 10–20 international</li>` +
+        `<li>Tracking number emailed when it ships (allow 1–2 days to update)</li>` +
+        `<li>International: customs/import duties are paid by the customer</li>` +
+      `</ul><a href="info.html#shipping" class="pdp-acc-link">Full shipping rates by region →</a>`;
+    const returns =
+      `<ul>` +
+        `<li><strong>7-day returns</strong> from delivery for a full refund — unworn, unwashed, tags on</li>` +
+        `<li>Email <a href="mailto:hello@kryptaa.com">hello@kryptaa.com</a> with your order number first; we send the return label</li>` +
+        `<li>Refund to your original payment within 5–7 business days of receipt</li>` +
+        `<li>Wrong size? Return for refund and reorder — we don't do direct swaps</li>` +
+        (isPre ? `<li>Pre-orders can be cancelled any time before dispatch</li>` : ``) +
+      `</ul><a href="info.html#returns" class="pdp-acc-link">Full returns policy →</a>`;
+    const sizing =
+      `<p>${product.category === "tees" ? "300GSM box cut — true to size for the oversized fit, size down one for closer to the body."
+          : /^(men|women|women_st|anime)$/.test(product.category) ? "Size for your waist, not the leg — the leg is cut to drape at your true waist size."
+          : "Compare the measurements chart against a piece you already own and love the fit of."}</p>` +
+      (product.sizeChart ? `<a href="#" class="pdp-acc-link" data-open-size-chart>Measurements chart (cm / in) →</a>` : ``) +
+      `<a href="#fitFinder" class="pdp-acc-link" data-open-fit-finder>Not sure? 3-question fit finder →</a>`;
+    return `<div class="pdp-acc" id="pdpAcc">` +
+      row("ship", "Shipping &amp; delivery", shipping, false) +
+      row("ret", "Returns &amp; refunds", returns, false) +
+      row("size", "Sizing &amp; fit", sizing, false) +
+    `</div>`;
+  }
+
   function navLinks() {
     const dropdown = (label, parentHref, items) =>
       `<div class="nav-item has-dropdown">` +
@@ -1782,6 +1819,7 @@
             </div>` : ``}
             `}
           </div>
+          ${pdpInfoAccordion(product)}
           <div class="pdp-trust-strip">
             <div class="pdp-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Secure Stripe Checkout</span></div>
             <div class="pdp-trust-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><span>Free Shipping Over $60</span></div>
@@ -1879,6 +1917,18 @@
        steps down one; "extra baggy" steps up one. Tall + baggy on bottoms
        steps up (inseam). Clamped to the sizes this product actually has. */
     (function () {
+      /* Info accordion */
+      doc.querySelectorAll("#pdpAcc .pdp-acc-head").forEach(function (h) {
+        h.addEventListener("click", function () {
+          var item = h.parentElement, body = item.querySelector(".pdp-acc-body"), open = !item.classList.contains("open");
+          item.classList.toggle("open", open); h.setAttribute("aria-expanded", open ? "true" : "false"); body.hidden = !open;
+          if (open && window.gtag) gtag("event", "pdp_info_open", { section: h.textContent.trim(), item_id: String(product.id) });
+        });
+      });
+      var scLink = doc.querySelector("#pdpAcc [data-open-size-chart]");
+      if (scLink) scLink.addEventListener("click", function (e) { e.preventDefault(); var b = doc.getElementById("inlineSizeChartBtn"); if (b) b.click(); });
+      var ffLink = doc.querySelector("#pdpAcc [data-open-fit-finder]");
+      if (ffLink) ffLink.addEventListener("click", function (e) { e.preventDefault(); var t = doc.getElementById("fitFinderToggle"); if (t) { if (t.getAttribute("aria-expanded") !== "true") t.click(); t.scrollIntoView({ behavior: "smooth", block: "center" }); } });
       const ff = doc.getElementById("fitFinder"); if (!ff) return;
       const toggle = doc.getElementById("fitFinderToggle");
       const bodyEl = doc.getElementById("fitFinderBody");
