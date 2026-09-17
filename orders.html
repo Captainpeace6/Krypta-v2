@@ -1571,11 +1571,18 @@
         seoScore=Math.min(100,seoScore);
         setCell('ceoSeo', seoScore>=80?'Excellent':(seoScore>=60?'Good':'Fair'));
       }
-      // Marketing health (real: analytics connected; ad platforms still pending)
-      var mktScore=null;
+      // Marketing health — every point is a verifiable signal, and 100 is reachable:
+      //   40 analytics connected · 15 ≥3 traffic channels · 10 Clarity · 20 social links driving sessions
+      //   (Organic Social channel or utm_medium=meta_one) · 15 product feed live (feed-check below)
+      var mktScore=null, mktMissing=[];
       if(ga){
-        mktScore=50; if(clarity) mktScore+=10;
-        if((ga.channels||[]).length>=3) mktScore+=10;
+        mktScore=40;
+        if((ga.channels||[]).length>=3) mktScore+=15; else mktMissing.push('3+ channels');
+        if(clarity) mktScore+=10; else mktMissing.push('Clarity');
+        var social=(ga.channels||[]).some(function(c){return /social/i.test(c.channel)&&c.sessions>0;})
+          || (ga.mediums||[]).some(function(m){return m.medium==='meta_one'&&m.sessions>0;});
+        if(social) mktScore+=20; else mktMissing.push('social traffic');
+        if(window.__kFeedLive) mktScore+=15; else mktMissing.push('product feed');
         mktScore=Math.min(100,mktScore);
         setCell('ceoMkt', mktScore>=80?'Excellent':(mktScore>=60?'Good':'Fair'));
       }
@@ -1594,9 +1601,11 @@
         '<div class="health-score-ring" style="background:conic-gradient(var(--gold) '+deg+'deg, var(--surface2) '+deg+'deg);">'
         + '<div style="width:74px;height:74px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;position:relative;"><span class="health-score-num">'+overall+'</span></div></div>'
         + '<div class="health-score-info"><div class="health-score-lbl">Overall Business Health</div><div class="health-score-title"><span class="health-dot '+band+'" style="display:inline-block;vertical-align:middle;margin-right:9px;"></span>'+overall+' / 100 · '+word+'</div>'
-        + '<div class="health-score-note">'+note+(mktScore!=null&&mktScore<70?' · ad platforms pending':'')+'</div></div>';
+        + '<div class="health-score-note">'+note+(mktMissing.length?' · Marketing missing: '+mktMissing.join(', '):'')+'</div></div>';
     });
   }
+  /* Is the Google Merchant feed live on the site? (checked once; feeds Marketing health) */
+  fetch('https://www.kryptaa.com/feed/google-merchant.xml',{method:'HEAD',cache:'no-store'}).then(function(r){ window.__kFeedLive=r.ok; }).catch(function(){ window.__kFeedLive=false; });
 
   function renderCommandCenter(orders){
     var d0=new Date(); var monthStart=(new Date(d0.getFullYear(),d0.getMonth(),1)).getTime()/1000;
@@ -1610,7 +1619,10 @@
     var emails=Object.keys(cust), uniqueC=emails.length, returning=emails.filter(function(e){return cust[e].count>1;}).length;
     var repeatRate=uniqueC?returning/uniqueC*100:0;
     var CAT=window.PRODUCTS||[]; var dead=CAT.filter(function(p){ return !(prodMap[kBase(p.name)]&&prodMap[kBase(p.name)].qty>0); });
-    var salesScore = !orders.length?20 : (lastMonthRev>0 ? (monthRev>=lastMonthRev*1.1?100:(monthRev>=lastMonthRev*0.9?75:45)) : 70);
+    // Sales: growth vs last month when there is one; in a first selling month, score on this month's order
+    // count against a 10-order target (50 + 5/order) so the number moves with real sales instead of sitting at 70.
+    var monthOrders=orders.filter(function(o){return (o.created||0)>=monthStart;}).length;
+    var salesScore = !orders.length?20 : (lastMonthRev>0 ? (monthRev>=lastMonthRev*1.1?100:(monthRev>=lastMonthRev*0.9?75:45)) : Math.min(100, 50+monthOrders*5));
     var custScore = uniqueC<3 ? 55 : (repeatRate>=30?100:(repeatRate>=15?80:(repeatRate>=5?62:45)));
     function paintScore(score, invNote){
       var band = score>=80?'excellent':(score>=55?'good':'attention');
