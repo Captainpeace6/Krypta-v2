@@ -364,11 +364,6 @@ body:not([data-page="home"]) .site-nav {
   gap: clamp(14px, 2.4vw, 40px);
   padding-right: clamp(10px, 3vw, 60px);
 }
-/* Shipping & Returns hidden from desktop nav — accessible via mobile menu */
-.nav-links a:nth-child(8) {
-  display: none;
-}
-
 .nav-links a,
 .mobile-menu a {
   position: relative;

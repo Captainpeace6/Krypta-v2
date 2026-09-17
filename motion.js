@@ -739,7 +739,9 @@
       ]) +
       `<a href="anime.html" data-nav="anime.html">Anime</a>` +
       `<a href="lookbook.html" data-nav="lookbook.html">Lookbook</a>` +
-      `<a href="reviews.html" data-nav="reviews.html">Reviews</a>`
+      `<a href="reviews.html" data-nav="reviews.html">Reviews</a>` +
+      `<a href="journal.html" data-nav="journal.html">Journal</a>` +
+      `<a href="info.html" data-nav="info.html">Shipping</a>`
     );
   }
 
@@ -769,9 +771,9 @@
         <a href="lookbook.html" data-nav="lookbook.html">Lookbook</a>
         <a href="reviews.html" data-nav="reviews.html">Reviews</a>
         <a href="journal.html" data-nav="journal.html">Journal</a>
+        <a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>
         <a href="wishlist.html" data-nav="wishlist.html">Wishlist</a>
         <a href="checkout.html" data-nav="checkout.html">Bag &amp; Checkout</a>
-        <a href="info.html" data-nav="info.html">Shipping &amp; Returns</a>
         <a href="track.html" data-nav="track.html">Track My Order</a>
       </div>
       <div class="mm-curr-row">
