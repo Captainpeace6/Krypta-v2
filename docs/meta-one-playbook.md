@@ -22,21 +22,19 @@ Real people, real fits ↓
 
 ---
 
-## 2. Link page (Meta-hosted link-in-bio)
+## 2. Link page (the "Links" sheet that opens from the bio)
 
-Title: **KRYPTAA**
-Subtitle: *Defined by Power. Driven by Aura.*
+This is the same sheet as the profile links — not a separate list. Keep it to 5 max; individual products go in reel/post links (§3), not here.
 
-| Label | URL |
-|---|---|
-| 🛒 Shop the drop | `https://www.kryptaa.com/?utm_source=instagram&utm_medium=meta_one&utm_campaign=linkpage` |
-| 🔥 Red Gothic Embroidery Denim — $67 | `https://www.kryptaa.com/products/red-gothic-embroidery-denim.html?utm_source=instagram&utm_medium=meta_one&utm_campaign=linkpage` |
-| 🧊 Ice Cargo Wide-Leg — $63 | `https://www.kryptaa.com/products/ice-cargo-wide-leg-denim.html?utm_source=instagram&utm_medium=meta_one&utm_campaign=linkpage` |
-| 🏃 Street Track Pant (4 colours) — $42 | `https://www.kryptaa.com/products/unisex-street-track-pant-red.html?utm_source=instagram&utm_medium=meta_one&utm_campaign=linkpage` |
-| 👕 300GSM Tees — $39 | `https://www.kryptaa.com/t-shirts.html?utm_source=instagram&utm_medium=meta_one&utm_campaign=linkpage` |
-| ⭐ Real people, real fits | `https://www.kryptaa.com/reviews.html?utm_source=instagram&utm_medium=meta_one&utm_campaign=linkpage` |
-| 📏 Find my size (fit finder) | `https://www.kryptaa.com/size-guide.html?utm_source=instagram&utm_medium=meta_one&utm_campaign=linkpage` |
-| ⛩️ Anime denim pre-order (30+ days) | `https://www.kryptaa.com/anime.html?utm_source=instagram&utm_medium=meta_one&utm_campaign=linkpage` |
+| # | Title | URL | Image |
+|---|---|---|---|
+| 1 | Shop KRYPTAA (primary) | `https://www.kryptaa.com/?utm_source=instagram&utm_medium=meta_one&utm_campaign=profile` | Red Gothic on-body ✓ |
+| 2 | Real fits · reviews | `https://www.kryptaa.com/reviews.html?utm_source=instagram&utm_medium=meta_one&utm_campaign=profile` | Cheekz ✓ |
+| 3 | Anime pre-order | `https://www.kryptaa.com/anime.html?utm_source=instagram&utm_medium=meta_one&utm_campaign=profile` | Death Note denim ✓ |
+| 4 | Find my size | `https://www.kryptaa.com/size-guide.html?utm_source=instagram&utm_medium=meta_one&utm_campaign=linkpage` | fit-finder screenshot |
+| 5 | 300GSM Tees · $39 | `https://www.kryptaa.com/t-shirts.html?utm_source=instagram&utm_medium=meta_one&utm_campaign=linkpage` | Angel of Death tee |
+
+1–3 live as of Sep 17 2026.
 
 ---
 
