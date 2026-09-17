@@ -172,19 +172,26 @@ const PRODUCTS = W.PRODUCTS || [];
 
 /* FAQPage schema — same Q/As the PDP renders in its FAQ accordion (motion.js).
    Google shows these as expandable rich results under the product listing. */
-function faqLd(product) {
-  const qa = [
-    ["What's your return policy?", "We accept returns within 7 days of delivery on unworn items with original tags attached. Email us with your order number to start the process. Items marked as final sale or pre-order are non-refundable."],
-    ["How long does shipping take?", "US: 5–7 business days. India: 10–15 business days. Rest of world: 10–18 business days. Tracking is sent automatically after your order is confirmed."],
-    ["How do I pick the right size?", product.fit || "KRYPTAA garments are cut oversized. For a structured silhouette go true to size; for a more dramatic drape size up. Use the Size Chart for exact measurements."],
-    ["Is this product in stock or pre-order?", `This piece is currently listed as: ${product.availability}. Pre-order items ship once production is complete — we'll email you with an update. In-stock items ship within 3 business days.`],
-    ["Do you ship to India?", "Yes — India is fully supported at checkout. Enter your full address and use +91 in the phone field. Duties and taxes may apply on delivery depending on your state."],
+/* Product FAQ — every figure mirrors info.html and the PDP accordion; change them together. */
+function faqLd(product) { return { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqQa(product).map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }; }
+function faqQa(product) {
+  const isPre = /pre-?order/i.test(product.availability || '');
+  const isTee = product.category === 'tees';
+  const isPant = /^(men|women|women_st|anime)$/.test(product.category);
+  return [
+    ["How much is shipping, and when is it free?", "US shipping is a flat $9.99 and free on orders over $60 — applied automatically at checkout, no code needed. International rates start at $12.99 (Canada/Mexico) and are shown by region on our Shipping & Returns page."],
+    ["How long does delivery take?", isPre
+      ? "This piece is made to order: allow 30+ days for production, then 7–14 business days shipping in the US (10–20 international). You're charged in full at checkout and can cancel any time before dispatch."
+      : "Orders take 3–7 business days to process, then 7–14 business days to ship within the US (10–20 international). A tracking number is emailed when the order ships; allow 1–2 days for it to update."],
+    ["What's your return policy?", "Returns are accepted within 7 days of delivery for a full refund — unworn, unwashed, with all tags attached. Email hello@kryptaa.com with your order number first; we send the return label. Refunds go to the original payment method within 5–7 business days of receipt."],
+    ["Can I exchange for a different size?", "We don't do direct swaps. Return the item for a refund under the 7-day policy and place a new order in the right size. Every product page has a 3-question fit finder to help pick the size first."],
+    ["How does " + product.name + " fit?", isTee
+      ? "It's a 300GSM heavyweight box cut: true to size gives the intended oversized fit; size down one for closer to the body. Don't size up — the drop shoulder falls too far."
+      : isPant
+      ? "Size for your waist, not the leg — the wide leg is cut to drape at your true waist size. Sizes " + (product.sizes || []).join(", ") + ". The measurements chart on this page lists waist, inseam and leg opening per size."
+      : "Compare the measurements chart on this page against a piece you already own and love the fit of. Sizes: " + (product.sizes || []).join(", ") + "."],
+    ["Is it in stock?", "This piece is listed as: " + (product.availability || "Limited Drop") + ". Live stock per size shows on the size selector; if a size is sold out you can join the back-in-stock list and we email you the moment it returns."],
   ];
-  return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: qa.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
-  };
 }
 const REVIEWS = W.REVIEWS || {};
 const getProductById = W.getProductById;
@@ -316,6 +323,12 @@ function productPage(product) {
       <div class="buy-panel">${buy}</div>
       ${TRUST_STRIP}
     </div>
+  </section>
+  <section class="section-shell pdp-static-details" id="pdpStaticDetails">
+    <h2>About the ${esc(product.name)}</h2>
+    <p>${esc(descFull)}${product.materials ? ' ' + esc(product.materials) + '.' : ''} Part of the KRYPTAA ${esc(product.collection || 'Drop 001')} collection — ${esc((product.tags || []).join(', '))}.${sizes.length ? ' Available in sizes ' + sizes.map(esc).join(', ') + '.' : ''} Priced at ${priceDisplay} with free US shipping over $60.</p>
+    <h2>Shipping, returns &amp; fit — ${esc(product.name)}</h2>
+    ${faqQa(product).map(([q, a]) => `<h3>${esc(q)}</h3><p>${esc(a)}</p>`).join('\n    ')}
   </section>
 </main>
 ${SITE_FOOTER}

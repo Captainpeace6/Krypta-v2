@@ -1,0 +1,25 @@
+# Pings IndexNow (Bing, Yandex, etc.) with every URL in the sitemap after each push,
+# once GitHub Pages has published the new build. Free, no secrets: the key is a public
+# file at the site root (IndexNow spec), and submissions are idempotent.
+name: IndexNow
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for GitHub Pages to publish
+        run: sleep 120
+      - name: Submit sitemap URLs to IndexNow
+        run: |
+          KEY=65707952d045e62fe3b081ed8722d2b4
+          URLS=$(curl -sf https://www.kryptaa.com/sitemap.xml | grep -o '<loc>[^<]*</loc>' | sed 's/<\/\?loc>//g')
+          [ -n "$URLS" ] || { echo "sitemap empty/unreachable"; exit 1; }
+          echo "$URLS" | python3 -c '
+          import sys,json
+          urls=[u.strip() for u in sys.stdin if u.strip()]
+          print(json.dumps({"host":"www.kryptaa.com","key":"'"$KEY"'","keyLocation":"https://www.kryptaa.com/'"$KEY"'.txt","urlList":urls}))' > body.json
+          echo "Submitting $(grep -o 'https' body.json | wc -l) URLs"
+          curl -s -o /dev/null -w "IndexNow HTTP %{http_code}\n" -X POST "https://api.indexnow.org/indexnow" -H "Content-Type: application/json; charset=utf-8" --data @body.json
