@@ -870,7 +870,7 @@
         </div>
       </div>
       <div class="health-grid">
-        <div class="health-card"><div class="health-card-lbl">Sitemap Status</div><div class="health-status wait" id="gscSitemapStatus"><span class="health-dot wait"></span>Waiting</div><div class="health-note" id="gscSitemapNote">Connect Search Console</div></div>
+        <div class="health-card"><div class="health-card-lbl">Sitemap Status</div><div class="health-status wait" id="gscSitemapStatus"><span class="health-dot wait"></span>Waiting</div><div class="health-note" id="gscSitemapNote">Connect Search Console</div><button class="od-btn-ghost" id="gscResubmitBtn" type="button" style="margin-top:8px;font-size:.6rem">↻ Resubmit sitemap</button></div>
         <div class="health-card"><div class="health-card-lbl">Index Coverage</div><div class="health-status wait" id="gscIndexStatus"><span class="health-dot wait"></span>Waiting</div><div class="health-note" id="gscIndexNote">Submitted vs indexed URLs</div></div>
         <div class="health-card"><div class="health-card-lbl">Best Landing Page</div><div class="health-status wait" id="gscBestLpStatus"><span class="health-dot wait"></span>Waiting</div><div class="health-note" id="gscBestLpNote">Connect Search Console</div></div>
         <div class="health-card"><div class="health-card-lbl">Core Web Vitals</div><div class="health-status wait"><span class="health-dot wait"></span>Re-test</div><div class="health-note">Run PageSpeed Insights</div></div>
@@ -2732,6 +2732,21 @@ function printLabel(order, orderNum) {
 
   /* Back-in-stock waitlist: shoppers who hit "Notify me" on sold-out pieces.
      Auto-emails on restock (update-stock 0→>0); this panel also lets you send now. */
+  /* SEO view: resubmit sitemap.xml to Search Console (pings Google to recrawl new pages) */
+  (function(){
+    var b=document.getElementById('gscResubmitBtn'); if(!b) return;
+    b.addEventListener('click',function(){
+      var key=sessionStorage.getItem(SESSION_KEY); if(!key) return;
+      b.disabled=true; b.textContent='Submitting…';
+      fetch('https://kryptaa-backend.netlify.app/.netlify/functions/gsc-sitemap-submit',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Key':key},body:'{}'})
+        .then(function(r){return r.json();}).then(function(res){
+          var n=document.getElementById('gscSitemapNote');
+          if(res.ok){ b.textContent='✓ Submitted'; if(n) n.textContent='Submitted '+new Date(res.lastSubmitted||Date.now()).toLocaleString()+' · '+res.submitted+' URLs · '+res.indexed+' indexed'+(res.errors?' · '+res.errors+' errors':''); }
+          else { b.textContent='Failed'; if(n) n.textContent=res.reason||('HTTP '+res.status); console.warn('sitemap submit',res); }
+          setTimeout(function(){ b.disabled=false; b.textContent='↻ Resubmit sitemap'; },4000);
+        }).catch(function(){ b.textContent='Failed'; b.disabled=false; });
+    });
+  })();
   function renderRestockWaitlist(){
     var el=document.getElementById('restockWaitlist'); if(!el) return;
     var key=savedKey(); if(!key){ el.innerHTML='<span class="wait">Not connected</span>'; return; }
