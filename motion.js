@@ -682,7 +682,7 @@
             "\n\n(Please attach your photo to this email.)";
           note.innerHTML =
             "Couldn't send just now — your review is saved on this device. " +
-            '<a href="mailto:kryptaa.official@gmail.com?subject=' +
+            '<a href="mailto:hello@kryptaa.com?subject=' +
             encodeURIComponent(subject) + "&body=" + encodeURIComponent(body) +
             '">Send it by email instead</a> and we\'ll post it for you.';
         });
