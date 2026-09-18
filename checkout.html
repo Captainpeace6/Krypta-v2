@@ -754,7 +754,7 @@ function goToStripe() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ cart: checkoutCart, total: cartTotal, coupon: appliedCoupon ? appliedCoupon.code : null })
   })
-  .then(function (r) { return r.json(); })
+  .then(function (r) { if (r.status === 503 || r.status === 502) throw new Error("offline"); return r.json(); })
   .then(function (data) {
     if (data.url) {
       window.location.replace(data.url);
@@ -763,8 +763,14 @@ function goToStripe() {
       if (btn) { btn.disabled = false; btn.innerHTML = "🔒 &nbsp; Pay Now — " + document.getElementById("coPayBtnTotal").textContent; }
     }
   })
-  .catch(function () {
-    alert("Network error. Please try again.");
+  .catch(function (e) {
+    /* Backend unreachable (host outage / usage cap) — give people a way to order instead of a dead button */
+    var offline = e && e.message === "offline";
+    var msg = offline
+      ? "Checkout is briefly offline while we move servers. DM @kryptaa__ on Instagram or email hello@kryptaa.com with what you'd like and we'll send a secure payment link within the hour. Your bag is saved."
+      : "Network error. Please try again.";
+    alert(msg);
+    if (window.gtag) gtag("event", "checkout_unavailable", { reason: offline ? "backend_503" : "network" });
     if (btn) { btn.disabled = false; btn.innerHTML = "🔒 &nbsp; Pay Now — " + document.getElementById("coPayBtnTotal").textContent; }
   });
 }
