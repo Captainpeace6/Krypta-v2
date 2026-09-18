@@ -28,7 +28,7 @@
   function restockRequest(email, productId, productName) {
     if (!email || !productId) return;
     try {
-      fetch("https://kryptaa-backend.netlify.app/.netlify/functions/restock-request", {
+      fetch(window.K_API + "restock-request", {
         method: "POST", headers: { "Content-Type": "application/json" }, keepalive: true,
         body: JSON.stringify({ email, id: String(productId), product: productName || "" }),
       }).catch(() => {});
@@ -633,7 +633,7 @@
 
       const files = Array.prototype.slice.call(doc.getElementById("rvImgInput")?.files || [], 0, 3);
       Promise.all(files.map(shrink))
-        .then((photos) => fetch("https://kryptaa-backend.netlify.app/.netlify/functions/submit-review", {
+        .then((photos) => fetch(window.K_API + "submit-review", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

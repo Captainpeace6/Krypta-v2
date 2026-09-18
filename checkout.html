@@ -749,7 +749,7 @@ function goToStripe() {
     }));
   } catch (e) {}
 
-  fetch("https://kryptaa-backend.netlify.app/.netlify/functions/create-checkout", {
+  fetch(window.K_API + "create-checkout", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ cart: checkoutCart, total: cartTotal, coupon: appliedCoupon ? appliedCoupon.code : null })

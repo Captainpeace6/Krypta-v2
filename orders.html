@@ -1130,7 +1130,7 @@
     var key=savedKey(); if(!key) return Promise.resolve(null);
     var now=Date.now();
     if(__repCache[path] && (now-__repCache[path].t)<300000) return __repCache[path].p;
-    var p=fetch('https://kryptaa-backend.netlify.app/.netlify/functions/'+path,{headers:{'X-Admin-Key':key}})
+    var p=fetch((window.K_MOVED.indexOf(path.split('?')[0])>=0?window.K_API:window.K_NETLIFY)+path,{headers:{'X-Admin-Key':key}})
       .then(function(r){return r.ok?r.json():null;}).catch(function(){return null;});
     __repCache[path]={t:now,p:p};
     return p;
@@ -1181,7 +1181,7 @@
   function fetchLowStockAlerts() {
     var key = savedKey();
     if (!key) return;
-    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/low-stock-alert', {
+    fetch(window.K_API + 'low-stock-alert', {
       headers: { 'X-Admin-Key': key }
     })
       .then(function(r) { return r.ok ? r.json() : null; })
@@ -1376,7 +1376,7 @@
       + card('Best Sellers', best.length, bestHtml)
       + card('Overstock','…','<div class="inv-alert-empty">Loading…</div>');
     // Low stock + out of stock from endpoint
-    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/low-stock-alert', { headers:{ 'X-Admin-Key': key } })
+    fetch(window.K_API + 'low-stock-alert', { headers:{ 'X-Admin-Key': key } })
       .then(function(r){ return r.ok ? r.json() : null; })
       .then(function(data){
         var alerts = (data && data.alerts) || [];
@@ -1386,7 +1386,7 @@
         var outRows = out.length ? out.slice(0,4).map(function(a){ return '<div class="inv-alert-row">'+escHtml(a.name)+' / '+escHtml(a.size)+' <span>sold out</span></div>'; }).join('') : '<div class="inv-alert-empty">None.</div>';
         grid.innerHTML = card('Running Low', low.length, lowRows) + card('Out of Stock', out.length, outRows) + card('Best Sellers', best.length, bestHtml) + card('Overstock','…','<div class="inv-alert-empty">Loading…</div>');
         // Overstock from get-stock + catalog
-        fetch('https://kryptaa-backend.netlify.app/.netlify/functions/get-stock')
+        fetch(window.K_API + 'get-stock')
           .then(function(r){ return r.ok ? r.json() : null; })
           .then(function(sd){
             var stock = (sd && sd.stock) || {}; var CAT = window.PRODUCTS || []; var over = [];
@@ -1531,7 +1531,7 @@
 
     /* Inventory alerts + inventory health (async) */
     renderInventoryAlerts(prodMap);
-    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/low-stock-alert', { headers:{ 'X-Admin-Key': savedKey() } })
+    fetch(window.K_API + 'low-stock-alert', { headers:{ 'X-Admin-Key': savedKey() } })
       .then(function(r){ return r.ok?r.json():null; }).then(function(data){
         var alerts=(data&&data.alerts)||[]; var out=alerts.filter(function(a){return a.qty===0;}).length; var low=alerts.filter(function(a){return a.qty>0;}).length;
         var st, dot, note; if(out>0){st='Needs Attention';dot='attention';note=out+' out of stock · '+low+' low';} else if(low>0){st='Good';dot='good';note=low+' running low';} else {st='Excellent';dot='excellent';note='All stocked';}
@@ -1550,7 +1550,7 @@
      Never fabricates: unconnected sources are simply left out of the score. */
   function enrichDashboardWithConnectors(salesScore, custScore, invScore, orderCount){
     var key=savedKey(); if(!key) return;
-    var B='https://kryptaa-backend.netlify.app/.netlify/functions/';
+    var B=function(n){return (window.K_MOVED.indexOf(n)>=0?window.K_API:window.K_NETLIFY)+n;};
     function getj(u){ return cachedReport(u); }
     function setCell(id,val){ var e=document.getElementById(id); if(e){ e.textContent=val; e.classList.remove('wait'); var c=e.closest('.exec-kpi'); if(c) c.classList.remove('is-wait'); } }
     Promise.all([getj('ga4-report?range=30'),getj('gsc-report?range=28'),getj('bing-report'),getj('clarity-report')]).then(function(res){
@@ -1638,17 +1638,16 @@
         + '<div class="health-score-note">Sales '+salesScore+' · Customer '+custScore+' · Inventory '+invNote+' · SEO &amp; Marketing pending connection</div></div>';
     }
     paintScore(Math.round((salesScore+custScore+80)/3), 'checking…');
-    var base = 'https://kryptaa-backend.netlify.app/.netlify/functions/';
     var pri = [];
     if (dead.length) pri.push({d:'act', t:'<b>'+dead.length+' products</b> have zero sales — promote or retire', tag:'Products'});
-    fetch(base+'low-stock-alert', { headers:{ 'X-Admin-Key': savedKey() } }).then(function(r){return r.ok?r.json():null;}).then(function(data){
+    fetch(window.K_API+'low-stock-alert', { headers:{ 'X-Admin-Key': savedKey() } }).then(function(r){return r.ok?r.json():null;}).then(function(data){
       var alerts=(data&&data.alerts)||[]; var out=alerts.filter(function(a){return a.qty===0;}).length; var low=alerts.filter(function(a){return a.qty>0;}).length;
       var invScore=100; invScore-=Math.min(40,out*8); invScore-=Math.min(20,low*3); invScore=Math.max(0,invScore);
       paintScore(Math.round((salesScore+custScore+invScore)/3), invScore+'');
       enrichDashboardWithConnectors(salesScore, custScore, invScore, orders.length);
       if (out>0) pri.push({d:'act', t:'<b>'+out+' products</b> out of stock — restock now', tag:'Inventory'});
       if (low>0) pri.push({d:'warn', t:'<b>'+low+' products</b> running low', tag:'Inventory'});
-      fetch(base+'get-stock').then(function(r){return r.ok?r.json():null;}).then(function(sd){
+      fetch(window.K_API+'get-stock').then(function(r){return r.ok?r.json():null;}).then(function(sd){
         var stock=(sd&&sd.stock)||{}; var over=0;
         (window.PRODUCTS||[]).forEach(function(p){ var s=stock[p.id]; if(!s) return; var tot=Object.keys(s).reduce(function(a,k){return a+(parseInt(s[k])||0);},0); var sold=(prodMap[kBase(p.name)]||{}).qty||0; if(tot>=25&&sold<=1) over++; });
         if (over>0) pri.push({d:'warn', t:'<b>'+over+' products</b> overstocked — plan a drop or markdown', tag:'Inventory'});
@@ -1696,8 +1695,8 @@
   function renderReviewModeration(){
     var el=document.getElementById('reviewModeration'); if(!el) return;
     var key=savedKey(); if(!key){ el.innerHTML='<div class="od-empty">Not connected</div>'; return; }
-    var B='https://kryptaa-backend.netlify.app/.netlify/functions/';
-    fetch(B+'reviews-admin',{headers:{'X-Admin-Key':key}}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    var B=function(n){return (window.K_MOVED.indexOf(n)>=0?window.K_API:window.K_NETLIFY)+n;};
+    fetch(B('reviews-admin'),{headers:{'X-Admin-Key':key}}).then(function(r){return r.ok?r.json():null;}).then(function(d){
       if(!d||!d.reviews){ el.innerHTML='<div class="od-empty">Unavailable</div>'; return; }
       var CAT=(window.PRODUCTS||[]).filter(function(p){return true;});
       var list=d.reviews; if(!list.length){ el.innerHTML='<div class="od-empty">No submissions yet</div>'; return; }
@@ -1720,7 +1719,7 @@
         var box=b.closest('.rv-mod'); var payload={key:box.getAttribute('data-key'),action:b.getAttribute('data-act'),productId:box.querySelector('[data-pid]').value,
           photosKeep:[].slice.call(box.querySelectorAll('[data-keep]')).filter(function(c){return c.checked;}).map(function(c){return Number(c.getAttribute('data-keep'));})};
         b.disabled=true; b.textContent='Saving…';
-        fetch(B+'reviews-admin',{method:'POST',headers:{'X-Admin-Key':key,'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(function(r){return r.json();}).then(function(){ renderReviewModeration(); }).catch(function(){ b.textContent='Failed'; b.disabled=false; });
+        fetch(B('reviews-admin'),{method:'POST',headers:{'X-Admin-Key':key,'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(function(r){return r.json();}).then(function(){ renderReviewModeration(); }).catch(function(){ b.textContent='Failed'; b.disabled=false; });
       }); });
     }).catch(function(){ el.innerHTML='<div class="od-empty">Unavailable</div>'; });
   }
@@ -1964,7 +1963,7 @@
   function renderConversion(){
     var key=savedKey(); if(!key) return;
     var st=document.getElementById('croStatus'); if(st) st.textContent='loading…';
-    var B='https://kryptaa-backend.netlify.app/.netlify/functions/';
+    var B=function(n){return (window.K_MOVED.indexOf(n)>=0?window.K_API:window.K_NETLIFY)+n;};
     function getj(u){ return cachedReport(u); }
     Promise.all([ getj('ga4-report?range=30'), getj('gsc-report?range=28'), getj('bing-report'), getj('clarity-report') ]).then(function(res){
       var ga=(res[0]&&res[0].configured)?res[0]:null;
@@ -2651,8 +2650,8 @@ function printLabel(order, orderNum) {
 /* ── Stock Management ── */
 (function () {
   var STOCK_KEY  = 'kryptaa_stock';
-  var STOCK_API  = 'https://kryptaa-backend.netlify.app/.netlify/functions/get-stock';
-  var UPDATE_API = 'https://kryptaa-backend.netlify.app/.netlify/functions/update-stock';
+  var STOCK_API  = window.K_API + 'get-stock';
+  var UPDATE_API = window.K_API + 'update-stock';
 
   function getAdminKey() {
     try { return sessionStorage.getItem('k_admin_key') || ''; } catch (e) { return ''; }
@@ -2765,7 +2764,7 @@ function printLabel(order, orderNum) {
   function renderRestockWaitlist(){
     var el=document.getElementById('restockWaitlist'); if(!el) return;
     var key=savedKey(); if(!key){ el.innerHTML='<span class="wait">Not connected</span>'; return; }
-    fetch('https://kryptaa-backend.netlify.app/.netlify/functions/restock-notify',{headers:{'X-Admin-Key':key}})
+    fetch(window.K_API + 'restock-notify',{headers:{'X-Admin-Key':key}})
       .then(function(r){return r.ok?r.json():null;})
       .then(function(d){
         if(!d||!d.counts){ el.innerHTML='<span class="wait">No data</span>'; return; }
@@ -2780,7 +2779,7 @@ function printLabel(order, orderNum) {
         el.querySelectorAll('[data-restock-id]').forEach(function(b){ b.addEventListener('click',function(){
           if(!confirm('Email everyone waiting for this product now?')) return;
           b.disabled=true; b.textContent='Sending…';
-          fetch('https://kryptaa-backend.netlify.app/.netlify/functions/restock-notify',{method:'POST',headers:{'X-Admin-Key':key,'Content-Type':'application/json'},body:JSON.stringify({id:b.getAttribute('data-restock-id')})})
+          fetch(window.K_API + 'restock-notify',{method:'POST',headers:{'X-Admin-Key':key,'Content-Type':'application/json'},body:JSON.stringify({id:b.getAttribute('data-restock-id')})})
             .then(function(r){return r.json();}).then(function(res){ b.textContent='Sent '+(res.sent||0); setTimeout(renderRestockWaitlist,1500); })
             .catch(function(){ b.textContent='Failed'; b.disabled=false; });
         }); });

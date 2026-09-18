@@ -1,3 +1,10 @@
+/* Sales API base. These endpoints moved from Netlify Functions (300 credits/month, exhausted
+   Sep 2026) to a Cloudflare Worker: create-checkout, stripe-webhook, get-stock, update-stock,
+   low-stock-alert, reviews-public, submit-review, reviews-admin, restock-request, restock-notify,
+   track-order. Admin reporting (GA4/GSC/Bing/Clarity, pulse, get-orders) stays on Netlify. */
+window.K_API = "https://kryptaa-api.kryptaa.workers.dev/";
+window.K_NETLIFY = "https://kryptaa-backend.netlify.app/.netlify/functions/";
+window.K_MOVED = ["create-checkout","stripe-webhook","get-stock","update-stock","low-stock-alert","reviews-public","submit-review","reviews-admin","restock-request","restock-notify","track-order"];
 const RAW_PRODUCTS = [
   { id: 1, name: "Medusa Serpent Oversized Tee", price: 39, sizes: ["S", "M", "L", "XL", "2XL"], img: "imgs/tees/tee-1.webp", hero: "imgs/tees/tee-1-homescreen.webp", gallery: [{src:"imgs/tees/tee-1.webp",label:"Back"},{src:"imgs/tees/tee-1-g2.webp",label:"Back (Male)"},{src:"imgs/tees/tee-1-g3.webp",label:"Front"},{src:"imgs/tees/tee-1-g4.webp",label:"Side"},{src:"imgs/tees/tee-1-g5.webp",label:"Artwork"},{src:"imgs/tees/tee-1-g6.webp",label:"Detail"},{src:"imgs/tees/tee-1-g7.webp",label:"Close Up"}], category: "tees", collection: "Heavyweight / Drop 001", tags: ["300GSM", "100% Cotton", "Oversized"], materials: "300GSM · 100% Ring-Spun Cotton · Drop-Shoulder Box Cut", availability: "Limited Drop", desc: "Black oversized heavyweight tee with Medusa serpent goddess back print and dark gothic throne graphic on the front. 300GSM 100% cotton — built heavy, cut wide." },
   { id: 3, name: "Angel of Death Heavyweight Tee", price: 39, sizes: ["S", "M", "L", "XL", "2XL"], img: "imgs/tees/tee-2.webp", gallery: [{src:"imgs/tees/tee-2.webp",label:"Front"},{src:"imgs/pants/mens-pant-1-onbody-1.webp",label:"On Body"},{src:"imgs/tees/tee-2-g2.webp",label:"Back"},{src:"imgs/tees/tee-2-g3.webp",label:"Side"},{src:"imgs/tees/tee-2-g4.webp",label:"45° Angle"},{src:"imgs/tees/tee-2-g5.webp",label:"Artwork"},{src:"imgs/tees/tee-2-g6.webp",label:"Detail"},{src:"imgs/tees/tee-2-g7.webp",label:"Close Up"}], category: "tees", collection: "Heavyweight / Drop 001", tags: ["300GSM", "100% Cotton", "Metal Graphic"], materials: "300GSM · 100% Ring-Spun Cotton · Drop-Shoulder Box Cut", availability: "Limited Drop", desc: "Black heavyweight tee with full-front Angel of Death graphic — winged skeleton rising over flame and skulls with blood-drip type. 300GSM 100% cotton, built to carry the print." },
@@ -410,7 +417,7 @@ window.kLoadReviews = function () {
   __dynRevs = new Promise((resolve) => {
     const done = () => resolve(window.REVIEWS);
     const t = setTimeout(done, 2500);
-    fetch("https://kryptaa-backend.netlify.app/.netlify/functions/reviews-public")
+    fetch(window.K_API + "reviews-public")
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (d && d.reviews) Object.keys(d.reviews).forEach((pid) => {
@@ -499,7 +506,7 @@ window.getPageCategory = getPageCategory;
 
 // Fetch live stock from backend (server-authoritative, overrides localStorage cache)
 (function () {
-  fetch('https://kryptaa-backend.netlify.app/.netlify/functions/get-stock')
+  fetch(window.K_API + 'get-stock')
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (data) {
       if (!data || !data.stock) return;
