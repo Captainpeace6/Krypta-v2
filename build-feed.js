@@ -24,6 +24,10 @@ const esc = (s) => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const abs = (p) => /^https?:/i.test(p) ? p : SITE + '/' + String(p).replace(/^\/+/, '');
 
+// Pre-orders: Google requires availability_date. Make time is 30+ days, so promise the
+// honest upper end — 45 days from the build date, refreshed on every deploy.
+const PREORDER_DATE = (() => { const d = new Date(Date.now() + 45 * 86400000); return d.toISOString().slice(0, 10) + 'T00:00:00-05:00'; })();
+
 function availability(p) {
   const a = String(p.availability || '').toLowerCase();
   if (/archive|sold out|unavailable/.test(a)) return 'out_of_stock';
@@ -77,7 +81,7 @@ for (const p of PRODUCTS) {
     <g:link>${esc(link)}?utm_source=google&amp;utm_medium=shopping&amp;utm_campaign=free_listings</g:link>
     <g:image_link>${esc(main)}</g:image_link>
 ${extra.map((u) => `    <g:additional_image_link>${esc(u)}</g:additional_image_link>`).join('\n')}
-    <g:availability>${availability(p)}</g:availability>
+    <g:availability>${availability(p)}</g:availability>${availability(p) === 'preorder' ? `\n    <g:availability_date>${PREORDER_DATE}</g:availability_date>` : ''}
     <g:price>${Number(p.price).toFixed(2)} USD</g:price>
     <g:brand>KRYPTAA</g:brand>
     <g:condition>new</g:condition>
