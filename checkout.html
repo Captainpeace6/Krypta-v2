@@ -434,6 +434,9 @@
   outline: none;
   transition: border-color 0.2s;
 }
+.co-email-wrap { margin: 0 0 14px; }
+.co-email-lbl { display: block; font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(243,239,229,0.55); margin: 0 0 6px; }
+.co-email-input { width: 100%; text-transform: none; letter-spacing: 0.04em; font-size: 0.8rem; box-sizing: border-box; }
 .co-coupon-input::placeholder { color: rgba(255,255,255,0.2); }
 .co-coupon-input:focus { border-color: rgba(210,174,91,0.5); }
 .co-coupon-btn {
@@ -586,6 +589,11 @@
             Made to Order
           </div>
         </div>
+        <div class="co-email-wrap">
+          <label class="co-email-lbl" for="coEmail">Email for your order confirmation</label>
+          <input class="co-coupon-input co-email-input" id="coEmail" type="email" placeholder="you@email.com" autocomplete="email" inputmode="email" maxlength="200">
+          <div class="co-coupon-msg" id="coEmailMsg"></div>
+        </div>
         <button class="co-submit" id="coSubmit" type="button" onclick="goToStripe()">
           🔒 &nbsp; Pay Now — <span id="coPayBtnTotal">$0.00</span>
         </button>
@@ -665,6 +673,7 @@ var appliedCoupon = null; /* null or { code, discountRate } */
 var VALID_COUPONS = { 'KRYPTAA12': 0.12, 'KRYPTAA10': 0.10 };
 
 function quickApplyPromo(code) {
+  (function(){ var e=document.getElementById('coEmail'); var v=null; try { v=localStorage.getItem('kryptaa_email'); } catch(x){} if(e&&v) e.value=v; })();
   var input  = document.getElementById('coCouponInput');
   var btn    = document.getElementById('coCouponBtn');
   var banner = document.getElementById('coPromoBanner');
@@ -749,10 +758,22 @@ function goToStripe() {
     }));
   } catch (e) {}
 
+  /* Email captured here (not only on Stripe's page) so the abandoned-cart recovery email can
+     reach people who leave before typing it on Stripe. Remembered for next time. */
+  var emailEl = document.getElementById("coEmail");
+  var email = ((emailEl && emailEl.value) || localStorage.getItem("kryptaa_email") || "").trim().toLowerCase();
+  if (emailEl && emailEl.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    var em = document.getElementById("coEmailMsg"); if (em) { em.textContent = "Please check that email address."; em.className = "co-coupon-msg error"; }
+    emailEl.focus();
+    if (btn) { btn.disabled = false; btn.innerHTML = "🔒 &nbsp; Pay Now — " + document.getElementById("coPayBtnTotal").textContent; }
+    return;
+  }
+  if (email) { try { localStorage.setItem("kryptaa_email", email); } catch (e) {} }
+
   fetch(window.K_API + "create-checkout", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ cart: checkoutCart, total: cartTotal, coupon: appliedCoupon ? appliedCoupon.code : null })
+    body: JSON.stringify({ cart: checkoutCart, total: cartTotal, coupon: appliedCoupon ? appliedCoupon.code : null, email: email || undefined })
   })
   .then(function (r) { if (r.status === 503 || r.status === 502) throw new Error("offline"); return r.json(); })
   .then(function (data) {
