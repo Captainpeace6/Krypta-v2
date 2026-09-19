@@ -2627,7 +2627,7 @@ function printLabel(order, orderNum) {
   var ref = (order.paymentId||order.id||'').slice(-8).toUpperCase();
   var w = window.open('','_blank','width=620,height=760');
   w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>KRYPTAA — Order #'+orderNum+'</title>'
-    +'<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">'
+    +'<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cormorant+Garamond:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cormorant+Garamond:wght@400;600&display=swap"></noscript>'
     +'<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:"Cormorant Garamond",Georgia,serif;color:#111;background:#fff;}'
     +'.wrap{max-width:560px;margin:0 auto;padding:36px 32px;border:2px solid #111;min-height:700px;display:flex;flex-direction:column;gap:20px;}'
     +'.brand{text-align:center;}.brand img{height:40px;width:auto;filter:brightness(0);}'

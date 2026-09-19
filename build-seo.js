@@ -14,6 +14,7 @@
    ───────────────────────────────────────────────────────────── */
 
 const fs = require('fs');
+try { require('child_process').execFileSync('/usr/bin/python3', [require('path').join(__dirname, 'build-images.py')], { stdio: 'inherit' }); } catch (e) { console.warn('build-images skipped:', e.message); }
 const path = require('path');
 
 /* Load products.js in a minimal browser shim */
@@ -56,7 +57,7 @@ function staticProductCard(product) {
       <article class="product-card reveal is-visible${isSoldOut ? ' is-sold-out' : ''}">
         <a class="product-card-link" href="${W.productUrl(product)}" aria-label="View ${product.name}">
           <div class="product-card-media">
-            <img src="${product.img}" alt="${product.name}" loading="lazy">
+            <img src="${product.img}"${srcsetFor(product.img)} sizes="(max-width: 768px) 50vw, 25vw" alt="${product.name}" loading="lazy" decoding="async">
             ${isNew ? `<div class="k-new-badge">New</div>` : ''}
             ${isSoldOut ? `<div class="sold-out-stamp">Archive</div>` : ''}
             <button class="k-wish-btn" type="button" data-wish="${product.id}" aria-label="Save to wishlist"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -173,6 +174,12 @@ const PRODUCTS = W.PRODUCTS || [];
 /* FAQPage schema — same Q/As the PDP renders in its FAQ accordion (motion.js).
    Google shows these as expandable rich results under the product listing. */
 /* Product FAQ — every figure mirrors info.html and the PDP accordion; change them together. */
+/* srcset for product photos (variants from build-images.py); sizechart/logo excluded */
+function srcsetFor(src) {
+  const m = String(src || '').match(/^(imgs\/(?:pants|tees|tops|anime)\/[^?#]+?)\.(webp|jpg|jpeg|png)$/i);
+  if (!m || /sizechart/i.test(src)) return '';
+  return ` srcset="${m[1]}-480.webp 480w, ${m[1]}-800.webp 800w, ${src} 1400w"`;
+}
 function faqLd(product) { return { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqQa(product).map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }; }
 function faqQa(product) {
   const isPre = /pre-?order/i.test(product.availability || '');
@@ -281,6 +288,7 @@ function productPage(product) {
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(metaDesc)}">
 <link rel="canonical" href="${cleanAbs}">
+<link rel="preload" as="image" href="${product.img}" fetchpriority="high">
 <meta property="og:site_name" content="KRYPTAA">
 <meta property="og:type" content="product">
 <meta property="og:title" content="${esc(title)}">
@@ -293,7 +301,7 @@ function productPage(product) {
 <meta name="twitter:image" content="${imgAbs}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap"></noscript>
 <link rel="stylesheet" href="global.css">
 <link rel="icon" type="image/webp" href="imgs/kryptaa-sigil.webp">
 <script type="application/ld+json" id="k-jsonld">${JSON.stringify(ld)}</script>
@@ -313,7 +321,7 @@ function productPage(product) {
 <main class="detail-page" id="productDetail">
   <div class="section-shell"><nav class="pdp-breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><a href="${catHref}">${esc(catTitle)}</a><span aria-hidden="true">/</span><span aria-current="page">${esc(product.name)}</span></nav></div>
   <section class="detail-hero section-shell">
-    <div class="detail-media pg-gallery reveal is-visible"><div class="pg-main-wrap"><img class="pg-main-img" id="pgMainImg" src="${product.img}" alt="${esc(product.name)} — KRYPTAA"></div></div>
+    <div class="detail-media pg-gallery reveal is-visible"><div class="pg-main-wrap"><img class="pg-main-img" id="pgMainImg" src="${product.img}"${srcsetFor(product.img)} sizes="(max-width: 768px) 100vw, 50vw" fetchpriority="high" alt="${esc(product.name)} — KRYPTAA"></div></div>
     <div class="detail-copy reveal is-visible">
       <a class="eyebrow" href="${catHref}">${esc(product.collection)}</a>
       <h1 class="detail-title">${esc(product.name)}</h1>
@@ -489,3 +497,22 @@ try { require('child_process').execFileSync(process.execPath, [path.join(__dirna
 
 /* Journal (journal.html + journal/*.html) */
 try { require('child_process').execFileSync(process.execPath, [path.join(__dirname, 'build-journal.js')], { stdio: 'inherit' }); } catch (e) { console.error('build-journal failed:', e.message); }
+
+/* ── Static <img> tags in hand-written pages: add srcset (variants from build-images.py) so the
+   browser never downloads a 1400px file for a 190px tile. Generated pages get this in their
+   templates; JS-rendered images get it at runtime via kUpgradeImages(). Idempotent. ── */
+(function () {
+  const pages = fs.readdirSync(__dirname).filter((f) => f.endsWith('.html') && !/^(orders|product-detail|inventory|logo-sting)\.html$/.test(f));
+  let n = 0;
+  for (const f of pages) {
+    const fp = path.join(__dirname, f); let html = fs.readFileSync(fp, 'utf8');
+    const out = html.replace(/<img\b([^>]*?)\ssrc="(imgs\/(?:pants|tees|tops|anime)\/[^"]+?)\.(webp|jpg|jpeg|png)"([^>]*)>/g, (m, a, base, ext, b) => {
+      if (/srcset=/.test(a + b) || /-(480|800)\.webp$/.test(base) || /sizechart/i.test(base)) return m;
+      const lazy = /loading="lazy"/.test(a + b);
+      const sizes = /sizes=/.test(a + b) ? '' : ` sizes="${lazy ? 'auto' : '(max-width: 768px) 100vw, 50vw'}"`;
+      return `<img${a} src="${base}.${ext}" srcset="${base}-480.webp 480w, ${base}-800.webp 800w, ${base}.${ext} 1400w"${sizes}${b}>`;
+    });
+    if (out !== html) { fs.writeFileSync(fp, out); n++; }
+  }
+  console.log(`✓ static srcset added in ${n} pages`);
+})();

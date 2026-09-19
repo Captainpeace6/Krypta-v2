@@ -4,6 +4,37 @@
    track-order. Admin reporting (GA4/GSC/Bing/Clarity, pulse, get-orders) stays on Netlify. */
 window.K_API = "https://kryptaa-api.kryptaa.workers.dev/";
 window.K_NETLIFY = "https://kryptaa-backend.netlify.app/.netlify/functions/";
+
+/* ── Responsive images (build-images.py writes <name>-480.webp / -800.webp variants) ──
+   Adds srcset/sizes to product photos after any render, and lazy-loads images below the
+   first screen. sizes="auto" lets the browser size from layout (Chromium); other browsers
+   ignore it and simply keep today's behaviour. Idempotent; safe to call often. */
+window.kUpgradeImages = function (root) {
+  var imgs = (root || document).querySelectorAll('img[src]:not([data-k-rs])');
+  var vh = window.innerHeight || 800;
+  for (var i = 0; i < imgs.length; i++) {
+    var img = imgs[i]; img.setAttribute('data-k-rs', '1');
+    var src = img.getAttribute('src') || '';
+    var m = src.match(/^((?:https:\/\/www\.kryptaa\.com\/)?\/?imgs\/(?:pants|tees|tops|anime)\/[^?#]+?)\.(webp|jpg|jpeg|png)$/i);
+    if (m && !/-(480|800)\.webp$/.test(src) && !/sizechart/i.test(src)) {
+      var base = m[1];
+      img.setAttribute('srcset', base + '-480.webp 480w, ' + base + '-800.webp 800w, ' + src + ' 1400w');
+      if (!img.getAttribute('sizes')) img.setAttribute('sizes', 'auto');
+    }
+    if (!img.hasAttribute('loading') && !img.hasAttribute('fetchpriority')) {
+      var r = img.getBoundingClientRect();
+      if (r.top > vh * 1.2 || r.width === 0) img.setAttribute('loading', 'lazy');
+    }
+    if (!img.hasAttribute('decoding')) img.setAttribute('decoding', 'async');
+  }
+};
+(function () {
+  /* No debounce: running inside the mutation microtask lets the browser pick the srcset
+     candidate before the original src fetch starts, so images aren't downloaded twice. */
+  var run = function () { try { window.kUpgradeImages(); } catch (e) {} };
+  if (document.readyState !== 'loading') run(); else document.addEventListener('DOMContentLoaded', run);
+  if (window.MutationObserver) new MutationObserver(run).observe(document.documentElement, { childList: true, subtree: true });
+})();
 window.K_MOVED = ["create-checkout","stripe-webhook","get-stock","update-stock","low-stock-alert","reviews-public","submit-review","reviews-admin","restock-request","restock-notify","track-order"];
 const RAW_PRODUCTS = [
   { id: 1, name: "Medusa Serpent Oversized Tee", price: 39, sizes: ["S", "M", "L", "XL", "2XL"], img: "imgs/tees/tee-1.webp", hero: "imgs/tees/tee-1-homescreen.webp", gallery: [{src:"imgs/tees/tee-1.webp",label:"Back"},{src:"imgs/tees/tee-1-g2.webp",label:"Back (Male)"},{src:"imgs/tees/tee-1-g3.webp",label:"Front"},{src:"imgs/tees/tee-1-g4.webp",label:"Side"},{src:"imgs/tees/tee-1-g5.webp",label:"Artwork"},{src:"imgs/tees/tee-1-g6.webp",label:"Detail"},{src:"imgs/tees/tee-1-g7.webp",label:"Close Up"}], category: "tees", collection: "Heavyweight / Drop 001", tags: ["300GSM", "100% Cotton", "Oversized"], materials: "300GSM · 100% Ring-Spun Cotton · Drop-Shoulder Box Cut", availability: "Limited Drop", desc: "Black oversized heavyweight tee with Medusa serpent goddess back print and dark gothic throne graphic on the front. 300GSM 100% cotton — built heavy, cut wide." },
