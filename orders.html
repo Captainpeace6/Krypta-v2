@@ -2567,18 +2567,19 @@
     err.style.display = 'none'; btn.disabled = true; btn.textContent = 'Checking…';
     /* Orders come from Netlify (Stripe). If Netlify is down (usage cap), validate the key against the
        Cloudflare Worker instead so the rest of the dashboard (stock, reviews, waitlist) still works. */
+    var viaWorker = function() {
+      return fetch(window.K_API + 'admin-summary', { headers: { 'X-Admin-Key': key } }).then(function(w) {
+        if (w.status === 401) return { unauthorized: true };
+        if (!w.ok) throw new Error('Server error');
+        return { orders: [], ordersUnavailable: true };
+      });
+    };
     fetch(BACKEND, { headers: { 'X-Admin-Key': key } })
       .then(function(r) {
         if (r.status === 401) return { unauthorized: true };
-        if (!r.ok) {
-          return fetch(window.K_API + 'admin-summary', { headers: { 'X-Admin-Key': key } }).then(function(w) {
-            if (w.status === 401) return { unauthorized: true };
-            if (!w.ok) throw new Error('Server error');
-            return { orders: [], ordersUnavailable: true };
-          });
-        }
+        if (!r.ok) return viaWorker();
         return r.json();
-      })
+      }, function() { return viaWorker(); }) /* network/CORS failure (Netlify 503 carries no CORS headers) */
       .then(function(data) {
         btn.disabled = false; btn.textContent = 'Enter →';
         if (!data) return;
