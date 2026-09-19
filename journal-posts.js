@@ -5,6 +5,151 @@
    an entry here and run `node build-seo.js`.
    ───────────────────────────────────────────────────────────── */
 module.exports = [
+
+  {
+    slug: 'what-is-gothic-streetwear',
+    title: 'What Is Gothic Streetwear? The Pieces, the Rules, the Brands That Get It Right',
+    desc: 'Gothic streetwear explained: where it comes from, what separates it from mall goth and from plain streetwear, the five pieces that build a wardrobe, and how KRYPTAA approaches it.',
+    date: '2026-09-19',
+    hero: 'imgs/pants/mens-pant-2-onbody-1.webp',
+    heroAlt: 'Red Gothic Embroidery Denim worn on the street — gothic streetwear',
+    readMins: 6,
+    body: `
+<p>Search "gothic streetwear" and you get two extremes: costume-shop goth with lace and buckles, or plain black hoodies with a skull slapped on. Neither is it. Gothic streetwear is streetwear proportions — wide legs, boxy tees, real weight in the fabric — carrying gothic art, hardware and mood. This is the version we make, and how to build it.</p>
+
+<h2>Where it comes from</h2>
+<p>Three lineages meet here. Street silhouettes from skate and 90s hip-hop: baggy, stacked, oversized. Gothic visual language: serpents, skulls, baroque ornament, old English type, blood-drip lettering. And the metal-tee tradition: heavy cotton, front-and-back graphics, worn until it fades. Put them together and you get denim with full-leg embroidery, 300GSM tees with throne-and-skeleton art, and hardware where a normal jean has a plastic button.</p>
+
+<h2>What it is not</h2>
+<ul>
+<li><strong>Not mall goth.</strong> No lace, no corsetry, no costume. The cut is street first.</li>
+<li><strong>Not a hoodie with a skull.</strong> If the graphic can be peeled off and the piece becomes basic, it was never gothic streetwear — the art has to live in the garment (embroidery, sublimation, print at scale).</li>
+<li><strong>Not all black.</strong> Black is the base, but ice washes, sand washes, copper acid bleeds and red embroidery are what make a fit read as intentional rather than uniform.</li>
+</ul>
+
+<h2>The five pieces that build a wardrobe</h2>
+<ol>
+<li><strong>One loud wide-leg.</strong> The anchor. Ours is the <a href="/products/red-gothic-embroidery-denim.html">Red Gothic Embroidery Denim</a> — black denim, full-leg red snake embroidery, studded raw hem. Wear it with everything else plain.</li>
+<li><strong>One washed wide-leg.</strong> For days the graphic goes on top: <a href="/products/ice-cargo-wide-leg-denim.html">Ice Cargo Wide-Leg</a> (ice wash, cargo pockets) or <a href="/products/vintage-distressed-wide-leg.html">Vintage Distressed</a> (sand wash, side rips).</li>
+<li><strong>Two heavyweight tees.</strong> 300GSM, box cut, front and back art — <a href="/products/angel-of-death-heavyweight-tee.html">Angel of Death</a> and <a href="/products/medusa-serpent-oversized-tee.html">Medusa Serpent</a>. Heavy enough to hold shape over a wide leg.</li>
+<li><strong>A track pant.</strong> The off-day piece that still reads as the look: the <a href="/products/unisex-street-track-pant-red.html">Unisex Street Track Pant</a>, wide leg, four colours, $42.</li>
+<li><strong>Silver hardware.</strong> Chain on the belt loop, rings, a pendant. Ties the metal in the denim to the body.</li>
+</ol>
+
+<h2>The rules that make it work</h2>
+<p><strong>One loud piece per fit.</strong> Embroidered denim with a plain tee, or a graphic tee with a washed jean. Two loud pieces compete. <strong>Size for the waist</strong> — the leg is cut to drape at your true size; sizing down makes the waist sit wrong and the whole thing pull. <strong>Weight over print.</strong> A 300GSM tee looks expensive with no graphic at all; a 160GSM tee looks cheap with the best graphic in the world.</p>
+
+<h2>How KRYPTAA approaches it</h2>
+<p>Every piece is a limited drop — Drop 001 is what's live now. Denim is mid-to-heavyweight cotton with the wash chosen per artwork, not one wash for the whole line. Tees are 300GSM ring-spun cotton, drop-shoulder box cut, S–2XL. The anime line is sublimated into the fibre rather than printed on top, so it fades with the denim instead of cracking. And we shoot on real customers — the <a href="/reviews.html">Real People, Real Fits</a> wall is people who bought, not models.</p>
+<p>US shipping is $9.99 and free over $60. If it's your first time, the fit finder on every product page picks the size in three questions.</p>
+`,
+    related: [11, 14, 3, 502],
+  },
+  {
+    slug: 'baggy-jeans-outfit-men',
+    title: 'Baggy Jeans Outfits for Men: 6 Fits That Work (and the Mistake to Avoid)',
+    desc: 'Six baggy jeans outfits for men built from wide-leg denim, heavyweight tees and the right shoe — plus the one proportion mistake that makes baggy look sloppy instead of intentional.',
+    date: '2026-09-19',
+    hero: 'imgs/pants/mens-pant-4-onbody-1.webp',
+    heroAlt: 'Ice Cargo Wide-Leg Denim baggy jeans outfit, on body',
+    readMins: 5,
+    body: `
+<p>Baggy jeans are back, and most men wear them wrong in the same way: baggy on the bottom, baggy on top, flat shoe. The silhouette turns into a blob. Every outfit below fixes that with one rule — <strong>volume on the bottom, structure on top</strong> — and uses pieces from Drop 001 so you can copy it exactly.</p>
+
+<h2>The mistake first</h2>
+<p>A wide leg needs something to contrast against. If the tee is long and loose and the shoe is low and slim, there's no line anywhere and the eye reads "borrowed clothes". The fix is either a boxy tee that stops at the hip, or a shoe with height. Ideally both.</p>
+
+<h2>1. The clean one — ice wash + black tee</h2>
+<p><a href="/products/ice-cargo-wide-leg-denim.html">Ice Cargo Wide-Leg</a> ($63), <a href="/products/angel-of-death-heavyweight-tee.html">Angel of Death tee</a> ($39), chunky white sneaker. The light wash carries the fit; the tee is the graphic. Nothing else needed.</p>
+
+<h2>2. The loud one — embroidered denim + plain black</h2>
+<p><a href="/products/red-gothic-embroidery-denim.html">Red Gothic Embroidery Denim</a> ($67) with a plain black tee or a black hoodie, black boots. This is the fit our customer Cheekz wears on the reviews page. The jeans do all the talking; anything with a print on top would fight them.</p>
+
+<h2>3. The vintage one — sand wash + tee</h2>
+<p><a href="/products/vintage-distressed-wide-leg.html">Vintage Distressed Wide-Leg</a> ($67) with the <a href="/products/broken-skull-heavyweight-tee.html">Broken Skull tee</a> in charcoal. Two worn-in textures, one colour family. Skate shoe.</p>
+
+<h2>4. The acid one — copper bleed + charcoal</h2>
+<p><a href="/products/acid-rust-patchwork-jeans.html">Acid Rust Patchwork Jeans</a> ($63) — dark indigo with a copper acid bleed and raw patchwork — under the <a href="/products/need-some-money-oversized-tee.html">Need Some Money tee</a>. The copper in the wash and the flames in the print pull from the same palette.</p>
+
+<h2>5. The off-day one — track pant</h2>
+<p>Not denim, same silhouette: the <a href="/products/unisex-street-track-pant-blue.html">Unisex Street Track Pant</a> ($42) in blue with any of the tees. Drawstring waist, wide leg, stacks over a trainer. It's the pair we reach for most.</p>
+
+<h2>6. The night one — black on black, silver hardware</h2>
+<p><a href="/products/red-gothic-embroidery-denim.html">Red Gothic</a> or <a href="/products/vintage-distressed-wide-leg.html">Vintage Distressed</a>, black 300GSM tee, chain on the belt loop, rings, boots. The metal in the denim's hem and hardware is the accent — match it on the body.</p>
+
+<h2>Sizing baggy jeans</h2>
+<p>Size for your waist, not for the leg. Ours are S–XL, mid-rise, cut long so they stack; don't hem a wide leg — pick a shoe with height instead. The fit finder on every product page settles it in three questions.</p>
+`,
+    related: [14, 11, 10, 12],
+  },
+  {
+    slug: 'how-to-style-anime-jeans',
+    title: 'How to Style Anime Jeans Without Looking Like a Costume',
+    desc: 'Anime jeans are the loudest thing in your wardrobe. Here is how to wear Death Note and One Piece denim so the fit reads as streetwear — top, shoe, colour and the one thing to never pair them with.',
+    date: '2026-09-19',
+    hero: 'imgs/anime-deathnote.jpg',
+    heroAlt: 'Shinigami Death Note anime denim jeans',
+    readMins: 4,
+    body: `
+<p>Anime denim is a commitment. Full-leg artwork means the jeans are the outfit — and the difference between "streetwear" and "costume" is entirely what you put around them. Four rules, then the two pairs we make.</p>
+
+<h2>1. Everything else is plain</h2>
+<p>No graphic tee. No printed hoodie. No second character anywhere on your body. A plain black or charcoal tee — 300GSM if you have it, so it holds shape over the straight leg — or a plain black hoodie. The artwork on the jeans is the only image in the frame.</p>
+
+<h2>2. Pull one colour from the artwork</h2>
+<p>The <a href="/products/shinigami-death-note-denim.html">Shinigami Death Note Denim</a> is a monochrome composition — so the fit is black, white and grey, and a white sneaker is the move. The <a href="/products/straw-hat-one-piece-jeans.html">Straw Hat One Piece Jeans</a> carry warmer manga tones — a cream or off-white tee sits better than pure white.</p>
+
+<h2>3. Shoes with a toe box</h2>
+<p>The straight leg sits loose over the shoe, so the toe is what shows. Chunky sneakers, skate shoes, boots. Nothing slim.</p>
+
+<h2>4. Don't add anime anywhere else</h2>
+<p>No character keychain, no printed cap, no bag. One reference, worn like a normal pair of jeans, is confident. Three references is a convention.</p>
+
+<h2>How ours are made — and why it matters for styling</h2>
+<p>Most anime jeans are screen-printed: a thick ink layer on top of the denim that cracks at the knee within weeks and looks flat and plasticky next to real fabric. Ours are sublimated — the dye bonds into the fibre, so the artwork has the texture of the denim and fades <em>with</em> it, like a wash. That's what lets them sit next to a heavyweight tee and a raw-denim jacket without looking like a novelty. <a href="/journal/anime-jeans-sublimation-explained.html">How sublimated denim is made and washed →</a></p>
+
+<h2>Sizing and ordering</h2>
+<p>Straight leg, waist sizes 28–36, mid-rise, roomy thigh; true to your waist. Both pairs are made to order: you pay at checkout, we allow 30+ days for production, and you can cancel any time before dispatch. The <a href="/products/shinigami-death-note-denim.html">Death Note pair is $67</a>, the <a href="/products/straw-hat-one-piece-jeans.html">One Piece pair $77</a>. The rest of the anime line is contact-to-order via Instagram. These are fan-inspired pieces from our manufacturing partner and are not affiliated with or licensed by the original studios.</p>
+`,
+    related: [112, 113, 1],
+  },
+  {
+    slug: 'what-to-wear-to-a-goth-club',
+    title: 'What to Wear to a Goth Club (Men and Women) — Without Buying a Costume',
+    desc: 'A practical goth club outfit guide: the dress code nobody writes down, what to wear if your wardrobe is streetwear not goth, pieces that catch stage light, and what to carry.',
+    date: '2026-09-19',
+    hero: 'imgs/pants/womens-st-red-onbody-1.webp',
+    heroAlt: 'Unisex Street Track Pant in red with black crop — goth club outfit',
+    readMins: 5,
+    body: `
+<p>First goth night and your wardrobe is streetwear, not velvet? Good — that's where the scene has been going for years. The unwritten dress code is simpler than it looks: <strong>dark base, one statement, something that catches the light, and shoes you can stand in for five hours.</strong></p>
+
+<h2>The actual dress code</h2>
+<p>Black, or close to it, from the waist down. Above that, anything goes as long as it's deliberate. Nobody's checking for lace; people are checking whether you tried. A wide-leg black jean and a heavyweight black tee with real art on it clears the bar. Jeans-and-a-polo doesn't.</p>
+
+<h2>Men</h2>
+<ul>
+<li><strong>Bottom:</strong> <a href="/products/red-gothic-embroidery-denim.html">Red Gothic Embroidery Denim</a> if you want to be seen, <a href="/products/vintage-distressed-wide-leg.html">Vintage Distressed Wide-Leg</a> if you want to be comfortable. Both stack over a boot.</li>
+<li><strong>Top:</strong> a black 300GSM tee — <a href="/products/angel-of-death-heavyweight-tee.html">Angel of Death</a> is the obvious one. Heavy cotton holds up when the room gets hot and damp; thin tees go see-through.</li>
+<li><strong>Metal:</strong> chain on the belt loop, rings, a pendant. Silver.</li>
+<li><strong>Shoes:</strong> boots or a chunky black sneaker. Not your best pair.</li>
+</ul>
+
+<h2>Women</h2>
+<ul>
+<li><strong>Bottom:</strong> the <a href="/products/gothic-skull-wide-leg.html">Gothic Skull Wide-Leg</a> (pink skull print on black, high waist) or the <a href="/products/gold-baroque-wide-leg.html">Gold Baroque Wide-Leg</a> if the night is dressier. For dancing, the <a href="/products/unisex-street-track-pant-red.html">Street Track Pant</a> in red or black — drawstring waist, wide leg, four colours.</li>
+<li><strong>Top:</strong> something that catches stage light. The <a href="/products/rhinestone-mesh-hooded-crop.html">Rhinestone Mesh Hooded Crop</a> is sheer mesh with a hood you can pull up when the strobes hit; the <a href="/products/holographic-sequin-bra-top.html">Holographic Sequin Bra Top</a> works under a black jacket for the walk in.</li>
+<li><strong>Shoes:</strong> platform boots or trainers. Heels last an hour on a sticky floor.</li>
+</ul>
+
+<h2>Both</h2>
+<p><strong>Layer for the exit.</strong> You'll leave at 3 AM into air 20 degrees colder than the room — a black hoodie or jacket tied at the waist. <strong>Pockets or a plan:</strong> phone, cash, ID, earplugs. Track pants have pockets; mesh tops don't. <strong>One statement piece</strong>, not three — the embroidered jean <em>or</em> the sequin top, not both.</p>
+
+<h2>Where this overlaps with rave wear</h2>
+<p>A lot — the same mesh, metallics and wide legs work for both. The difference is palette: goth nights skew black with one accent; raves go brighter. If you're doing both this month, the <a href="/journal/what-to-wear-to-a-rave.html">rave guide</a> covers the brighter end of the same wardrobe.</p>
+`,
+    related: [11, 30, 70, 502],
+  },
   {
     slug: 'how-to-style-baggy-jeans-gothic',
     title: 'How to Style Baggy Jeans — The Gothic Streetwear Way',
