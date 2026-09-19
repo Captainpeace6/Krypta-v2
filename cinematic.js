@@ -27,7 +27,7 @@
                 path.endsWith('/Krypta-v2/') ||
                 path === '/Krypta-v2';
 
-  var PRELOAD_DURATION = REDUCE ? 400  : 1200; // ms — first-session only (gated by sessionStorage k_entered)
+  var PRELOAD_DURATION = REDUCE ? 400  : 1200; // ms — first visit only (gated by localStorage k_entered_at, 30 days)
   var SHATTER_DURATION = REDUCE ? 0    : 500;  // ms — total intro ~1.7s, animations preserved
 
   /* ─────────────────────────────────────────────
@@ -271,7 +271,8 @@
     document.body.classList.add('is-loaded');
 
     // Save session so returning from shop skips the preloader
-    try { sessionStorage.setItem('k_entered', '1'); } catch (e) {}
+    // Once per visitor: remembered for 30 days (localStorage), plus the session fallback
+    try { sessionStorage.setItem('k_entered', '1'); localStorage.setItem('k_entered_at', String(Date.now())); } catch (e) {}
 
     // Signal snap-scroll.js that the site is live
     document.dispatchEvent(new CustomEvent('kryptaa:revealed'));
@@ -523,7 +524,11 @@
 
     // If already entered this session, skip the whole intro
     var alreadyIn = false;
-    try { alreadyIn = sessionStorage.getItem('k_entered') === '1'; } catch (e) {}
+    try {
+      alreadyIn = sessionStorage.getItem('k_entered') === '1';
+      var at = parseInt(localStorage.getItem('k_entered_at') || '0', 10);
+      if (!alreadyIn && at && Date.now() - at < 30 * 24 * 3600 * 1000) alreadyIn = true;
+    } catch (e) {}
 
     if (alreadyIn || REDUCE) {
       // Quick skip: hide overlays, show site, init scroll
