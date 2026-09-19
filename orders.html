@@ -2565,15 +2565,25 @@
     var btn = document.getElementById('gateBtn');
     var err = document.getElementById('gateError');
     err.style.display = 'none'; btn.disabled = true; btn.textContent = 'Checking…';
+    /* Orders come from Netlify (Stripe). If Netlify is down (usage cap), validate the key against the
+       Cloudflare Worker instead so the rest of the dashboard (stock, reviews, waitlist) still works. */
     fetch(BACKEND, { headers: { 'X-Admin-Key': key } })
       .then(function(r) {
-        btn.disabled = false; btn.textContent = 'Enter →';
-        if (r.status === 401) { err.textContent='Incorrect password.'; err.style.display='block'; return null; }
-        if (!r.ok) throw new Error('Server error');
+        if (r.status === 401) return { unauthorized: true };
+        if (!r.ok) {
+          return fetch(window.K_API + 'admin-summary', { headers: { 'X-Admin-Key': key } }).then(function(w) {
+            if (w.status === 401) return { unauthorized: true };
+            if (!w.ok) throw new Error('Server error');
+            return { orders: [], ordersUnavailable: true };
+          });
+        }
         return r.json();
       })
       .then(function(data) {
+        btn.disabled = false; btn.textContent = 'Enter →';
         if (!data) return;
+        if (data.unauthorized) { err.textContent='Incorrect password.'; err.style.display='block'; return; }
+        if (data.ordersUnavailable) { window.__kOrdersUnavailable = true; }
         saveKey(key); showDashboard(); requestNotifPermission();
         allOrders = data.orders || [];
         checkForNewOrders(allOrders);
