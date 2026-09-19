@@ -1669,7 +1669,7 @@
     const gallery = product.gallery && product.gallery.length ? product.gallery : [{src: product.hero || product.img, label: "Front"}];
     const galleryHTML = `
       <div class="pg-main-wrap">
-        <img class="pg-main-img" id="pgMainImg" src="${gallery[0].src}" alt="${product.name}">
+        <img class="pg-main-img" id="pgMainImg" src="${gallery[0].src}" alt="${product.name} — ${gallery[0].label || "KRYPTAA"}">
         <div class="pg-label" id="pgLabel">${gallery[0].label}</div>
         <div class="pg-counter" id="pgCounter">1 / ${gallery.length}</div>
         ${gallery.length > 1 ? `
@@ -1679,7 +1679,7 @@
       </div>
       ${gallery.length > 1 ? `
       <div class="pg-thumbs" id="pgThumbs">
-        ${gallery.map((item, i) => `<button class="pg-thumb${i === 0 ? " active" : ""}" data-idx="${i}" aria-label="${item.label}"><img src="${item.src}" alt="${item.label}" loading="lazy"><span>${item.label}</span></button>`).join("")}
+        ${gallery.map((item, i) => `<button class="pg-thumb${i === 0 ? " active" : ""}" data-idx="${i}" aria-label="${item.label}"><img src="${item.src}" alt="${product.name} — ${item.label}" loading="lazy"><span>${item.label}</span></button>`).join("")}
       </div>
       ` : ""}
     `;
@@ -1917,6 +1917,14 @@
        steps down one; "extra baggy" steps up one. Tall + baggy on bottoms
        steps up (inseam). Clamped to the sizes this product actually has. */
     (function () {
+      /* "From the journal" — articles that feature this product (built index; crawlers get the static copy) */
+      fetch("journal-index.json").then(function (r) { return r.ok ? r.json() : []; }).then(function (posts) {
+        var mine = (posts || []).filter(function (j) { return (j.related || []).indexOf(String(product.id)) >= 0; }).slice(0, 3);
+        var acc = doc.getElementById("pdpAcc"); if (!mine.length || !acc || doc.querySelector(".pdp-journal-strip")) return;
+        var strip = doc.createElement("div"); strip.className = "pdp-journal-strip";
+        strip.innerHTML = '<div class="eyebrow">From the journal</div>' + mine.map(function (j) { return '<a class="pdp-journal-link" href="journal/' + j.slug + '.html">' + j.title.replace(/</g, "&lt;") + '<span>' + j.readMins + ' min read →</span></a>'; }).join("");
+        acc.parentNode.insertBefore(strip, acc.nextSibling);
+      }).catch(function () {});
       /* Info accordion */
       doc.querySelectorAll("#pdpAcc .pdp-acc-head").forEach(function (h) {
         h.addEventListener("click", function () {
@@ -2308,7 +2316,7 @@
         pgIdx = (idx + gallery.length) % gallery.length;
         pgMain.style.opacity = "0";
         setTimeout(function () {
-          pgMain.src = gallery[pgIdx].src;
+          pgMain.src = gallery[pgIdx].src; pgMain.alt = product.name + " — " + (gallery[pgIdx].label || "KRYPTAA");
           pgMain.onload = function () { pgMain.style.opacity = "1"; };
           pgMain.style.opacity = "1";
         }, 120);

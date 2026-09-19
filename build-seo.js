@@ -180,6 +180,16 @@ function srcsetFor(src) {
   if (!m || /sizechart/i.test(src)) return '';
   return ` srcset="${m[1]}-480.webp 480w, ${m[1]}-800.webp 800w, ${src} 1400w"`;
 }
+/* Articles that reference this product (journal-posts.js related[]) → crawlable links from money pages to content */
+let JOURNAL_POSTS = []; try { JOURNAL_POSTS = require(path.join(__dirname, 'journal-posts.js')); } catch (e) {}
+// Small index the JS product page fetches to show the same strip to visitors
+fs.writeFileSync(path.join(__dirname, 'journal-index.json'), JSON.stringify(JOURNAL_POSTS.map((j) => ({ slug: j.slug, title: j.title, readMins: j.readMins, related: (j.related || []).map(String) }))));
+function journalStrip(product) {
+  const posts = JOURNAL_POSTS.filter((j) => (j.related || []).map(String).includes(String(product.id))).slice(0, 3);
+  if (!posts.length) return '';
+  return `<div class="pdp-journal-strip"><div class="eyebrow">From the journal</div>` +
+    posts.map((j) => `<a class="pdp-journal-link" href="/journal/${j.slug}.html">${esc(j.title)}<span>${j.readMins} min read →</span></a>`).join('') + `</div>`;
+}
 function faqLd(product) { return { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqQa(product).map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }; }
 function faqQa(product) {
   const isPre = /pre-?order/i.test(product.availability || '');
@@ -335,6 +345,7 @@ function productPage(product) {
   <section class="section-shell pdp-static-details" id="pdpStaticDetails">
     <h2>About the ${esc(product.name)}</h2>
     <p>${esc(descFull)}${product.materials ? ' ' + esc(product.materials) + '.' : ''} Part of the KRYPTAA ${esc(product.collection || 'Drop 001')} collection — ${esc((product.tags || []).join(', '))}.${sizes.length ? ' Available in sizes ' + sizes.map(esc).join(', ') + '.' : ''} Priced at ${priceDisplay} with free US shipping over $60.</p>
+    ${journalStrip(product)}
     <h2>Shipping, returns &amp; fit — ${esc(product.name)}</h2>
     ${faqQa(product).map(([q, a]) => `<h3>${esc(q)}</h3><p>${esc(a)}</p>`).join('\n    ')}
   </section>
@@ -397,20 +408,24 @@ const SITEMAP_INFO = [
   ['privacy.html', '0.3'],
   ['terms.html', '0.3']
 ];
-function sitemapNode(loc, priority, changefreq) {
+function sitemapNode(loc, priority, changefreq, images) {
+  // images: [{src, title}] → Google image-sitemap extension so product/on-body photos get indexed
+  const imgXml = (images || []).filter((i) => i && i.src && !/sizechart/i.test(i.src)).slice(0, 12).map((i) =>
+    '    <image:image>\n      <image:loc>' + BASE + String(i.src).replace(/^\/+/, '') + '</image:loc>\n' +
+    (i.title ? '      <image:title>' + esc(i.title) + '</image:title>\n' : '') + '    </image:image>\n').join('');
   return '  <url>\n' +
     '    <loc>' + BASE + loc + '</loc>\n' +
     '    <lastmod>' + SITEMAP_LASTMOD + '</lastmod>\n' +
     '    <changefreq>' + changefreq + '</changefreq>\n' +
-    '    <priority>' + priority + '</priority>\n' +
+    '    <priority>' + priority + '</priority>\n' + imgXml +
     '  </url>\n';
 }
-let sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+let sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n';
 sm += sitemapNode('', '1.0', 'weekly'); // homepage -> https://www.kryptaa.com/
 SITEMAP_COLLECTIONS.forEach(([loc, pr]) => { sm += sitemapNode(loc, pr, 'weekly'); });
 // All 27 clean product pages, deterministic order by slug
 [...PRODUCTS].sort((a, b) => productSlug(a).localeCompare(productSlug(b)))
-  .forEach((p) => { sm += sitemapNode(productUrl(p), '0.7', 'weekly'); });
+  .forEach((p) => { sm += sitemapNode(productUrl(p), '0.7', 'weekly', [{ src: p.img, title: p.name }].concat((p.gallery || []).map((g) => ({ src: g.src, title: p.name + (g.label ? ' — ' + g.label : '') })))); });
 SITEMAP_INFO.forEach(([loc, pr]) => { sm += sitemapNode(loc, pr, 'monthly'); });
 try { require(path.join(__dirname, 'journal-posts.js')).forEach((j) => { sm += sitemapNode('journal/' + j.slug + '.html', '0.6', 'monthly'); }); } catch (e) {}
 sm += '</urlset>\n';

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.kryptaa.com/</loc>
     <lastmod>2026-09-19</lastmod>
@@ -65,162 +65,878 @@
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-3.webp</image:loc>
+      <image:title>Acid Rust Patchwork Jeans</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-3.webp</image:loc>
+      <image:title>Acid Rust Patchwork Jeans — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-3-g2.webp</image:loc>
+      <image:title>Acid Rust Patchwork Jeans — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-3-g3.webp</image:loc>
+      <image:title>Acid Rust Patchwork Jeans — Left Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-3-g4.webp</image:loc>
+      <image:title>Acid Rust Patchwork Jeans — Right Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-3-g5.webp</image:loc>
+      <image:title>Acid Rust Patchwork Jeans — 45° Angle</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-3-g6.webp</image:loc>
+      <image:title>Acid Rust Patchwork Jeans — Close Up</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-3-g7.webp</image:loc>
+      <image:title>Acid Rust Patchwork Jeans — Detail</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-3-g8.webp</image:loc>
+      <image:title>Acid Rust Patchwork Jeans — Detail 2</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-3-g9.webp</image:loc>
+      <image:title>Acid Rust Patchwork Jeans — Detail 3</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/angel-of-death-heavyweight-tee.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-2.webp</image:loc>
+      <image:title>Angel of Death Heavyweight Tee</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-2.webp</image:loc>
+      <image:title>Angel of Death Heavyweight Tee — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1-onbody-1.webp</image:loc>
+      <image:title>Angel of Death Heavyweight Tee — On Body</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-2-g2.webp</image:loc>
+      <image:title>Angel of Death Heavyweight Tee — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-2-g3.webp</image:loc>
+      <image:title>Angel of Death Heavyweight Tee — Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-2-g4.webp</image:loc>
+      <image:title>Angel of Death Heavyweight Tee — 45° Angle</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-2-g5.webp</image:loc>
+      <image:title>Angel of Death Heavyweight Tee — Artwork</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-2-g6.webp</image:loc>
+      <image:title>Angel of Death Heavyweight Tee — Detail</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-2-g7.webp</image:loc>
+      <image:title>Angel of Death Heavyweight Tee — Close Up</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/black-red-anime-denim.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-blackred.jpg</image:loc>
+      <image:title>Black Red Anime Denim</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-blackred.jpg</image:loc>
+      <image:title>Black Red Anime Denim — Front</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/broken-skull-heavyweight-tee.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-3.webp</image:loc>
+      <image:title>Broken Skull Heavyweight Tee</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-3.webp</image:loc>
+      <image:title>Broken Skull Heavyweight Tee — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-3-g2.webp</image:loc>
+      <image:title>Broken Skull Heavyweight Tee — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-3-g3.webp</image:loc>
+      <image:title>Broken Skull Heavyweight Tee — Graphic</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-3-g4.webp</image:loc>
+      <image:title>Broken Skull Heavyweight Tee — Artwork</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-3-g5.webp</image:loc>
+      <image:title>Broken Skull Heavyweight Tee — View 5</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-3-g6.webp</image:loc>
+      <image:title>Broken Skull Heavyweight Tee — Detail</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-3-g7.webp</image:loc>
+      <image:title>Broken Skull Heavyweight Tee — Close Up</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/creature-graphic-wide-leg.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/unisex-pant-7.webp</image:loc>
+      <image:title>Creature Graphic Wide-Leg</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/unisex-pant-7.webp</image:loc>
+      <image:title>Creature Graphic Wide-Leg — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/unisex-pant-7-g2.webp</image:loc>
+      <image:title>Creature Graphic Wide-Leg — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/unisex-pant-7-g3.webp</image:loc>
+      <image:title>Creature Graphic Wide-Leg — Left Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/unisex-pant-7-g4.webp</image:loc>
+      <image:title>Creature Graphic Wide-Leg — Right Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/unisex-pant-7-g5.webp</image:loc>
+      <image:title>Creature Graphic Wide-Leg — 45° Angle</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/unisex-pant-7-g6.webp</image:loc>
+      <image:title>Creature Graphic Wide-Leg — Close Up</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/unisex-pant-7-g7.webp</image:loc>
+      <image:title>Creature Graphic Wide-Leg — Detail</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/unisex-pant-7-g8.webp</image:loc>
+      <image:title>Creature Graphic Wide-Leg — Detail 2</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/cursed-energy-jjk-collage.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-jjk1.jpg</image:loc>
+      <image:title>Cursed Energy JJK Collage</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-jjk1.jpg</image:loc>
+      <image:title>Cursed Energy JJK Collage — Front</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/cursed-energy-jjk-vol-2.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-jjk2.jpg</image:loc>
+      <image:title>Cursed Energy JJK Vol. 2</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-jjk2.jpg</image:loc>
+      <image:title>Cursed Energy JJK Vol. 2 — Front</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/demon-back-baki-denim.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-baki.jpg</image:loc>
+      <image:title>Demon Back Baki Denim</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-baki.jpg</image:loc>
+      <image:title>Demon Back Baki Denim — Front</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/gold-baroque-wide-leg.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-6-g5.webp</image:loc>
+      <image:title>Gold Baroque Wide-Leg</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-6.webp</image:loc>
+      <image:title>Gold Baroque Wide-Leg — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-6-g2.webp</image:loc>
+      <image:title>Gold Baroque Wide-Leg — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-6-g3.webp</image:loc>
+      <image:title>Gold Baroque Wide-Leg — Left Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-6-g4.webp</image:loc>
+      <image:title>Gold Baroque Wide-Leg — Right Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-6-g5.webp</image:loc>
+      <image:title>Gold Baroque Wide-Leg — 45° Angle</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-6-g6.webp</image:loc>
+      <image:title>Gold Baroque Wide-Leg — Close Up</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-6-g7.webp</image:loc>
+      <image:title>Gold Baroque Wide-Leg — Detail</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-6-g8.webp</image:loc>
+      <image:title>Gold Baroque Wide-Leg — Detail 2</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-6-g9.webp</image:loc>
+      <image:title>Gold Baroque Wide-Leg — Detail 3</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-6-g10.webp</image:loc>
+      <image:title>Gold Baroque Wide-Leg — Detail 4</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/gothic-skull-wide-leg.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-5.webp</image:loc>
+      <image:title>Gothic Skull Wide-Leg</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-5.webp</image:loc>
+      <image:title>Gothic Skull Wide-Leg — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-5-g2.webp</image:loc>
+      <image:title>Gothic Skull Wide-Leg — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-5-g3.webp</image:loc>
+      <image:title>Gothic Skull Wide-Leg — Left Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-5-g4.webp</image:loc>
+      <image:title>Gothic Skull Wide-Leg — Right Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-5-g5.webp</image:loc>
+      <image:title>Gothic Skull Wide-Leg — 45° Angle</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-5-g6.webp</image:loc>
+      <image:title>Gothic Skull Wide-Leg — Close Up</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-5-g7.webp</image:loc>
+      <image:title>Gothic Skull Wide-Leg — Detail</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-5-g8.webp</image:loc>
+      <image:title>Gothic Skull Wide-Leg — Detail 2</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-5-g9.webp</image:loc>
+      <image:title>Gothic Skull Wide-Leg — Detail 3</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-pant-5-g10.webp</image:loc>
+      <image:title>Gothic Skull Wide-Leg — Detail 4</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/holographic-sequin-bra-top.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-80.webp</image:loc>
+      <image:title>Holographic Sequin Bra Top</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-80.webp</image:loc>
+      <image:title>Holographic Sequin Bra Top — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-80-g2.webp</image:loc>
+      <image:title>Holographic Sequin Bra Top — Front 2</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-80-g3.webp</image:loc>
+      <image:title>Holographic Sequin Bra Top — Relaxed</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-80-g4.webp</image:loc>
+      <image:title>Holographic Sequin Bra Top — Editorial</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-80-g5.webp</image:loc>
+      <image:title>Holographic Sequin Bra Top — Back</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/horror-anime-black-denim.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-horror.jpg</image:loc>
+      <image:title>Horror Anime Black Denim</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-horror.jpg</image:loc>
+      <image:title>Horror Anime Black Denim — Front</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/ice-cargo-wide-leg-denim.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-4.webp</image:loc>
+      <image:title>Ice Cargo Wide-Leg Denim</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-4-onbody-1.webp</image:loc>
+      <image:title>Ice Cargo Wide-Leg Denim — On Body</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-4.webp</image:loc>
+      <image:title>Ice Cargo Wide-Leg Denim — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-4-onbody-2.webp</image:loc>
+      <image:title>Ice Cargo Wide-Leg Denim — Worn</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-4-g2.webp</image:loc>
+      <image:title>Ice Cargo Wide-Leg Denim — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-4-g3.webp</image:loc>
+      <image:title>Ice Cargo Wide-Leg Denim — Left Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-4-g4.webp</image:loc>
+      <image:title>Ice Cargo Wide-Leg Denim — Right Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-4-g5.webp</image:loc>
+      <image:title>Ice Cargo Wide-Leg Denim — 45° Angle</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-4-g6.webp</image:loc>
+      <image:title>Ice Cargo Wide-Leg Denim — Close Up</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-4-g7.webp</image:loc>
+      <image:title>Ice Cargo Wide-Leg Denim — Detail</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-4-g8.webp</image:loc>
+      <image:title>Ice Cargo Wide-Leg Denim — Detail 2</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/medusa-serpent-oversized-tee.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-1.webp</image:loc>
+      <image:title>Medusa Serpent Oversized Tee</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-1.webp</image:loc>
+      <image:title>Medusa Serpent Oversized Tee — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-1-g2.webp</image:loc>
+      <image:title>Medusa Serpent Oversized Tee — Back (Male)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-1-g3.webp</image:loc>
+      <image:title>Medusa Serpent Oversized Tee — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-1-g4.webp</image:loc>
+      <image:title>Medusa Serpent Oversized Tee — Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-1-g5.webp</image:loc>
+      <image:title>Medusa Serpent Oversized Tee — Artwork</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-1-g6.webp</image:loc>
+      <image:title>Medusa Serpent Oversized Tee — Detail</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-1-g7.webp</image:loc>
+      <image:title>Medusa Serpent Oversized Tee — Close Up</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/need-some-money-oversized-tee.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-4.webp</image:loc>
+      <image:title>Need Some Money Oversized Tee</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-4.webp</image:loc>
+      <image:title>Need Some Money Oversized Tee — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-4-g2.webp</image:loc>
+      <image:title>Need Some Money Oversized Tee — Artwork</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-4-g3.webp</image:loc>
+      <image:title>Need Some Money Oversized Tee — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-4-g4.webp</image:loc>
+      <image:title>Need Some Money Oversized Tee — Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-4-g5.webp</image:loc>
+      <image:title>Need Some Money Oversized Tee — 45° Angle</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-4-g6.webp</image:loc>
+      <image:title>Need Some Money Oversized Tee — Detail</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tees/tee-4-g7.webp</image:loc>
+      <image:title>Need Some Money Oversized Tee — Close Up</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/red-gothic-embroidery-denim.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-2.webp</image:loc>
+      <image:title>Red Gothic Embroidery Denim</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-2-onbody-1.webp</image:loc>
+      <image:title>Red Gothic Embroidery Denim — On Body</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-2.webp</image:loc>
+      <image:title>Red Gothic Embroidery Denim — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-2-g2.webp</image:loc>
+      <image:title>Red Gothic Embroidery Denim — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-2-onbody-2.webp</image:loc>
+      <image:title>Red Gothic Embroidery Denim — Worn</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-2-onbody-3.webp</image:loc>
+      <image:title>Red Gothic Embroidery Denim — Fit</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-2-g4.webp</image:loc>
+      <image:title>Red Gothic Embroidery Denim — Right Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-2-g5.webp</image:loc>
+      <image:title>Red Gothic Embroidery Denim — 45° Angle</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-2-g6.webp</image:loc>
+      <image:title>Red Gothic Embroidery Denim — Close Up</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-2-g7.webp</image:loc>
+      <image:title>Red Gothic Embroidery Denim — Detail</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-2-g8.webp</image:loc>
+      <image:title>Red Gothic Embroidery Denim — Detail 2</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-2-g9.webp</image:loc>
+      <image:title>Red Gothic Embroidery Denim — Detail 3</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/rhinestone-mesh-hooded-crop.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-70.webp</image:loc>
+      <image:title>Rhinestone Mesh Hooded Crop</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-70.webp</image:loc>
+      <image:title>Rhinestone Mesh Hooded Crop — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-70-g2.webp</image:loc>
+      <image:title>Rhinestone Mesh Hooded Crop — Cowl Neck</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-70-g3.webp</image:loc>
+      <image:title>Rhinestone Mesh Hooded Crop — Outdoor</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-70-g4.webp</image:loc>
+      <image:title>Rhinestone Mesh Hooded Crop — Side Hood</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-70-g5.webp</image:loc>
+      <image:title>Rhinestone Mesh Hooded Crop — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-70-g6.webp</image:loc>
+      <image:title>Rhinestone Mesh Hooded Crop — Mirror</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/shinigami-death-note-denim.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-deathnote.jpg</image:loc>
+      <image:title>Shinigami Death Note Denim</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-deathnote.jpg</image:loc>
+      <image:title>Shinigami Death Note Denim — Front</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/silver-metallic-crop-set.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-90.webp</image:loc>
+      <image:title>Silver Metallic Crop Set</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-90.webp</image:loc>
+      <image:title>Silver Metallic Crop Set — Full Set</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-90-g2.webp</image:loc>
+      <image:title>Silver Metallic Crop Set — Editorial</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-90-g3.webp</image:loc>
+      <image:title>Silver Metallic Crop Set — Portrait</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-90-g4.webp</image:loc>
+      <image:title>Silver Metallic Crop Set — Crop Only</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-90-g5.webp</image:loc>
+      <image:title>Silver Metallic Crop Set — Skirt Detail</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/tops/top-90-g6.webp</image:loc>
+      <image:title>Silver Metallic Crop Set — Side</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/six-eyes-gojo-satoru-denim.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-gojo.jpg</image:loc>
+      <image:title>Six Eyes Gojo Satoru Denim</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-gojo.jpg</image:loc>
+      <image:title>Six Eyes Gojo Satoru Denim — Front</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/six-eyes-gojo-vol-2.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-gojo2.jpg</image:loc>
+      <image:title>Six Eyes Gojo Vol. 2</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-gojo2.jpg</image:loc>
+      <image:title>Six Eyes Gojo Vol. 2 — Front</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/straw-hat-one-piece-jeans.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-one-piece.jpg</image:loc>
+      <image:title>Straw Hat One Piece Jeans</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/anime-one-piece.jpg</image:loc>
+      <image:title>Straw Hat One Piece Jeans — Front</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/unisex-street-track-pant-blue.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-blue-01.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Blue</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-blue-01.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Blue — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-blue-02.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Blue — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-blue-03.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Blue — Left Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-blue-04.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Blue — Right Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-blue-05.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Blue — 45° Angle</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-blue-06.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Blue — Detail</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-blue-07.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Blue — Full Length</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/unisex-street-track-pant-green.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-green-01.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Green</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-green-01.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Green — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-green-02.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Green — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-green-03.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Green — Left Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-green-04.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Green — Right Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-green-05.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Green — 45° Angle</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-green-06.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Green — Detail</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-green-07.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Green — Full Length</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/unisex-street-track-pant-red.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-red-01.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Red</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-red-onbody-1.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Red — On Body</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-red-01.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Red — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-red-onbody-2.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Red — Back · Worn</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-red-02.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Red — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-red-03.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Red — Left Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-red-04.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Red — Right Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-red-05.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Red — 45° Angle</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-red-06.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Red — Detail</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/unisex-street-track-pant-yellow.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-yellow-01.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Yellow</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-yellow-01.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Yellow — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-yellow-02.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Yellow — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-yellow-03.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Yellow — Left Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-yellow-04.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Yellow — Right Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-yellow-05.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Yellow — 45° Angle</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/womens-st-yellow-06.webp</image:loc>
+      <image:title>Unisex Street Track Pant — Yellow — Detail</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/products/vintage-distressed-wide-leg.html</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1.webp</image:loc>
+      <image:title>Vintage Distressed Wide-Leg</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1-onbody-1.webp</image:loc>
+      <image:title>Vintage Distressed Wide-Leg — On Body</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1.webp</image:loc>
+      <image:title>Vintage Distressed Wide-Leg — Front</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1-onbody-2.webp</image:loc>
+      <image:title>Vintage Distressed Wide-Leg — Worn</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1-g2.webp</image:loc>
+      <image:title>Vintage Distressed Wide-Leg — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1-g3.webp</image:loc>
+      <image:title>Vintage Distressed Wide-Leg — Left Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1-g4.webp</image:loc>
+      <image:title>Vintage Distressed Wide-Leg — Right Side</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1-g5.webp</image:loc>
+      <image:title>Vintage Distressed Wide-Leg — 45° Angle</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1-g6.webp</image:loc>
+      <image:title>Vintage Distressed Wide-Leg — Close Up</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1-g7.webp</image:loc>
+      <image:title>Vintage Distressed Wide-Leg — Detail</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1-g8.webp</image:loc>
+      <image:title>Vintage Distressed Wide-Leg — Detail 2</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1-g9.webp</image:loc>
+      <image:title>Vintage Distressed Wide-Leg — Detail 3</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.kryptaa.com/about.html</loc>
