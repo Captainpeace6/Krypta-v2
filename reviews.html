@@ -243,9 +243,9 @@
     if (!wall) return;
     if (!count) { wall.innerHTML = '<div class="rv-empty">No reviews yet — be the first to share yours.</div>'; return; }
 
-    wall.innerHTML = all.map(function (r) {
+    wall.innerHTML = all.map(function (r, ri) {
       var photos = (r.photos && r.photos.length)
-        ? '<div class="rv-card-photos">' + r.photos.map(function (src) { return '<img src="' + esc(src) + '" alt="Customer photo" loading="lazy">'; }).join("") + '</div>'
+        ? '<div class="rv-card-photos">' + r.photos.map(function (src, pi) { return '<img src="' + esc(src) + '" alt="' + esc(r.product || "KRYPTAA") + ' worn by ' + esc(r.author || "customer") + '" loading="lazy" data-fit="' + ri + '" data-photo="' + pi + '">'; }).join("") + '</div>'
         : "";
       return '<article class="rv-card">'
         + '<div class="rv-card-stars">' + starStr(r.rating) + '</div>'
@@ -258,6 +258,13 @@
         + '</div>'
         + '</article>';
     }).join("");
+    /* Tap a review-card photo → same lightbox as the wall, starting on that exact photo */
+    wall.addEventListener("click", function (e) {
+      var img = e.target.closest ? e.target.closest(".rv-card-photos img") : null;
+      if (!img || !window.kOpenFit) return;
+      var fit = all[Number(img.dataset.fit)]; if (!fit) return;
+      window.kOpenFit(fit, Number(img.dataset.photo) || 0);
+    });
   }
 })();
 </script>

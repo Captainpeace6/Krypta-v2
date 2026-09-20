@@ -21,6 +21,7 @@ window.kUpgradeImages = function (root) {
     if (img.getAttribute('data-k-src') === src) continue;
     img.setAttribute('data-k-src', src);
     var m = src.match(/^((?:https:\/\/www\.kryptaa\.com\/)?\/?imgs\/(?:pants|tees|tops|anime)\/[^?#]+?)\.(webp|jpg|jpeg|png)$/i);
+    if (img.hasAttribute('data-k-full')) continue; // lightboxes: always the full-res file, never a variant
     if (m && !noVariants && !/-(480|800)\.webp$/.test(src) && !/sizechart/i.test(src)) {
       var base = m[1];
       img.setAttribute('srcset', base + '-480.webp 480w, ' + base + '-800.webp 800w, ' + src + ' 1400w');

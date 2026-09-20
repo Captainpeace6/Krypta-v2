@@ -59,7 +59,7 @@
     });
     return fits.length;
   };
-  window.kOpenFit = function (fit) { openFitLightbox(fit, 0); };
+  window.kOpenFit = function (fit, start) { openFitLightbox(fit, start || 0); };
   /* Lightbox state lives here (not in a per-open closure) so the arrow /
      key / swipe handlers — bound once — always act on the fit currently open. */
   const kfl = { fit: null, idx: 0, el: null };
@@ -78,7 +78,7 @@
       const lb = doc.createElement("div"); lb.id = "kFitLightbox"; lb.className = "kfl";
       lb.innerHTML = `<button class="kfl-close" type="button" aria-label="Close">&times;</button>
         <button class="kfl-arr kfl-prev" type="button" aria-label="Previous">&#8249;</button>
-        <div class="kfl-stage"><img class="kfl-img" alt=""></div>
+        <div class="kfl-stage"><img class="kfl-img" alt="" data-k-full="1"></div>
         <button class="kfl-arr kfl-next" type="button" aria-label="Next">&#8250;</button>
         <div class="kfl-meta"><div><div class="kfl-author"></div><div class="kfl-product"></div></div><div class="kfl-dots"></div></div>`;
       doc.body.appendChild(lb); kfl.el = lb;
