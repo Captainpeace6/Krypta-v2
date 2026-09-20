@@ -25,5 +25,5 @@ for d in DIRS:
             if os.path.exists(out) and os.path.getmtime(out) >= os.path.getmtime(src): skipped += 1; continue
             tw = min(W, w)
             im2 = im.convert('RGB').resize((tw, round(h * tw / w)), Image.LANCZOS)
-            im2.save(out, 'WEBP', quality=78, method=6); made += 1
+            im2.save(out, 'WEBP', quality=84, method=6); made += 1
 print(f'✓ images: {made} variants written, {skipped} up to date')

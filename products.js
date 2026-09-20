@@ -10,13 +10,14 @@ window.K_NETLIFY = "https://kryptaa-backend.netlify.app/.netlify/functions/";
    first screen. sizes="auto" lets the browser size from layout (Chromium); other browsers
    ignore it and simply keep today's behaviour. Idempotent; safe to call often. */
 window.kUpgradeImages = function (root) {
+  var noVariants = document.body && document.body.dataset.page === 'lookbook'; // editorial page stays full-res
   var imgs = (root || document).querySelectorAll('img[src]:not([data-k-rs])');
   var vh = window.innerHeight || 800;
   for (var i = 0; i < imgs.length; i++) {
     var img = imgs[i]; img.setAttribute('data-k-rs', '1');
     var src = img.getAttribute('src') || '';
     var m = src.match(/^((?:https:\/\/www\.kryptaa\.com\/)?\/?imgs\/(?:pants|tees|tops|anime)\/[^?#]+?)\.(webp|jpg|jpeg|png)$/i);
-    if (m && !/-(480|800)\.webp$/.test(src) && !/sizechart/i.test(src)) {
+    if (m && !noVariants && !/-(480|800)\.webp$/.test(src) && !/sizechart/i.test(src)) {
       var base = m[1];
       img.setAttribute('srcset', base + '-480.webp 480w, ' + base + '-800.webp 800w, ' + src + ' 1400w');
       if (!img.getAttribute('sizes')) img.setAttribute('sizes', 'auto');

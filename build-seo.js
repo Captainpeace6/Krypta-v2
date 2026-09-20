@@ -517,7 +517,7 @@ try { require('child_process').execFileSync(process.execPath, [path.join(__dirna
    browser never downloads a 1400px file for a 190px tile. Generated pages get this in their
    templates; JS-rendered images get it at runtime via kUpgradeImages(). Idempotent. ── */
 (function () {
-  const pages = fs.readdirSync(__dirname).filter((f) => f.endsWith('.html') && !/^(orders|product-detail|inventory|logo-sting)\.html$/.test(f));
+  const pages = fs.readdirSync(__dirname).filter((f) => f.endsWith('.html') && !/^(orders|product-detail|inventory|logo-sting|lookbook)\.html$/.test(f)); // lookbook = full-res editorial, no variants
   let n = 0;
   for (const f of pages) {
     const fp = path.join(__dirname, f); let html = fs.readFileSync(fp, 'utf8');
