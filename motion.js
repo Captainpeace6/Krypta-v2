@@ -59,11 +59,14 @@
       const fig = e.target.closest(".kpw-item"); if (!fig) return;
       openFitLightbox(fits[Number(fig.dataset.fit)], 0);
     });
-    /* Defer the whole wall (not per-image lazy) until the track nears the viewport,
-       then load every tile at once — including the ones scrolled off to the right. */
+    /* Every tile is a plain eager <img> (loads immediately, no per-image lazy) when the wall
+       sits within two screens of the top — reviews.html. Only a wall far down the page (home)
+       is deferred as a whole until it nears the viewport, then all tiles load at once,
+       including the ones scrolled off to the right. */
     const tiles = trackEl.querySelectorAll("img[src]");
     const loadAll = () => { tiles.forEach((im) => { if (im.dataset.src) { im.src = im.dataset.src; im.removeAttribute("data-src"); } }); };
-    if ("IntersectionObserver" in window) {
+    const farDown = trackEl.getBoundingClientRect().top > (window.innerHeight || 800) * 2;
+    if (farDown && "IntersectionObserver" in window) {
       tiles.forEach((im) => { im.dataset.src = im.getAttribute("src"); im.removeAttribute("srcset"); im.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="; });
       const io = new IntersectionObserver((en) => { if (en.some((x) => x.isIntersecting)) { io.disconnect(); loadAll(); } }, { rootMargin: "600px 0px" });
       io.observe(trackEl);
