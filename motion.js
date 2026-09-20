@@ -37,7 +37,9 @@
 
   /* ── Grouped photo wall: one tile per review (cover + "+N" stack + peek
         thumbs); tap opens a lightbox that arrows through that fit only.
-        Used by reviews.html and the home panel. ── */
+        Used by reviews.html and the home panel. Tiles load eagerly: iOS Safari
+        never triggers lazy images inside a horizontal scroll-snap track, so
+        only the first two tiles used to appear on phones. ── */
   window.kRenderPhotoWall = function (trackEl, reviews, opts) {
     opts = opts || {};
     const escH = (t) => String(t == null ? "" : t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -47,9 +49,9 @@
     trackEl.innerHTML = fits.map((r, i) => {
       const extra = r.photos.length - 1;
       return `<figure class="kpw-item" data-fit="${i}">
-        <img src="${escH(r.photos[0])}" alt="${escH(r.product)} worn by ${escH(r.author)}" loading="lazy">
+        <img src="${escH(r.photos[0])}" alt="${escH(r.product)} worn by ${escH(r.author)}" loading="eager" decoding="async">
         ${extra > 0 ? `<span class="kpw-stack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="7" width="14" height="14"/><path d="M7 3h14v14"/></svg>+${extra}</span>
-        <span class="kpw-peek">${r.photos.slice(1, 3).map((p) => `<img src="${escH(p)}" alt="" loading="lazy">`).join("")}</span>` : ""}
+        <span class="kpw-peek">${r.photos.slice(1, 3).map((p) => `<img src="${escH(p)}" alt="" loading="eager" decoding="async">`).join("")}</span>` : ""}
         <figcaption><span class="kpw-author">${escH(r.author)}${r.verified ? ` <span class="${badgeCls}">✓ Verified</span>` : ""}</span><span class="kpw-product">${escH(r.product)}${r.size ? " · " + escH(r.size) : ""}</span></figcaption>
       </figure>`;
     }).join("");
@@ -57,6 +59,19 @@
       const fig = e.target.closest(".kpw-item"); if (!fig) return;
       openFitLightbox(fits[Number(fig.dataset.fit)], 0);
     });
+    /* Defer the whole wall (not per-image lazy) until the track nears the viewport,
+       then load every tile at once — including the ones scrolled off to the right. */
+    const tiles = trackEl.querySelectorAll("img[src]");
+    const loadAll = () => { tiles.forEach((im) => { if (im.dataset.src) { im.src = im.dataset.src; im.removeAttribute("data-src"); } }); };
+    if ("IntersectionObserver" in window) {
+      tiles.forEach((im) => { im.dataset.src = im.getAttribute("src"); im.removeAttribute("srcset"); im.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="; });
+      const io = new IntersectionObserver((en) => { if (en.some((x) => x.isIntersecting)) { io.disconnect(); loadAll(); } }, { rootMargin: "600px 0px" });
+      io.observe(trackEl);
+      // Safety nets: any scroll/touch, or 6s after load, loads the wall even if the observer never fires
+      const once = () => { io.disconnect(); loadAll(); };
+      ["scroll", "touchstart", "wheel"].forEach((ev) => window.addEventListener(ev, once, { once: true, passive: true }));
+      setTimeout(once, doc.readyState === "complete" ? 6000 : 9000);
+    }
     return fits.length;
   };
   window.kOpenFit = function (fit, start) { openFitLightbox(fit, start || 0); };

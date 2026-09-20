@@ -26,10 +26,10 @@ window.kUpgradeImages = function (root) {
       var base = m[1];
       img.setAttribute('srcset', base + '-480.webp 480w, ' + base + '-800.webp 800w, ' + src + ' 1400w');
       var r = img.getBoundingClientRect();
-      // Lazy images can size themselves from layout (sizes=auto, Chromium); otherwise use the
-      // measured width, or the viewport when the element isn't laid out yet.
-      if (img.getAttribute('loading') === 'lazy') img.setAttribute('sizes', 'auto');
-      else img.setAttribute('sizes', r.width > 0 ? Math.ceil(r.width) + 'px' : '100vw');
+      // Measured width first (works in every browser); lazy images that aren't laid out yet
+      // may size from layout (sizes=auto, Chromium — Safari falls back to 100vw); else viewport.
+      if (r.width > 0) img.setAttribute('sizes', Math.ceil(r.width) + 'px');
+      else img.setAttribute('sizes', img.getAttribute('loading') === 'lazy' ? 'auto' : '100vw');
     } else if (img.hasAttribute('srcset') && img.getAttribute('data-k-set') === '1') {
       img.removeAttribute('srcset'); img.removeAttribute('sizes'); // src moved to a non-variant image
     }
