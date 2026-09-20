@@ -11,30 +11,39 @@ window.K_NETLIFY = "https://kryptaa-backend.netlify.app/.netlify/functions/";
    ignore it and simply keep today's behaviour. Idempotent; safe to call often. */
 window.kUpgradeImages = function (root) {
   var noVariants = document.body && document.body.dataset.page === 'lookbook'; // editorial page stays full-res
-  var imgs = (root || document).querySelectorAll('img[src]:not([data-k-rs])');
+  var imgs = (root || document).querySelectorAll('img[src]');
   var vh = window.innerHeight || 800;
   for (var i = 0; i < imgs.length; i++) {
-    var img = imgs[i]; img.setAttribute('data-k-rs', '1');
+    var img = imgs[i];
     var src = img.getAttribute('src') || '';
+    // Re-sync whenever src changes (lightboxes and galleries swap src on the same element):
+    // a stale srcset would otherwise keep showing the previous photo.
+    if (img.getAttribute('data-k-src') === src) continue;
+    img.setAttribute('data-k-src', src);
     var m = src.match(/^((?:https:\/\/www\.kryptaa\.com\/)?\/?imgs\/(?:pants|tees|tops|anime)\/[^?#]+?)\.(webp|jpg|jpeg|png)$/i);
     if (m && !noVariants && !/-(480|800)\.webp$/.test(src) && !/sizechart/i.test(src)) {
       var base = m[1];
       img.setAttribute('srcset', base + '-480.webp 480w, ' + base + '-800.webp 800w, ' + src + ' 1400w');
-      if (!img.getAttribute('sizes')) img.setAttribute('sizes', 'auto');
-    }
-    if (!img.hasAttribute('loading') && !img.hasAttribute('fetchpriority')) {
       var r = img.getBoundingClientRect();
-      if (r.top > vh * 1.2 || r.width === 0) img.setAttribute('loading', 'lazy');
+      // Lazy images can size themselves from layout (sizes=auto, Chromium); otherwise use the
+      // measured width, or the viewport when the element isn't laid out yet.
+      if (img.getAttribute('loading') === 'lazy') img.setAttribute('sizes', 'auto');
+      else img.setAttribute('sizes', r.width > 0 ? Math.ceil(r.width) + 'px' : '100vw');
+    } else if (img.hasAttribute('srcset') && img.getAttribute('data-k-set') === '1') {
+      img.removeAttribute('srcset'); img.removeAttribute('sizes'); // src moved to a non-variant image
+    }
+    if (m && !noVariants) img.setAttribute('data-k-set', '1');
+    if (!img.hasAttribute('loading') && !img.hasAttribute('fetchpriority')) {
+      var rr = img.getBoundingClientRect();
+      if (rr.top > vh * 1.2 || rr.width === 0) img.setAttribute('loading', 'lazy');
     }
     if (!img.hasAttribute('decoding')) img.setAttribute('decoding', 'async');
   }
 };
 (function () {
-  /* No debounce: running inside the mutation microtask lets the browser pick the srcset
-     candidate before the original src fetch starts, so images aren't downloaded twice. */
   var run = function () { try { window.kUpgradeImages(); } catch (e) {} };
   if (document.readyState !== 'loading') run(); else document.addEventListener('DOMContentLoaded', run);
-  if (window.MutationObserver) new MutationObserver(run).observe(document.documentElement, { childList: true, subtree: true });
+  if (window.MutationObserver) new MutationObserver(run).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] });
 })();
 window.K_MOVED = ["create-checkout","stripe-webhook","get-stock","update-stock","low-stock-alert","reviews-public","submit-review","reviews-admin","restock-request","restock-notify","track-order"];
 const RAW_PRODUCTS = [

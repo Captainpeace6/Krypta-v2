@@ -102,7 +102,7 @@
   font-size: 0.92rem; line-height: 1.7; color: rgba(240,237,232,0.82); margin: 0 0 16px;
 }
 .rv-card-photos { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
-.rv-card-photos img { width: 74px; height: 74px; object-fit: cover; border: 1px solid rgba(210,174,91,0.25); border-radius: 2px; }
+.rv-card-photos img { width: calc((100% - 16px) / 3); max-width: 150px; aspect-ratio: 3 / 4; height: auto; object-fit: cover; border: 1px solid rgba(210,174,91,0.25); border-radius: 2px; cursor: zoom-in; }
 .rv-card-meta { display: flex; flex-direction: column; gap: 3px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px; }
 .rv-card-author { font-family: var(--f-mono, 'Space Mono', monospace); font-size: 0.72rem; letter-spacing: 0.1em; color: var(--k-bone, #f0ede8); text-transform: uppercase; }
 .rv-card-on { font-size: 0.72rem; color: var(--k-gold, #d2ae5b); opacity: 0.8; }
