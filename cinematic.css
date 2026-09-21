@@ -876,10 +876,26 @@ html.k-snap-active {
   opacity: 0.38;
 }
 
-/* ── Mobile: keep mandatory snap ── */
+/* ── Mobile: free scrolling with a gentle snap ──
+   Mandatory snap + 100vh panels on phones threw the page: any small scroll jumped a
+   whole panel (the hero "disappeared") and iOS's collapsing address bar changed 100vh
+   mid-scroll, re-aligning everything. Panels now size to the *small* viewport and grow
+   with their content. No snapping at all on phones (even "proximity" grabbed the page
+   from 250px away in testing) — the panel reveals are driven by IntersectionObserver
+   in snap-scroll.js, so they still play; desktop keeps the full snap experience. */
 @media (max-width: 767px) {
   html.k-snap-active {
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: none;
+  }
+  .snap-panel {
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+  }
+  .v3-hero.snap-panel,
+  .brand-video-section.snap-panel {
+    height: 100svh;
+    overflow: hidden;
   }
   .snap-editorial .section-shell.editorial-split {
     grid-template-columns: 1fr;

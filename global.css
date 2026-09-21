@@ -3723,7 +3723,8 @@ details.faq-item[open] summary { color: #f0ede8; }
 
 /* #8 Mute button — larger tap target on mobile */
 @media (max-width: 767px) {
-  .hero-mute-btn { width: 48px; height: 48px; }
+  /* Sits above the fixed mobile bag bar (~64px) so it can't be covered once something is in the bag */
+  .hero-mute-btn { width: 48px; height: 48px; bottom: calc(92px + env(safe-area-inset-bottom, 0px)); left: 16px; }
   .hero-mute-btn svg { width: 22px; height: 22px; }
 }
 
@@ -6224,4 +6225,18 @@ details.faq-item[open] summary { color: #f0ede8; }
     border-color: rgba(210, 174, 91, 0.35);
   }
   .nav-item.has-dropdown { padding: 0; }
+}
+
+/* Empty bag — compact on phones so the drawer doesn't need to scroll */
+@media (max-width: 640px) {
+  .cart-empty-rich { padding: 16px 14px 14px; }
+  .ce-scene { width: 118px; height: 118px; margin-bottom: 8px; }
+  .ce-sigil { width: 76px; height: 76px; }
+  .ce-aura { inset: 12px; }
+  .ce-ring { inset: 4px; }
+  .ce-ring::after { inset: 10px; }
+  .ce-title { font-size: 0.98rem; }
+  .ce-sub { font-size: 0.76rem; margin: 4px 0 12px; }
+  .ce-btn { padding: 10px 13px; font-size: 0.58rem; }
+  @keyframes ceEmber { 0% { transform: translate(0, 0); opacity: 0 } 15% { opacity: 1 } 100% { transform: translate(var(--dx, 0), -100px); opacity: 0 } }
 }
