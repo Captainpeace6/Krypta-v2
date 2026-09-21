@@ -1321,7 +1321,8 @@
     /* Free-shipping progress bar (threshold matches backend: $60) */
     const FREE_SHIP = 60;
     const shippingBar = doc.getElementById("cartShippingBar");
-    if (shippingBar) {
+    if (shippingBar && !cart.length) shippingBar.innerHTML = `<div class="csp-text">Free US shipping on orders over <strong>${formatPrice(FREE_SHIP)}</strong></div>`;
+    else if (shippingBar) {
       const remaining = Math.max(0, FREE_SHIP - totalVal);
       const pct = Math.min(100, (totalVal / FREE_SHIP) * 100).toFixed(1);
       shippingBar.innerHTML = remaining > 0
@@ -1330,7 +1331,18 @@
     }
 
     if (!cart.length) {
-      container.innerHTML = `<div class="cart-empty">Your bag is empty</div>`;
+      /* Empty state: floating sigil in a gold aura + drifting embers, then two ways in */
+      container.innerHTML = `<div class="cart-empty cart-empty-rich">
+        <div class="ce-scene" aria-hidden="true">
+          <span class="ce-ember"></span><span class="ce-ember"></span><span class="ce-ember"></span><span class="ce-ember"></span><span class="ce-ember"></span><span class="ce-ember"></span>
+          <div class="ce-aura"></div>
+          <img class="ce-sigil" src="imgs/kryptaa-sigil.webp" alt="" width="112" height="112" decoding="async">
+          <div class="ce-ring"></div>
+        </div>
+        <div class="ce-title">Your bag is empty</div>
+        <div class="ce-sub">The drop won't wait. Fill it with something loud.</div>
+        <div class="ce-actions"><a class="k-btn-gold ce-btn" href="men-all.html">Shop Drop 001</a><a class="k-btn-outline ce-btn" href="anime.html">Anime pre-orders</a></div>
+      </div>`;
       return;
     }
 
@@ -1359,7 +1371,7 @@
       const cats = [...new Set(cart.map((i) => { const p = typeof getProductById === "function" ? getProductById(i.id) : null; return p ? p.category : null; }).filter(Boolean))];
       const avPicks = (window.PRODUCTS || []).filter((p) => cats.includes(p.category) && !inCartIds.has(p.id) && !/archive/i.test(p.availability || "")).slice(0, 3);
       alsoViewed.innerHTML = avPicks.length > 0
-        ? `<div class="cav-label">You may also like</div><div class="cav-row">${avPicks.map((p) => `<a class="cav-card" href="${productUrl(p)}"><img src="${p.img}" alt="${p.name}" loading="lazy"><div class="cav-name">${p.name}</div><div class="cav-price">${formatPrice(p.price)}</div></a>`).join("")}</div>`
+        ? `<div class="cav-label">You may also like</div><div class="cav-row">${avPicks.map((p) => `<a class="cav-card" href="${(typeof productUrl === "function") ? productUrl(p) : "product-detail?id=" + p.id}"><img src="${p.img}" alt="${p.name}" loading="lazy"><div class="cav-name">${p.name}</div><div class="cav-price">${formatPrice(p.price)}</div></a>`).join("")}</div>`
         : "";
     }
   }
@@ -1530,7 +1542,7 @@
           '<option value="price-desc">Price: High to Low</option>' +
         '</select>';
       const countEl = doc.getElementById("shopCount");
-      if (countEl) toolbar.insertBefore(wrap, countEl); else toolbar.appendChild(wrap);
+      if (countEl && countEl.parentNode === toolbar) toolbar.insertBefore(wrap, countEl); else toolbar.appendChild(wrap); // some pages nest #shopCount elsewhere
       doc.getElementById("shopSort").addEventListener("change", (e) => paintGrid(e.target.value));
     }
 

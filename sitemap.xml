@@ -120,10 +120,6 @@
       <image:title>Angel of Death Heavyweight Tee — Front</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1-onbody-1.webp</image:loc>
-      <image:title>Angel of Death Heavyweight Tee — On Body</image:title>
-    </image:image>
-    <image:image>
       <image:loc>https://www.kryptaa.com/imgs/tees/tee-2-g2.webp</image:loc>
       <image:title>Angel of Death Heavyweight Tee — Back</image:title>
     </image:image>
@@ -528,6 +524,10 @@
     <image:image>
       <image:loc>https://www.kryptaa.com/imgs/tees/tee-4.webp</image:loc>
       <image:title>Need Some Money Oversized Tee — Back</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.kryptaa.com/imgs/pants/mens-pant-1-onbody-1.webp</image:loc>
+      <image:title>Need Some Money Oversized Tee — On Body</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.kryptaa.com/imgs/tees/tee-4-g2.webp</image:loc>

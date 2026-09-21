@@ -33,11 +33,11 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap"></noscript>
 <link rel="stylesheet" href="global.css">
 <link rel="icon" type="image/webp" href="imgs/kryptaa-sigil.webp">
-<script defer src="products.js?v=e93b14d8"></script>
+<script defer src="products.js?v=ee31343c"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-<script defer src="motion.js?v=5112af83"></script>
+<script defer src="motion.js?v=1f6857ad"></script>
 <style>
 /* ── Checkout page overrides ── */
 .checkout-page {
@@ -440,6 +440,9 @@
 }
 .co-email-wrap { margin: 0 0 14px; }
 .co-email-lbl { display: block; font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(243,239,229,0.55); margin: 0 0 6px; }
+.co-req { color: var(--k-gold, #d2ae5b); margin-left: 2px; }
+.co-email-why { font-size: 0.62rem; letter-spacing: 0.04em; color: rgba(243,239,229,0.42); margin-top: 6px; }
+.co-email-input.is-invalid { border-color: rgba(255,90,90,0.7); }
 .co-email-input { width: 100%; text-transform: none; letter-spacing: 0.04em; font-size: 0.8rem; box-sizing: border-box; }
 .co-coupon-input::placeholder { color: rgba(255,255,255,0.2); }
 .co-coupon-input:focus { border-color: rgba(210,174,91,0.5); }
@@ -603,8 +606,9 @@
           </div>
         </div>
         <div class="co-email-wrap">
-          <label class="co-email-lbl" for="coEmail">Email for your order confirmation</label>
-          <input class="co-coupon-input co-email-input" id="coEmail" type="email" placeholder="you@email.com" autocomplete="email" inputmode="email" maxlength="200">
+          <label class="co-email-lbl" for="coEmail">Email for your order confirmation <span class="co-req" aria-hidden="true">*</span></label>
+          <input class="co-coupon-input co-email-input" id="coEmail" type="email" placeholder="you@email.com" autocomplete="email" inputmode="email" maxlength="200" required aria-required="true">
+          <div class="co-email-why">Required — it's where your confirmation and tracking number go.</div>
           <div class="co-coupon-msg" id="coEmailMsg"></div>
         </div>
         <button class="co-submit" id="coSubmit" type="button" onclick="goToStripe()">
@@ -712,7 +716,8 @@ function goToStripe() {
   if (!cart.length) return;
 
   var btn = document.getElementById("coSubmit");
-  if (btn) { btn.disabled = true; btn.textContent = "Redirecting to Stripe…"; }
+  if (btn) { var _t = document.getElementById("coPayBtnTotal"); if (_t) btn.dataset.total = _t.textContent; btn.disabled = true; btn.textContent = "Redirecting to Stripe…"; }
+  var restoreBtn = function () { if (btn) { btn.disabled = false; btn.innerHTML = "🔒 &nbsp; Pay Now — <span id=\"coPayBtnTotal\">" + (btn.dataset.total || "") + "</span>"; } };
 
   var subtotal  = cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
   var discount  = appliedCoupon ? subtotal * appliedCoupon.discountRate : 0;
@@ -774,11 +779,14 @@ function goToStripe() {
   /* Email captured here (not only on Stripe's page) so the abandoned-cart recovery email can
      reach people who leave before typing it on Stripe. Remembered for next time. */
   var emailEl = document.getElementById("coEmail");
-  var email = ((emailEl && emailEl.value) || localStorage.getItem("kryptaa_email") || "").trim().toLowerCase();
-  if (emailEl && emailEl.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    var em = document.getElementById("coEmailMsg"); if (em) { em.textContent = "Please check that email address."; em.className = "co-coupon-msg error"; }
-    emailEl.focus();
-    if (btn) { btn.disabled = false; btn.innerHTML = "🔒 &nbsp; Pay Now — " + document.getElementById("coPayBtnTotal").textContent; }
+  var email = ((emailEl && emailEl.value) || "").trim().toLowerCase();
+  /* Mandatory: there are no accounts, so this address is the only way to send the confirmation
+     and the tracking number. */
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    var em = document.getElementById("coEmailMsg"); if (em) { em.textContent = email ? "Please check that email address." : "Please enter your email — we need it to send your order confirmation and tracking."; em.className = "co-coupon-msg error"; }
+    if (emailEl) { emailEl.classList.add("is-invalid"); emailEl.scrollIntoView({ block: "center", behavior: "smooth" }); emailEl.focus(); emailEl.addEventListener("input", function () { emailEl.classList.remove("is-invalid"); if (em) em.textContent = ""; }, { once: true }); }
+    if (typeof gtag === "function") gtag("event", "checkout_email_missing");
+    restoreBtn();
     return;
   }
   if (email) { try { localStorage.setItem("kryptaa_email", email); } catch (e) {} }
@@ -794,7 +802,7 @@ function goToStripe() {
       window.location.replace(data.url);
     } else {
       alert("Payment error: " + (data.error || "Could not create checkout session"));
-      if (btn) { btn.disabled = false; btn.innerHTML = "🔒 &nbsp; Pay Now — " + document.getElementById("coPayBtnTotal").textContent; }
+      restoreBtn();
     }
   })
   .catch(function (e) {
@@ -805,7 +813,7 @@ function goToStripe() {
       : "Network error. Please try again.";
     alert(msg);
     if (window.gtag) gtag("event", "checkout_unavailable", { reason: offline ? "backend_503" : "network" });
-    if (btn) { btn.disabled = false; btn.innerHTML = "🔒 &nbsp; Pay Now — " + document.getElementById("coPayBtnTotal").textContent; }
+    restoreBtn();
   });
 }
 
