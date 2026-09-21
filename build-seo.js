@@ -536,7 +536,8 @@ try { require('child_process').execFileSync(process.execPath, [path.join(__dirna
 (function () {
   const crypto = require('crypto');
   const ver = (f) => crypto.createHash('sha1').update(fs.readFileSync(path.join(__dirname, f))).digest('hex').slice(0, 8);
-  const V = { 'products.js': ver('products.js'), 'motion.js': ver('motion.js') };
+  const FILES = ['products.js', 'motion.js', 'cinematic.js', 'snap-scroll.js', 'immersive.js', 'global.css', 'cinematic.css', 'immersive.css'];
+  const V = {}; for (const f of FILES) if (fs.existsSync(path.join(__dirname, f))) V[f] = ver(f);
   const pages = [
     ...fs.readdirSync(__dirname).filter((f) => f.endsWith('.html')),
     ...fs.readdirSync(path.join(__dirname, 'products')).map((f) => 'products/' + f),
@@ -545,8 +546,9 @@ try { require('child_process').execFileSync(process.execPath, [path.join(__dirna
   let n = 0;
   for (const f of pages) {
     const fp = path.join(__dirname, f); const html = fs.readFileSync(fp, 'utf8');
-    const out = html.replace(/src="(\/?)(products|motion)\.js(?:\?v=[^"]*)?"/g, (m, slash, name) => `src="${slash}${name}.js?v=${V[name + '.js']}"`);
+    const out = html.replace(/(src|href)="(\/?)(products|motion|cinematic|snap-scroll|immersive)\.js(?:\?v=[^"]*)?"/g, (m, attr, slash, name) => V[name + '.js'] ? `${attr}="${slash}${name}.js?v=${V[name + '.js']}"` : m)
+      .replace(/href="(\/?)(global|cinematic|immersive)\.css(?:\?v=[^"]*)?"/g, (m, slash, name) => V[name + '.css'] ? `href="${slash}${name}.css?v=${V[name + '.css']}"` : m);
     if (out !== html) { fs.writeFileSync(fp, out); n++; }
   }
-  console.log(`✓ asset versions stamped on ${n} pages (products.js ${V['products.js']}, motion.js ${V['motion.js']})`);
+  console.log(`✓ asset versions stamped on ${n} pages (${Object.entries(V).map(([k, v]) => k + ' ' + v).join(', ')})`);
 })();

@@ -505,7 +505,7 @@
   .k-entry-glow    { width: 340px; height: 160px; }
   .k-entry-logo    { margin-bottom: 28px; }
   .k-enter-btn     { padding: 16px 44px; }
-  #k-typing-section { padding: 52px 20px; }
+  #k-typing-section { padding: 34px 20px; }
   .k-type-hero     { font-size: clamp(44px, 12vw, 80px); }
 }
 

@@ -350,8 +350,9 @@
      10. SCROLL EFFECTS
   ───────────────────────────────────────────── */
   function initScrollEffects() {
-    /* snap-scroll.js owns all home-page animations — skip to avoid conflicts */
-    if (IS_HOME) return;
+    /* snap-scroll.js owns the home-page panel animations — but the typing interstitial
+       (injected right above) is ours; without this it stayed an empty black band. */
+    if (IS_HOME) { initTypingText(); return; }
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
       initGSAPEffects();
     } else {
@@ -486,9 +487,12 @@
         var full     = el.getAttribute('data-text') || '';
         var rect     = el.getBoundingClientRect();
         var winH     = window.innerHeight;
-        // Start revealing when element enters bottom 80%, finish at 15% from top
-        var startPx  = winH * 0.85;
-        var endPx    = winH * 0.15;
+        // Start revealing as the line enters the viewport, finish well before the top —
+        // on phones (free scrolling) the section used to sit as an empty black band until
+        // it had climbed 15% up the screen, which read as a gap before the Brand Story.
+        var phone    = window.innerWidth <= 767;
+        var startPx  = phone ? winH * 1.0 : winH * 0.85;
+        var endPx    = phone ? winH * 0.6 : winH * 0.15;
         var progress = (startPx - rect.top) / (startPx - endPx);
         progress     = Math.max(0, Math.min(1, progress));
 
