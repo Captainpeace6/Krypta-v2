@@ -176,7 +176,7 @@ const PRODUCTS = W.PRODUCTS || [];
 /* Product FAQ — every figure mirrors info.html and the PDP accordion; change them together. */
 /* srcset for product photos (variants from build-images.py); sizechart/logo excluded */
 function srcsetFor(src) {
-  const m = String(src || '').match(/^(imgs\/(?:pants|tees|tops|anime)\/[^?#]+?)\.(webp|jpg|jpeg|png)$/i);
+  const m = String(src || '').match(/^(imgs\/(?:pants|tees|tops|anime|reviews)\/[^?#]+?)\.(webp|jpg|jpeg|png)$/i);
   if (!m || /sizechart/i.test(src)) return '';
   return ` srcset="${m[1]}-480.webp 480w, ${m[1]}-800.webp 800w, ${src} 1400w"`;
 }
@@ -277,15 +277,13 @@ function productPage(product) {
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};
    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-   n.queue=[];t=b.createElement(e);t.async=!0;
-   t.src=v;s=b.getElementsByTagName(e)[0];
-   s.parentNode.insertBefore(t,s)}(window, document,'script',
+   n.queue=[];window.addEventListener('load',function(){setTimeout(function(){t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s);},1200)});}(window, document,'script',
                                    'https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', '2070231503594050');
   fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2070231503594050&ev=PageView&noscript=1"/></noscript>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-242EQ24FP3"></script>
+<script>window.addEventListener('load',function(){setTimeout(function(){var s=document.createElement('script');s.async=1;s.src='https://www.googletagmanager.com/gtag/js?id=G-242EQ24FP3';document.head.appendChild(s);},800)});</script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -323,7 +321,7 @@ function productPage(product) {
 <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script defer src="motion.js"></script>
 <!-- Microsoft Clarity -->
-<script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","y6kgv0czuk");</script>
+<script type="text/javascript">(function(c,l,a,r,i){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};window.addEventListener('load',function(){setTimeout(function(){var t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;l.head.appendChild(t);},2500)});})(window,document,"clarity","script","y6kgv0czuk");</script>
 <noscript><style>/*SEO:noscript*/.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body data-page="product" data-product-id="${product.id}">
@@ -521,7 +519,7 @@ try { require('child_process').execFileSync(process.execPath, [path.join(__dirna
   let n = 0;
   for (const f of pages) {
     const fp = path.join(__dirname, f); let html = fs.readFileSync(fp, 'utf8');
-    const out = html.replace(/<img\b([^>]*?)\ssrc="(imgs\/(?:pants|tees|tops|anime)\/[^"]+?)\.(webp|jpg|jpeg|png)"([^>]*)>/g, (m, a, base, ext, b) => {
+    const out = html.replace(/<img\b([^>]*?)\ssrc="(imgs\/(?:pants|tees|tops|anime|reviews)\/[^"]+?)\.(webp|jpg|jpeg|png)"([^>]*)>/g, (m, a, base, ext, b) => {
       if (/srcset=/.test(a + b) || /-(480|800)\.webp$/.test(base) || /sizechart/i.test(base)) return m;
       const lazy = /loading="lazy"/.test(a + b);
       const sizes = /sizes=/.test(a + b) ? '' : ` sizes="${lazy ? 'auto' : '(max-width: 768px) 100vw, 50vw'}"`;
@@ -530,4 +528,25 @@ try { require('child_process').execFileSync(process.execPath, [path.join(__dirna
     if (out !== html) { fs.writeFileSync(fp, out); n++; }
   }
   console.log(`✓ static srcset added in ${n} pages`);
+})();
+
+/* ── Cache-busting: GitHub Pages serves JS with max-age=600 and phones hold it longer, so a
+   fix in products.js / motion.js could sit behind a stale copy for hours. Every page references
+   them with ?v=<content hash>, which changes exactly when the file does. Idempotent. ── */
+(function () {
+  const crypto = require('crypto');
+  const ver = (f) => crypto.createHash('sha1').update(fs.readFileSync(path.join(__dirname, f))).digest('hex').slice(0, 8);
+  const V = { 'products.js': ver('products.js'), 'motion.js': ver('motion.js') };
+  const pages = [
+    ...fs.readdirSync(__dirname).filter((f) => f.endsWith('.html')),
+    ...fs.readdirSync(path.join(__dirname, 'products')).map((f) => 'products/' + f),
+    ...fs.readdirSync(path.join(__dirname, 'journal')).filter((f) => f.endsWith('.html')).map((f) => 'journal/' + f),
+  ];
+  let n = 0;
+  for (const f of pages) {
+    const fp = path.join(__dirname, f); const html = fs.readFileSync(fp, 'utf8');
+    const out = html.replace(/src="(\/?)(products|motion)\.js(?:\?v=[^"]*)?"/g, (m, slash, name) => `src="${slash}${name}.js?v=${V[name + '.js']}"`);
+    if (out !== html) { fs.writeFileSync(fp, out); n++; }
+  }
+  console.log(`✓ asset versions stamped on ${n} pages (products.js ${V['products.js']}, motion.js ${V['motion.js']})`);
 })();

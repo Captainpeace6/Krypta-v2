@@ -60,20 +60,22 @@
       openFitLightbox(fits[Number(fig.dataset.fit)], 0);
     });
     /* Every tile is a plain eager <img> (loads immediately, no per-image lazy) when the wall
-       sits within two screens of the top — reviews.html. Only a wall far down the page (home)
+       sits inside the first screen — reviews.html. A wall below the fold (home)
        is deferred as a whole until it nears the viewport, then all tiles load at once,
        including the ones scrolled off to the right. */
     const tiles = trackEl.querySelectorAll("img[src]");
     const loadAll = () => { tiles.forEach((im) => { if (im.dataset.src) { im.src = im.dataset.src; im.removeAttribute("data-src"); } }); };
-    const farDown = trackEl.getBoundingClientRect().top > (window.innerHeight || 800) * 2;
-    if (farDown && "IntersectionObserver" in window) {
+    const tr = trackEl.getBoundingClientRect();
+    const farDown = tr.width === 0 || tr.top > (window.innerHeight || 800) * 0.9; // below the fold, or not laid out yet (hidden panel)
+    if (!opts.eager && farDown && "IntersectionObserver" in window) {
       tiles.forEach((im) => { im.dataset.src = im.getAttribute("src"); im.removeAttribute("srcset"); im.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="; });
-      const io = new IntersectionObserver((en) => { if (en.some((x) => x.isIntersecting)) { io.disconnect(); loadAll(); } }, { rootMargin: "600px 0px" });
+      const io = new IntersectionObserver((en) => { if (en.some((x) => x.isIntersecting)) { io.disconnect(); loadAll(); } }, { rootMargin: "200px 0px" });
       io.observe(trackEl);
       // Safety nets: any scroll/touch, or 6s after load, loads the wall even if the observer never fires
       const once = () => { io.disconnect(); loadAll(); };
-      ["scroll", "touchstart", "wheel"].forEach((ev) => window.addEventListener(ev, once, { once: true, passive: true }));
-      setTimeout(once, doc.readyState === "complete" ? 6000 : 9000);
+      // (not "scroll": the snap/smooth-scroll setup fires programmatic scroll events at load)
+      ["touchstart", "wheel", "keydown"].forEach((ev) => window.addEventListener(ev, once, { once: true, passive: true }));
+      setTimeout(once, 12000);
     }
     return fits.length;
   };
@@ -2568,7 +2570,7 @@
   function init() {
     resize();
     particles = [];
-    var count = Math.floor((W * H) / 5800);
+    var count = Math.min(140, Math.floor((W * H) / 5800)); // capped: the link pass is O(n²)
     for (var i = 0; i < count; i++) particles.push(makeParticle());
   }
 
@@ -2607,15 +2609,24 @@
         }
       }
     }
-    requestAnimationFrame(draw);
+    if (running) requestAnimationFrame(draw);
   }
 
+  /* Only animate while the Brand Story panel is actually on screen (and the tab visible):
+     the O(n²) link pass used to run every frame from page load, far below the fold. */
+  var running = false, inView = false;
+  function start() { if (running) return; running = true; requestAnimationFrame(draw); }
+  function stop() { running = false; }
+  function sync() { if (inView && !document.hidden) start(); else stop(); }
   window.addEventListener("resize", function () { init(); });
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function () { init(); draw(); });
-  } else {
-    init(); draw();
+  document.addEventListener("visibilitychange", sync);
+  function boot() {
+    init();
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (en) { inView = en.some(function (e) { return e.isIntersecting; }); sync(); }, { rootMargin: "120px 0px" }).observe(canvas);
+    } else { inView = true; sync(); }
   }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
 })();
 
 /* ── Live stock updates: sold-out blocking + low-stock badges ── */

@@ -13,6 +13,10 @@ window.kUpgradeImages = function (root) {
   var noVariants = document.body && document.body.dataset.page === 'lookbook'; // editorial page stays full-res
   var imgs = (root || document).querySelectorAll('img[src]');
   var vh = window.innerHeight || 800;
+  // Two passes — collect, measure all (one layout), then write — so a burst of new images
+  // costs a single forced reflow instead of one per image (this loop used to be the page's
+  // biggest layout-thrash source).
+  var todo = [];
   for (var i = 0; i < imgs.length; i++) {
     var img = imgs[i];
     var src = img.getAttribute('src') || '';
@@ -20,25 +24,27 @@ window.kUpgradeImages = function (root) {
     // a stale srcset would otherwise keep showing the previous photo.
     if (img.getAttribute('data-k-src') === src) continue;
     img.setAttribute('data-k-src', src);
-    var m = src.match(/^((?:https:\/\/www\.kryptaa\.com\/)?\/?imgs\/(?:pants|tees|tops|anime)\/[^?#]+?)\.(webp|jpg|jpeg|png)$/i);
     if (img.hasAttribute('data-k-full')) continue; // lightboxes: always the full-res file, never a variant
-    if (m && !noVariants && !/-(480|800)\.webp$/.test(src) && !/sizechart/i.test(src)) {
-      var base = m[1];
-      img.setAttribute('srcset', base + '-480.webp 480w, ' + base + '-800.webp 800w, ' + src + ' 1400w');
-      var r = img.getBoundingClientRect();
+    var m = src.match(/^((?:https:\/\/www\.kryptaa\.com\/)?\/?imgs\/(?:pants|tees|tops|anime|reviews)\/[^?#]+?)\.(webp|jpg|jpeg|png)$/i);
+    var variant = !!(m && !noVariants && !/-(480|800)\.webp$/.test(src) && !/sizechart/i.test(src));
+    var needLazy = !img.hasAttribute('loading') && !img.hasAttribute('fetchpriority');
+    todo.push({ img: img, src: src, base: m ? m[1] : null, variant: variant, needLazy: needLazy,
+      rect: (variant || needLazy) ? img.getBoundingClientRect() : null });
+  }
+  for (var j = 0; j < todo.length; j++) {
+    var t = todo[j], el = t.img, r = t.rect;
+    if (t.variant) {
+      el.setAttribute('srcset', t.base + '-480.webp 480w, ' + t.base + '-800.webp 800w, ' + t.src + ' 1400w');
       // Measured width first (works in every browser); lazy images that aren't laid out yet
       // may size from layout (sizes=auto, Chromium — Safari falls back to 100vw); else viewport.
-      if (r.width > 0) img.setAttribute('sizes', Math.ceil(r.width) + 'px');
-      else img.setAttribute('sizes', img.getAttribute('loading') === 'lazy' ? 'auto' : '100vw');
-    } else if (img.hasAttribute('srcset') && img.getAttribute('data-k-set') === '1') {
-      img.removeAttribute('srcset'); img.removeAttribute('sizes'); // src moved to a non-variant image
+      if (r.width > 0) el.setAttribute('sizes', Math.ceil(r.width) + 'px');
+      else el.setAttribute('sizes', el.getAttribute('loading') === 'lazy' ? 'auto' : '100vw');
+    } else if (el.hasAttribute('srcset') && el.getAttribute('data-k-set') === '1') {
+      el.removeAttribute('srcset'); el.removeAttribute('sizes'); // src moved to a non-variant image
     }
-    if (m && !noVariants) img.setAttribute('data-k-set', '1');
-    if (!img.hasAttribute('loading') && !img.hasAttribute('fetchpriority')) {
-      var rr = img.getBoundingClientRect();
-      if (rr.top > vh * 1.2 || rr.width === 0) img.setAttribute('loading', 'lazy');
-    }
-    if (!img.hasAttribute('decoding')) img.setAttribute('decoding', 'async');
+    if (t.base && !noVariants) el.setAttribute('data-k-set', '1');
+    if (t.needLazy && (r.top > vh * 1.2 || r.width === 0)) el.setAttribute('loading', 'lazy');
+    if (!el.hasAttribute('decoding')) el.setAttribute('decoding', 'async');
   }
 };
 (function () {

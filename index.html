@@ -4,7 +4,7 @@
 <meta name="msvalidate.01" content="7B4F41D4776543C9022DEBF75AB1743A" />
 <link rel="canonical" href="https://www.kryptaa.com/">
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-242EQ24FP3"></script>
+<script>window.addEventListener('load',function(){setTimeout(function(){var s=document.createElement('script');s.async=1;s.src='https://www.googletagmanager.com/gtag/js?id=G-242EQ24FP3';document.head.appendChild(s);},800)});</script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -31,10 +31,8 @@
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-     n.queue=[];t=b.createElement(e);t.async=!0;
-     t.src=v;s=b.getElementsByTagName(e)[0];
-     s.parentNode.insertBefore(t,s)}(window, document,'script',
-                                     'https://connect.facebook.net/en_US/fbevents.js');
+     n.queue=[];window.addEventListener('load',function(){setTimeout(function(){t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s);},1200)});}(window, document,'script',
+                                   'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '2070231503594050');
     fbq('track', 'PageView');
   </script>
@@ -45,7 +43,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap"></noscript>
-<link rel="preload" as="image" href="imgs/hero-skate-poster.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="imgs/hero-skate-poster.webp" fetchpriority="high">
 <link rel="preload" as="image" href="imgs/kryptaa-wordmark-final.webp" fetchpriority="high">
 <link rel="stylesheet" href="global.css">
 <link rel="icon" type="image/webp" href="imgs/kryptaa-sigil.webp">
@@ -85,11 +83,11 @@
 </script>
 <link rel="stylesheet" href="cinematic.css">
 <link rel="stylesheet" href="immersive.css">
-<script defer src="products.js?v=20260919c"></script>
+<script defer src="products.js?v=d03da68c"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-<script defer src="motion.js?v=20260919c"></script>
+<script defer src="motion.js?v=596fb1d4"></script>
 <script defer src="cinematic.js"></script>
 <script defer src="snap-scroll.js"></script>
 <script defer src="immersive.js"></script>
@@ -112,7 +110,7 @@
   });
 </script>
 <!-- Microsoft Clarity -->
-<script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","y6kgv0czuk");</script>
+<script type="text/javascript">(function(c,l,a,r,i){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};window.addEventListener('load',function(){setTimeout(function(){var t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;l.head.appendChild(t);},2500)});})(window,document,"clarity","script","y6kgv0czuk");</script>
 </head>
 <body data-page="home">
 
@@ -178,7 +176,8 @@
 <main class="home-page">
   <!-- ░░ PANEL 0 — HERO ░░ -->
   <section class="v3-hero snap-panel" data-hero>
-<video class="hero-video-bg layer-bg" id="heroVideo" autoplay muted loop playsinline preload="none" poster="imgs/hero-skate-poster.jpg" data-src-desktop="imgs/hero-skate.mp4" data-src-mobile="imgs/hero-skate-mobile.mp4"></video>
+<img class="hero-poster-bg" src="imgs/hero-skate-poster.webp" alt="" fetchpriority="high" decoding="async" width="1080" height="1920">
+<video class="hero-video-bg layer-bg" id="heroVideo" autoplay muted loop playsinline preload="none" poster="imgs/hero-skate-poster.webp" data-src-desktop="imgs/hero-skate.mp4" data-src-mobile="imgs/hero-skate-mobile.mp4"></video>
     <script>(function(){var v=document.getElementById('heroVideo');if(!v)return;
       /* Poster paints first (LCP); the 2–9 MB video only starts after the page is interactive,
          and not at all when the visitor asked for reduced data / reduced motion. */
@@ -191,7 +190,11 @@
         /* the intro gate can pause media until the visitor enters — resume then, or on first touch */
         document.addEventListener('kryptaa:revealed',tryPlay);window.addEventListener('pointerdown',tryPlay,{once:true});};
       var go=function(){(window.requestIdleCallback||function(f){setTimeout(f,300)})(start,{timeout:2500});};
-      if(document.readyState==='complete')go();else window.addEventListener('load',go,{once:true});
+      /* First visit: the intro gate covers the hero, so don't spend 2 MB behind it — wait for the reveal.
+         Returning visitors (no gate): after load + idle as before. */
+      var gated=false;try{var at=parseInt(localStorage.getItem('k_entered_at')||'0',10);gated=!(sessionStorage.getItem('k_entered')==='1'||(at&&Date.now()-at<30*24*3600*1000));}catch(e){}
+      if(gated&&!rm){document.addEventListener('kryptaa:revealed',go,{once:true});}
+      else if(document.readyState==='complete')go();else window.addEventListener('load',go,{once:true});
     })();</script>
     <div class="hero-corner hero-corner-left">Defined By Power</div>
     <div class="hero-corner hero-corner-right">Driven By Aura</div>

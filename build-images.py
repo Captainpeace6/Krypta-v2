@@ -5,7 +5,7 @@ Runtime: products.js kUpgradeImages() adds srcset pointing at these. Run from bu
 import os, sys
 from PIL import Image
 ROOT = os.path.dirname(os.path.abspath(__file__))
-DIRS = ['imgs/pants', 'imgs/tees', 'imgs/tops', 'imgs/anime', 'imgs']
+DIRS = ['imgs/pants', 'imgs/tees', 'imgs/tops', 'imgs/anime', 'imgs/reviews', 'imgs']
 SKIP = ('sizechart', 'logo', 'sigil', 'wordmark', 'emblem', 'icon', 'favicon', 'poster', 'og-', 'email')
 made = skipped = 0
 for d in DIRS:

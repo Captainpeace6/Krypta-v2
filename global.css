@@ -851,6 +851,18 @@ body.menu-open .mobile-menu {
   background: #020202;
 }
 
+/* Static poster under the video: paints with the first CSS (fast LCP) and stays as the
+   fallback frame until the deferred video fades in on top of it. */
+.hero-poster-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.28;
+  filter: grayscale(0.24) contrast(1.22) brightness(0.5) saturate(0.8);
+  pointer-events: none;
+}
 .hero-video-bg {
   position: absolute;
   inset: 0;
