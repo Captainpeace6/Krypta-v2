@@ -481,7 +481,7 @@
     .stock-mover-val { font-family:'Space Mono',monospace; font-size:11px; color:var(--gold); }
 
   </style>
-<script defer src="products.js?v=d03da68c"></script>
+<script defer src="products.js?v=e93b14d8"></script>
 </head>
 <body>
 
@@ -702,6 +702,8 @@
       <div class="stock-movers" id="stockMovers"></div>
       <div class="stock-section-label">Back-in-Stock Waitlist</div>
       <div class="stock-movers" id="restockWaitlist"><span class="wait">Loading waitlist…</span></div>
+      <div class="stock-section-label">Referral Program</div>
+      <div class="stock-movers" id="referralStats"><span class="wait">Loading referrals…</span></div>
       <div class="stock-section-label">Men's Denim</div>
       <div class="stock-grid" id="mensStockGrid"></div>
       <div class="stock-section-label">Women's Denim</div>
@@ -2770,6 +2772,22 @@ function printLabel(order, orderNum) {
         }).catch(function(){ b.textContent='Failed'; b.disabled=false; });
     });
   })();
+  /* Referral program: every paid order mints a KRYPTAA-XXXXXX code (friends 10% off);
+     each friend order creates a THANKS-XXXXXX 15% reward for the referrer. */
+  function renderReferralStats(){
+    var el=document.getElementById('referralStats'); if(!el) return;
+    var key=savedKey(); if(!key){ el.innerHTML='<span class="wait">Not connected</span>'; return; }
+    fetch(window.K_API + 'admin-summary',{headers:{'X-Admin-Key':key}})
+      .then(function(r){return r.ok?r.json():null;})
+      .then(function(d){
+        var r=d&&d.referrals; if(!r){ el.innerHTML='<span class="wait">Unavailable</span>'; return; }
+        el.innerHTML='<div class="stock-mover-row" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(210,174,91,.12)"><span>Codes issued</span><span class="wait">'+r.codes+'</span></div>'
+          +'<div class="stock-mover-row" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(210,174,91,.12)"><span>Friend orders via codes</span><span class="wait">'+r.uses+'</span></div>'
+          +'<div class="stock-mover-row" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(210,174,91,.12)"><span>Rewards issued / redeemed</span><span class="wait">'+r.rewards+' / '+r.rewardsUsed+'</span></div>'
+          +(r.codes?'' :'<span class="wait">Starts with the next paid order — the buyer sees their code on the success screen and in the confirmation email</span>');
+      })
+      .catch(function(){ el.innerHTML='<span class="wait">Unavailable</span>'; });
+  }
   function renderRestockWaitlist(){
     var el=document.getElementById('restockWaitlist'); if(!el) return;
     var key=savedKey(); if(!key){ el.innerHTML='<span class="wait">Not connected</span>'; return; }
@@ -2796,7 +2814,7 @@ function printLabel(order, orderNum) {
   }
 
   function renderStockSummary(stock){
-    renderRestockWaitlist();
+    renderRestockWaitlist(); renderReferralStats();
     stock = stock || {};
     var CAT = window.PRODUCTS || [];
     var orders = window.__kOrders || [];

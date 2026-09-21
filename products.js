@@ -52,6 +52,14 @@ window.kUpgradeImages = function (root) {
   if (document.readyState !== 'loading') run(); else document.addEventListener('DOMContentLoaded', run);
   if (window.MutationObserver) new MutationObserver(run).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] });
 })();
+/* Referral links: kryptaa.com/?ref=KRYPTAA-XXXXXX — remember the code for 30 days; checkout applies it. */
+(function () {
+  try {
+    var m = (location.search || '').match(/[?&]ref=(KRYPTAA-[A-Za-z0-9]{6})/);
+    if (m) { localStorage.setItem('k_ref', m[1].toUpperCase()); localStorage.setItem('k_ref_at', String(Date.now())); }
+    else if (localStorage.getItem('k_ref') && Date.now() - Number(localStorage.getItem('k_ref_at') || 0) > 30 * 864e5) { localStorage.removeItem('k_ref'); localStorage.removeItem('k_ref_at'); }
+  } catch (e) {}
+})();
 window.K_MOVED = ["create-checkout","stripe-webhook","get-stock","update-stock","low-stock-alert","reviews-public","submit-review","reviews-admin","restock-request","restock-notify","track-order"];
 const RAW_PRODUCTS = [
   { id: 1, name: "Medusa Serpent Oversized Tee", price: 39, sizes: ["S", "M", "L", "XL", "2XL"], img: "imgs/tees/tee-1.webp", hero: "imgs/tees/tee-1-homescreen.webp", gallery: [{src:"imgs/tees/tee-1.webp",label:"Back"},{src:"imgs/tees/tee-1-g2.webp",label:"Back (Male)"},{src:"imgs/tees/tee-1-g3.webp",label:"Front"},{src:"imgs/tees/tee-1-g4.webp",label:"Side"},{src:"imgs/tees/tee-1-g5.webp",label:"Artwork"},{src:"imgs/tees/tee-1-g6.webp",label:"Detail"},{src:"imgs/tees/tee-1-g7.webp",label:"Close Up"}], category: "tees", collection: "Heavyweight / Drop 001", tags: ["300GSM", "100% Cotton", "Oversized"], materials: "300GSM · 100% Ring-Spun Cotton · Drop-Shoulder Box Cut", availability: "Limited Drop", desc: "Black oversized heavyweight tee with Medusa serpent goddess back print and dark gothic throne graphic on the front. 300GSM 100% cotton — built heavy, cut wide." },

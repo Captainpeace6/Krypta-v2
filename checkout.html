@@ -33,11 +33,11 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap"></noscript>
 <link rel="stylesheet" href="global.css">
 <link rel="icon" type="image/webp" href="imgs/kryptaa-sigil.webp">
-<script defer src="products.js?v=d03da68c"></script>
+<script defer src="products.js?v=e93b14d8"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-<script defer src="motion.js?v=596fb1d4"></script>
+<script defer src="motion.js?v=5112af83"></script>
 <style>
 /* ── Checkout page overrides ── */
 .checkout-page {
@@ -199,6 +199,12 @@
 }
 
 .co-success.active { display: flex; }
+.co-referral { margin: 6px auto 14px; max-width: 420px; padding: 18px 20px; border: 1px solid rgba(210,174,91,0.3); background: rgba(210,174,91,0.05); text-align: center; }
+.co-referral-eyebrow { font-family: var(--f-mono, 'Space Mono', monospace); font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(210,174,91,0.75); margin-bottom: 8px; }
+.co-referral-code { font-family: var(--f-mono, 'Space Mono', monospace); font-size: 1.25rem; letter-spacing: 0.16em; color: var(--k-gold, #d2ae5b); font-weight: 700; margin-bottom: 8px; user-select: all; }
+.co-referral-text { font-size: 0.82rem; line-height: 1.6; color: rgba(240,237,232,0.75); margin: 0 0 14px; }
+.co-referral-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.co-ref-btn { padding: 10px 18px; font-size: 0.68rem; letter-spacing: 0.16em; }
 
 .co-success-icon {
   width: 72px;
@@ -519,6 +525,15 @@
   <h2>Order Confirmed</h2>
   <p>Your order has been received. You will receive a confirmation email shortly at the address you provided. We'll notify you once your drop ships.</p>
   <div class="co-order-ref" id="coOrderRef">ORDER #KR-000000</div>
+  <div class="co-referral" id="coReferral" hidden>
+    <div class="co-referral-eyebrow">Your referral code</div>
+    <div class="co-referral-code" id="coReferralCode">KRYPTAA-······</div>
+    <p class="co-referral-text">Friends get <strong>10% off</strong> with it. Every time one orders, you get <strong>15% off</strong> your next drop — sent to your email automatically.</p>
+    <div class="co-referral-actions">
+      <button type="button" class="k-btn-outline co-ref-btn" id="coRefCopy">Copy link</button>
+      <button type="button" class="k-btn-gold co-ref-btn" id="coRefShare">Share</button>
+    </div>
+  </div>
   <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:8px;">
     <a class="k-btn-gold" href="index.html">Return Home</a>
     <a class="k-btn-outline" href="index.html" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--f-mono,monospace);letter-spacing:0.1em;font-size:0.8rem;">
@@ -869,27 +884,41 @@ function goToStripe() {
 
     if (!input || !btn) return;
 
+    function accept(code, rate, kind) {
+      appliedCoupon = { code: code, discountRate: rate };
+      msgEl.textContent = "✓ " + Math.round(rate * 100) + "% " + (kind === "referral" ? "friend discount" : kind === "reward" ? "referral reward" : "discount") + " applied!";
+      msgEl.className = "co-coupon-msg success";
+      input.disabled = true; btn.textContent = "Applied"; btn.disabled = true;
+      var banner = document.getElementById("coPromoBanner"); if (banner) banner.style.display = "none";
+      updateTotals(getCart());
+    }
+    function reject(text) {
+      msgEl.textContent = text; msgEl.className = "co-coupon-msg error"; appliedCoupon = null; updateTotals(getCart());
+    }
     function applyCoupon() {
       var code = input.value.trim().toUpperCase();
       if (!code) { msgEl.textContent = "Enter a coupon code."; msgEl.className = "co-coupon-msg error"; return; }
       var rate = VALID_COUPONS[code];
-      if (!rate) {
-        msgEl.textContent = "Invalid coupon code.";
-        msgEl.className = "co-coupon-msg error";
-        appliedCoupon = null;
-      } else {
-        appliedCoupon = { code: code, discountRate: rate };
-        msgEl.textContent = "✓ " + Math.round(rate * 100) + "% discount applied!";
-        msgEl.className = "co-coupon-msg success";
-        input.disabled = true;
-        btn.textContent = "Applied";
-        btn.disabled = true;
-      }
-      updateTotals(getCart());
+      if (rate) { accept(code, rate, "promo"); return; }
+      /* Referral (KRYPTAA-XXXXXX) and reward (THANKS-XXXXXX) codes live on the server */
+      if (!/^(KRYPTAA|THANKS)-[A-Z0-9]{6}$/.test(code)) { reject("Invalid coupon code."); return; }
+      btn.disabled = true; btn.textContent = "Checking…";
+      var emailEl = document.getElementById("coEmail");
+      fetch(window.K_API + "validate-coupon", { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: code, email: emailEl && emailEl.value ? emailEl.value.trim() : undefined }) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (d && d.ok) { accept(d.code, d.percentOff / 100, d.kind); return; }
+          btn.disabled = false; btn.textContent = "Apply";
+          reject(d && d.reason === "self" ? "That's your own code — share it with a friend instead." : "Invalid or already used code.");
+        })
+        .catch(function () { btn.disabled = false; btn.textContent = "Apply"; reject("Couldn't check that code — try again."); });
     }
 
     btn.addEventListener("click", applyCoupon);
     input.addEventListener("keydown", function (e) { if (e.key === "Enter") applyCoupon(); });
+    /* A friend's referral link (?ref=KRYPTAA-XXXXXX) is remembered site-wide; apply it here */
+    try { var ref = localStorage.getItem("k_ref"); if (ref && !input.value && getCart().length) { input.value = ref; applyCoupon(); } } catch (e) {}
   }
 
   /* ── Order success: Stripe redirects back with ?success=true ── */
@@ -929,6 +958,30 @@ function goToStripe() {
       }
       localStorage.removeItem("kryptaa_pending_purchase");
     } catch (e) {}
+    /* Referral code for this buyer (server verifies the session is paid) */
+    (function () {
+      var sid = new URLSearchParams(window.location.search).get("session_id") || "";
+      var box = document.getElementById("coReferral"); if (!sid || !box || !window.K_API) return;
+      fetch(window.K_API + "referral-code?session_id=" + encodeURIComponent(sid)).then(function (r) { return r.json(); }).then(function (d) {
+        if (!d || !d.ok) return;
+        document.getElementById("coReferralCode").textContent = d.code;
+        box.hidden = false;
+        var link = d.shareUrl || ("https://www.kryptaa.com/?ref=" + d.code);
+        var msg = "10% off KRYPTAA with my code " + d.code + " — " + link;
+        var copyBtn = document.getElementById("coRefCopy"), shareBtn = document.getElementById("coRefShare");
+        copyBtn.addEventListener("click", function () {
+          (navigator.clipboard ? navigator.clipboard.writeText(link) : Promise.reject()).then(function () { copyBtn.textContent = "Copied ✓"; }, function () { window.prompt("Copy your link:", link); });
+          if (typeof gtag === "function") gtag("event", "referral_copy", { code: d.code });
+        });
+        if (navigator.share) {
+          shareBtn.addEventListener("click", function () { navigator.share({ title: "KRYPTAA", text: msg, url: link }).catch(function () {}); if (typeof gtag === "function") gtag("event", "referral_share", { code: d.code }); });
+        } else {
+          shareBtn.textContent = "WhatsApp";
+          shareBtn.addEventListener("click", function () { window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank", "noopener"); if (typeof gtag === "function") gtag("event", "referral_share", { code: d.code }); });
+        }
+        try { localStorage.removeItem("k_ref"); } catch (e) {}
+      }).catch(function () {});
+    })();
     /* Clear cart so bag doesn't show stale items */
     try { localStorage.removeItem("kryptaa_cart"); } catch (e) {}
     /* Remove ?success=true from URL so refresh doesn't re-show */

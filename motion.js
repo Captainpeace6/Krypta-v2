@@ -2526,6 +2526,14 @@
     initMotion();
     /* is-loaded is set by cinematic.js after entry; set it here only on non-home pages */
     if (body.dataset.page !== "home") window.setTimeout(() => body.classList.add("is-loaded"), 520);
+    /* Arrived on a friend's referral link (captured in products.js) — say so once */
+    try {
+      if (/[?&]ref=KRYPTAA-/i.test(location.search) && localStorage.getItem("k_ref")) {
+        const show = () => showToast("Your friend's 10% off is locked in — applied at checkout");
+        if (body.dataset.page === "home") doc.addEventListener("kryptaa:revealed", () => setTimeout(show, 900), { once: true }); else setTimeout(show, 1200);
+        gaEvent("referral_visit", { code: localStorage.getItem("k_ref") });
+      }
+    } catch (e) {}
   });
 
   window.openCart = openCart;
