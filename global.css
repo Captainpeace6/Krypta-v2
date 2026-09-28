@@ -6240,3 +6240,26 @@ details.faq-item[open] summary { color: #f0ede8; }
   .ce-btn { padding: 10px 13px; font-size: 0.58rem; }
   @keyframes ceEmber { 0% { transform: translate(0, 0); opacity: 0 } 15% { opacity: 1 } 100% { transform: translate(var(--dx, 0), -100px); opacity: 0 } }
 }
+
+/* ── Surprise Bag feature (home) ── */
+.sb-section { position: relative; padding: clamp(56px, 9vw, 110px) 0; background: linear-gradient(180deg, #050505 0%, #0b0907 50%, #050505 100%); border-top: 1px solid rgba(210,174,91,0.12); border-bottom: 1px solid rgba(210,174,91,0.12); }
+.sb-inner { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(24px, 5vw, 64px); align-items: center; }
+.sb-visual { position: relative; display: block; border: 1px solid rgba(210,174,91,0.28); overflow: hidden; }
+.sb-visual img { width: 100%; height: auto; display: block; transition: transform 1.1s var(--ease-lux, cubic-bezier(.22,1,.36,1)); }
+.sb-visual:hover img { transform: scale(1.04); }
+.sb-badge { position: absolute; top: 14px; left: 14px; font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 0.24em; text-transform: uppercase; color: #060606; background: var(--k-gold); padding: 6px 10px; }
+.sb-eyebrow { font-family: var(--f-mono); font-size: 0.58rem; letter-spacing: 0.34em; text-transform: uppercase; color: var(--k-gold); margin-bottom: 14px; }
+.sb-title { font-family: var(--f-primary); font-weight: 900; font-size: clamp(2.2rem, 6vw, 4rem); letter-spacing: 0.05em; text-transform: uppercase; color: var(--k-bone); line-height: 1; margin: 0 0 18px; }
+.sb-lede { font-family: var(--f-body); font-size: clamp(0.92rem, 1.5vw, 1.02rem); line-height: 1.75; color: rgba(240,237,232,0.78); margin: 0 0 22px; max-width: 52ch; }
+.sb-list { list-style: none; margin: 0 0 26px; padding: 0; display: grid; gap: 10px; }
+.sb-list li { display: flex; gap: 12px; align-items: baseline; font-size: 0.86rem; color: rgba(240,237,232,0.68); }
+.sb-list span { font-family: var(--f-mono); font-size: 0.6rem; letter-spacing: 0.18em; color: var(--k-gold); }
+.sb-price { display: flex; align-items: baseline; gap: 14px; margin-bottom: 24px; }
+.sb-price strong { font-family: var(--f-primary); font-size: clamp(1.8rem, 3.6vw, 2.6rem); color: var(--k-gold); letter-spacing: 0.04em; }
+.sb-price em { font-family: var(--f-mono); font-style: normal; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(240,237,232,0.45); text-decoration: line-through; }
+.sb-cta { display: inline-block; padding: 15px 30px; text-decoration: none; }
+.sb-fine { margin: 16px 0 0; font-size: 0.7rem; letter-spacing: 0.04em; color: rgba(240,237,232,0.4); }
+@media (max-width: 860px) {
+  .sb-inner { grid-template-columns: 1fr; gap: 26px; }
+  .sb-visual { max-width: 420px; margin: 0 auto; }
+}

@@ -63,6 +63,7 @@ function color(p) {
 const items = [];
 for (const p of PRODUCTS) {
   if (p.category === 'anime' && !p.buyable) continue; // contact-to-order pieces have no fixed checkout
+  if (p.category === 'bundle') continue;             // mystery bundle: contents vary, Merchant Center wants concrete items
   if (availability(p) === 'out_of_stock') continue;  // Google rejects long-term OOS items
   const link = `${SITE}/products/${p.slug}.html`;
   const images = (p.gallery || []).map((g) => abs(g.src)).filter((u, i, a) => a.indexOf(u) === i);
