@@ -239,6 +239,16 @@
 
     /* Phone/tablet: the 9-tab row overflowed off-screen at 10px and the inactive labels were
        barely visible (35% opacity). Give the nav its own wrapped grid of real tap targets. */
+    .push-card { border: 1px solid var(--border); background: rgba(255,255,255,0.02); padding: 18px 20px; margin-bottom: 26px; }
+    .push-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .push-title { font-size: 15px; color: var(--text); margin-bottom: 4px; }
+    .push-sub { font-size: 12px; color: var(--text-dim); }
+    .push-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+    .push-msg { font-size: 12px; margin-top: 10px; min-height: 16px; }
+    .push-msg.ok { color: #7dba7d; } .push-msg.err { color: #e07070; }
+    .od-btn-gold { background: var(--gold); color: #0b0a08; border: none; font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; padding: 11px 22px; cursor: pointer; min-height: 44px; }
+    .od-btn-gold:disabled { opacity: 0.5; cursor: default; }
+
     @media (max-width: 860px) {
       .od-header { height: auto; flex-wrap: wrap; padding: 10px 14px; gap: 10px; row-gap: 8px; }
       .od-header-logo { height: 24px; width: auto; }
@@ -1013,6 +1023,22 @@
   <!-- ── SETTINGS VIEW ── -->
   <div id="settingsView" class="od-view">
     <div class="od-main">
+      <div class="view-intro"><div class="view-intro-title">Order alerts</div><div class="view-intro-sub">Push notifications on this device — works with the dashboard closed</div></div>
+      <div class="push-card">
+        <div class="push-row">
+          <div>
+            <div class="push-title" id="pushTitle">Order alerts are off</div>
+            <div class="push-sub" id="pushSub">Turn them on to get a notification the moment someone orders.</div>
+          </div>
+          <button class="od-btn-gold" type="button" id="pushEnableBtn">Enable</button>
+        </div>
+        <div class="push-actions" id="pushActions" hidden>
+          <button class="od-btn-ghost" type="button" id="pushTestBtn">Send test</button>
+          <button class="od-btn-ghost" type="button" id="pushOffBtn">Turn off on this device</button>
+        </div>
+        <div class="push-msg" id="pushMsg"></div>
+      </div>
+
       <div class="view-intro"><div class="view-intro-title">Integrations</div><div class="view-intro-sub">Connection status · never fabricated</div></div>
       <div class="settings-grid">
         <div class="settings-row"><span class="settings-dot partial"></span><div class="settings-info"><div class="settings-name">Google Analytics 4</div><div class="settings-status">Connected · ecommerce events partial</div></div></div>
@@ -1182,6 +1208,96 @@
   }
 
   /* ── Tab switching ── */
+  /* ── Web Push order alerts ───────────────────────────────────────────────
+     The VAPID key lives on the Worker (it generated its own pair); this page only
+     registers the service worker, asks the OS for permission and hands the resulting
+     subscription to the Worker. iOS only allows this once the dashboard has been
+     added to the Home Screen. */
+  var PUSH_API = 'https://kryptaa-api.kryptaa.workers.dev/';
+  function pushMsg(text, cls) { var el = document.getElementById('pushMsg'); if (el) { el.textContent = text || ''; el.className = 'push-msg' + (cls ? ' ' + cls : ''); } }
+  function urlBase64ToUint8Array(base64String) {
+    var padding = '='.repeat((4 - base64String.length % 4) % 4);
+    var base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    var raw = window.atob(base64); var out = new Uint8Array(raw.length);
+    for (var i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i);
+    return out;
+  }
+  function pushSupported() { return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window; }
+
+  async function pushState() {
+    var title = document.getElementById('pushTitle'), sub = document.getElementById('pushSub');
+    var btn = document.getElementById('pushEnableBtn'), actions = document.getElementById('pushActions');
+    if (!title) return;
+    if (!pushSupported()) {
+      title.textContent = 'Not supported on this browser';
+      sub.textContent = 'On iPhone: open this page in Safari, Share → Add to Home Screen, then open it from the icon.';
+      btn.disabled = true; return;
+    }
+    var reg = await navigator.serviceWorker.getRegistration();
+    var existing = reg ? await reg.pushManager.getSubscription() : null;
+    if (existing && Notification.permission === 'granted') {
+      title.textContent = 'Order alerts are on';
+      sub.textContent = 'This device will buzz the moment an order is paid — dashboard open or not.';
+      btn.textContent = 'On'; btn.disabled = true; actions.hidden = false;
+    } else {
+      title.textContent = 'Order alerts are off';
+      sub.textContent = Notification.permission === 'denied'
+        ? 'Notifications are blocked for this site — allow them in Settings → Notifications, then reload.'
+        : 'Turn them on to get a notification the moment someone orders.';
+      btn.textContent = 'Enable'; btn.disabled = Notification.permission === 'denied'; actions.hidden = true;
+    }
+  }
+
+  async function pushEnable() {
+    var btn = document.getElementById('pushEnableBtn');
+    var key = savedKey(); if (!key) { pushMsg('Log in first.', 'err'); return; }
+    btn.disabled = true; pushMsg('Asking for permission…');
+    try {
+      var perm = await Notification.requestPermission();
+      if (perm !== 'granted') { pushMsg('Permission not granted.', 'err'); btn.disabled = false; return; }
+      var reg = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+      await navigator.serviceWorker.ready;
+      var pub = await fetch(PUSH_API + 'push-key').then(function (r) { return r.json(); });
+      var sub = await reg.pushManager.getSubscription();
+      if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(pub.publicKey) });
+      var res = await fetch(PUSH_API + 'push-subscribe', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Key': key },
+        body: JSON.stringify({ subscription: sub.toJSON(), label: navigator.userAgent.slice(0, 60) }),
+      }).then(function (r) { return r.json(); });
+      if (!res.ok) throw new Error(res.error || 'could not register');
+      pushMsg('Done — ' + res.devices + ' device' + (res.devices === 1 ? '' : 's') + ' registered.', 'ok');
+    } catch (e) {
+      pushMsg('Could not enable: ' + e.message, 'err');
+    }
+    await pushState();
+  }
+
+  async function pushTest() {
+    var key = savedKey(); pushMsg('Sending…');
+    var r = await fetch(PUSH_API + 'push-test', { method: 'POST', headers: { 'X-Admin-Key': key } }).then(function (x) { return x.json(); });
+    pushMsg(r.sent ? 'Sent to ' + r.sent + ' device' + (r.sent === 1 ? '' : 's') + '.' : 'Nothing sent (' + JSON.stringify(r) + ')', r.sent ? 'ok' : 'err');
+  }
+
+  async function pushOff() {
+    var key = savedKey();
+    var reg = await navigator.serviceWorker.getRegistration();
+    var sub = reg ? await reg.pushManager.getSubscription() : null;
+    if (sub) {
+      await fetch(PUSH_API + 'push-unsubscribe', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Key': key }, body: JSON.stringify({ endpoint: sub.endpoint }) });
+      await sub.unsubscribe();
+    }
+    pushMsg('Alerts off on this device.', 'ok');
+    await pushState();
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var e = document.getElementById('pushEnableBtn'); if (e) e.addEventListener('click', pushEnable);
+    var t = document.getElementById('pushTestBtn'); if (t) t.addEventListener('click', pushTest);
+    var o = document.getElementById('pushOffBtn'); if (o) o.addEventListener('click', pushOff);
+    if (pushSupported()) navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function () {});
+    pushState();
+  });
+
   document.querySelectorAll('.od-nav-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
       document.querySelectorAll('.od-nav-btn').forEach(function(b){ b.classList.remove('active'); });
