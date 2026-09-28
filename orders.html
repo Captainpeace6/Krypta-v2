@@ -239,6 +239,7 @@
 
     /* Phone/tablet: the 9-tab row overflowed off-screen at 10px and the inactive labels were
        barely visible (35% opacity). Give the nav its own wrapped grid of real tap targets. */
+    .push-banner { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin: 0 0 20px; padding: 14px 18px; border: 1px solid rgba(210,174,91,0.4); background: rgba(210,174,91,0.08); font-size: 13px; color: var(--text); }
     .push-card { border: 1px solid var(--border); background: rgba(255,255,255,0.02); padding: 18px 20px; margin-bottom: 26px; }
     .push-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
     .push-title { font-size: 15px; color: var(--text); margin-bottom: 4px; }
@@ -602,6 +603,10 @@
 
   <!-- ── DASHBOARD VIEW ── -->
   <div id="dashboardView" class="od-view active">
+    <div class="push-banner" id="pushBanner" hidden>
+      <span>Order alerts are <strong>off on this device</strong> — you won't be told when someone buys.</span>
+      <button class="od-btn-gold" type="button" id="pushBannerBtn">Turn on alerts</button>
+    </div>
     <div class="od-main">
 
       <div class="stock-alert-banner" id="stockAlertBanner">
@@ -1290,12 +1295,47 @@
     await pushState();
   }
 
+  /* Permission alone does nothing — a subscription has to be created and stored. The
+     dashboard asks for permission at login, so finish the job automatically whenever
+     permission is already granted but this device isn't registered yet. */
+  async function pushAutoSubscribe() {
+    if (!pushSupported() || Notification.permission !== 'granted') { pushBannerSync(); return; }
+    var key = savedKey(); if (!key) return;
+    try {
+      var reg = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+      await navigator.serviceWorker.ready;
+      var sub = await reg.pushManager.getSubscription();
+      if (!sub) {
+        var pub = await fetch(PUSH_API + 'push-key').then(function (r) { return r.json(); });
+        sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(pub.publicKey) });
+      }
+      await fetch(PUSH_API + 'push-subscribe', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Key': key },
+        body: JSON.stringify({ subscription: sub.toJSON(), label: navigator.userAgent.slice(0, 60) }),
+      });
+    } catch (e) { console.error('auto-subscribe', e); }
+    pushState(); pushBannerSync();
+  }
+
+  async function pushBannerSync() {
+    var b = document.getElementById('pushBanner'); if (!b || !pushSupported()) return;
+    var reg = await navigator.serviceWorker.getRegistration();
+    var sub = reg ? await reg.pushManager.getSubscription() : null;
+    b.hidden = !!(sub && Notification.permission === 'granted');
+  }
+  window.kPushAfterLogin = function () { setTimeout(pushAutoSubscribe, 400); };
+
   document.addEventListener('DOMContentLoaded', function () {
+    var bb = document.getElementById('pushBannerBtn');
+    if (bb) bb.addEventListener('click', function () {
+      var nav = document.querySelector('.od-nav-btn[data-view=settingsView]'); if (nav) nav.click();
+      pushEnable();
+    });
     var e = document.getElementById('pushEnableBtn'); if (e) e.addEventListener('click', pushEnable);
     var t = document.getElementById('pushTestBtn'); if (t) t.addEventListener('click', pushTest);
     var o = document.getElementById('pushOffBtn'); if (o) o.addEventListener('click', pushOff);
     if (pushSupported()) navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function () {});
-    pushState();
+    pushState(); pushBannerSync();
   });
 
   document.querySelectorAll('.od-nav-btn').forEach(function(btn) {
@@ -2732,7 +2772,7 @@
         if (!data) return;
         if (data.unauthorized) { err.textContent='Incorrect password.'; err.style.display='block'; return; }
         if (data.ordersUnavailable) { window.__kOrdersUnavailable = true; }
-        saveKey(key); showDashboard(); requestNotifPermission();
+        saveKey(key); showDashboard(); requestNotifPermission(); window.kPushAfterLogin && window.kPushAfterLogin();
         allOrders = data.orders || [];
         checkForNewOrders(allOrders);
         renderStats(allOrders); renderOrders(allOrders); renderDashboard(allOrders);
@@ -2757,7 +2797,7 @@
   });
 
   var key = savedKey();
-  if (key) { showDashboard(); loadOrders(key); requestNotifPermission(); startPolling(key); renderBing(); renderClarity(); renderMarketingHealth(); } else { showGate(); }
+  if (key) { showDashboard(); loadOrders(key); requestNotifPermission(); window.kPushAfterLogin && window.kPushAfterLogin(); startPolling(key); renderBing(); renderClarity(); renderMarketingHealth(); } else { showGate(); }
 })();
 
 /* ── Print label ── */
