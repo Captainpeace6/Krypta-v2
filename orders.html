@@ -1432,20 +1432,26 @@
       d.scrollIntoView({ behavior:'smooth', block:'nearest' });
     }
 
+    var kryHistory = [];   // last few turns, so follow-ups like "why?" make sense
+
     function ask(q){
       if(!q) return;
       bubble('me', q);
+      kryHistory.push({ role:'me', text:q });
       var thinking = document.createElement('div');
       thinking.className = 'kry-msg kry'; thinking.textContent = '…';
       document.getElementById('kryLog').appendChild(thinking);
       fetch(API() + 'assistant', {
         method:'POST',
         headers:{ 'X-Admin-Key': savedKey(), 'Content-Type':'application/json' },
-        body: JSON.stringify({ q: q })
+        body: JSON.stringify({ q: q, history: kryHistory.slice(-6) })
       }).then(function(r){ return r.ok ? r.json() : null; })
         .then(function(d){
           thinking.remove();
-          bubble('kry', d && d.reply ? d.reply : 'I could not reach the data just now. Try again in a moment.');
+          var txt = d && d.reply ? d.reply : 'I could not reach the data just now. Try again in a moment.';
+          bubble('kry', txt);
+          kryHistory.push({ role:'kry', text:txt });
+          if (kryHistory.length > 12) kryHistory = kryHistory.slice(-12);
         })
         .catch(function(){ thinking.remove(); bubble('kry','Network trouble — try again in a moment.'); });
     }
