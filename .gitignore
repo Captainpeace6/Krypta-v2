@@ -1,1 +1,6 @@
 seo/
+
+# Video working files — frames, renders, pod outputs. Local only, never deployed.
+video/
+__pycache__/
+*.pyc

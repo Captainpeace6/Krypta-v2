@@ -1304,8 +1304,21 @@
     const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
     const totalVal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
-    if (countNav) countNav.textContent = totalQty;
-    if (countDrawer) countDrawer.textContent = totalQty;
+    /* Pulse the pill only when the number actually goes up — the receipt for
+       "Add to Bag". Re-rendering for any other reason stays still. */
+    const bumpIfGrown = (el) => {
+      if (!el) return;
+      const was = parseInt(el.textContent, 10) || 0;
+      el.textContent = totalQty;
+      if (totalQty > was) {
+        el.classList.remove("is-bumped");
+        void el.offsetWidth;                 // restart the animation
+        el.classList.add("is-bumped");
+        setTimeout(() => el.classList.remove("is-bumped"), 480);
+      }
+    };
+    bumpIfGrown(countNav);
+    bumpIfGrown(countDrawer);
     if (totalAmount) totalAmount.textContent = formatPrice(totalVal);
 
     /* Sync mobile bag bar */
@@ -1326,8 +1339,8 @@
       const remaining = Math.max(0, FREE_SHIP - totalVal);
       const pct = Math.min(100, (totalVal / FREE_SHIP) * 100).toFixed(1);
       shippingBar.innerHTML = remaining > 0
-        ? `<div class="csp-text">Add <strong>${formatPrice(remaining)}</strong> more for free shipping</div><div class="csp-track"><div class="csp-fill" style="width:${pct}%"></div></div>`
-        : `<div class="csp-text" style="color:rgba(125,186,125,0.85)">✓ &nbsp;Free shipping unlocked</div><div class="csp-track"><div class="csp-fill" style="width:100%;background:rgba(125,186,125,0.7)"></div></div>`;
+        ? `<div class="csp-text">Add <strong>${formatPrice(remaining)}</strong> more for free shipping</div><div class="csp-track"><div class="csp-fill" style="--csp:${pct / 100}"></div></div>`
+        : `<div class="csp-text" style="color:rgba(125,186,125,0.85)">✓ &nbsp;Free shipping unlocked</div><div class="csp-track"><div class="csp-fill" style="--csp:1;background:rgba(125,186,125,0.7)"></div></div>`;
     }
 
     if (!cart.length) {

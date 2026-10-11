@@ -29,7 +29,6 @@
     height .3s cubic-bezier(.2, .9, .2, 1),
     margin .3s cubic-bezier(.2, .9, .2, 1),
     background-color .3s, border-color .3s, opacity .3s;
-  will-change: transform;
   backface-visibility: hidden;
 }
 .immersive-cursor.is-hover {
@@ -48,7 +47,6 @@
   transition:
     transform .4s cubic-bezier(.2, .9, .2, 1),
     background .25s, color .25s, border-color .25s, box-shadow .25s;
-  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {

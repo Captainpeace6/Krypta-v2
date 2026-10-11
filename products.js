@@ -355,10 +355,16 @@ function enrichProduct(product) {
 
 const PRODUCTS = RAW_PRODUCTS.map(enrichProduct);
 
+/* Rupee prices are a reading aid, not the amount charged: the Stripe account is
+   US-domiciled and every session settles in USD. Showing a bare "₹5,628" and then
+   presenting a dollar total at the payment step reads as a switch, so the figure
+   carries a "≈" everywhere and checkout says plainly what the card is billed. */
+const USD_TO_INR_APPROX = 84;
+
 function formatPrice(value) {
   try {
     const curr = localStorage.getItem("k_currency") || "USD";
-    if (curr === "INR") return "₹" + Math.round(Number(value) * 84).toLocaleString("en-IN");
+    if (curr === "INR") return "≈₹" + Math.round(Number(value) * USD_TO_INR_APPROX).toLocaleString("en-IN");
   } catch (e) {}
   return "$" + Number(value).toFixed(2);
 }

@@ -26,7 +26,8 @@
   gtag('config', 'G-242EQ24FP3');
 </script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
 <title>Checkout — KRYPTAA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -246,6 +247,17 @@
   border: 1px solid var(--k-line);
   margin-bottom: 40px;
 }
+
+/* Payment note — region-specific, and honest about what we can take */
+.co-pay-note {
+  margin-top: 10px;
+  font-family: var(--f-secondary);
+  font-size: 0.74rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+}
+.co-pay-note strong { color: rgba(210,174,91,0.85); font-weight: 600; }
 
 /* Phone hint */
 .co-phone-hint {
@@ -615,15 +627,15 @@
           🔒 &nbsp; Pay Now — <span id="coPayBtnTotal">$0.00</span>
         </button>
 
-        <div class="co-pay-methods">
+        <!-- Filled by region, so we only ever promise what this Stripe account can actually take -->
+        <div class="co-pay-methods" id="coPayMethods">
           <span class="co-pay-lbl">We accept</span>
           <span class="co-pay-pill">VISA</span>
           <span class="co-pay-pill">Mastercard</span>
           <span class="co-pay-pill">Amex</span>
-          <span class="co-pay-pill">UPI</span>
           <span class="co-pay-stripe">🔒 Powered by Stripe</span>
         </div>
-        <div class="co-phone-hint">International customers: include your country code in the phone field (e.g. +91 for India).</div>
+        <div class="co-pay-note" id="coPayNote"></div>
       </div>
     </div>
 
@@ -846,6 +858,25 @@ function goToStripe() {
 
     if (discountRow) discountRow.style.display = discount > 0 ? "" : "none";
     if (discountEl)  discountEl.textContent    = "-" + fmt(discount);
+
+    /* Browsing in rupees and paying in dollars is a surprise unless we show both.
+       The dollar figure stays the one that is charged. */
+    try {
+      if ((localStorage.getItem("k_currency") || "USD") === "INR") {
+        var approx = document.getElementById("coInrApprox");
+        if (!approx && payBtnEl) {
+          approx = document.createElement("div");
+          approx.id = "coInrApprox";
+          approx.className = "co-pay-note";
+          approx.style.textAlign = "center";
+          var submit = document.getElementById("coSubmit");
+          if (submit && submit.parentNode) submit.parentNode.insertBefore(approx, submit.nextSibling);
+        }
+        if (approx) approx.innerHTML = "That's roughly <strong>₹"
+          + Math.round(total * 84).toLocaleString("en-IN")
+          + "</strong> — your bank converts at its own rate.";
+      }
+    } catch (e) {}
   }
 
   function renderSummary() {
@@ -894,7 +925,12 @@ function goToStripe() {
 
     function accept(code, rate, kind) {
       appliedCoupon = { code: code, discountRate: rate };
-      msgEl.textContent = "✓ " + Math.round(rate * 100) + "% " + (kind === "referral" ? "friend discount" : kind === "reward" ? "referral reward" : "discount") + " applied!";
+      /* A tick that draws itself — the moment a discount lands is worth confirming. */
+      var label = Math.round(rate * 100) + "% " + (kind === "referral" ? "friend discount" : kind === "reward" ? "referral reward" : "discount") + " applied!";
+      msgEl.innerHTML = '<span class="coupon-ok"><svg class="coupon-tick" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">'
+        + '<path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        + '<span></span></span>';
+      msgEl.querySelector(".coupon-ok span:last-child").textContent = label;
       msgEl.className = "co-coupon-msg success";
       input.disabled = true; btn.textContent = "Applied"; btn.disabled = true;
       var banner = document.getElementById("coPromoBanner"); if (banner) banner.style.display = "none";
@@ -1008,6 +1044,49 @@ function goToStripe() {
   });
 
   /* Reset button if browser restores this page from BFCache after Stripe redirect */
+  /* ── Payment methods by region ───────────────────────────────────────────
+     KRYPTAA's Stripe account is US-domiciled, so it can take international
+     card networks and the US/EU wallets — but NOT UPI, RuPay or any Indian
+     domestic rail, which need an Indian entity and a local gateway.
+     The old markup advertised UPI. An Indian customer reached Stripe, found
+     no UPI, and left. We now show only what will genuinely be on that page,
+     and say plainly what an Indian card needs in order to work.
+     Region comes from the browser's own timezone and language — no geo-IP
+     lookup, no third party, nothing about the visitor leaves the page. */
+  function renderPayMethods() {
+    var box = document.getElementById("coPayMethods");
+    var note = document.getElementById("coPayNote");
+    if (!box) return;
+    var tz = "", lang = "";
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+    try { lang = (navigator.language || "").toLowerCase(); } catch (e) {}
+    var inIndia = /Asia\/(Kolkata|Calcutta)/i.test(tz) || /-in$/.test(lang);
+    var inUS    = /America\//i.test(tz) && !/Sao_Paulo|Argentina|Bogota|Lima|Mexico/i.test(tz);
+
+    /* These lists are the account's real capabilities, read from the Stripe API
+       (country US; card, link, cashapp, amazon_pay, klarna, crypto). Apple Pay and
+       Google Pay are not separate methods — Stripe surfaces them on top of `card`
+       when the device supports them, so they are genuine here. */
+    var pills, msg;
+    if (inIndia) {
+      pills = ["VISA", "Mastercard", "Amex", "Google Pay"];
+      msg = "Your card must be <strong>enabled for international payments</strong> — most Indian banks let you switch this on in their app in a minute. "
+          + "UPI and RuPay aren't supported yet. Prices are shown in rupees for reference; "
+          + "<strong>you'll be charged in US dollars</strong> and your bank applies its own rate.";
+    } else if (inUS) {
+      pills = ["VISA", "Mastercard", "Amex", "Discover", "Apple Pay", "Google Pay", "Link", "Cash App", "Amazon Pay", "Klarna"];
+      msg = "Split it into four with <strong>Klarna</strong> at no extra cost.";
+    } else {
+      pills = ["VISA", "Mastercard", "Amex", "Apple Pay", "Google Pay", "Link", "Klarna"];
+      msg = "<strong>Charged in US dollars.</strong> Your bank applies its own conversion rate.";
+    }
+    box.innerHTML = '<span class="co-pay-lbl">We accept</span>'
+      + pills.map(function (p) { return '<span class="co-pay-pill">' + p + "</span>"; }).join("")
+      + '<span class="co-pay-stripe">🔒 Powered by Stripe</span>';
+    if (note) note.innerHTML = msg;
+  }
+  renderPayMethods();
+
   window.addEventListener("pageshow", function (e) {
     if (e.persisted) {
       var btn = document.getElementById("coSubmit");

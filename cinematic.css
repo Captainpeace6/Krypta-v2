@@ -155,9 +155,11 @@
 }
 .k-pre-fill {
   height: 100%;
-  width: 0%;
+  width: 100%;
+  transform-origin: left center;
+  transform: scaleX(0);
   background: linear-gradient(to right, rgba(210,174,91,0.3), #d2ae5b, #f2d98b);
-  transition: width 0.08s linear;
+  transition: transform 0.08s linear;
   box-shadow: 0 0 6px rgba(210,174,91,0.6);
 }
 .k-pre-pct {
@@ -313,9 +315,11 @@
   background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 55%);
   pointer-events: none;
 }
-.k-enter-btn:hover {
+@media (hover: hover) and (pointer: fine) {
+  .k-enter-btn:hover {
   background: var(--kg-lite);
   transform: scale(1.05);
+}
 }
 .k-enter-btn:active {
   transform: scale(0.96);
@@ -447,10 +451,8 @@
    HERO PARALLAX
 ──────────────────────────────────────────── */
 #kryptaa-hero-v2 {
-  will-change: transform;
 }
 #kryptaa-hero-v2 .hero-inner {
-  will-change: transform, opacity;
   transition: none; /* let GSAP handle it */
 }
 
@@ -474,7 +476,6 @@
    VIDEO SECTION — cinematic scale
 ──────────────────────────────────────────── */
 #k-video-section > div:last-child {
-  will-change: transform, opacity;
 }
 
 
@@ -548,6 +549,7 @@ html.k-snap-active {
 .snap-panel {
   position: relative;
   height: 100vh;
+  height: 100svh;
   scroll-snap-align: start;
   overflow: hidden;
 }
@@ -558,14 +560,12 @@ html.k-snap-active {
   position: absolute;
   inset: 0;
   z-index: 0;
-  will-change: transform, opacity;
   opacity: 0;
 }
 
 .snap-panel .layer-figure {
   position: absolute;
   z-index: 1;
-  will-change: transform, opacity;
   opacity: 0;
   pointer-events: none;
 }
@@ -579,6 +579,7 @@ html.k-snap-active {
 /* Hero panel overrides */
 .v3-hero.snap-panel {
   height: 100vh;
+  height: 100svh;
   min-height: unset;
 }
 
@@ -687,6 +688,7 @@ html.k-snap-active {
   padding-top: clamp(20px, 4vh, 48px);
   padding-bottom: clamp(20px, 4vh, 48px);
   max-height: 100vh;
+  max-height: 100svh;
   display: flex;
   flex-direction: column;
 }
@@ -796,6 +798,7 @@ html.k-snap-active {
   padding-top: clamp(20px, 3vh, 40px);
   padding-bottom: clamp(20px, 3vh, 40px);
   max-height: 100vh;
+  max-height: 100svh;
   display: flex;
   flex-direction: column;
 }
@@ -823,6 +826,7 @@ html.k-snap-active {
   padding-top: clamp(20px, 3vh, 40px);
   padding-bottom: clamp(20px, 3vh, 40px);
   max-height: 100vh;
+  max-height: 100svh;
   overflow: hidden;
 }
 
@@ -984,7 +988,6 @@ html.k-snap-active {
 /* ── Character spans for blast-in animation ── */
 .k-char {
   display: inline-block;
-  will-change: transform, opacity;
   backface-visibility: hidden;
 }
 .k-char.k-sp {
@@ -1009,7 +1012,6 @@ html.k-snap-active {
   height: clamp(20px, 3vw, 36px);
   z-index: 10;
   pointer-events: none;
-  will-change: transform, opacity;
 }
 .hud-tl {
   top:  clamp(68px, 10vh, 100px);
@@ -1051,7 +1053,6 @@ html.k-snap-active {
   );
   pointer-events: none;
   z-index: 4;
-  will-change: transform, opacity;
 }
 
 /* ── COLLAB / HEAVYWEIGHT TEES PANEL ── */
@@ -1082,7 +1083,6 @@ html.k-snap-active {
 .collab-img {
   position: absolute;
   object-fit: contain;
-  will-change: transform;
 }
 
 .collab-img.ci-1 {
@@ -1271,7 +1271,9 @@ a { color: inherit; }
   padding: 4px 8px;
   z-index: 2;
 }
-.k-club-close:hover { color: var(--k-gold,#d2ae5b); }
+@media (hover: hover) and (pointer: fine) {
+  .k-club-close:hover { color: var(--k-gold,#d2ae5b); }
+}
 .k-club-eyebrow {
   font-family: var(--f-mono, 'Space Mono', monospace);
   font-size: 0.55rem;
@@ -1331,7 +1333,9 @@ a { color: inherit; }
   transition: background 0.2s, transform 0.15s;
   white-space: nowrap;
 }
-.k-club-btn:hover { background: #f2d98b; transform: scale(1.03); }
+@media (hover: hover) and (pointer: fine) {
+  .k-club-btn:hover { background: #f2d98b; transform: scale(1.03); }
+}
 .k-club-fine {
   margin-top: 14px;
   font-size: 0.6rem;
@@ -1579,7 +1583,9 @@ a { color: inherit; }
   text-decoration: none;
   transition: color 0.2s;
 }
-.bcb-link:hover { color: #d2ae5b; }
+@media (hover: hover) and (pointer: fine) {
+  .bcb-link:hover { color: #d2ae5b; }
+}
 
 /* Remove home-section padding from snap panels so 100vh fills correctly */
 .snap-blueprint.home-section {

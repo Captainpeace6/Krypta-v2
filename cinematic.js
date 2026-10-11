@@ -85,14 +85,14 @@
       // Ease: smooth step
       var p = t * t * (3 - 2 * t);
       var pct = Math.floor(p * 100);
-      if (fill)  fill.style.width = pct + '%';
+      if (fill)  fill.style.transform = 'scaleX(' + (pct / 100) + ')';
       if (pctEl) pctEl.textContent = pct + '%';
       if (t < 1) {
         requestAnimationFrame(tick);
       } else {
         clearInterval(msgTimer);
         if (pctEl) pctEl.textContent = '100%';
-        if (fill)  fill.style.width  = '100%';
+        if (fill)  fill.style.transform = 'scaleX(1)';
         setTimeout(transitionToEntry, REDUCE ? 60 : 280);
       }
     }
