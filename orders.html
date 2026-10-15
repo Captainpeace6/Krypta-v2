@@ -97,6 +97,21 @@
     .kry-input:focus { outline: none; border-color: var(--gold-dim); }
     @media (max-width: 640px) { .kry-msg { max-width: 100%; font-size: 13px; } .kry-log { min-height: 160px; } }
 
+
+/* ── Sold elsewhere: the manual bridge between marketplaces and site stock ── */
+.sold-elsewhere { background: linear-gradient(135deg, rgba(210,174,91,0.09), rgba(210,174,91,0.02)); border: 1px solid var(--gold-faint); padding: 18px; margin-bottom: 20px; }
+.se-head { margin-bottom: 14px; }
+.se-title { display: block; font-family: 'Cormorant Garamond', serif; font-size: 17px; color: var(--gold); letter-spacing: 0.04em; }
+.se-sub { display: block; font-size: 12px; color: var(--text-faint); margin-top: 3px; line-height: 1.5; }
+.se-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.se-field { background: var(--surface); border: 1px solid rgba(255,255,255,0.12); color: var(--text); font-family: inherit; font-size: 13px; padding: 10px 12px; min-width: 190px; flex: 1 1 190px; }
+.se-field:focus { outline: none; border-color: var(--gold-dim); }
+.se-narrow { min-width: 110px; flex: 0 1 120px; }
+.se-msg { margin-top: 12px; font-size: 13px; line-height: 1.5; min-height: 18px; }
+.se-msg.ok { color: #7dba7d; }
+.se-msg.err { color: #e07070; }
+@media (max-width: 640px) { .se-field, .se-narrow { flex: 1 1 100%; min-width: 0; } }
+
     .od-nav-btn { background: none; border: none; font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--text-faint); padding: 8px 20px; cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
     .od-nav-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
     .od-nav-btn:hover:not(.active) { color: var(--text-dim); }
@@ -782,6 +797,28 @@
   <!-- ── STOCK VIEW ── -->
   <div id="stockView" class="od-view">
     <div class="od-main">
+
+      <!-- Depop, Grailed and the site all sell the same garments and none of them
+           know about the others. Depop has no seller API, so this is the bridge. -->
+      <div class="sold-elsewhere" id="soldElsewhere">
+        <div class="se-head">
+          <span class="se-title">Sold somewhere else?</span>
+          <span class="se-sub">Depop and Grailed don't talk to the website. Log it here and stock comes down everywhere.</span>
+        </div>
+        <div class="se-row">
+          <select class="se-field" id="seProduct"><option value="">Product…</option></select>
+          <select class="se-field se-narrow" id="seSize"><option value="">Size…</option></select>
+          <select class="se-field se-narrow" id="seQty">
+            <option value="1">×1</option><option value="2">×2</option><option value="3">×3</option>
+          </select>
+          <select class="se-field se-narrow" id="seChannel">
+            <option>Depop</option><option>Grailed</option><option>In person</option><option>Other</option>
+          </select>
+          <button class="od-btn-gold" type="button" id="seBtn">Log sale</button>
+        </div>
+        <div class="se-msg" id="seMsg"></div>
+      </div>
+
       <div class="stock-toolbar">
         <div class="od-toolbar-label">Inventory Management</div>
         <div style="display:flex;align-items:center;gap:16px;">
@@ -1506,6 +1543,82 @@
     };
   })();
 
+
+  /* ── Sold elsewhere ──────────────────────────────────────────────────────
+     Depop has no seller API, so an off-site sale can't tell the website
+     anything. One tap here decrements the same stock the storefront checks
+     and fires the usual order push, so marketplace sales stop being invisible. */
+  (function () {
+    var base = function () { return window.K_API || 'https://kryptaa-api.kryptaa.workers.dev/'; };
+    var prodEl, sizeEl, qtyEl, chanEl, btnEl, msgEl, STOCK = null;
+
+    function setMsg(t, cls) { if (msgEl) { msgEl.textContent = t; msgEl.className = 'se-msg' + (cls ? ' ' + cls : ''); } }
+
+    function nameFor(key) {
+      var base = String(key).split(':')[0];
+      var p = (window.PRODUCTS || []).filter(function (x) { return String(x.id) === base; })[0];
+      var label = p ? p.name : 'Item ' + base;
+      if (String(key).indexOf(':') > -1) label += ' — ' + String(key).split(':')[1];
+      return label;
+    }
+
+    function fillProducts() {
+      if (!prodEl || !STOCK) return;
+      var keys = Object.keys(STOCK).sort(function (a, b) { return nameFor(a).localeCompare(nameFor(b)); });
+      prodEl.innerHTML = '<option value="">Product…</option>' + keys.map(function (k) {
+        return '<option value="' + k + '">' + nameFor(k) + '</option>';
+      }).join('');
+    }
+
+    function fillSizes() {
+      if (!sizeEl) return;
+      var k = prodEl.value;
+      if (!k || !STOCK[k]) { sizeEl.innerHTML = '<option value="">Size…</option>'; return; }
+      sizeEl.innerHTML = Object.keys(STOCK[k]).map(function (sz) {
+        return '<option value="' + sz + '">' + sz + ' (' + STOCK[k][sz] + ' left)</option>';
+      }).join('');
+    }
+
+    function load() {
+      fetch(base() + 'get-stock')
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) { if (d && d.stock) { STOCK = d.stock; fillProducts(); fillSizes(); } })
+        .catch(function () {});
+    }
+
+    function submit() {
+      var key = prodEl.value, size = sizeEl.value;
+      if (!key || !size) { setMsg('Pick a product and size first.', 'err'); return; }
+      var parts = String(key).split(':');
+      btnEl.disabled = true; setMsg('Logging…');
+      fetch(base() + 'sold-elsewhere', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Admin-Key': savedKey() },
+        body: JSON.stringify({ id: parts[0], variant: parts[1] || undefined, size: size, qty: Number(qtyEl.value) || 1, channel: chanEl.value })
+      })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          btnEl.disabled = false;
+          if (!res.ok) { setMsg(res.d && res.d.error ? res.d.error : 'Could not log that sale.', 'err'); return; }
+          var left = Object.keys(res.d.remaining || {}).map(function (k) { return k + ': ' + res.d.remaining[k]; }).join(' · ');
+          setMsg('Logged — ' + res.d.product + ' (' + res.d.size + ') on ' + res.d.channel + '. Remaining ' + left + '.', 'ok');
+          load();                               // refresh the counts in the dropdowns
+          if (typeof renderStock === 'function') { try { renderStock(); } catch (e) {} }
+        })
+        .catch(function () { btnEl.disabled = false; setMsg('Network trouble — try again.', 'err'); });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      prodEl = document.getElementById('seProduct'); sizeEl = document.getElementById('seSize');
+      qtyEl = document.getElementById('seQty');      chanEl = document.getElementById('seChannel');
+      btnEl = document.getElementById('seBtn');      msgEl  = document.getElementById('seMsg');
+      if (!prodEl) return;
+      prodEl.addEventListener('change', fillSizes);
+      btnEl.addEventListener('click', submit);
+    });
+    window.seLoadStock = load;
+  })();
+
   document.querySelectorAll('.od-nav-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
       document.querySelectorAll('.od-nav-btn').forEach(function(b){ b.classList.remove('active'); });
@@ -1515,6 +1628,7 @@
       window.scrollTo(0, 0);
       if (btn.dataset.view === 'dashboardView') { fetchLowStockAlerts(); if (window.kryLoadBrief) kryLoadBrief(); }
       if (btn.dataset.view === 'assistantView' && window.kryGreetOnce) kryGreetOnce();
+      if (btn.dataset.view === 'stockView' && window.seLoadStock) seLoadStock();
       if (btn.dataset.view === 'customersView') renderCustomers(allOrders);
       if (btn.dataset.view === 'analyticsView') renderAnalytics();
       if (btn.dataset.view === 'conversionView') renderConversion();
