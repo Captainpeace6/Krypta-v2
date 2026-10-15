@@ -167,11 +167,15 @@
   <div class="track-shell">
     <div class="track-eyebrow">KRYPTAA — Order Lookup</div>
     <h1 class="track-title">Track Your Order</h1>
-    <p class="track-sub">Enter the email address used at checkout to view your order history and status.</p>
+    <p class="track-sub">Enter the email address used at checkout. We'll send a 6-digit code to confirm it's you, then show your orders.</p>
 
     <div class="track-form-row">
       <input class="track-input" type="email" id="trackEmail" placeholder="your@email.com" autocomplete="email" maxlength="120">
-      <button class="track-btn" id="trackBtn" type="button">Look Up →</button>
+      <button class="track-btn" id="trackBtn" type="button">Send Code →</button>
+    </div>
+    <div class="track-form-row" id="trackCodeRow" hidden style="margin-top:12px">
+      <input class="track-input" type="text" id="trackCode" placeholder="6-digit code" inputmode="numeric" autocomplete="one-time-code" maxlength="6">
+      <button class="track-btn" id="trackCodeBtn" type="button">View Orders →</button>
     </div>
     <div class="track-msg" id="trackMsg"></div>
 
@@ -185,6 +189,9 @@
 
   var emailEl = document.getElementById('trackEmail');
   var btn     = document.getElementById('trackBtn');
+  var codeRow = document.getElementById('trackCodeRow');
+  var codeEl  = document.getElementById('trackCode');
+  var codeBtn = document.getElementById('trackCodeBtn');
   var msgEl   = document.getElementById('trackMsg');
   var results = document.getElementById('trackResults');
 
@@ -192,7 +199,9 @@
     return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  function lookUp() {
+  /* Step 1 — ask for a code. The reply is identical whether or not this address
+     has ever ordered, so the page can't be used to test who is a customer. */
+  function requestCode() {
     var email = (emailEl.value || '').trim().toLowerCase();
     if (!email || !email.includes('@')) {
       msgEl.textContent = 'Please enter a valid email address.';
@@ -200,7 +209,7 @@
       return;
     }
     btn.disabled = true;
-    btn.textContent = 'Searching…';
+    btn.textContent = 'Sending…';
     msgEl.textContent = '';
     msgEl.className = 'track-msg';
     results.innerHTML = '';
@@ -210,10 +219,46 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email })
     })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        btn.disabled = false;
+        btn.textContent = 'Resend Code';
+        msgEl.textContent = data.message || data.error || 'Check your inbox for the code.';
+        msgEl.className = 'track-msg' + (data.error ? ' error' : '');
+        if (!data.error) { codeRow.hidden = false; codeEl.focus(); }
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = 'Send Code →';
+        msgEl.textContent = 'Could not reach the server. Please try again.';
+        msgEl.className = 'track-msg error';
+      });
+  }
+
+  /* Step 2 — exchange the code for the orders. */
+  function lookUp() {
+    var email = (emailEl.value || '').trim().toLowerCase();
+    var code  = (codeEl.value || '').trim();
+    if (!code) {
+      msgEl.textContent = 'Enter the 6-digit code we emailed you.';
+      msgEl.className = 'track-msg error';
+      return;
+    }
+    codeBtn.disabled = true;
+    codeBtn.textContent = 'Checking…';
+    msgEl.textContent = '';
+    msgEl.className = 'track-msg';
+    results.innerHTML = '';
+
+    fetch(TRACK_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, code: code })
+    })
       .then(function(r) { return r.json(); })
       .then(function(data) {
-        btn.disabled = false;
-        btn.textContent = 'Look Up →';
+        codeBtn.disabled = false;
+        codeBtn.textContent = 'View Orders →';
 
         if (data.error) {
           msgEl.textContent = data.error;
@@ -262,8 +307,10 @@
       });
   }
 
-  btn.addEventListener('click', lookUp);
-  emailEl.addEventListener('keydown', function(e) { if (e.key === 'Enter') lookUp(); });
+  btn.addEventListener('click', requestCode);
+  emailEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') requestCode(); });
+  codeBtn.addEventListener('click', lookUp);
+  codeEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') lookUp(); });
 
   /* Pre-fill from URL param ?email=... */
   var urlEmail = new URLSearchParams(window.location.search).get('email');
