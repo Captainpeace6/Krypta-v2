@@ -521,7 +521,7 @@ window.STOCK_DATA = {
   30:  { S: 5,  M: 10, L: 10, XL: 5 }, // Women's — real stock
   31:  { S: 5,  M: 8,  L: 11, XL: 6 },
   32:  { S: 5,  M: 10, L: 10, XL: 5 },
-  70:  { Universal: 30 }, // one size, real count
+  70:  { Universal: 15 }, // one size, real count
   80:  { XS: 30, S: 30, M: 30, L: 30 },
   // Silver Metallic Crop Set (id 90) — Top & Skirt tracked separately (Universal size).
   // A Full Set sale draws down BOTH; set availability = min(top, skirt).

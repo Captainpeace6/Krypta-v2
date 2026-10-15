@@ -838,6 +838,10 @@
       <div class="stock-grid" id="womensStockGrid"></div>
       <div class="stock-section-label">Street Wear Track Pants</div>
       <div class="stock-grid" id="streetStockGrid"></div>
+      <div class="stock-section-label">Women's Tops</div>
+      <div class="stock-grid" id="topsStockGrid"></div>
+      <div class="stock-section-label">Tees &amp; Bundles</div>
+      <div class="stock-grid" id="teesStockGrid"></div>
     </div>
   </div>
 
@@ -3155,6 +3159,18 @@ function printLabel(order, orderNum) {
     { id: '90:top',   name: 'Silver Metallic — Crop Top',   sizes: ['Universal'], img: 'imgs/tops/top-90-g4.webp' },
     { id: '90:skirt', name: 'Silver Metallic — Mini Chainmail Skirt', sizes: ['Universal'], img: 'imgs/tops/top-90-g5.webp' },
   ];
+  /* One size each — stock is tracked under the single key "Universal". */
+  var TOPS = [
+    { id: 70, name: 'Rhinestone Mesh Hooded Crop', sizes: ['Universal'], img: 'imgs/tops/top-70.webp' },
+    { id: 80, name: 'Holographic Sequin Bra Top',  sizes: ['XS','S','M','L'], img: 'imgs/tops/top-80.webp' },
+  ];
+  var TEES = [
+    { id: 1, name: 'Medusa Serpent Oversized Tee',   sizes: ['S','M','L','XL'], img: 'imgs/tees/tee-1.webp' },
+    { id: 3, name: 'Angel of Death Heavyweight Tee', sizes: ['S','M','L','XL'], img: 'imgs/tees/tee-3.webp' },
+    { id: 4, name: 'Broken Skull Heavyweight Tee',   sizes: ['S','M','L','XL'], img: 'imgs/tees/tee-4.webp' },
+    { id: 5, name: 'Need Some Money Oversized Tee',  sizes: ['S','M','L','XL'], img: 'imgs/tees/tee-5.webp' },
+    { id: 900, name: 'Drop 001 Surprise Bag',        sizes: ['S','M','L','XL'],       img: 'imgs/bundle/surprise-bag.webp' },
+  ];
   var STREET = [
     { id: 500, name: 'Street Track Pant — Blue',   sizes: ['XS','S','M','L','XL'], img: 'imgs/pants/womens-st-blue-01.webp'   },
     { id: 501, name: 'Street Track Pant — Green',  sizes: ['XS','S','M','L','XL'], img: 'imgs/pants/womens-st-green-01.webp'  },
@@ -3321,6 +3337,8 @@ function printLabel(order, orderNum) {
         renderGrid(MENS,   'mensStockGrid',   stock);
         renderGrid(WOMENS, 'womensStockGrid', stock);
         renderGrid(STREET, 'streetStockGrid', stock);
+        renderGrid(TOPS,   'topsStockGrid',   stock);
+        renderGrid(TEES,   'teesStockGrid',   stock);
         renderStockSummary(stock);
         updateStatus('Live · ' + new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }), false);
       })
@@ -3329,6 +3347,8 @@ function printLabel(order, orderNum) {
         renderGrid(MENS,   'mensStockGrid',   cached);
         renderGrid(WOMENS, 'womensStockGrid', cached);
         renderGrid(STREET, 'streetStockGrid', cached);
+        renderGrid(TOPS,   'topsStockGrid',   cached);
+        renderGrid(TEES,   'teesStockGrid',   cached);
         renderStockSummary(cached);
         updateStatus('Offline — showing cached', false);
       });
