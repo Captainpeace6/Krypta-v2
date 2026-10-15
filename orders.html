@@ -3017,8 +3017,11 @@ function printLabel(order, orderNum) {
 /* ── Stock Management ── */
 (function () {
   var STOCK_KEY  = 'kryptaa_stock';
-  var STOCK_API  = window.K_API + 'get-stock';
-  var UPDATE_API = window.K_API + 'update-stock';
+  /* products.js is deferred, so it has not run when this inline script is parsed —
+     reading window.K_API here yielded "undefinedget-stock". Resolve at call time. */
+  var base       = function () { return window.K_API || 'https://kryptaa-api.kryptaa.workers.dev/'; };
+  var STOCK_API  = function () { return base() + 'get-stock'; };
+  var UPDATE_API = function () { return base() + 'update-stock'; };
 
   function getAdminKey() {
     try { return sessionStorage.getItem('k_admin_key') || ''; } catch (e) { return ''; }
@@ -3197,7 +3200,7 @@ function printLabel(order, orderNum) {
   }
   function initStockView() {
     updateStatus('Loading…', false);
-    fetch(STOCK_API)
+    fetch(STOCK_API())
       .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
       .then(function (data) {
         var stock = data.stock || {};
@@ -3229,7 +3232,7 @@ function printLabel(order, orderNum) {
     var key = getAdminKey();
     updateStatus('Saving…', false);
 
-    fetch(UPDATE_API, {
+    fetch(UPDATE_API(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Admin-Key': key },
       body: JSON.stringify({ stock: result }),

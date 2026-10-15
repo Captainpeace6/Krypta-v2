@@ -185,7 +185,12 @@
 
 <script>
 (function () {
-  var TRACK_API = window.K_API + 'track-order';
+  /* Resolved at call time, not parse time: this inline script runs before
+     products.js assigns window.K_API, so reading it here produced the literal
+     string "undefinedtrack-order" and every lookup 405'd against our own origin. */
+  function trackApi() {
+    return (window.K_API || 'https://kryptaa-api.kryptaa.workers.dev/') + 'track-order';
+  }
 
   var emailEl = document.getElementById('trackEmail');
   var btn     = document.getElementById('trackBtn');
@@ -214,7 +219,7 @@
     msgEl.className = 'track-msg';
     results.innerHTML = '';
 
-    fetch(TRACK_API, {
+    fetch(trackApi(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email })
@@ -250,7 +255,7 @@
     msgEl.className = 'track-msg';
     results.innerHTML = '';
 
-    fetch(TRACK_API, {
+    fetch(trackApi(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email, code: code })
