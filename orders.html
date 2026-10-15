@@ -3156,14 +3156,15 @@ function printLabel(order, orderNum) {
     { id: 30, name: 'Gothic Skull Wide-Leg',     sizes: ['S','M','L','XL'], img: 'imgs/pants/womens-pant-5.webp'    },
     { id: 31, name: 'Gold Baroque Wide-Leg',     sizes: ['S','M','L','XL'], img: 'imgs/pants/womens-pant-6-g5.webp' },
     { id: 32, name: 'Creature Graphic Wide-Leg', sizes: ['S','M','L','XL'], img: 'imgs/pants/unisex-pant-7.webp'   },
-    // Silver Metallic Crop Set — Top & Skirt tracked separately (Universal size)
-    { id: '90:top',   name: 'Silver Metallic — Crop Top',   sizes: ['Universal'], img: 'imgs/tops/top-90-g4.webp' },
-    { id: '90:skirt', name: 'Silver Metallic — Mini Chainmail Skirt', sizes: ['Universal'], img: 'imgs/tops/top-90-g5.webp' },
   ];
   /* One size each — stock is tracked under the single key "Universal". */
   var TOPS = [
     { id: 70, name: 'Rhinestone Mesh Hooded Crop', sizes: ['Universal'], img: 'imgs/tops/top-70.webp' },
     { id: 80, name: 'Holographic Sequin Bra Top',  sizes: ['Universal'], img: 'imgs/tops/top-80.webp' },
+    // Silver Metallic Crop Set — top and skirt sell separately or as a set, so
+    // stock is tracked per piece and a full-set sale draws down both.
+    { id: '90:top',   name: 'Silver Metallic — Crop Top',             sizes: ['Universal'], img: 'imgs/tops/top-90-g4.webp' },
+    { id: '90:skirt', name: 'Silver Metallic — Mini Chainmail Skirt', sizes: ['Universal'], img: 'imgs/tops/top-90-g5.webp' },
   ];
   var TEES = [
     { id: 1, name: 'Medusa Serpent Oversized Tee',   sizes: ['S','M','L','XL'], img: 'imgs/tees/tee-1.webp' },
