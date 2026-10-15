@@ -1301,6 +1301,7 @@
   }
 
   function savedKey() { try { return sessionStorage.getItem(SESSION_KEY); } catch(e) { return null; } }
+  window.savedKey = savedKey;   // other <script> blocks call this; keep one definition
   /* Shared 5-min client cache for backend report endpoints — dedupes calls across views so we don't
      re-fetch the same report on every tab (and don't burn Clarity's 10-calls/day limit). Returns parsed JSON. */
   var __repCache={};
@@ -3277,6 +3278,7 @@ function printLabel(order, orderNum) {
       })
       .catch(function(){ el.innerHTML='<span class="wait">Unavailable</span>'; });
   }
+  var savedKey = window.savedKey || function(){ try { return sessionStorage.getItem('k_admin_key'); } catch(e){ return null; } };
   function renderRestockWaitlist(){
     var el=document.getElementById('restockWaitlist'); if(!el) return;
     var key=savedKey(); if(!key){ el.innerHTML='<span class="wait">Not connected</span>'; return; }
@@ -3330,7 +3332,7 @@ function printLabel(order, orderNum) {
   }
   function initStockView() {
     updateStatus('Loading…', false);
-    fetch(STOCK_API())
+    fetch(STOCK_API() + '?t=' + Date.now())
       .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
       .then(function (data) {
         var stock = data.stock || {};
