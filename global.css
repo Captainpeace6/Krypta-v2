@@ -3224,7 +3224,11 @@ body.menu-open .mobile-menu {
 }
 
 @media (max-width: 880px) {
-  .product-card-quick { transform: translateY(0); transition: none; }
+  /* No hover on touch, so the quick-add panel is shown permanently. While it stayed
+     absolutely positioned it parked on top of .product-card-footer and painted over
+     the price — the price was rendered, just illegible under "Add to Bag". Putting it
+     back in normal flow makes the card grow to fit it instead. */
+  .product-card-quick { position: static; transform: none; transition: none; }
 }
 .quick-sizes { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
 .quick-size-btn {
