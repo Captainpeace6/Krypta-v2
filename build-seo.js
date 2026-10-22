@@ -249,7 +249,10 @@ function productPage(product) {
     name: product.name, description: descFull, image: [imgAbs],
     brand: { '@type': 'Brand', name: 'KRYPTAA' },
     sku: 'KRYPTAA-' + product.id, itemCondition: 'https://schema.org/NewCondition',
-    offers: { '@type': 'Offer', url: cleanAbs, priceCurrency: 'USD', price: product.price, availability, seller: { '@type': 'Organization', name: 'KRYPTAA' } },
+    // Two decimals, as a string: keeps the JSON-LD byte-identical to the price in
+    // feed/google-merchant.xml, so Merchant Center doesn't flag a mismatch on
+    // prices like 41.60 that JS would otherwise serialise as 41.6.
+    offers: { '@type': 'Offer', url: cleanAbs, priceCurrency: 'USD', price: Number(product.price).toFixed(2), availability, seller: { '@type': 'Organization', name: 'KRYPTAA' } },
   };
   const revs = REVIEWS[product.id] || [];
   if (revs.length) {
