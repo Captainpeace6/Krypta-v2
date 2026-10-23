@@ -1727,6 +1727,14 @@
         ${gallery.map((item, i) => `<button class="pg-thumb${i === 0 ? " active" : ""}" data-idx="${i}" aria-label="${item.label}"><img src="${item.src}" alt="${product.name} — ${item.label}" loading="lazy"><span>${item.label}</span></button>`).join("")}
       </div>
       ` : ""}
+      ${product.video ? `
+      <div class="pg-video">
+        <video controls playsinline preload="none" poster="${product.videoPoster || product.img}"
+               aria-label="${product.name} — product video">
+          <source src="${product.video}" type="video/mp4">
+        </video>
+      </div>
+      ` : ""}
     `;
 
     const isArchivePDP = /archive/i.test(product.availability);

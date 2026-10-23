@@ -1079,7 +1079,7 @@
     <g:image_link>https://www.kryptaa.com/imgs/anime-deathnote.jpg</g:image_link>
 
     <g:availability>preorder</g:availability>
-    <g:availability_date>2026-12-06T00:00:00-05:00</g:availability_date>
+    <g:availability_date>2026-12-07T00:00:00-05:00</g:availability_date>
     <g:price>67.00 USD</g:price>
     <g:brand>KRYPTAA</g:brand>
     <g:condition>new</g:condition>
@@ -1103,7 +1103,7 @@
     <g:image_link>https://www.kryptaa.com/imgs/anime-deathnote.jpg</g:image_link>
 
     <g:availability>preorder</g:availability>
-    <g:availability_date>2026-12-06T00:00:00-05:00</g:availability_date>
+    <g:availability_date>2026-12-07T00:00:00-05:00</g:availability_date>
     <g:price>67.00 USD</g:price>
     <g:brand>KRYPTAA</g:brand>
     <g:condition>new</g:condition>
@@ -1127,7 +1127,7 @@
     <g:image_link>https://www.kryptaa.com/imgs/anime-deathnote.jpg</g:image_link>
 
     <g:availability>preorder</g:availability>
-    <g:availability_date>2026-12-06T00:00:00-05:00</g:availability_date>
+    <g:availability_date>2026-12-07T00:00:00-05:00</g:availability_date>
     <g:price>67.00 USD</g:price>
     <g:brand>KRYPTAA</g:brand>
     <g:condition>new</g:condition>
@@ -1151,7 +1151,7 @@
     <g:image_link>https://www.kryptaa.com/imgs/anime-deathnote.jpg</g:image_link>
 
     <g:availability>preorder</g:availability>
-    <g:availability_date>2026-12-06T00:00:00-05:00</g:availability_date>
+    <g:availability_date>2026-12-07T00:00:00-05:00</g:availability_date>
     <g:price>67.00 USD</g:price>
     <g:brand>KRYPTAA</g:brand>
     <g:condition>new</g:condition>
@@ -1175,7 +1175,7 @@
     <g:image_link>https://www.kryptaa.com/imgs/anime-deathnote.jpg</g:image_link>
 
     <g:availability>preorder</g:availability>
-    <g:availability_date>2026-12-06T00:00:00-05:00</g:availability_date>
+    <g:availability_date>2026-12-07T00:00:00-05:00</g:availability_date>
     <g:price>67.00 USD</g:price>
     <g:brand>KRYPTAA</g:brand>
     <g:condition>new</g:condition>
@@ -1199,7 +1199,7 @@
     <g:image_link>https://www.kryptaa.com/imgs/anime-one-piece.jpg</g:image_link>
 
     <g:availability>preorder</g:availability>
-    <g:availability_date>2026-12-06T00:00:00-05:00</g:availability_date>
+    <g:availability_date>2026-12-07T00:00:00-05:00</g:availability_date>
     <g:price>77.00 USD</g:price>
     <g:brand>KRYPTAA</g:brand>
     <g:condition>new</g:condition>
@@ -1223,7 +1223,7 @@
     <g:image_link>https://www.kryptaa.com/imgs/anime-one-piece.jpg</g:image_link>
 
     <g:availability>preorder</g:availability>
-    <g:availability_date>2026-12-06T00:00:00-05:00</g:availability_date>
+    <g:availability_date>2026-12-07T00:00:00-05:00</g:availability_date>
     <g:price>77.00 USD</g:price>
     <g:brand>KRYPTAA</g:brand>
     <g:condition>new</g:condition>
@@ -1247,7 +1247,7 @@
     <g:image_link>https://www.kryptaa.com/imgs/anime-one-piece.jpg</g:image_link>
 
     <g:availability>preorder</g:availability>
-    <g:availability_date>2026-12-06T00:00:00-05:00</g:availability_date>
+    <g:availability_date>2026-12-07T00:00:00-05:00</g:availability_date>
     <g:price>77.00 USD</g:price>
     <g:brand>KRYPTAA</g:brand>
     <g:condition>new</g:condition>
@@ -1271,7 +1271,7 @@
     <g:image_link>https://www.kryptaa.com/imgs/anime-one-piece.jpg</g:image_link>
 
     <g:availability>preorder</g:availability>
-    <g:availability_date>2026-12-06T00:00:00-05:00</g:availability_date>
+    <g:availability_date>2026-12-07T00:00:00-05:00</g:availability_date>
     <g:price>77.00 USD</g:price>
     <g:brand>KRYPTAA</g:brand>
     <g:condition>new</g:condition>
@@ -1295,7 +1295,7 @@
     <g:image_link>https://www.kryptaa.com/imgs/anime-one-piece.jpg</g:image_link>
 
     <g:availability>preorder</g:availability>
-    <g:availability_date>2026-12-06T00:00:00-05:00</g:availability_date>
+    <g:availability_date>2026-12-07T00:00:00-05:00</g:availability_date>
     <g:price>77.00 USD</g:price>
     <g:brand>KRYPTAA</g:brand>
     <g:condition>new</g:condition>
@@ -1722,6 +1722,54 @@
     <g:age_group>adult</g:age_group>
     <g:size>Universal</g:size>
     <g:color>Multicolor</g:color>
+    <g:material>Rhinestone mesh, holographic sequin, and liquid metallic jersey — each chosen for stage and night wearability.</g:material>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price></g:shipping>
+  </item>
+
+  <item>
+    <g:id>81-Universal</g:id>
+    <g:item_group_id>81</g:item_group_id>
+    <g:title>Rhinestone Heart Chain Bra — Universal</g:title>
+    <g:description>Rhinestone heart-cup chain bra with draped crystal fringe and an adjustable body chain. Layer it over a bodysuit or wear it as the whole look. Drop 001 — Midnight Glow Statement.</g:description>
+    <g:link>https://www.kryptaa.com/products/rhinestone-heart-chain-bra.html?utm_source=google&amp;utm_medium=shopping&amp;utm_campaign=free_listings</g:link>
+    <g:image_link>https://www.kryptaa.com/imgs/tops/top-81.webp</g:image_link>
+    <g:additional_image_link>https://www.kryptaa.com/imgs/tops/top-81-g2.webp</g:additional_image_link>
+    <g:availability>in_stock</g:availability>
+    <g:price>15.99 USD</g:price>
+    <g:brand>KRYPTAA</g:brand>
+    <g:condition>new</g:condition>
+    <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
+    <g:product_type>Women Wear / Drop 001</g:product_type>
+    <g:gender>female</g:gender>
+    <g:age_group>adult</g:age_group>
+    <g:size>Universal</g:size>
+    <g:color>Black</g:color>
+    <g:material>Rhinestone mesh, holographic sequin, and liquid metallic jersey — each chosen for stage and night wearability.</g:material>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price></g:shipping>
+  </item>
+
+  <item>
+    <g:id>82-Universal</g:id>
+    <g:item_group_id>82</g:item_group_id>
+    <g:title>Gold Chainmail Choker Bra — Universal</g:title>
+    <g:description>Gold chainmail choker with a triangle chain bra and draped waist strands. Pure statement jewellery — wear it over a top or against skin. Drop 001 — Midnight Glow Statement.</g:description>
+    <g:link>https://www.kryptaa.com/products/gold-chainmail-choker-bra.html?utm_source=google&amp;utm_medium=shopping&amp;utm_campaign=free_listings</g:link>
+    <g:image_link>https://www.kryptaa.com/imgs/tops/top-82.webp</g:image_link>
+    <g:additional_image_link>https://www.kryptaa.com/imgs/tops/top-82-g2.webp</g:additional_image_link>
+    <g:additional_image_link>https://www.kryptaa.com/imgs/tops/top-82-g3.webp</g:additional_image_link>
+    <g:additional_image_link>https://www.kryptaa.com/imgs/tops/top-82-g4.webp</g:additional_image_link>
+    <g:availability>in_stock</g:availability>
+    <g:price>15.99 USD</g:price>
+    <g:brand>KRYPTAA</g:brand>
+    <g:condition>new</g:condition>
+    <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
+    <g:product_type>Women Wear / Drop 001</g:product_type>
+    <g:gender>female</g:gender>
+    <g:age_group>adult</g:age_group>
+    <g:size>Universal</g:size>
+    <g:color>Black</g:color>
     <g:material>Rhinestone mesh, holographic sequin, and liquid metallic jersey — each chosen for stage and night wearability.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price></g:shipping>

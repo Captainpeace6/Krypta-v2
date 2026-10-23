@@ -6646,3 +6646,20 @@ button.k-btn:active,
 @media (max-height: 700px) {
   .cart-also-viewed { display: none; }
 }
+
+/* Product video. Only rendered for products that carry a `video` field, so every
+   other PDP is untouched. preload="none" means the file is not fetched until the
+   customer presses play — these clips are ~2-3MB and would otherwise dominate
+   the page weight on a product most visitors only scroll past. */
+.pg-video {
+  margin-top: 14px;
+}
+.pg-video video {
+  width: 100%;
+  display: block;
+  border-radius: 10px;
+  background: #000;
+  aspect-ratio: 9 / 16;
+  max-height: 70vh;
+  object-fit: contain;
+}
