@@ -1728,11 +1728,12 @@
       </div>
       ` : ""}
       ${product.video ? `
-      <div class="pg-video">
-        <video controls playsinline preload="none" poster="${product.videoPoster || product.img}"
+      <div class="pg-video" id="pgVideo">
+        <video controls muted playsinline preload="none" poster="${product.videoPoster || product.img}"
                aria-label="${product.name} — product video">
           <source src="${product.video}" type="video/mp4">
         </video>
+        <button class="pg-video-play" type="button" aria-label="Play ${product.name} video"></button>
       </div>
       ` : ""}
     `;
@@ -2395,6 +2396,26 @@
         var diff = pgTouchX - e.changedTouches[0].clientX;
         if (Math.abs(diff) > 40) pgShow(pgIdx + (diff > 0 ? 1 : -1));
       });
+    }
+
+    /* ── Product video ──
+       The native control bar sits at the bottom edge of the video, which on a phone
+       lands behind the cookie bar (186px tall, z-9990) or the sticky buy bar, so the
+       play button was effectively unclickable. This overlay makes the whole frame a
+       tap target; its centre always falls in the clear zone between the fixed header
+       and those bars. Native controls stay for scrubbing once playback starts. */
+    var pgVid = doc.getElementById("pgVideo");
+    if (pgVid) {
+      var pgVidEl = pgVid.querySelector("video");
+      var pgVidBtn = pgVid.querySelector(".pg-video-play");
+      if (pgVidEl && pgVidBtn) {
+        pgVidBtn.addEventListener("click", function () {
+          pgVid.classList.add("is-playing");
+          var p = pgVidEl.play();
+          if (p && p.catch) p.catch(function () { pgVid.classList.remove("is-playing"); });
+        });
+        pgVidEl.addEventListener("ended", function () { pgVid.classList.remove("is-playing"); });
+      }
     }
 
     /* ── Filmstrip reveal controller (desktop only) ──

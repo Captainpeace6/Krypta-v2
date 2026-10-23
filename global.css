@@ -6653,6 +6653,7 @@ button.k-btn:active,
    the page weight on a product most visitors only scroll past. */
 .pg-video {
   margin-top: 14px;
+  position: relative;
 }
 .pg-video video {
   width: 100%;
@@ -6660,6 +6661,48 @@ button.k-btn:active,
   border-radius: 10px;
   background: #000;
   aspect-ratio: 9 / 16;
-  max-height: 70vh;
+  /* Keep the frame inside the zone that isn't covered by the fixed header (~102px)
+     or the cookie / sticky buy bars at the bottom, so the native controls stay
+     reachable once the overlay is dismissed. */
+  max-height: 58vh;
   object-fit: contain;
+  margin-inline: auto;
 }
+/* Full-frame tap target, so starting playback never depends on hitting the
+   native control bar at the very bottom edge of the video. */
+.pg-video-play {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.28);
+  border-radius: 10px;
+}
+.pg-video-play::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: translate(-30%, -50%);
+  border-left: 26px solid #fff;
+  border-top: 16px solid transparent;
+  border-bottom: 16px solid transparent;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
+}
+.pg-video-play::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 74px;
+  height: 74px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+.pg-video.is-playing .pg-video-play { display: none; }

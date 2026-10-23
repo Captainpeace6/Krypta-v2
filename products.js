@@ -525,6 +525,8 @@ window.STOCK_DATA = {
   32:  { S: 5,  M: 10, L: 10, XL: 5 },
   70:  { Universal: 15 }, // one size, real count
   80:  { Universal: 15 }, // one size, real count
+  81:  { Universal: 21 }, // Rhinestone Heart Chain Bra — one size, real count
+  82:  { Universal: 21 }, // Gold Chainmail Choker Bra — one size, real count
   // Silver Metallic Crop Set (id 90) — Top & Skirt tracked separately (Universal size).
   // A Full Set sale draws down BOTH; set availability = min(top, skirt).
   "90:top":   { Universal: 12 },
