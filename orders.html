@@ -3092,87 +3092,168 @@
   if (key) { showDashboard(); loadOrders(key); requestNotifPermission(); window.kPushAfterLogin && window.kPushAfterLogin(); startPolling(key); renderBing(); renderClarity(); renderMarketingHealth(); } else { showGate(); }
 })();
 
-/* ── Print label ──
-   Takes the order's index in the rendered list, not the order object: passing it
-   as JSON through an onclick attribute broke on the JSON's own double quotes.
-   Prints through a hidden same-origin iframe rather than window.open(), which
-   Chrome blocks as a popup and which returned null, so nothing happened at all.
-   The browser's own print dialog offers "Save as PDF" as a destination. */
+/* ── Order label ──────────────────────────────────────────────────────────
+   Opens the order as a panel inside the dashboard, with Print and Save-PDF
+   buttons. Earlier versions failed three ways: the order was passed as JSON
+   inside an onclick attribute (its quotes closed the attribute, so the button
+   was dead); then window.open() was blocked as a popup and returned null; then
+   the iframe fallback downloaded a .html file, which iOS cannot open.
+   The panel renders in-page so it works the same on desktop and iPhone.    */
 function printLabel(idx, orderNum) {
   var order = (window.__renderedOrders || [])[idx];
   if (!order) { alert('Could not find that order — reload the page and try again.'); return; }
-  var cust = order.customer || {};
-  var date = new Date(order.created * 1000).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
-  function isShip(i) { var n=(i.name||'').toLowerCase(); return n==='shipping'||n.includes('shipping'); }
-  var productItems = (order.items||[]).filter(function(i){ return !isShip(i); });
-  var shippingItem = (order.items||[]).find(function(i){ return isShip(i); });
-  var itemsHtml = productItems.map(function(i) {
-    return '<tr><td style="padding:6px 0;font-size:14px;border-bottom:1px solid #eee;">'+(i.name||'')+'</td>'
-      +'<td style="padding:6px 8px;font-size:14px;text-align:center;border-bottom:1px solid #eee;">'+(i.qty||1)+'</td>'
-      +'<td style="padding:6px 0;font-size:14px;text-align:right;border-bottom:1px solid #eee;">$'+i.total+'</td></tr>';
-  }).join('');
-  var ref = (order.paymentId||order.id||'').slice(-8).toUpperCase();
-  var html = ('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>KRYPTAA — Order #'+orderNum+'</title>'
-    +'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cormorant+Garamond:wght@400;600&display=swap">'
-    +'<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:"Cormorant Garamond",Georgia,serif;color:#111;background:#fff;}'
-    +'.wrap{max-width:560px;margin:0 auto;padding:36px 32px;border:2px solid #111;min-height:700px;display:flex;flex-direction:column;gap:20px;}'
-    +'.brand{text-align:center;}.brand img{height:40px;width:auto;filter:brightness(0);}'
-    +'.order-no{text-align:center;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#888;margin-top:6px;}'
-    +'hr{border:none;border-top:1px solid #ddd;}.lbl{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:#aaa;margin-bottom:5px;}'
-    +'.addr{font-size:18px;font-weight:600;line-height:1.6;}.contact{font-size:13px;color:#555;margin-top:5px;}'
-    +'table{width:100%;border-collapse:collapse;}thead th{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#aaa;padding:6px 0;text-align:left;border-bottom:2px solid #111;}'
-    +'.total-row td{padding:10px 0;font-size:16px;font-weight:600;border-top:2px solid #111;}'
-    +'.ship-row{display:flex;justify-content:space-between;font-size:13px;color:#888;margin-top:6px;}'
-    +'.footer{text-align:center;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#bbb;margin-top:auto;padding-top:16px;border-top:1px solid #eee;}'
-    +'.ref{font-size:11px;color:#bbb;text-align:right;}@media print{body{-webkit-print-color-adjust:exact;}}'
-    +'</style></head><body><div class="wrap">'
-    +'<div class="brand"><img src="https://www.kryptaa.com/imgs/kryptaa-logo-gold.webp" alt="KRYPTAA"><div class="order-no">Order #'+orderNum+'</div></div>'
-    +'<hr>'
-    +'<div><div class="lbl">Ship To</div><div class="addr">'+(order.shippingName||cust.name||'—')+'<br>'+(order.shippingAddress||'—')+'</div>'
-    +'<div class="contact">'+(cust.email||'')+(cust.phone&&cust.phone!=='—'?' &nbsp;·&nbsp; '+cust.phone:'')+'</div></div>'
-    +'<hr>'
-    +'<div><div class="lbl">Items Ordered</div>'
-    +'<table><thead><tr><th>Product</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Price</th></tr></thead>'
-    +'<tbody>'+itemsHtml+'</tbody>'
-    +'<tfoot><tr class="total-row"><td colspan="2">Order Total</td><td style="text-align:right;">$'+order.total+'</td></tr></tfoot></table>'
-    +(shippingItem?'<div class="ship-row"><span>Incl. shipping</span><span>$'+shippingItem.total+'</span></div>':'')+'</div>'
-    +'<div class="ref">Ref: '+ref+' &nbsp;·&nbsp; '+date+'</div>'
-    +'<div class="footer">www.kryptaa.com &nbsp;·&nbsp; hello@kryptaa.com</div>'
-    +'</div></body></html>');
 
-  var frame = document.getElementById('kLabelFrame');
-  if (frame) frame.parentNode.removeChild(frame);
-  frame = document.createElement('iframe');
-  frame.id = 'kLabelFrame';
-  frame.setAttribute('aria-hidden', 'true');
-  // Off-screen rather than display:none — a hidden iframe has no layout in some
-  // browsers and prints blank.
-  frame.style.cssText = 'position:fixed;right:0;bottom:0;width:640px;height:820px;border:0;opacity:0;pointer-events:none;';
-  document.body.appendChild(frame);
-
-  var doc = frame.contentWindow.document;
-  doc.open(); doc.write(html); doc.close();
-
-  // Wait for the logo and webfonts, or the label prints with a broken image.
-  var fired = false;
-  function go() {
-    if (fired) return; fired = true;
-    try {
-      frame.contentWindow.focus();
-      frame.contentWindow.print();
-    } catch (e) {
-      // Last resort: hand the label over as a file they can open and print.
-      var url = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
-      var a = document.createElement('a');
-      a.href = url; a.target = '_blank'; a.rel = 'noopener';
-      a.download = 'KRYPTAA-order-' + orderNum + '.html';
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(function(){ URL.revokeObjectURL(url); }, 10000);
-    }
+  function esc(v) {
+    return String(v == null ? '' : v)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
-  var img = doc.querySelector('.brand img');
-  if (img && !img.complete) { img.onload = go; img.onerror = go; }
-  setTimeout(go, 1500); // fallback if the image never settles
+  function isShip(i) { var n = (i.name||'').toLowerCase(); return n === 'shipping' || n.indexOf('shipping') !== -1; }
+
+  var cust     = order.customer || {};
+  var date     = new Date(order.created * 1000).toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+  var ref      = (order.paymentId || order.id || '').slice(-8).toUpperCase();
+  var items    = (order.items || []).filter(function(i){ return !isShip(i); });
+  var shipItem = (order.items || []).find(function(i){ return isShip(i); });
+  var shipName = order.shippingName || cust.name || '—';
+  // shippingAddress already carries <br> separators from the order feed.
+  var addrLines = String(order.shippingAddress || '—').split(/<br\s*\/?>/i)
+                    .map(function(l){ return l.trim(); }).filter(Boolean);
+
+  var rows = items.map(function(i) {
+    return '<tr><td>' + esc(i.name) + '</td><td class="c">' + esc(i.qty || 1) +
+           '</td><td class="r">$' + esc(i.total) + '</td></tr>';
+  }).join('');
+
+  var old = document.getElementById('kLabelModal');
+  if (old) old.parentNode.removeChild(old);
+
+  var m = document.createElement('div');
+  m.id = 'kLabelModal';
+  m.innerHTML =
+    '<style>' +
+    '#kLabelModal{position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.72);overflow:auto;-webkit-overflow-scrolling:touch;}' +
+    '#kLabelModal .k-bar{position:sticky;top:0;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:12px;background:#111;border-bottom:1px solid #333;}' +
+    '#kLabelModal .k-bar button{font:600 13px/1 system-ui,-apple-system,sans-serif;padding:13px 20px;border-radius:8px;border:1px solid #444;background:#222;color:#fff;cursor:pointer;min-width:104px;}' +
+    '#kLabelModal .k-bar button.pri{background:#c9a227;border-color:#c9a227;color:#111;}' +
+    '#kLabelModal *{box-sizing:border-box;}' +
+    '#kLabelModal .k-sheet{background:#fff;color:#111;width:100%;max-width:620px;margin:16px auto 40px;padding:28px 24px;font-family:Georgia,"Times New Roman",serif;overflow-wrap:anywhere;}' +
+    '@media (max-width:520px){#kLabelModal .k-sheet{margin:10px 8px 32px;padding:20px 16px;}' +
+    '#kLabelModal .k-addr{font-size:18px;}#kLabelModal td{font-size:14px;}' +
+    '#kLabelModal .k-bar button{flex:1 1 auto;min-width:0;padding:14px 10px;}}' +
+    '#kLabelModal h2{font:700 15px/1.3 system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;text-align:center;margin:0 0 4px;}' +
+    '#kLabelModal .k-ord{text-align:center;font:600 12px/1 system-ui,sans-serif;letter-spacing:.2em;color:#888;margin-bottom:18px;}' +
+    '#kLabelModal .k-lbl{font:700 10px/1 system-ui,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#999;margin:18px 0 6px;}' +
+    '#kLabelModal .k-addr{font-size:21px;font-weight:600;line-height:1.5;}' +
+    '#kLabelModal .k-contact{font-size:14px;color:#555;margin-top:8px;word-break:break-word;}' +
+    '#kLabelModal table{width:100%;border-collapse:collapse;margin-top:4px;}' +
+    '#kLabelModal th{font:700 10px/1 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#999;text-align:left;padding:8px 0;border-bottom:2px solid #111;}' +
+    '#kLabelModal td{font-size:15px;padding:9px 0;border-bottom:1px solid #eee;vertical-align:top;}' +
+    '#kLabelModal td.c,#kLabelModal th.c{text-align:center;width:48px;}' +
+    '#kLabelModal td.r,#kLabelModal th.r{text-align:right;width:84px;white-space:nowrap;}' +
+    '#kLabelModal .k-tot{display:flex;justify-content:space-between;font-size:18px;font-weight:700;padding:12px 0;border-top:2px solid #111;margin-top:2px;}' +
+    '#kLabelModal .k-ship{display:flex;justify-content:space-between;font-size:13px;color:#888;}' +
+    '#kLabelModal .k-ref{font-size:12px;color:#aaa;margin-top:22px;text-align:right;}' +
+    '@media print{body>*{display:none!important;}' +
+    'body>#kLabelModal{display:block!important;position:static!important;background:#fff!important;overflow:visible!important;}' +
+    '#kLabelModal .k-bar{display:none!important;}' +
+    '#kLabelModal .k-sheet{margin:0;max-width:none;padding:0;}}' +
+    '</style>' +
+    '<div class="k-bar">' +
+      '<button type="button" class="pri" id="kPrintBtn">🖨 Print</button>' +
+      '<button type="button" id="kPdfBtn">⬇ Save PDF</button>' +
+      '<button type="button" id="kCloseBtn">✕ Close</button>' +
+    '</div>' +
+    '<div class="k-sheet" id="kSheet">' +
+      '<h2>KRYPTAA</h2><div class="k-ord">Order #' + esc(orderNum) + '</div>' +
+      '<div class="k-lbl">Ship to</div>' +
+      '<div class="k-addr">' + esc(shipName) + '<br>' + addrLines.map(esc).join('<br>') + '</div>' +
+      '<div class="k-contact">' + esc(cust.email) +
+        (cust.phone && cust.phone !== '—' ? ' &nbsp;·&nbsp; ' + esc(cust.phone) : '') + '</div>' +
+      '<div class="k-lbl">Items ordered</div>' +
+      '<table><thead><tr><th>Product</th><th class="c">Qty</th><th class="r">Price</th></tr></thead>' +
+      '<tbody>' + rows + '</tbody></table>' +
+      '<div class="k-tot"><span>Order Total</span><span>$' + esc(order.total) + '</span></div>' +
+      (shipItem ? '<div class="k-ship"><span>Incl. shipping</span><span>$' + esc(shipItem.total) + '</span></div>' : '') +
+      '<div class="k-ref">Ref: ' + esc(ref) + ' &nbsp;·&nbsp; ' + esc(date) + '</div>' +
+    '</div>';
+  document.body.appendChild(m);
+
+  function close() { if (m.parentNode) m.parentNode.removeChild(m); document.removeEventListener('keydown', onKey); }
+  function onKey(e) { if (e.key === 'Escape') close(); }
+  document.addEventListener('keydown', onKey);
+  document.getElementById('kCloseBtn').onclick = close;
+  m.addEventListener('click', function(e){ if (e.target === m) close(); });
+
+  // Print the page itself: the @media print rules above hide everything except
+  // this panel. On iOS this opens the share sheet, which also saves to Files.
+  document.getElementById('kPrintBtn').onclick = function(){ window.print(); };
+
+  // A genuine PDF, built from text so it stays sharp and selectable. jsPDF is
+  // fetched only when this button is used, so it costs nothing otherwise.
+  document.getElementById('kPdfBtn').onclick = function() {
+    var btn = this;
+    btn.disabled = true; btn.textContent = '… building';
+    function build() {
+      try {
+        var doc = new window.jspdf.jsPDF({ unit: 'pt', format: 'letter' });
+        var L = 56, y = 64;
+        doc.setFont('helvetica','bold').setFontSize(15).text('KRYPTAA', L, y);
+        doc.setFont('helvetica','normal').setFontSize(10).setTextColor(130)
+           .text('Order #' + orderNum, 556, y, { align: 'right' });
+        y += 10; doc.setDrawColor(17).setLineWidth(1).line(L, y, 556, y); y += 26;
+
+        doc.setFontSize(8).setTextColor(150).text('SHIP TO', L, y); y += 17;
+        doc.setFont('helvetica','bold').setFontSize(13).setTextColor(17);
+        [shipName].concat(addrLines).forEach(function(l){ doc.text(String(l), L, y); y += 17; });
+        if (cust.email) {
+          y += 3; doc.setFont('helvetica','normal').setFontSize(10).setTextColor(90);
+          doc.text(String(cust.email) + (cust.phone && cust.phone !== '—' ? '   ·   ' + cust.phone : ''), L, y);
+          y += 16;
+        }
+
+        y += 12; doc.setFontSize(8).setTextColor(150).text('ITEMS ORDERED', L, y); y += 12;
+        doc.setDrawColor(17).line(L, y, 556, y); y += 16;
+        doc.setFontSize(10).setTextColor(17);
+        items.forEach(function(i) {
+          var name = doc.splitTextToSize(String(i.name || ''), 360);
+          doc.setFont('helvetica','normal').text(name, L, y);
+          doc.text(String(i.qty || 1), 440, y, { align: 'center' });
+          doc.text('$' + i.total, 556, y, { align: 'right' });
+          y += Math.max(name.length * 13, 13) + 7;
+          doc.setDrawColor(230).setLineWidth(0.5).line(L, y - 5, 556, y - 5);
+        });
+
+        y += 8; doc.setDrawColor(17).setLineWidth(1).line(L, y, 556, y); y += 20;
+        doc.setFont('helvetica','bold').setFontSize(13);
+        doc.text('Order Total', L, y);
+        doc.text('$' + order.total, 556, y, { align: 'right' }); y += 18;
+        if (shipItem) {
+          doc.setFont('helvetica','normal').setFontSize(10).setTextColor(140);
+          doc.text('Incl. shipping', L, y);
+          doc.text('$' + shipItem.total, 556, y, { align: 'right' });
+          y += 18;
+        }
+        doc.setFont('helvetica','normal').setFontSize(9).setTextColor(170)
+           .text('Ref: ' + ref + '   ·   ' + date, 556, y + 14, { align: 'right' });
+        doc.setFontSize(8).text('www.kryptaa.com   ·   hello@kryptaa.com', 306, 740, { align: 'center' });
+
+        doc.save('KRYPTAA-order-' + orderNum + '.pdf');
+        btn.disabled = false; btn.textContent = '⬇ Save PDF';
+      } catch (err) {
+        btn.disabled = false; btn.textContent = '⬇ Save PDF';
+        alert('Could not build the PDF. Use Print and choose "Save as PDF" instead.');
+      }
+    }
+    if (window.jspdf && window.jspdf.jsPDF) { build(); return; }
+    var sc = document.createElement('script');
+    sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    sc.onload = build;
+    sc.onerror = function() {
+      btn.disabled = false; btn.textContent = '⬇ Save PDF';
+      alert('Could not load the PDF library (offline?). Use Print and choose "Save as PDF".');
+    };
+    document.head.appendChild(sc);
+  };
 }
 </script>
 
