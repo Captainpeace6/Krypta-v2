@@ -1730,6 +1730,10 @@
     var custLT = {};
     orders.forEach(function(oo){ var em=((oo.customer&&oo.customer.email)||'').toLowerCase().trim(); if(!em) return; if(!custLT[em]) custLT[em]={total:0,count:0}; custLT[em].total+=parseFloat(oo.total||0); custLT[em].count++; });
     var orderNotes = (function(){ try{ return JSON.parse(localStorage.getItem('k_order_notes')||'{}'); }catch(e){ return {}; } })();
+    // Print Label looks the order up by index here rather than carrying the order
+    // as JSON inside an onclick attribute — the JSON's own quotes terminated the
+    // attribute, so the handler never parsed and the button did nothing.
+    window.__renderedOrders = orders;
     el.innerHTML = orders.map(function(o, idx) {
       var orderNum = total - idx;
       var date = new Date(o.created * 1000);
@@ -1796,7 +1800,7 @@
           + '</div>'
         + '<div class="order-actions">'
         + '<button class="order-ship-btn' + (isShipped ? ' shipped' : '') + '" type="button" data-ship="' + escHtml(pid) + '">' + (isShipped ? '✓ Shipped' : '⬡ Mark Shipped') + '</button>'
-        + '<button class="order-print-btn" type="button" onclick="printLabel(' + JSON.stringify(o).replace(/</g,'\\u003c') + ',' + orderNum + ')">Print Label ⎙</button>'
+        + '<button class="order-print-btn" type="button" onclick="printLabel(' + idx + ',' + orderNum + ')">Print Label ⎙</button>'
         + '<a class="order-stripe-link" href="' + stripeUrl + '" target="_blank" rel="noopener">View in Stripe →</a>'
         + '</div></div></div></div>';
     }).join('');
@@ -3088,8 +3092,16 @@
   if (key) { showDashboard(); loadOrders(key); requestNotifPermission(); window.kPushAfterLogin && window.kPushAfterLogin(); startPolling(key); renderBing(); renderClarity(); renderMarketingHealth(); } else { showGate(); }
 })();
 
-/* ── Print label ── */
-function printLabel(order, orderNum) {
+/* ── Print label ──
+   Takes the order's index in the rendered list, not the order object: passing it
+   as JSON through an onclick attribute broke on the JSON's own double quotes.
+   Prints through a hidden same-origin iframe rather than window.open(), which
+   Chrome blocks as a popup and which returned null, so nothing happened at all.
+   The browser's own print dialog offers "Save as PDF" as a destination. */
+function printLabel(idx, orderNum) {
+  var order = (window.__renderedOrders || [])[idx];
+  if (!order) { alert('Could not find that order — reload the page and try again.'); return; }
+  var cust = order.customer || {};
   var date = new Date(order.created * 1000).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
   function isShip(i) { var n=(i.name||'').toLowerCase(); return n==='shipping'||n.includes('shipping'); }
   var productItems = (order.items||[]).filter(function(i){ return !isShip(i); });
@@ -3100,8 +3112,7 @@ function printLabel(order, orderNum) {
       +'<td style="padding:6px 0;font-size:14px;text-align:right;border-bottom:1px solid #eee;">$'+i.total+'</td></tr>';
   }).join('');
   var ref = (order.paymentId||order.id||'').slice(-8).toUpperCase();
-  var w = window.open('','_blank','width=620,height=760');
-  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>KRYPTAA — Order #'+orderNum+'</title>'
+  var html = ('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>KRYPTAA — Order #'+orderNum+'</title>'
     +'<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cormorant+Garamond:wght@400;600&display=swap">'
     +'<style>*{box-sizing:border-box;margin:0;padding:0;}body{font-family:"Cormorant Garamond",Georgia,serif;color:#111;background:#fff;}'
     +'.wrap{max-width:560px;margin:0 auto;padding:36px 32px;border:2px solid #111;min-height:700px;display:flex;flex-direction:column;gap:20px;}'
@@ -3117,8 +3128,8 @@ function printLabel(order, orderNum) {
     +'</style></head><body><div class="wrap">'
     +'<div class="brand"><img src="https://www.kryptaa.com/imgs/kryptaa-logo-gold.webp" alt="KRYPTAA"><div class="order-no">Order #'+orderNum+'</div></div>'
     +'<hr>'
-    +'<div><div class="lbl">Ship To</div><div class="addr">'+(order.shippingName||order.customer.name)+'<br>'+order.shippingAddress+'</div>'
-    +'<div class="contact">'+order.customer.email+(order.customer.phone&&order.customer.phone!=='—'?' &nbsp;·&nbsp; '+order.customer.phone:'')+'</div></div>'
+    +'<div><div class="lbl">Ship To</div><div class="addr">'+(order.shippingName||cust.name||'—')+'<br>'+(order.shippingAddress||'—')+'</div>'
+    +'<div class="contact">'+(cust.email||'')+(cust.phone&&cust.phone!=='—'?' &nbsp;·&nbsp; '+cust.phone:'')+'</div></div>'
     +'<hr>'
     +'<div><div class="lbl">Items Ordered</div>'
     +'<table><thead><tr><th>Product</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Price</th></tr></thead>'
@@ -3127,8 +3138,41 @@ function printLabel(order, orderNum) {
     +(shippingItem?'<div class="ship-row"><span>Incl. shipping</span><span>$'+shippingItem.total+'</span></div>':'')+'</div>'
     +'<div class="ref">Ref: '+ref+' &nbsp;·&nbsp; '+date+'</div>'
     +'<div class="footer">www.kryptaa.com &nbsp;·&nbsp; hello@kryptaa.com</div>'
-    +'</div><script>window.onload=function(){window.print();}<\/script></body></html>');
-  w.document.close();
+    +'</div></body></html>');
+
+  var frame = document.getElementById('kLabelFrame');
+  if (frame) frame.parentNode.removeChild(frame);
+  frame = document.createElement('iframe');
+  frame.id = 'kLabelFrame';
+  frame.setAttribute('aria-hidden', 'true');
+  // Off-screen rather than display:none — a hidden iframe has no layout in some
+  // browsers and prints blank.
+  frame.style.cssText = 'position:fixed;right:0;bottom:0;width:640px;height:820px;border:0;opacity:0;pointer-events:none;';
+  document.body.appendChild(frame);
+
+  var doc = frame.contentWindow.document;
+  doc.open(); doc.write(html); doc.close();
+
+  // Wait for the logo and webfonts, or the label prints with a broken image.
+  var fired = false;
+  function go() {
+    if (fired) return; fired = true;
+    try {
+      frame.contentWindow.focus();
+      frame.contentWindow.print();
+    } catch (e) {
+      // Last resort: hand the label over as a file they can open and print.
+      var url = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+      var a = document.createElement('a');
+      a.href = url; a.target = '_blank'; a.rel = 'noopener';
+      a.download = 'KRYPTAA-order-' + orderNum + '.html';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 10000);
+    }
+  }
+  var img = doc.querySelector('.brand img');
+  if (img && !img.complete) { img.onload = go; img.onerror = go; }
+  setTimeout(go, 1500); // fallback if the image never settles
 }
 </script>
 
