@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="robots" content="noindex, nofollow">
+<title>KRYPTAA — Home page sample</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ═══ Sample only. Tokens mirror global.css so this drops straight in. ═══ */
+:root{
+  --k-black:#020202; --k-void:#060606; --k-panel:#100f0c; --k-panel-2:#15130f;
+  --k-line:rgba(210,174,91,.16); --k-line-soft:rgba(255,255,255,.06);
+  --k-gold:#d2ae5b; --k-gold-br:#f2d98b; --k-gold-deep:#8a6d2a;
+  --k-bone:#f3efe5; --k-muted:#8b867b; --k-dim:rgba(243,239,229,.62);
+  --f-primary:"Cinzel",serif; --f-secondary:"Rajdhani","Inter",sans-serif; --f-mono:"Space Mono",monospace;
+  --ease-out:cubic-bezier(.25,.46,.45,.94);
+  --ease-lux:cubic-bezier(.16,1,.3,1);
+  --gutter:clamp(16px,4vw,44px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--k-black);color-scheme:dark;-webkit-tap-highlight-color:transparent;scroll-behavior:smooth}
+body{
+  min-height:100vh;min-height:100svh;overflow-x:hidden;color:var(--k-bone);
+  font-family:var(--f-secondary);font-size:17px;line-height:1.6;letter-spacing:.005em;
+  background:
+    radial-gradient(ellipse 70% 50% at 12% -5%,rgba(210,174,91,.13),transparent 60%),
+    radial-gradient(ellipse 60% 40% at 92% 8%,rgba(138,109,42,.10),transparent 60%),
+    linear-gradient(180deg,#050505 0%,#020202 46%,#070604 100%);
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1320px;margin:0 auto;padding:0 var(--gutter)}
+
+/* film grain — the brand already uses this, it's what makes black feel expensive */
+.grain{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px}
+
+.note{background:rgba(210,174,91,.07);border-bottom:1px solid var(--k-line);
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--k-gold);text-align:center;padding:9px 16px}
+
+/* ── ticker ── */
+.ticker{overflow:hidden;border-bottom:1px solid var(--k-line);background:rgba(0,0,0,.5)}
+.ticker-in{display:flex;gap:46px;white-space:nowrap;padding:9px 0;
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--k-muted);
+  animation:slide 34s linear infinite}
+.ticker-in span{display:flex;align-items:center;gap:12px}
+.ticker-in i{width:4px;height:4px;border-radius:50%;background:var(--k-gold);display:inline-block}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── nav ── */
+.nav{position:sticky;top:0;z-index:60;background:rgba(2,2,2,.76);backdrop-filter:blur(18px) saturate(1.2);
+  border-bottom:1px solid var(--k-line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:15px 0}
+.nav-mark{height:32px;width:auto;filter:drop-shadow(0 0 16px rgba(210,174,91,.4))}
+.nav-links{display:flex;gap:30px;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--k-muted)}
+.nav-links a{position:relative;padding:4px 0;transition:color .2s var(--ease-out)}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--k-gold);
+  transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease-out)}
+@media(hover:hover) and (pointer:fine){
+  .nav-links a:hover{color:var(--k-gold)}
+  .nav-links a:hover::after{transform:scaleX(1)}
+}
+.nav-bag{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.18em;color:var(--k-gold);
+  border:1px solid var(--k-line);padding:9px 15px;transition:background .2s var(--ease-out)}
+.nav-bag:active{transform:scale(.97)}
+@media(max-width:900px){ .nav-links{display:none} }
+
+/* ── hero ── */
+.hero{display:grid;grid-template-columns:1fr .92fr;gap:clamp(24px,4.5vw,68px);align-items:center;
+  padding:clamp(34px,6vw,76px) 0 clamp(26px,4vw,48px)}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:10px;
+  letter-spacing:.34em;text-transform:uppercase;color:var(--k-gold);margin-bottom:22px}
+.eyebrow::before{content:"";width:26px;height:1px;background:linear-gradient(90deg,transparent,var(--k-gold))}
+.hero-h1{font-family:var(--f-primary);font-weight:700;line-height:.99;letter-spacing:-.005em;
+  font-size:clamp(2.5rem,6.4vw,4.5rem)}
+.hero-h1 em{font-style:normal;
+  background:linear-gradient(135deg,#8a6d2a 0%,var(--k-gold-br) 38%,var(--k-gold) 62%,#7d6124 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{margin-top:20px;max-width:44ch;color:var(--k-dim);font-size:clamp(15px,1.5vw,16.5px)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:11px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  padding:16px 28px;border:1px solid var(--k-gold);position:relative;overflow:hidden;
+  transition:transform .18s var(--ease-out),background .25s var(--ease-out),color .25s var(--ease-out),box-shadow .25s var(--ease-out)}
+.btn-solid{background:linear-gradient(135deg,var(--k-gold),#c49f4a);color:#070604;font-weight:700;
+  box-shadow:0 0 0 rgba(210,174,91,0)}
+.btn-ghost{color:var(--k-gold);background:transparent}
+.btn:active{transform:scale(.97)}
+@media(hover:hover) and (pointer:fine){
+  .btn-solid:hover{box-shadow:0 8px 34px rgba(210,174,91,.3)}
+  .btn-ghost:hover{background:rgba(210,174,91,.1)}
+}
+.trust{display:flex;flex-wrap:wrap;gap:20px;margin-top:30px;padding-top:24px;border-top:1px solid var(--k-line-soft);
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--k-muted)}
+.trust span{display:flex;align-items:center;gap:8px}
+.dot{width:4px;height:4px;border-radius:50%;background:var(--k-gold);flex:0 0 auto}
+
+/* hero product — the thing that has to be visible */
+.hero-card{position:relative;display:block;border:1px solid var(--k-line);background:var(--k-panel);
+  overflow:hidden;transition:transform .4s var(--ease-lux),box-shadow .4s var(--ease-lux)}
+.hero-card::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(180deg,transparent 52%,rgba(2,2,2,.72) 100%)}
+.hero-card img{width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform .7s var(--ease-lux)}
+@media(hover:hover) and (pointer:fine){
+  .hero-card:hover{box-shadow:0 26px 70px rgba(0,0,0,.6);transform:translateY(-3px)}
+  .hero-card:hover img{transform:scale(1.035)}
+}
+.badge{position:absolute;top:15px;left:15px;z-index:3;background:rgba(2,2,2,.7);backdrop-filter:blur(8px);
+  border:1px solid var(--k-line);font-family:var(--f-mono);font-size:9.5px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--k-gold);padding:7px 11px}
+.hero-card-foot{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;align-items:flex-end;
+  justify-content:space-between;gap:14px;padding:20px}
+.hc-name{font-family:var(--f-primary);font-size:16px;letter-spacing:.03em;line-height:1.3}
+.hc-meta{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;color:var(--k-muted);margin-top:5px}
+.hc-price{font-family:var(--f-mono);font-size:19px;color:var(--k-gold);white-space:nowrap}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;padding-top:24px;gap:26px}
+  .hero-card{order:-1}
+}
+
+/* ── sections ── */
+.sec{padding:clamp(40px,6vw,74px) 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:26px;
+  padding-bottom:16px;border-bottom:1px solid var(--k-line-soft)}
+.sec-n{font-family:var(--f-mono);font-size:10px;letter-spacing:.3em;color:var(--k-gold-deep);display:block;margin-bottom:8px}
+.sec-title{font-family:var(--f-primary);font-size:clamp(1.35rem,2.8vw,2.05rem);letter-spacing:.03em;line-height:1.1}
+.sec-link{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--k-gold);
+  white-space:nowrap;transition:gap .2s var(--ease-out)}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.4vw,18px)}
+@media(max-width:1000px){ .grid{grid-template-columns:repeat(2,1fr)} }
+
+.card{position:relative;display:block;border:1px solid var(--k-line-soft);background:var(--k-panel);
+  overflow:hidden;transition:transform .35s var(--ease-lux),border-color .3s var(--ease-out),box-shadow .35s var(--ease-lux)}
+.card:active{transform:scale(.988)}
+@media(hover:hover) and (pointer:fine){
+  .card:hover{border-color:var(--k-line);transform:translateY(-4px);box-shadow:0 20px 48px rgba(0,0,0,.5)}
+  .card:hover .card-media img{transform:scale(1.06)}
+  .card:hover .card-buy{background:var(--k-gold);color:#070604;border-color:var(--k-gold)}
+}
+.card-media{position:relative;overflow:hidden;background:#0b0a08}
+.card-media img{width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform .6s var(--ease-lux)}
+.card-tag{position:absolute;top:11px;left:11px;z-index:2;background:rgba(2,2,2,.72);backdrop-filter:blur(6px);
+  font-family:var(--f-mono);font-size:9px;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--k-gold);padding:5px 9px;border:1px solid var(--k-line)}
+.card-tag.is-low{color:#e8a87c;border-color:rgba(232,168,124,.3)}
+.card-body{padding:15px 15px 17px}
+.card-name{font-size:14.5px;line-height:1.35;margin-bottom:10px;min-height:2.7em}
+.card-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.card-price{font-family:var(--f-mono);font-size:15px;color:var(--k-gold)}
+.card-sizes{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.13em;color:var(--k-muted)}
+.card-buy{display:block;margin-top:13px;text-align:center;font-family:var(--f-mono);font-size:10px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--k-gold);border:1px solid var(--k-line);
+  padding:12px 8px;transition:background .25s var(--ease-out),color .25s var(--ease-out),border-color .25s var(--ease-out)}
+
+/* ── proof ── */
+.proof{border-top:1px solid var(--k-line);border-bottom:1px solid var(--k-line);
+  background:linear-gradient(180deg,rgba(210,174,91,.05),transparent);padding:clamp(26px,3.4vw,40px) 0}
+.proof-in{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:clamp(18px,3vw,34px);align-items:center}
+.quote{font-family:var(--f-primary);font-size:clamp(14px,1.5vw,16.5px);line-height:1.55;font-style:italic;
+  color:var(--k-bone);border-left:2px solid var(--k-gold);padding-left:18px}
+.quote cite{display:block;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--k-muted);font-style:normal;margin-top:10px}
+.stat{text-align:center}
+.stat-n{font-family:var(--f-primary);font-size:clamp(1.15rem,2.2vw,1.6rem);color:var(--k-gold);line-height:1}
+.stat-l{font-family:var(--f-mono);font-size:9px;letter-spacing:.17em;text-transform:uppercase;color:var(--k-muted);margin-top:8px}
+@media(max-width:860px){
+  .proof-in{grid-template-columns:repeat(3,1fr)}
+  .quote{grid-column:1/-1;margin-bottom:6px}
+}
+@media(max-width:520px){ .proof-in{grid-template-columns:repeat(3,1fr);gap:16px} }
+
+/* ── real-fits strip ── */
+.fits{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.fits a{position:relative;overflow:hidden;display:block;background:#0b0a08}
+.fits img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(.15);
+  transition:transform .6s var(--ease-lux),filter .4s var(--ease-out)}
+@media(hover:hover) and (pointer:fine){ .fits a:hover img{transform:scale(1.07);filter:grayscale(0)} }
+@media(max-width:860px){ .fits{grid-template-columns:repeat(3,1fr)} }
+
+/* ── cinematic, now below the product ── */
+.cine{position:relative;min-height:66vh;min-height:66svh;display:flex;align-items:center;justify-content:center;
+  text-align:center;overflow:hidden;border-top:1px solid var(--k-line)}
+.cine video,.cine img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.3}
+.cine::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 50%,transparent 8%,rgba(2,2,2,.9) 76%)}
+.cine-in{position:relative;z-index:2;padding:48px 22px;max-width:760px}
+.cine-sig{height:52px;width:auto;margin:0 auto 24px;opacity:.85;
+  filter:drop-shadow(0 0 22px rgba(210,174,91,.45))}
+.cine-h{font-family:var(--f-primary);font-size:clamp(1.7rem,4.6vw,3.1rem);letter-spacing:.05em;line-height:1.14}
+.cine-p{margin:18px auto 0;max-width:52ch;color:var(--k-dim);font-size:15px}
+.cine-cta{margin-top:30px}
+
+.foot{padding:34px 0 48px;text-align:center;font-family:var(--f-mono);font-size:9.5px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--k-muted)}
+
+/* ── scroll reveal ── */
+.rv{transition:opacity .8s var(--ease-lux),transform .8s var(--ease-lux)}
+html.rv-on .rv{opacity:0;transform:translateY(22px)}
+html.rv-on .rv.in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .rv{opacity:1;transform:none}
+  .ticker-in{animation:none}
+  .btn:active,.card:active{transform:scale(.97)}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="note">Sample — proposed home page · not live</div>
+
+<div class="ticker"><div class="ticker-in">
+  <span><i></i>Drop 001 live</span><span><i></i>Free US shipping over $60</span>
+  <span><i></i>Limited run — made to order</span><span><i></i>Ships worldwide, tracked</span>
+  <span><i></i>Drop 001 live</span><span><i></i>Free US shipping over $60</span>
+  <span><i></i>Limited run — made to order</span><span><i></i>Ships worldwide, tracked</span>
+</div></div>
+
+<nav class="nav"><div class="wrap nav-in">
+  <img class="nav-mark" src="imgs/kryptaa-wordmark-final.webp" alt="KRYPTAA">
+  <div class="nav-links">
+    <a href="men.html">Men</a><a href="women.html">Women</a><a href="t-shirts.html">Tees</a>
+    <a href="anime.html">Anime</a><a href="lookbook.html">Lookbook</a><a href="reviews.html">Reviews</a>
+  </div>
+  <a class="nav-bag" href="checkout.html">Bag · 0</a>
+</div></nav>
+
+<header class="wrap hero">
+  <div>
+    <span class="eyebrow">Drop 001 · Limited run</span>
+    <h1 class="hero-h1">Gothic streetwear,<br><em>made in small numbers.</em></h1>
+    <p class="hero-sub">Embroidered wide-leg denim, 300GSM heavyweight tees and wide track pants.
+      Every piece is a limited run — when a size goes, it's gone.</p>
+    <div class="hero-cta">
+      <a class="btn btn-solid" href="men-all.html">Shop Drop 001</a>
+      <a class="btn btn-ghost" href="women.html">Women's</a>
+    </div>
+    <div class="trust">
+      <span><i class="dot"></i>Free US shipping over $60</span>
+      <span><i class="dot"></i>3–7 days, tracked</span>
+      <span><i class="dot"></i>7-day returns</span>
+    </div>
+  </div>
+
+  <a class="hero-card" href="products/red-gothic-embroidery-denim.html">
+    <span class="badge">Best seller</span>
+    <img src="imgs/pants/mens-pant-2-onbody-1.webp" srcset="imgs/pants/mens-pant-2-onbody-1-480.webp 480w, imgs/pants/mens-pant-2-onbody-1-800.webp 800w, imgs/pants/mens-pant-2-onbody-1.webp 1400w" sizes="(max-width: 768px) 100vw, 50vw" alt="Red Gothic Embroidery Denim worn on the street">
+    <span class="hero-card-foot">
+      <span><span class="hc-name">Red Gothic Embroidery Denim</span>
+        <span class="hc-meta">Sizes S–XL · Brand new</span></span>
+      <span class="hc-price">$67</span>
+    </span>
+  </a>
+</header>
+
+<section class="wrap sec" style="padding-top:0">
+  <div class="sec-head rv">
+    <div><span class="sec-n">01 — The drop</span><h2 class="sec-title">Shop Drop 001</h2></div>
+    <a class="sec-link" href="men-all.html">View all →</a>
+  </div>
+  <div class="grid">
+    <a class="card rv" href="products/ice-cargo-wide-leg-denim.html">
+      <span class="card-media"><span class="card-tag">Denim</span>
+        <img src="imgs/pants/mens-pant-4-onbody-1.webp" srcset="imgs/pants/mens-pant-4-onbody-1-480.webp 480w, imgs/pants/mens-pant-4-onbody-1-800.webp 800w, imgs/pants/mens-pant-4-onbody-1.webp 1400w" sizes="(max-width: 768px) 100vw, 50vw" alt="Ice Cargo Wide-Leg Denim"></span>
+      <span class="card-body"><span class="card-name">Ice Cargo Wide-Leg Denim</span>
+        <span class="card-row"><span class="card-price">$63</span><span class="card-sizes">S–XL</span></span>
+        <span class="card-buy">Add to bag</span></span>
+    </a>
+    <a class="card rv" href="products/unisex-street-track-pant-red.html">
+      <span class="card-media"><span class="card-tag">Track pant</span>
+        <img src="imgs/pants/womens-st-red-onbody-1.webp" srcset="imgs/pants/womens-st-red-onbody-1-480.webp 480w, imgs/pants/womens-st-red-onbody-1-800.webp 800w, imgs/pants/womens-st-red-onbody-1.webp 1400w" sizes="(max-width: 768px) 100vw, 50vw" alt="Unisex Street Track Pant in red"></span>
+      <span class="card-body"><span class="card-name">Unisex Street Track Pant — Red</span>
+        <span class="card-row"><span class="card-price">$42</span><span class="card-sizes">XS–L</span></span>
+        <span class="card-buy">Add to bag</span></span>
+    </a>
+    <a class="card rv" href="products/rhinestone-mesh-hooded-crop.html">
+      <span class="card-media"><span class="card-tag is-low">15 left</span>
+        <img src="imgs/tops/top-70.webp" srcset="imgs/tops/top-70-480.webp 480w, imgs/tops/top-70-800.webp 800w, imgs/tops/top-70.webp 1400w" sizes="(max-width: 768px) 100vw, 50vw" alt="Rhinestone Mesh Hooded Crop"></span>
+      <span class="card-body"><span class="card-name">Rhinestone Mesh Hooded Crop</span>
+        <span class="card-row"><span class="card-price">$41</span><span class="card-sizes">One size</span></span>
+        <span class="card-buy">Add to bag</span></span>
+    </a>
+    <a class="card rv" href="products/vintage-distressed-wide-leg.html">
+      <span class="card-media"><span class="card-tag">Denim</span>
+        <img src="imgs/pants/mens-pant-1-onbody-1.webp" srcset="imgs/pants/mens-pant-1-onbody-1-480.webp 480w, imgs/pants/mens-pant-1-onbody-1-800.webp 800w, imgs/pants/mens-pant-1-onbody-1.webp 1400w" sizes="(max-width: 768px) 100vw, 50vw" alt="Vintage Distressed Wide-Leg denim"></span>
+      <span class="card-body"><span class="card-name">Vintage Distressed Wide-Leg</span>
+        <span class="card-row"><span class="card-price">$67</span><span class="card-sizes">S–XL</span></span>
+        <span class="card-buy">Add to bag</span></span>
+    </a>
+  </div>
+</section>
+
+<section class="proof"><div class="wrap proof-in">
+  <blockquote class="quote rv">“These pants are insane. The fit is perfect, the design is unique.”
+    <cite>Cheekz · verified buyer</cite></blockquote>
+  <div class="stat rv"><div class="stat-n">4.9 / 5</div><div class="stat-l">9 reviews</div></div>
+  <div class="stat rv"><div class="stat-n">3–7 days</div><div class="stat-l">Tracked US shipping</div></div>
+  <div class="stat rv"><div class="stat-n">7 days</div><div class="stat-l">Returns</div></div>
+</div></section>
+
+<section class="wrap sec">
+  <div class="sec-head rv">
+    <div><span class="sec-n">02 — Worn by you</span><h2 class="sec-title">Real people. Real fits.</h2></div>
+    <a class="sec-link" href="reviews.html">See the wall →</a>
+  </div>
+  <div class="fits rv">
+    <a href="reviews.html"><img src="imgs/pants/mens-pant-2-onbody-1.webp" srcset="imgs/pants/mens-pant-2-onbody-1-480.webp 480w, imgs/pants/mens-pant-2-onbody-1-800.webp 800w, imgs/pants/mens-pant-2-onbody-1.webp 1400w" sizes="auto" alt="Customer fit photo" loading="lazy"></a>
+    <a href="reviews.html"><img src="imgs/reviews/pruthv-ice-cargo.jpg" srcset="imgs/reviews/pruthv-ice-cargo-480.webp 480w, imgs/reviews/pruthv-ice-cargo-800.webp 800w, imgs/reviews/pruthv-ice-cargo.jpg 1400w" sizes="auto" alt="Customer fit photo" loading="lazy"></a>
+    <a href="reviews.html"><img src="imgs/pants/womens-st-red-onbody-1.webp" srcset="imgs/pants/womens-st-red-onbody-1-480.webp 480w, imgs/pants/womens-st-red-onbody-1-800.webp 800w, imgs/pants/womens-st-red-onbody-1.webp 1400w" sizes="auto" alt="Customer fit photo" loading="lazy"></a>
+    <a href="reviews.html"><img src="imgs/pants/mens-pant-4-onbody-1.webp" srcset="imgs/pants/mens-pant-4-onbody-1-480.webp 480w, imgs/pants/mens-pant-4-onbody-1-800.webp 800w, imgs/pants/mens-pant-4-onbody-1.webp 1400w" sizes="auto" alt="Customer fit photo" loading="lazy"></a>
+    <a href="reviews.html"><img src="imgs/pants/mens-pant-1-onbody-1.webp" srcset="imgs/pants/mens-pant-1-onbody-1-480.webp 480w, imgs/pants/mens-pant-1-onbody-1-800.webp 800w, imgs/pants/mens-pant-1-onbody-1.webp 1400w" sizes="auto" alt="Customer fit photo" loading="lazy"></a>
+    <a href="reviews.html"><img src="imgs/pants/mens-pant-2-cheekz-1.webp" srcset="imgs/pants/mens-pant-2-cheekz-1-480.webp 480w, imgs/pants/mens-pant-2-cheekz-1-800.webp 800w, imgs/pants/mens-pant-2-cheekz-1.webp 1400w" sizes="auto" alt="Customer fit photo" loading="lazy"></a>
+  </div>
+</section>
+
+<section class="cine">
+  <video src="imgs/brand-editorial.mp4" autoplay muted loop playsinline poster="imgs/pants/mens-pant-2-editorial.webp"></video>
+  <div class="cine-in">
+    <img class="cine-sig" src="imgs/kryptaa-sigil.webp" alt="">
+    <h2 class="cine-h">Defined by power.<br>Driven by aura.</h2>
+    <p class="cine-p">Streetwear from the shadows. Every piece is limited, every drop is a statement —
+      the brand story lives here, under the clothes rather than in front of them.</p>
+    <div class="cine-cta"><a class="btn btn-ghost" href="lookbook.html">Enter the lookbook</a></div>
+  </div>
+</section>
+
+<div class="foot">Sample layout · KRYPTAA</div>
+
+<script>
+/* Reveal on scroll — skipped entirely when reduced motion is requested. */
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.rv');
+  /* Opt in to hiding only now that we know JS runs and motion is wanted —
+     otherwise the page renders fully visible, which is the safe failure. */
+  if (reduce || !('IntersectionObserver' in window)) return;
+  document.documentElement.classList.add('rv-on');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en, i){
+      if (!en.isIntersecting) return;
+      setTimeout(function(){ en.target.classList.add('in'); }, Math.min(i * 70, 280));
+      io.unobserve(en.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+  els.forEach(function(e){ io.observe(e); });
+})();
+</script>
+</body>
+</html>

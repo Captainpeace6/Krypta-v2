@@ -565,7 +565,7 @@
     .stock-mover-val { font-family:'Space Mono',monospace; font-size:11px; color:var(--gold); }
 
   </style>
-<script defer src="products.js?v=69ad5568"></script>
+<script defer src="products.js?v=d730cbe7"></script>
 </head>
 <body>
 
@@ -3161,6 +3161,8 @@ function printLabel(order, orderNum) {
   var TOPS = [
     { id: 70, name: 'Rhinestone Mesh Hooded Crop', sizes: ['Universal'], img: 'imgs/tops/top-70.webp' },
     { id: 80, name: 'Holographic Sequin Bra Top',  sizes: ['Universal'], img: 'imgs/tops/top-80.webp' },
+    { id: 81, name: 'Rhinestone Heart Chain Bra',  sizes: ['Universal'], img: 'imgs/tops/top-81.webp' },
+    { id: 82, name: 'Gold Chainmail Choker Bra',   sizes: ['Universal'], img: 'imgs/tops/top-82.webp' },
     // Silver Metallic Crop Set — top and skirt sell separately or as a set, so
     // stock is tracked per piece and a full-set sale draws down both.
     { id: '90:top',   name: 'Silver Metallic — Crop Top',             sizes: ['Universal'], img: 'imgs/tops/top-90-g4.webp' },
@@ -3192,8 +3194,11 @@ function printLabel(order, orderNum) {
     501: { XS: 9,  S: 15, M: 13, L: 11, XL: 0 },
     502: { XS: 7,  S: 12, M: 12, L: 11, XL: 0 },
     503: { XS: 12, S: 12, M: 9,  L: 7,  XL: 0 },
-    '90:top':   { Universal: 12 },
-    '90:skirt': { Universal: 12 },
+    81:  { Universal: 21 },
+    82:  { Universal: 21 },
+    // 7 complete sets + 1 loose top + 1 loose skirt held = 8 of each piece.
+    '90:top':   { Universal: 8 },
+    '90:skirt': { Universal: 8 },
   };
 
   function loadCached() {

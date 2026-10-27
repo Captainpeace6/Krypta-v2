@@ -529,8 +529,8 @@ window.STOCK_DATA = {
   82:  { Universal: 21 }, // Gold Chainmail Choker Bra — one size, real count
   // Silver Metallic Crop Set (id 90) — Top & Skirt tracked separately (Universal size).
   // A Full Set sale draws down BOTH; set availability = min(top, skirt).
-  "90:top":   { Universal: 12 },
-  "90:skirt": { Universal: 12 },
+  "90:top":   { Universal: 8 },
+  "90:skirt": { Universal: 8 },
   500: { XS: 9,  S: 12, M: 12, L: 12 }, // Blue  — real count
   501: { XS: 9,  S: 15, M: 13, L: 11 }, // Green — real count
   502: { XS: 7,  S: 12, M: 12, L: 11 }, // Red   — real count
