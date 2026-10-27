@@ -171,6 +171,9 @@
     .order-stripe-link:hover { opacity: 0.85; }
     .order-print-btn { display: inline-block; background: none; border: 1px solid var(--border); color: var(--text-dim); font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 18px; cursor: pointer; white-space: nowrap; transition: border-color 0.2s, color 0.2s; }
     .order-print-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+    .order-track-btn { display: inline-block; background: none; border: 1px solid var(--border); color: var(--text-dim); font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 18px; cursor: pointer; white-space: nowrap; transition: border-color 0.2s, color 0.2s; }
+    .order-track-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+    .order-track-btn.has-tracking { border-color: rgba(125,186,125,0.5); color: #7dba7d; background: rgba(125,186,125,0.06); }
     .od-loading { text-align: center; padding: 80px 24px; font-size: 13px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); }
     .od-empty { text-align: center; padding: 60px 24px; font-size: 15px; color: var(--text-faint); font-style: italic; }
 
@@ -565,7 +568,7 @@
     .stock-mover-val { font-family:'Space Mono',monospace; font-size:11px; color:var(--gold); }
 
   </style>
-<script defer src="products.js?v=fb718237"></script>
+<script defer src="products.js?v=ffe4de68"></script>
 </head>
 <body>
 
@@ -1801,6 +1804,7 @@
         + '<div class="order-actions">'
         + '<button class="order-ship-btn' + (isShipped ? ' shipped' : '') + '" type="button" data-ship="' + escHtml(pid) + '">' + (isShipped ? '✓ Shipped' : '⬡ Mark Shipped') + '</button>'
         + '<button class="order-print-btn" type="button" onclick="printLabel(' + idx + ',' + orderNum + ')">Print Label ⎙</button>'
+        + '<button class="order-track-btn" type="button" onclick="addTracking(' + idx + ',' + orderNum + ')">⊕ Add Tracking</button>'
         + '<a class="order-stripe-link" href="' + stripeUrl + '" target="_blank" rel="noopener">View in Stripe →</a>'
         + '</div></div></div></div>';
     }).join('');
@@ -3091,6 +3095,174 @@
   var key = savedKey();
   if (key) { showDashboard(); loadOrders(key); requestNotifPermission(); window.kPushAfterLogin && window.kPushAfterLogin(); startPolling(key); renderBing(); renderClarity(); renderMarketingHealth(); } else { showGate(); }
 })();
+
+/* ── Add tracking ──────────────────────────────────────────────────────────
+   Records the tracking number on the server and emails it to the customer,
+   so Vishwak does not have to write the email himself. The carrier is worked
+   out from the number's shape server-side. Camera scanning uses the browser's
+   BarcodeDetector where it exists (Android Chrome, desktop Chrome); iOS Safari
+   has no such API, so there the field falls back to the keyboard's own
+   Scan Text, which is just as quick.                                        */
+function addTracking(idx, orderNum) {
+  var order = (window.__renderedOrders || [])[idx];
+  if (!order) { alert('Could not find that order — reload the page and try again.'); return; }
+  var cust = order.customer || {};
+  var pid  = order.paymentId || order.id || '';
+  if (!cust.email) { alert('This order has no customer email, so nothing can be sent.'); return; }
+
+  function esc(v){ return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  var old = document.getElementById('kTrackModal');
+  if (old) old.parentNode.removeChild(old);
+
+  var m = document.createElement('div');
+  m.id = 'kTrackModal';
+  m.innerHTML =
+    '<style>' +
+    '#kTrackModal{position:fixed;inset:0;z-index:100001;background:rgba(0,0,0,.76);display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:20px 12px;}' +
+    '#kTrackModal *{box-sizing:border-box;}' +
+    '#kTrackModal .kt-card{background:#141414;border:1px solid #333;width:100%;max-width:440px;padding:22px 20px 20px;color:#eee;font-family:system-ui,-apple-system,sans-serif;margin-top:6vh;}' +
+    '#kTrackModal h3{font:600 13px/1 system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#c9a227;margin:0 0 4px;}' +
+    '#kTrackModal .kt-sub{font-size:13px;color:#888;margin:0 0 18px;word-break:break-word;}' +
+    '#kTrackModal label{display:block;font:600 10px/1 system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#888;margin-bottom:7px;}' +
+    '#kTrackModal input{width:100%;background:#0b0b0b;border:1px solid #444;color:#fff;padding:14px 12px;font:600 16px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.06em;}' +
+    '#kTrackModal input:focus{outline:none;border-color:#c9a227;}' +
+    '#kTrackModal .kt-row{display:flex;gap:8px;margin-top:8px;}' +
+    '#kTrackModal .kt-row button{flex:1;padding:12px 8px;font:600 12px/1 system-ui,sans-serif;border:1px solid #444;background:#222;color:#ddd;cursor:pointer;}' +
+    '#kTrackModal .kt-detect{font-size:12px;color:#7dba7d;margin-top:9px;min-height:16px;}' +
+    '#kTrackModal .kt-actions{display:flex;gap:8px;margin-top:20px;}' +
+    '#kTrackModal .kt-actions button{flex:1;padding:15px 10px;font:600 13px/1 system-ui,sans-serif;border:1px solid #444;background:#222;color:#fff;cursor:pointer;}' +
+    '#kTrackModal .kt-actions button.pri{background:#c9a227;border-color:#c9a227;color:#111;}' +
+    '#kTrackModal .kt-actions button[disabled]{opacity:.5;cursor:default;}' +
+    '#kTrackModal .kt-msg{font-size:13px;line-height:1.5;margin-top:14px;min-height:18px;}' +
+    '#kTrackModal .kt-msg.err{color:#e06c6c;}#kTrackModal .kt-msg.ok{color:#7dba7d;}' +
+    '#kTrackModal video{width:100%;margin-top:10px;background:#000;display:none;}' +
+    '</style>' +
+    '<div class="kt-card">' +
+      '<h3>Add tracking</h3>' +
+      '<div class="kt-sub">Order #' + esc(orderNum) + ' &nbsp;·&nbsp; emails ' + esc(cust.email) + '</div>' +
+      '<label for="kTrackInput">Tracking number</label>' +
+      '<input id="kTrackInput" type="text" inputmode="latin" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="9400 1118 9922 …">' +
+      '<div class="kt-row"><button type="button" id="kScanBtn">⛶ Scan with camera</button>' +
+      '<button type="button" id="kPasteBtn">⎘ Paste</button></div>' +
+      '<video id="kScanVideo" playsinline muted></video>' +
+      '<div class="kt-detect" id="kDetect"></div>' +
+      '<div class="kt-actions">' +
+        '<button type="button" class="pri" id="kSendBtn">Send to customer</button>' +
+        '<button type="button" id="kTrackCancel">Cancel</button>' +
+      '</div>' +
+      '<div class="kt-msg" id="kTrackMsg"></div>' +
+    '</div>';
+  document.body.appendChild(m);
+
+  var input  = document.getElementById('kTrackInput');
+  var msg    = document.getElementById('kTrackMsg');
+  var detect = document.getElementById('kDetect');
+  var sendBtn= document.getElementById('kSendBtn');
+  var video  = document.getElementById('kScanVideo');
+  var stream = null;
+
+  function stopCam(){ if (stream) { stream.getTracks().forEach(function(t){ t.stop(); }); stream = null; } video.style.display='none'; }
+  function close(){ stopCam(); if (m.parentNode) m.parentNode.removeChild(m); document.removeEventListener('keydown', onKey); }
+  function onKey(e){ if (e.key === 'Escape') close(); }
+  document.addEventListener('keydown', onKey);
+  document.getElementById('kTrackCancel').onclick = close;
+  m.addEventListener('click', function(e){ if (e.target === m) close(); });
+  setTimeout(function(){ input.focus(); }, 60);
+
+  /* Same shapes the worker uses, purely so the operator sees the carrier
+     named back to them before they send. The server decides for real. */
+  function carrierOf(raw) {
+    var t = String(raw||'').replace(/[\s-]/g,'').toUpperCase();
+    if (/^1Z[0-9A-Z]{16}$/.test(t)) return 'UPS';
+    if (/^(94|93|92|95|82)\d{18,20}$/.test(t)) return 'USPS';
+    if (/^[A-Z]{2}\d{9}US$/.test(t)) return 'USPS';
+    if (/^\d{20,22}$/.test(t)) return 'USPS';
+    if (/^\d{12}$|^\d{15}$|^\d{20}$/.test(t)) return 'FedEx';
+    if (/^\d{10}$/.test(t)) return 'DHL';
+    return null;
+  }
+  input.addEventListener('input', function() {
+    var c = carrierOf(input.value);
+    var n = input.value.replace(/[\s-]/g,'').length;
+    detect.textContent = c ? '✓ Looks like ' + c : (n > 7 ? 'Carrier not recognised — it will still send.' : '');
+    detect.style.color = c ? '#7dba7d' : '#888';
+  });
+
+  document.getElementById('kPasteBtn').onclick = function() {
+    if (!navigator.clipboard || !navigator.clipboard.readText) { input.focus(); return; }
+    navigator.clipboard.readText().then(function(t){
+      input.value = String(t||'').trim(); input.dispatchEvent(new Event('input'));
+    }).catch(function(){ input.focus(); });
+  };
+
+  document.getElementById('kScanBtn').onclick = function() {
+    var self = this;
+    if (!('BarcodeDetector' in window)) {
+      msg.className = 'kt-msg';
+      msg.textContent = 'This browser cannot scan barcodes. On iPhone: tap the field, then use Scan Text on the keyboard to read the number off the label.';
+      input.focus();
+      return;
+    }
+    self.disabled = true; self.textContent = '… starting camera';
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }).then(function(s) {
+      stream = s; video.srcObject = s; video.style.display = 'block'; video.play();
+      var det = new window.BarcodeDetector({ formats: ['code_128','code_39','itf','data_matrix','qr_code','pdf417'] });
+      self.textContent = '… scanning';
+      var tick = setInterval(function() {
+        if (!stream) { clearInterval(tick); return; }
+        det.detect(video).then(function(codes) {
+          if (codes && codes.length) {
+            clearInterval(tick);
+            input.value = String(codes[0].rawValue||'').replace(/[\s-]/g,'').toUpperCase();
+            input.dispatchEvent(new Event('input'));
+            stopCam();
+            self.disabled = false; self.textContent = '⛶ Scan with camera';
+          }
+        }).catch(function(){});
+      }, 350);
+    }).catch(function() {
+      self.disabled = false; self.textContent = '⛶ Scan with camera';
+      msg.className = 'kt-msg err';
+      msg.textContent = 'Camera unavailable — type or paste the number instead.';
+    });
+  };
+
+  sendBtn.onclick = function() {
+    var tracking = input.value.replace(/[\s-]/g,'').toUpperCase();
+    if (tracking.length < 8) { msg.className='kt-msg err'; msg.textContent='That tracking number looks too short.'; input.focus(); return; }
+    var key = (function(){ try { return sessionStorage.getItem('k_admin_key') || ''; } catch(e){ return ''; } })();
+    if (!key) { msg.className='kt-msg err'; msg.textContent='Admin session expired — reload and sign in again.'; return; }
+    sendBtn.disabled = true; sendBtn.textContent = 'Sending…';
+    msg.className='kt-msg'; msg.textContent='';
+    stopCam();
+    fetch((window.K_API || 'https://kryptaa-api.kryptaa.workers.dev/') + 'ship-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': key },
+      body: JSON.stringify({ paymentId: pid, tracking: tracking, email: cust.email,
+                             name: order.shippingName || cust.name || '', orderNum: String(orderNum) })
+    })
+    .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
+    .then(function(res) {
+      if (!res.ok || res.j.error) throw new Error(res.j.error || 'Could not save');
+      msg.className = 'kt-msg ok';
+      msg.textContent = res.j.emailed
+        ? '✓ Sent to ' + cust.email + ' via ' + res.j.carrier + '.'
+        : '✓ Tracking saved, but the email did not go out — send it manually.';
+      sendBtn.textContent = 'Sent ✓';
+      try {
+        var tb = document.querySelector('.order-card[data-pid="' + pid + '"] .order-track-btn');
+        if (tb) { tb.classList.add('has-tracking'); tb.textContent = '✓ ' + tracking.slice(-6); }
+      } catch (e) {}
+      setTimeout(close, 2200);
+    })
+    .catch(function(err) {
+      sendBtn.disabled = false; sendBtn.textContent = 'Send to customer';
+      msg.className = 'kt-msg err';
+      msg.textContent = err.message || 'Network error — try again.';
+    });
+  };
+}
 
 /* ── Order label ──────────────────────────────────────────────────────────
    Opens the order as a panel inside the dashboard, with Print and Save-PDF
