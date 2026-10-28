@@ -837,6 +837,7 @@
         <div class="od-toolbar-label">Inventory Management</div>
         <div style="display:flex;align-items:center;gap:16px;">
           <span class="stock-status" id="stockStatus"></span>
+          <button class="stock-save-btn" id="mailTestBtn" style="background:none;border:1px solid var(--border);color:var(--text-dim);font-weight:400;" title="Sends a test message to hello@kryptaa.com to prove the mail chain is working">✉ Test Email</button>
           <button class="stock-save-btn" id="stockSaveBtn">Save Stock</button>
         </div>
       </div>
@@ -3105,6 +3106,32 @@
 
   var key = savedKey();
   if (key) { showDashboard(); loadOrders(key); requestNotifPermission(); window.kPushAfterLogin && window.kPushAfterLogin(); startPolling(key); renderBing(); renderClarity(); renderMarketingHealth(); } else { showGate(); }
+})();
+
+/* ── Mail relay test ──────────────────────────────────────────────────────
+   Proves Worker → Netlify relay → Gmail end to end without emailing a real
+   customer. The message lands at NOTIFY_EMAIL (hello@kryptaa.com), which
+   forwards to the shop Gmail account.                                      */
+(function () {
+  var btn = document.getElementById('mailTestBtn');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var key = (function(){ try { return sessionStorage.getItem('k_admin_key') || ''; } catch(e){ return ''; } })();
+    if (!key) { alert('Admin session expired — reload and sign in again.'); return; }
+    btn.disabled = true;
+    var was = btn.textContent;
+    btn.textContent = 'Sending…';
+    fetch((window.K_API || 'https://kryptaa-api.kryptaa.workers.dev/') + 'mail-test', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Key': key },
+    })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        btn.disabled = false; btn.textContent = was;
+        if (res.ok && res.j.sent) alert('Test email sent to ' + res.j.to + '.\n\nIf it does not arrive within a minute, the Gmail app password or the mail relay needs attention.');
+        else alert('Mail relay FAILED.\n\nto: ' + (res.j.to || '—') + '\nrelay configured: ' + (res.j.relay ? 'yes' : 'NO') + '\nsecret configured: ' + (res.j.secretConfigured ? 'yes' : 'NO') + '\n' + (res.j.error || ''));
+      })
+      .catch(function (e) { btn.disabled = false; btn.textContent = was; alert('Network error: ' + e.message); });
+  });
 })();
 
 /* ── Add tracking ──────────────────────────────────────────────────────────
