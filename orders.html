@@ -40,6 +40,7 @@
 </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Orders — KRYPTAA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&display=swap">
@@ -569,6 +570,16 @@
 
   </style>
 <script defer src="products.js?v=ffe4de68"></script>
+  <script>
+    /* Clickjacking guard. GitHub Pages cannot send X-Frame-Options or a
+       frame-ancestors CSP, and both are ignored in a <meta>, so the admin
+       dashboard breaks itself out of a frame instead. Runs before anything
+       renders, so a hostile overlay never gets a paintable surface. */
+    (function kFrameBust(){
+      try { if (window.self !== window.top) { window.top.location = window.self.location; document.documentElement.style.display='none'; } }
+      catch (e) { document.documentElement.style.display='none'; }  // cross-origin parent: refuse to render
+    })();
+  </script>
 </head>
 <body>
 
