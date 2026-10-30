@@ -2253,6 +2253,21 @@
           }).join("") + '</span>';
       }
 
+      /* Reviews are written by customers, so every field is escaped before it
+         reaches innerHTML. Without this a review body containing markup runs as
+         script on the product page for every visitor. */
+      function rvEsc(v) {
+        return String(v == null ? '' : v)
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+      /* Photo URLs are attacker-supplied too: allow only http(s) and the data
+         image URLs the uploader produces, so javascript: can never land in src. */
+      function rvSafeSrc(u) {
+        var s = String(u == null ? '' : u).trim();
+        return (/^https?:\/\//i.test(s) || /^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/i.test(s)) ? rvEsc(s) : '';
+      }
+
       if (allRevs.length) {
         var avg = allRevs.reduce(function (s, r) { return s + r.rating; }, 0) / allRevs.length;
         summaryEl.innerHTML = '<div class="rv-summary">' +
@@ -2266,13 +2281,14 @@
             return '<div class="rv-card reveal">' +
               '<div class="rv-card-header">' +
                 starsHtml(r.rating) +
-                '<span class="rv-card-author">' + r.author + (r.verified ? '<span class="rv-verified">✓ Verified</span>' : '') + '</span>' +
-                '<span class="rv-card-date">' + r.date + '</span>' +
+                '<span class="rv-card-author">' + rvEsc(r.author) + (r.verified ? '<span class="rv-verified">✓ Verified</span>' : '') + '</span>' +
+                '<span class="rv-card-date">' + rvEsc(r.date) + '</span>' +
               '</div>' +
-              (r.size ? '<div class="rv-card-size">Size: ' + r.size + '</div>' : '') +
-              '<p class="rv-card-body">' + r.body + '</p>' +
+              (r.size ? '<div class="rv-card-size">Size: ' + rvEsc(r.size) + '</div>' : '') +
+              '<p class="rv-card-body">' + rvEsc(r.body) + '</p>' +
               (revImgs.length ? '<div class="rv-card-imgs">' + revImgs.map(function (img) {
-                return '<img class="rv-card-img" src="' + img + '" alt="Customer photo" data-review-photo loading="lazy">';
+                var src = rvSafeSrc(img);
+                return src ? '<img class="rv-card-img" src="' + src + '" alt="Customer photo" data-review-photo loading="lazy">' : '';
               }).join("") + '</div>' : '') +
               '</div>';
           }).join("") +
