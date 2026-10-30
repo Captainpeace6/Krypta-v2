@@ -175,6 +175,11 @@
     .order-track-btn { display: inline-block; background: none; border: 1px solid var(--border); color: var(--text-dim); font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 18px; cursor: pointer; white-space: nowrap; transition: border-color 0.2s, color 0.2s; }
     .order-track-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
     .order-track-btn.has-tracking { border-color: rgba(125,186,125,0.5); color: #7dba7d; background: rgba(125,186,125,0.06); }
+    .order-tracking-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; margin: 14px 0 0; padding: 12px 14px; border: 1px solid rgba(125,186,125,0.35); background: rgba(125,186,125,0.05); }
+    .order-tracking-row .otr-lbl { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #7dba7d; }
+    .order-tracking-row .otr-num { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; letter-spacing: 0.04em; color: #f0ede8; text-decoration: none; border-bottom: 1px solid rgba(210,174,91,0.5); word-break: break-all; }
+    .order-tracking-row a.otr-num:hover { color: var(--gold); border-color: var(--gold); }
+    .order-tracking-row .otr-meta { font-size: 12px; color: var(--text-dim); }
     .od-loading { text-align: center; padding: 80px 24px; font-size: 13px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); }
     .od-empty { text-align: center; padding: 60px 24px; font-size: 15px; color: var(--text-faint); font-style: italic; }
 
@@ -1716,6 +1721,7 @@
         renderStats(allOrders);
         renderOrders(allOrders);
         renderDashboard(allOrders);
+        loadShipments(key);
       })
       .catch(function(err) {
         document.getElementById('ordersList').innerHTML = '<div class="od-empty">Could not load orders: ' + err.message + '</div>';
@@ -1735,6 +1741,59 @@
     document.getElementById('statAvg').textContent = '$' + avg.toFixed(2);
     document.getElementById('statItems').textContent = items;
     document.getElementById('ordersLabel').textContent = 'All Orders (' + orders.length + ')';
+  }
+
+  /* ── Saved tracking numbers ──────────────────────────────────────────────
+     Tracking numbers are saved on the worker (POST /ship-order). Load them all
+     (GET /shipments) after the cards render, so every order shows its number
+     and a link straight to the carrier's tracking page — not only right after
+     the number was typed in. Same carrier shapes as the worker. */
+  var TRACK_CARRIERS = {
+    usps:  { name: 'USPS',  url: function (t) { return 'https://tools.usps.com/go/TrackConfirmAction?tLabels=' + t; } },
+    ups:   { name: 'UPS',   url: function (t) { return 'https://www.ups.com/track?tracknum=' + t; } },
+    fedex: { name: 'FedEx', url: function (t) { return 'https://www.fedex.com/fedextrack/?trknbr=' + t; } },
+    dhl:   { name: 'DHL',   url: function (t) { return 'https://www.dhl.com/en/express/tracking.html?AWB=' + t; } }
+  };
+  function trackCarrierKey(raw) {
+    var t = String(raw || '').replace(/[\s-]/g, '').toUpperCase();
+    if (/^1Z[0-9A-Z]{16}$/.test(t)) return 'ups';
+    if (/^(94|93|92|95|82)\d{18,20}$/.test(t)) return 'usps';
+    if (/^[A-Z]{2}\d{9}US$/.test(t)) return 'usps';
+    if (/^\d{20,22}$/.test(t)) return 'usps';
+    if (/^\d{12}$|^\d{15}$|^\d{20}$/.test(t)) return 'fedex';
+    if (/^\d{10}$/.test(t)) return 'dhl';
+    return null;
+  }
+  window.__shipments = window.__shipments || {};
+  window.__kShowTracking = function (pid, sh) {
+    if (!pid || !sh || !sh.tracking) return;
+    var card = null;
+    document.querySelectorAll('.order-card').forEach(function (c) { if (c.getAttribute('data-pid') === pid) card = c; });
+    if (!card) return;
+    var key = (sh.carrier && TRACK_CARRIERS[sh.carrier]) ? sh.carrier : trackCarrierKey(sh.tracking);
+    var carrier = key ? TRACK_CARRIERS[key] : null;
+    var url = carrier ? carrier.url(sh.tracking) : null;
+    var when = sh.at ? new Date(sh.at * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+    var row = card.querySelector('.order-tracking-row');
+    if (!row) {
+      row = document.createElement('div'); row.className = 'order-tracking-row';
+      var acts = card.querySelector('.order-actions');
+      if (acts && acts.parentNode) acts.parentNode.insertBefore(row, acts); else card.appendChild(row);
+    }
+    row.innerHTML = '<span class="otr-lbl">Tracking</span>'
+      + (url ? '<a class="otr-num" href="' + escHtml(url) + '" target="_blank" rel="noopener" title="Open the ' + escHtml(carrier.name) + ' tracking page">' + escHtml(sh.tracking) + ' ↗</a>'
+             : '<span class="otr-num">' + escHtml(sh.tracking) + '</span>')
+      + '<span class="otr-meta">' + (carrier ? carrier.name : 'Carrier not recognised') + (when ? ' · added ' + when : '') + (sh.notified ? ' · customer emailed' : '') + '</span>';
+    var tb = card.querySelector('.order-track-btn');
+    if (tb) { tb.classList.add('has-tracking'); tb.textContent = '✓ Tracking added'; }
+    card.querySelectorAll('.oi-chip').forEach(function (c) { if (/^Shipping:/.test(c.textContent)) { c.classList.add('on'); c.textContent = 'Shipping: Shipped'; } });
+  };
+  function applyShipments() { Object.keys(window.__shipments || {}).forEach(function (pid) { window.__kShowTracking(pid, window.__shipments[pid]); }); }
+  function loadShipments(key) {
+    fetch((window.K_API || 'https://kryptaa-api.kryptaa.workers.dev/') + 'shipments', { headers: { 'X-Admin-Key': key } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d && d.shipments) { window.__shipments = d.shipments; applyShipments(); } })
+      .catch(function () {});
   }
 
   /* ── Orders view: cards ── */
@@ -1821,6 +1880,7 @@
         + '<a class="order-stripe-link" href="' + stripeUrl + '" target="_blank" rel="noopener">View in Stripe →</a>'
         + '</div></div></div></div>';
     }).join('');
+    applyShipments();
   }
 
   /* ── Dashboard view (Executive Overview — Phase 9.1) ── */
@@ -3386,6 +3446,9 @@ function addTracking(idx, orderNum) {
       try {
         var tb = document.querySelector('.order-card[data-pid="' + pid + '"] .order-track-btn');
         if (tb) { tb.classList.add('has-tracking'); tb.textContent = '✓ ' + tracking.slice(-6); }
+        var saved = { tracking: tracking, carrier: null, at: Math.floor(Date.now() / 1000), notified: !!res.j.emailed };
+        window.__shipments = window.__shipments || {}; window.__shipments[pid] = saved;
+        if (window.__kShowTracking) window.__kShowTracking(pid, saved);
       } catch (e) {}
       setTimeout(close, 2200);
     })
