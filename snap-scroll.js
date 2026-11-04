@@ -479,39 +479,42 @@
      KILL + RESET
   ══════════════════════════════════════════════════════════ */
   function killHeroAnimation(idx) {
-    if (activeAnimations[idx]) {
-      activeAnimations[idx].kill();
+    var tl = activeAnimations[idx];
+
+    /* Reset ONLY the elements this panel's timeline actually animated.
+       The previous version reset a fixed selector list, which hid elements that
+       no entrance animation ever restored — a permanent blank on scroll-back:
+         · '.bs-stats'  was hidden, but case 5 only animates its '.bs-stat' children,
+           so the whole stats row stayed at opacity 0.
+         · 'p' hid all four brand-story paragraphs, but case 5 restores only the
+           first via cp.querySelector('.bs-body'), so .bs-body #2, #3 and .bs-origin
+           stayed at opacity 0.
+       Reading the targets back off the timeline keeps the two sides in sync
+       automatically, so adding a panel can never reintroduce this. */
+    if (tl) {
+      var targets = [];
+      tl.getChildren(true, true, false).forEach(function (tween) {
+        if (!tween.targets) return;
+        tween.targets().forEach(function (t) {
+          if (t && t.nodeType === 1 && targets.indexOf(t) === -1) targets.push(t);
+        });
+      });
+
+      tl.kill();
       activeAnimations[idx] = null;
+
+      /* clearProps, not opacity:0 — every entrance uses fromTo(), which sets its
+         own start state when it replays, so nothing needs to be pre-hidden here.
+         Anything we fail to restore would otherwise stay invisible forever. */
+      if (targets.length) gsap.set(targets, { clearProps: 'all' });
     }
+
     var panel = panels[idx];
     if (!panel) return;
 
-    var bg  = panel.querySelector('.layer-bg');
-    var fig = panel.querySelector('.layer-figure');
-    var cp  = panel.querySelector('.layer-copy');
-
-    if (bg)  gsap.set(bg,  { opacity: 0, scale: 1, x: 0, y: 0 });
-    if (fig) gsap.set(fig, { opacity: 0, scale: 1, x: 0, y: 0, rotation: 0 });
-
-    if (cp) {
-      /* Reset char spans */
-      var chars = cp.querySelectorAll('.k-char');
-      if (chars.length) gsap.set(chars, { opacity: 0, y: 0, x: 0, rotation: 0, scale: 1 });
-
-      /* Reset all other copy children — note: avoid h1 wrapper (animate inner img instead) */
-      var sel = [
-        '.eyebrow','h2','p','.hero-wordmark-img','.hero-brand-lockup',
-        '.hero-actions a','.k-btn-gold','.k-btn-outline','.bv-eyebrow',
-        '.bv-headline','.bv-body','.bv-cta','.bs-tag','.bs-headline',
-        '.bs-body','.bs-stats','.bs-stat','.category-card','.product-card',
-        '.jd-eyebrow','.jd-headline','.jd-sub','.jd-form','.jd-fine'
-      ].join(',');
-      var els = cp.querySelectorAll(sel);
-      if (els.length) gsap.set(els, { opacity: 0, y: 20, x: 0, scale: 1, rotation: 0 });
-      /* Remove idle glow CSS class */
-      var wm = cp.querySelector('.hero-wordmark-img');
-      if (wm) wm.classList.remove('wm-glow-active');
-    }
+    /* Idle glow is a CSS class, not a tween — clear it by hand. */
+    var wm = panel.querySelector('.hero-wordmark-img');
+    if (wm) wm.classList.remove('wm-glow-active');
   }
 
   /* ══════════════════════════════════════════════════════════
