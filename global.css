@@ -4374,7 +4374,12 @@ details.faq-item[open] summary { color: #f0ede8; }
   .k-qv-close:hover { color: #f0ede8; }
 }
 .k-qv-gallery { position: relative; aspect-ratio: 3/4; overflow: hidden; background: #080706; }
+/* Landscape slides (the size chart) are fitted, not cropped — see qvShow() in
+   motion.js. The box also widens so the chart's text stays legible instead of
+   being letterboxed down to a sliver inside the portrait frame. */
+.k-qv-gallery.is-wide { aspect-ratio: 3/2; }
 .k-qv-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.18s; }
+.k-qv-img.is-contain { object-fit: contain; }
 .k-qv-arrow {
   position: absolute;
   top: 50%;

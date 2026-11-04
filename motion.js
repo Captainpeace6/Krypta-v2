@@ -1020,7 +1020,26 @@
   function qvShow(idx) {
     qvIdx = ((idx % qvImages.length) + qvImages.length) % qvImages.length;
     const img = doc.getElementById("kQvImg");
-    if (img) img.src = qvImages[qvIdx];
+    if (img) {
+      /* The gallery box is portrait (3/4) and the image is object-fit: cover,
+         which slices the sides off any landscape image. The size chart is
+         1536x1024, so it lost both edges and was unreadable here. Landscape
+         images are fitted instead of cropped; portrait shots still fill the
+         frame as before. Keyed off the real aspect ratio rather than the file
+         name, so any wide image added later is handled too. */
+      const gal = doc.getElementById("kQvGallery");
+      const fitImage = () => {
+        if (!img.naturalWidth || !img.naturalHeight) return;
+        const wide = img.naturalWidth > img.naturalHeight;
+        img.classList.toggle("is-contain", wide);
+        if (gal) gal.classList.toggle("is-wide", wide);
+      };
+      img.classList.remove("is-contain");
+      if (gal) gal.classList.remove("is-wide");
+      img.onload = fitImage;
+      img.src = qvImages[qvIdx];
+      if (img.complete) fitImage();
+    }
     doc.querySelectorAll(".k-qv-dot").forEach((d, i) => d.classList.toggle("active", i === qvIdx));
     const hasMany = qvImages.length > 1;
     const prev = doc.getElementById("kQvPrev");
