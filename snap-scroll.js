@@ -505,7 +505,13 @@
       tl.getChildren(true, true, false).forEach(function (tween) {
         if (!tween.targets) return;
         tween.targets().forEach(function (t) {
-          if (t && t.nodeType === 1 && targets.indexOf(t) === -1) targets.push(t);
+          if (!t || t.nodeType !== 1) return;
+          /* The glow burst is removed outright below, never cleared: it has no
+             resting state to return to, and clearProps would strip the inline
+             opacity the tween was fading out, leaving a full-strength gold
+             blob stuck on the panel. */
+          if (t.classList && t.classList.contains('k-glow-burst')) return;
+          if (targets.indexOf(t) === -1) targets.push(t);
         });
       });
 
@@ -520,6 +526,13 @@
 
     var panel = panels[idx];
     if (!panel) return;
+
+    /* Drop any glow burst still in flight. GSAP does not fire a child tween's
+       onInterrupt when the parent timeline is killed, so onComplete/onInterrupt
+       alone let these accumulate as visible nodes. */
+    panel.querySelectorAll('.k-glow-burst').forEach(function (b) {
+      if (b.parentNode) b.parentNode.removeChild(b);
+    });
 
     /* Idle glow is a CSS class, not a tween — clear it by hand. */
     var wm = panel.querySelector('.hero-wordmark-img');
