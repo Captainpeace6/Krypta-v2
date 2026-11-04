@@ -1109,10 +1109,14 @@
       setTimeout(() => { addBtn.textContent = "Add To Bag"; closeQuickView(); }, 1200);
     };
     overlay.classList.add("open");
+    /* Lock the page behind the sheet. Without this the collection grid scrolls
+       under the open sheet on a phone, which reads as the sheet sliding away. */
+    doc.body.style.overflow = "hidden";
   }
 
   function closeQuickView() {
     doc.getElementById("kQvOverlay")?.classList.remove("open");
+    doc.body.style.overflow = "";
   }
 
   function openSizeGuide(tabId) {

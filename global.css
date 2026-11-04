@@ -4482,7 +4482,70 @@ details.faq-item[open] summary { color: #f0ede8; }
 @media (hover: hover) and (pointer: fine) {
   .k-qv-btn:hover { color: var(--k-gold-bright, #d2ae5b); }
 }
-@media (max-width: 768px) { .k-qv-btn { display: none; } }
+/* ── Quick View on phones ──
+   The button used to be display:none under 768px, so Quick View simply did
+   not exist on mobile — which is where most of the traffic is. On touch there
+   is no hover to reveal it, so the button sits visible on the image, and the
+   centred desktop dialog becomes a bottom sheet that slides up under the
+   thumb. */
+@media (max-width: 768px) {
+  .k-qv-btn {
+    opacity: 1;
+    transform: none;
+    pointer-events: all;
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    padding: 11px 8px;
+    background: rgba(7,6,4,0.82);
+  }
+
+  .k-qv-overlay { align-items: flex-end; padding: 0; }
+
+  .k-qv-modal {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    max-width: none;
+    width: 100%;
+    max-height: 90svh;
+    padding: 12px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+    border: none;
+    border-top: 1px solid rgba(210,174,91,0.3);
+    border-radius: 16px 16px 0 0;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.2,0.8,0.2,1);
+    overscroll-behavior: contain;
+  }
+  .k-qv-overlay.open .k-qv-modal { transform: translateY(0); }
+
+  /* Sheet grab handle, so it reads as a sheet and not a stuck panel. */
+  .k-qv-modal::before {
+    content: "";
+    width: 38px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(240,237,232,0.22);
+    margin: 0 auto 2px;
+  }
+
+  .k-qv-gallery { aspect-ratio: 1/1; }
+  .k-qv-gallery.is-wide { aspect-ratio: 3/2; }
+
+  /* 44px tap targets — the desktop sizes are far too small for a thumb. */
+  .k-qv-close { top: 10px; right: 8px; font-size: 1.35rem; padding: 10px 14px; }
+  .k-qv-size-btn { min-width: 48px; min-height: 44px; font-size: 0.78rem; }
+  .k-qv-arrow { width: 38px; height: 38px; }
+  .k-qv-add { padding: 15px; font-size: 0.78rem; }
+  .k-qv-view-full { font-size: 0.58rem; padding: 6px 0; }
+
+  /* The dots were pointer-events:none, so they were decoration only. On a
+     phone they are a primary control, so make them tappable and bigger. */
+  .k-qv-dots { pointer-events: auto; bottom: 12px; gap: 9px; }
+  .k-qv-dot { width: 9px; height: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .k-qv-modal { transition: none; }
+}
 
 /* ── Exit-intent popup ── */
 .k-exit-popup {
