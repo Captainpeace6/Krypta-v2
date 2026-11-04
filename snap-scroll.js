@@ -85,6 +85,10 @@
 
   function burstP(x, y, n) {
     if (!pCtx || REDUCE) return;
+    /* Hard cap. Each panel entrance pushes a burst; without this a fast scroll
+       through several panels piled hundreds of particles onto the canvas and
+       the per-frame loop started costing real frame time. */
+    if (pList.length > 320) return;
     n = n || 28;
     x = x || window.innerWidth  / 2;
     y = y || window.innerHeight / 2;
@@ -166,16 +170,21 @@
   /* ══════════════════════════════════════════════════════════
      GLOW BURST  — radial gold pulse on panel enter
   ══════════════════════════════════════════════════════════ */
-  function glowBurst(panel) {
+  /* Runs on the panel's own timeline, so killHeroAnimation cancels it and the
+     node is removed. As a free-standing tween it outlived the kill, leaving
+     orphan .k-glow-burst divs stacked on the panel after a fast scroll. */
+  function glowBurst(panel, tl) {
     if (REDUCE) return;
     var b = document.createElement('div');
     b.className = 'k-glow-burst';
     panel.appendChild(b);
-    gsap.fromTo(b,
+    var drop = function () { b.parentNode && b.parentNode.removeChild(b); };
+    tl.fromTo(b,
       { opacity: 0.65, scale: 0.15, xPercent: -50, yPercent: -50 },
       { opacity: 0, scale: 2.8, duration: 1.0, ease: 'power2.out',
-        onComplete: function () { b.parentNode && b.parentNode.removeChild(b); }
-      }
+        onComplete: drop, onInterrupt: drop
+      },
+      0
     );
   }
 
@@ -203,11 +212,11 @@
     var panel = panels[idx];
     if (!panel) return;
 
-    glowBurst(panel);
-    burstP(window.innerWidth / 2, window.innerHeight * 0.55, 22);
-
     var tl = gsap.timeline();
     activeAnimations[idx] = tl;
+
+    glowBurst(panel, tl);
+    burstP(window.innerWidth / 2, window.innerHeight * 0.55, 22);
 
     var bg  = panel.querySelector('.layer-bg');
     var fig = panel.querySelector('.layer-figure');
@@ -518,6 +527,63 @@
   }
 
   /* ══════════════════════════════════════════════════════════
+     INSTANT REVEAL  — used when the reader is scrolling fast
+
+     A flick past several panels used to start a full cinematic entrance for
+     every one of them: measured at seven entrance timelines in 560ms, five of
+     them inside 213ms, each with a glow burst, a particle burst, a clearProps
+     sweep and an HUD draw, all while the page was still moving. That is what
+     made the page shake. Panels crossed during a flick are now simply shown,
+     with no timeline at all.
+  ══════════════════════════════════════════════════════════ */
+  function revealPanelInstant(idx) {
+    var panel = panels[idx];
+    if (!panel) return;
+
+    killHeroAnimation(idx);
+
+    var bg  = panel.querySelector('.layer-bg');
+    var fig = panel.querySelector('.layer-figure');
+    /* These two are opacity:0 in CSS and only ever revealed by an entrance,
+       so they must be set by hand; everything in .layer-copy is visible by
+       default once killHeroAnimation has cleared its inline styles. */
+    if (bg)  gsap.set(bg,  { opacity: 1, scale: 1, x: 0, y: 0 });
+    if (fig) gsap.set(fig, { opacity: 1, scale: 1, x: 0, y: 0, rotation: 0 });
+
+    addHUD(panel);
+    var corners = panel.querySelectorAll('.hud-corner');
+    if (corners.length) gsap.set(corners, { opacity: 1, scale: 1 });
+
+    /* Blueprint panel draws its SVG via stroke-dashoffset; land it finished. */
+    panel.classList.add('is-active');
+    panel.querySelectorAll('.bp-draw-animated').forEach(function (d) {
+      d.classList.add('bp-triggered');
+    });
+    panel.querySelectorAll('path.bp-line-h, polyline.bp-line-h, path.bp-draw, polyline.bp-draw, line.bp-draw, rect.bp-draw')
+      .forEach(function (p) {
+        p.style.strokeDasharray  = '';
+        p.style.strokeDashoffset = '0';
+        p.style.opacity          = '1';
+      });
+
+    var wm = panel.querySelector('.hero-wordmark-img');
+    if (wm) wm.classList.add('wm-glow-active');
+  }
+
+  /* Which panel actually owns the viewport right now, by visible height.
+     Read from live geometry at settle time rather than from a queued
+     IntersectionObserver entry, whose ratio is already stale by then. */
+  function dominantPanel() {
+    var vh = window.innerHeight, best = -1, bestVisible = 0;
+    for (var i = 0; i < panels.length; i++) {
+      var r = panels[i].getBoundingClientRect();
+      var visible = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+      if (visible > bestVisible) { bestVisible = visible; best = i; }
+    }
+    return best;
+  }
+
+  /* ══════════════════════════════════════════════════════════
      INIT
   ══════════════════════════════════════════════════════════ */
   function revealWithoutGsap() {
@@ -558,17 +624,55 @@
     /* Play panel 0 immediately */
     playHeroAnimation(0);
 
-    /* Watch panels */
+    /* Watch panels.
+
+       The observer no longer animates anything directly. It counts panel
+       crossings and restarts a short settle timer; the entrance runs once,
+       when scrolling has stopped, on whichever panel actually holds the
+       viewport. One deliberate scroll = one crossing = the full cinematic.
+       A fast flick = many crossings inside the window = each panel shown
+       instantly and no cinematic at all, which is what stops the shaking. */
+    var SETTLE_MS   = 120;
+    var settleTimer = null;
+    var crossings   = 0;
+    var crossedIdx  = [];
+
+    function settle() {
+      settleTimer = null;
+      var wasFlick = crossings > 1;
+      crossings = 0;
+      crossedIdx.length = 0;
+
+      var idx = dominantPanel();
+      if (idx === -1) return;
+      if (idx === currentIdx && !wasFlick) return;
+
+      var prev = currentIdx;
+      currentIdx = idx;
+      if (prev !== idx) killHeroAnimation(prev);
+
+      if (wasFlick) revealPanelInstant(idx);
+      else          playHeroAnimation(idx);
+    }
+
     var obs = new IntersectionObserver(function (entries) {
+      var entered = false;
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         var idx = panels.indexOf(entry.target);
-        if (idx === -1 || idx === currentIdx) return;
-        var prev = currentIdx;
-        currentIdx = idx;
-        killHeroAnimation(prev);
-        playHeroAnimation(idx);
+        if (idx === -1) return;
+        entered   = true;
+        crossings += 1;
+        crossedIdx.push(idx);
+        /* A flick is only detectable on the second crossing, so the first
+           panel crossed is caught up at that point — otherwise it would be
+           scrolled past still showing its CSS-hidden .layer-bg. */
+        if (crossings === 2)     crossedIdx.forEach(revealPanelInstant);
+        else if (crossings > 2)  revealPanelInstant(idx);
       });
+      if (!entered) return;
+      if (settleTimer) clearTimeout(settleTimer);
+      settleTimer = setTimeout(settle, SETTLE_MS);
     }, { threshold: MOBILE ? 0.3 : 0.55 });
 
     panels.forEach(function (p) { obs.observe(p); });
