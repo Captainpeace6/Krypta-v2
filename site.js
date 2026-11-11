@@ -163,7 +163,7 @@ if(page==="product"){
     const acc=[["The story",p.story||p.desc],["Fit",p.fit],["Materials",p.materials],["Construction",p.technical],["Artwork",p.artisticConcept],["Finish",p.finish],["Shipping",p.shipping],["The KRYPTAA uniform",p.brandConnection]].filter(x=>x[1]);
     root.innerHTML=`<div class="crumbs mono"><a href="index.html">Home</a>/<a href="${cc.href||"men-all.html"}">${esc(cc.title||"Shop")}</a>/<span>${esc(p.name)}</span></div>
     <div class="pdp" style="padding-top:0">
-      <div class="gal"><div class="main"><img id="gMain" src="${esc(asset(gal[0].src))}" alt="${esc(p.name)}"><span class="lab mono" id="gLab">${esc(gal[0].label||"")}</span><button class="gnav prev" type="button" aria-label="Previous image"><img src="${DEPTH}img/trident.webp" alt="" aria-hidden="true"></button><button class="gnav next" type="button" aria-label="Next image"><img src="${DEPTH}img/trident.webp" alt="" aria-hidden="true"></button></div>
+      <div class="gal"><div class="main"><img id="gMain" src="${esc(asset(gal[0].src))}" alt="${esc(p.name)}"><span class="lab mono" id="gLab">${esc(gal[0].label||"")}</span><button class="gnav prev" type="button" aria-label="Previous image"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button class="gnav next" type="button" aria-label="Next image"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button></div>
         ${gal.length>1?`<div class="thumbs" role="group" aria-label="Photos">${gal.map((g,i)=>`<button type="button" data-g="${i}" aria-pressed="${i===0}" aria-label="${esc(g.label||"Photo "+(i+1))}"><img src="${esc(asset(g.src))}" alt="" loading="lazy"></button>`).join("")}</div>`:""}</div>
       <div class="info-col">
         <div class="eyebrow">${esc(p.collection||"")}</div>
@@ -355,7 +355,7 @@ paintCounts();renderBag();paintRecent();
     const q=stockOf(qp,qsize);
     host.querySelector(".ql-in").innerHTML=`
       <div class="ql-gal">
-        <div class="ql-main"><img src="${esc(asset((gal[qi]||gal[0]).src))}" alt="${esc(qp.name)}">${gal.length>1?`<button class="gnav prev" type="button" data-step="-1" aria-label="Previous image"><img src="${DEPTH}img/trident.webp" alt="" aria-hidden="true"></button><button class="gnav next" type="button" data-step="1" aria-label="Next image"><img src="${DEPTH}img/trident.webp" alt="" aria-hidden="true"></button>`:""}</div>
+        <div class="ql-main"><img src="${esc(asset((gal[qi]||gal[0]).src))}" alt="${esc(qp.name)}">${gal.length>1?`<button class="gnav prev" type="button" data-step="-1" aria-label="Previous image"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button class="gnav next" type="button" data-step="1" aria-label="Next image"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>`:""}</div>
         <div class="ql-thumbs">${gal.slice(0,8).map((g,i)=>`<button type="button" data-g="${i}" aria-current="${i===qi}"><img src="${esc(asset(g.src))}" alt="${esc(g.label||"")}" loading="lazy"></button>`).join("")}</div>
       </div>
       <div class="ql-info">

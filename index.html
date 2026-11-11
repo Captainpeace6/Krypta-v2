@@ -7,7 +7,7 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-242EQ24FP3');</script>
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2070231503594050');fbq('track','PageView');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="site.css?v=6">
+<link rel="stylesheet" href="site.css?v=7">
 <style>
 /* Layout: one black-and-gold store page. Order: clothing rail (opening) → reviews that pop up on scroll → sliding words + drifting product photos → spinning product ribbon → pick-your-weapon list → trident made of dots → footer. */
 :root{
@@ -176,7 +176,7 @@ h1,h2{font-family:var(--f-display);font-weight:900;text-transform:uppercase;line
 .revs::-webkit-scrollbar{display:none}
 .rev{flex:0 0 clamp(262px,28.5vw,330px);scroll-snap-align:start;background:var(--coal);border:1px solid #2d251c;display:flex;flex-direction:column;min-width:0}
 .rev .ph{aspect-ratio:5/4;max-width:100%;overflow:hidden}
-.rev .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.rev .ph img{width:100%;height:100%;object-fit:contain;background:#0f0c09;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
 .rev:hover .ph img{transform:scale(1.04)}
 .rev .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
 .stars{color:var(--gold);letter-spacing:.2em;font-size:13px}
@@ -206,10 +206,11 @@ h1,h2{font-family:var(--f-display);font-weight:900;text-transform:uppercase;line
 .mq-row img{height:clamp(26px,4vw,48px);width:auto}
 @keyframes slide{to{transform:translateX(-50%)}}
 .drift{position:relative;overflow:hidden;padding-block:34px}
-.drift-row{display:inline-flex;gap:28px;align-items:center;animation:slide 46s linear infinite;padding-right:28px}
+.drift-row{display:inline-flex;gap:28px;align-items:center;animation:slide 46s linear infinite;padding-right:28px;will-change:transform}
+.drift-row.js{animation:none!important}
 .drift-row a{display:block;flex:none;text-decoration:none;transition:transform .4s}
 .drift-row a:hover{transform:translateY(-8px) rotate(-1.5deg)}
-.drift-row img{object-fit:cover;width:var(--w);height:calc(var(--w)*1.25);margin-top:var(--y)}
+.drift-row img{object-fit:contain;background:#0f0c09;width:var(--w);height:calc(var(--w)*1.25);margin-top:var(--y)}
 .drift-row small{display:block;margin-top:8px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash)}
 /* Pause on hover only where hover is real. On a touch screen :hover latches
    after a tap and never clears, which froze the product row permanently. */
@@ -224,7 +225,7 @@ h1,h2{font-family:var(--f-display);font-weight:900;text-transform:uppercase;line
 .spin-btns button:hover{border-color:var(--gold)}.spin-btns button:active{background:rgba(201,162,74,.14)}
 .track{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateZ(-11deg)}
 .hc{position:absolute;left:50%;top:50%;width:var(--cw);height:calc(var(--cw)*1.32);margin-left:calc(var(--cw)/-2);margin-top:calc(var(--cw)*-.66);transform-style:preserve-3d;will-change:transform;-webkit-tap-highlight-color:transparent}
-.hc img{width:100%;height:100%;object-fit:cover;border-radius:2px;backface-visibility:visible;box-shadow:0 10px 30px rgba(0,0,0,.55);pointer-events:none;-webkit-user-drag:none;transition:outline-color .2s;outline:2px solid transparent;outline-offset:2px}
+.hc img{width:100%;height:100%;object-fit:contain;background:#0f0c09;border-radius:2px;backface-visibility:visible;box-shadow:0 10px 30px rgba(0,0,0,.55);pointer-events:none;-webkit-user-drag:none;transition:outline-color .2s;outline:2px solid transparent;outline-offset:2px}
 .hc:hover img,.hc:focus-visible img{outline-color:var(--gold-hi)}
 .spin-cap{display:flex;justify-content:center;align-items:baseline;gap:14px;flex-wrap:wrap;text-align:center;min-height:2.6em;margin-top:6px}
 .spin-cap b{font-family:var(--f-display);font-weight:800;font-size:clamp(22px,2.6vw,32px);text-transform:uppercase;line-height:1}
@@ -243,7 +244,7 @@ h1,h2{font-family:var(--f-display);font-weight:900;text-transform:uppercase;line
 .cats .t{font-family:var(--f-mono);font-weight:500;font-size:clamp(20px,3.6vw,46px);letter-spacing:.02em;text-transform:uppercase;line-height:1.05}
 .cats .c{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
 .cats a:hover .c,.cats a:focus-visible .c{color:var(--void)}
-.cats .mini{display:none;width:44px;height:56px;object-fit:cover}
+.cats .mini{display:none;width:44px;height:56px;object-fit:contain;background:#0f0c09;}
 .follow{position:fixed;left:0;top:0;width:clamp(240px,22vw,340px);height:clamp(320px,30vw,450px);pointer-events:none;z-index:40;opacity:0;transition:opacity .25s;overflow:hidden;border:1px solid #c9a24a;background:#14110d;box-shadow:0 18px 50px rgba(0,0,0,.6)}
 .follow img{width:100%;height:100%;object-fit:contain;background:radial-gradient(ellipse at 50% 45%,#17120c,#0d0a07)}
 .follow .fcap{position:absolute;left:0;right:0;bottom:0;padding:26px 10px 9px;background:linear-gradient(transparent,rgba(11,9,7,.92));display:flex;flex-direction:column;gap:3px}
@@ -324,7 +325,7 @@ footer .note{color:var(--ash);width:100%;margin:0}
 <style>
 /* editorial */
 .edit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:clamp(420px,52vw,640px);border-block:1px solid var(--rule)}
-.edit .ph{position:relative;overflow:hidden}.edit .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.edit .ph{position:relative;overflow:hidden}.edit .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#0f0c09;}
 .edit .tx{display:flex;flex-direction:column;justify-content:center;gap:18px;padding:clamp(28px,5vw,80px);background:radial-gradient(ellipse 80% 70% at 0% 50%,rgba(163,20,27,.18),transparent 70%)}
 .edit h2{font-size:clamp(46px,6.4vw,96px)}.edit h2 em{font-style:normal;color:var(--gold)}.edit p{color:#c9bfae;max-width:44ch;margin:0}
 @media (max-width:760px){.edit{grid-template-columns:minmax(0,1fr)}.edit .ph{min-height:320px}}
@@ -333,7 +334,9 @@ footer .note{color:var(--ash);width:100%;margin:0}
 .bvid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
 .bvid::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(rgba(11,9,7,.35),rgba(11,9,7,.78))}
 .bvid h2{font-size:clamp(46px,7.6vw,112px)}.bvid p{color:#d9d0c0;margin:14px 0 24px}
-.bvid .play.sound{right:auto;left:clamp(14px,3vw,28px)}
+.bvid .play.sound{right:auto;left:clamp(14px,3vw,28px);background:var(--gold);color:var(--void);border-color:var(--gold);font-weight:600;animation:sndpulse 2s ease-in-out infinite}
+.bvid .play.sound.live{background:rgba(11,9,7,.7);color:var(--gold-hi);animation:none}
+@keyframes sndpulse{50%{box-shadow:0 0 0 6px rgba(241,207,122,.18)}}
 .bvid .play{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:16px;background:rgba(11,9,7,.7);border:1px solid #3a3026;color:var(--bone);padding:8px 12px;cursor:pointer}
 /* spec sheet */
 .spec{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px)}
@@ -343,6 +346,11 @@ footer .note{color:var(--ash);width:100%;margin:0}
 .spec ul{margin:0;padding-left:18px;color:#c9bfae;display:grid;gap:8px}
 @media (max-width:760px){.spec{grid-template-columns:minmax(0,1fr)}}
 /* surprise bag */
+.sb-ph{position:relative}.sb-ph .sb-bag{display:block;width:100%;height:100%}.sb-ph .sb-bag img{width:100%;height:100%;object-fit:contain}
+.sb-ph .sb-chart{display:none;width:100%;height:auto;max-height:78vh;object-fit:contain;border:1px solid rgba(201,162,74,.45);cursor:zoom-in}
+.sbm.chart .sb-ph{aspect-ratio:auto}.sbm.chart .sb-bag{display:none}.sbm.chart .sb-chart{display:block;animation:sbchart .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes sbchart{from{opacity:0;transform:scale(.94) rotateY(-18deg)}}
+.sb-cbtn[aria-pressed="true"]{background:var(--gold);color:var(--void)}
 .sbag{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(22px,4vw,64px);align-items:center}
 .sbag .ph{position:relative;aspect-ratio:1;max-width:100%;overflow:hidden;background:radial-gradient(closest-side,rgba(201,162,74,.22),transparent 70%)}
 .sbag .ph img{width:100%;height:100%;object-fit:contain;animation:sbfloat 5s ease-in-out infinite}
@@ -356,7 +364,7 @@ footer .note{color:var(--ash);width:100%;margin:0}
 /* instagram */
 .igrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
 .igrid a{position:relative;aspect-ratio:1;overflow:hidden;display:block}
-.igrid img{width:100%;height:100%;object-fit:cover;transition:transform .7s,filter .4s}
+.igrid img{width:100%;height:100%;object-fit:contain;background:#0f0c09;transition:transform .7s,filter .4s}
 .igrid a::after{content:"";position:absolute;inset:0;background:rgba(11,9,7,.0);transition:background .3s}
 .igrid a:hover img{transform:scale(1.06);filter:brightness(.7)}
 @media (max-width:760px){.igrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
@@ -409,12 +417,16 @@ footer .note{color:var(--ash);width:100%;margin:0}
 .sbm .pr{display:flex;align-items:baseline;gap:12px;margin:8px 0 14px}.sbm .pr b{font-family:var(--f-display);font-size:50px;color:var(--gold-hi)}.sbm .pr s{color:var(--ash)}
 .sbm .acts{display:flex;gap:10px;flex-wrap:wrap}
 @media (max-width:640px){.modal .box.sbm{grid-template-columns:minmax(0,1fr);gap:8px}.sbm .ph{max-width:220px;margin:0 auto;width:100%}}
+.sbm .ph img.sb-chart,.modal.lava .sbm .ph img.sb-chart{height:auto;animation:none;filter:none}
+.sbm.chart .ph{aspect-ratio:auto;max-width:none;background:none}
+.sbm.chart .ph img.sb-chart{animation:sbchart .45s cubic-bezier(.2,.8,.2,1)}
+@media (max-width:640px){.sbm.chart .ph{max-width:none}}
 .modal .box.wp{width:min(820px,100%)}
 .wp h2{font-size:clamp(36px,8vw,64px);margin:4px 0 4px}.wp .wp-n{color:var(--ash);margin:0 0 16px}
 .wp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px}
 .wp-grid a{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--bone)}
 .wp-grid .ph{aspect-ratio:4/5;overflow:hidden;background:#14110d;border:1px solid #2a221a}
-.wp-grid img{width:100%;height:100%;object-fit:cover}
+.wp-grid img{width:100%;height:100%;object-fit:contain;background:#0f0c09;}
 .wp-grid b{font-size:13px;line-height:1.25;font-weight:600}.wp-grid .mono{color:var(--gold-hi);font-size:11px}
 </style>
 <div data-home></div>
@@ -586,7 +598,7 @@ footer .note{color:var(--ash);width:100%;margin:0}
 <!-- BRAND VIDEO (from kryptaa.com) -->
 <section class="bvid" aria-label="Brand video"><video id="bvid" src="imgs/brand-video.mp4" poster="imgs/brand-video-poster.webp" muted loop playsinline preload="metadata"></video>
   <div class="wrap"><div class="eyebrow">Drop 001 — SS26</div><h2>The uniform for<br>the underground</h2><p>Gothic roots. Streetwear edge. No compromises.</p><a class="btn" href="men-all.html">Shop the drop</a></div>
-  <button class="play mono" type="button" id="bvBtn" aria-label="Pause video">❚❚ Pause</button><button class="play mono sound" type="button" id="bvSound" aria-label="Unmute video" aria-pressed="false">🔇 Sound on</button></section>
+  <button class="play mono" type="button" id="bvBtn" aria-label="Pause video">❚❚ Pause</button><button class="play mono sound" type="button" id="bvSound" aria-label="Turn sound on" aria-pressed="false">🔇 Tap for sound</button></section>
 
 <!-- SPEC SHEET (from kryptaa.com) -->
 <section class="sec"><div class="wrap">
@@ -694,7 +706,7 @@ const GROUPS=[
   {id:500,n:"Unisex Street Track Pant — Blue",p:42,d:"Unisex · Wide-leg",s:.95,w:.95},
   {id:501,n:"Unisex Street Track Pant — Green",p:42,d:"Unisex · Wide-leg",s:.95,w:.95},
   {id:502,n:"Unisex Street Track Pant — Red",p:42,d:"Unisex · Wide-leg",s:.95,w:.95},
-  {id:503,n:"Unisex Street Track Pant — Yellow",p:42,d:"Unisex · Wide-leg",s:.8,w:1.4}]},
+  {id:503,n:"Unisex Street Track Pant — Yellow",p:42,d:"Unisex · Wide-leg",s:.95,w:.95}]},
  {g:"wear",label:"Women<br>wear",items:[
   {id:70,n:"Rhinestone Mesh Hooded Crop",p:41,d:"Rhinestone mesh",s:.62,w:.9},
   {id:80,n:"Holographic Sequin Bra Top",p:21,d:"Holographic sequins",s:.36,w:.85},
@@ -913,6 +925,20 @@ fill(document.getElementById("mq2"),["From the Philly streets","Limited units","
 const sizes=[170,120,200,140,180,110,160,130],ys=[0,40,-20,60,10,-30,50,20];
 let dh="";for(let k=0;k<2;k++)P.forEach((p,i)=>{dh+=`<a href="${SITE+p.id}"${k?' tabindex="-1" aria-hidden="true"':''}><img src="${p.img}" alt="${k?'':p.n}" loading="lazy" style="--w:${sizes[i%8]}px;--y:${ys[i%8]}px"><small>${p.n.split(" ").slice(0,2).join(" ")} · $${p.p}</small></a>`});
 document.getElementById("drift").innerHTML=dh;
+document.addEventListener("click",e=>{const b=e.target.closest(".sb-cbtn");if(b){const box=b.closest(".sbm"),on=!box.classList.contains("chart");box.classList.toggle("chart",on);b.setAttribute("aria-pressed",on);b.textContent=on?"\u2190 Back to the bag":"\uD83D\uDCCF Size chart";return}
+  const c=e.target.closest(".sb-chart");if(c)window.open(c.src,"_blank","noopener")});
+/* the row drifts on its own AND slides with the page scroll, so on a phone the pieces always move
+   under your finger (with "reduce motion" on, only the scroll part moves it). */
+(function(){const r=document.getElementById("drift"),box=r.parentElement;r.classList.add("js");
+const calm=matchMedia("(prefers-reduced-motion: reduce)").matches,fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
+let auto=0,last=performance.now(),hold=false,vis=true;
+if(fine){box.addEventListener("mouseenter",()=>hold=true);box.addEventListener("mouseleave",()=>hold=false)}
+new IntersectionObserver(e=>{vis=e[0].isIntersecting},{rootMargin:"200px"}).observe(box);
+(function loop(now){const dt=Math.min(64,now-last);last=now;
+  if(vis){const half=r.scrollWidth/2||1;if(!calm&&!hold)auto+=dt*half/46000;
+    const b=box.getBoundingClientRect();const x=-((auto+(innerHeight-b.top)*0.6)%half+half)%half;
+    r.style.transform="translate3d("+x.toFixed(1)+"px,0,0)"}
+  requestAnimationFrame(loop)})(last);})();
 })();
 
 /* ═══ 4. SPINNING RIBBON ═══ */
@@ -979,7 +1005,7 @@ layout();requestAnimationFrame(spin);
 /* [title, cover photo, shelf page, small note, every piece on that shelf] */
 const C=[
  ["Wide-leg denim","img/p2.webp","jeans.html","Men · Women",[{"id": 10, "n": "Vintage Distressed Wide-Leg", "p": 67, "img": "imgs/pants/mens-pant-1.webp"}, {"id": 11, "n": "Red Gothic Embroidery Denim", "p": 67, "img": "imgs/pants/mens-pant-2.webp"}, {"id": 12, "n": "Acid Rust Patchwork Jeans", "p": 63, "img": "imgs/pants/mens-pant-3.webp"}, {"id": 14, "n": "Ice Cargo Wide-Leg Denim", "p": 63, "img": "imgs/pants/mens-pant-4.webp"}, {"id": 30, "n": "Gothic Skull Wide-Leg", "p": 51, "img": "imgs/pants/womens-pant-5.webp"}, {"id": 31, "n": "Gold Baroque Wide-Leg", "p": 62, "img": "imgs/pants/womens-pant-6-g5.webp"}, {"id": 32, "n": "Creature Graphic Wide-Leg", "p": 62, "img": "imgs/pants/unisex-pant-7.webp"}]],
- ["Heavyweight tees","img/tee1.webp","t-shirts.html","From $39",[{"id": 1, "n": "Medusa Serpent Oversized Tee", "p": 39, "img": "imgs/tees/tee-1.webp"}, {"id": 3, "n": "Angel of Death Heavyweight Tee", "p": 39, "img": "imgs/tees/tee-2.webp"}, {"id": 4, "n": "Broken Skull Heavyweight Tee", "p": 39, "img": "imgs/tees/tee-3.webp"}, {"id": 5, "n": "Need Some Money Oversized Tee", "p": 39, "img": "imgs/tees/tee-4.webp"}]],
+ ["Heavyweight tees","img/tee1.webp","t-shirts.html","From $39",[{"id": 1, "n": "Medusa Serpent Oversized Tee", "p": 39, "img": "imgs/tees/tee-1-g3.webp"}, {"id": 3, "n": "Angel of Death Heavyweight Tee", "p": 39, "img": "imgs/tees/tee-2-front.webp"}, {"id": 4, "n": "Broken Skull Heavyweight Tee", "p": 39, "img": "imgs/tees/tee-3-front.webp"}, {"id": 5, "n": "Need Some Money Oversized Tee", "p": 39, "img": "imgs/tees/tee-4-g3.webp"}]],
  ["Anime denim","img/an1.webp","anime.html","Pre-order",[{"id": 108, "n": "Six Eyes Gojo Satoru Denim", "p": 69, "img": "imgs/anime-gojo.webp"}, {"id": 109, "n": "Cursed Energy JJK Collage", "p": 59, "img": "imgs/anime-jjk1.webp"}, {"id": 111, "n": "Demon Back Baki Denim", "p": 70, "img": "imgs/anime-baki.webp"}, {"id": 112, "n": "Shinigami Death Note Denim", "p": 67, "img": "imgs/anime-deathnote.webp"}, {"id": 113, "n": "Straw Hat One Piece Jeans", "p": 77, "img": "imgs/anime-one-piece.webp"}]],
  ["Track pants","img/st-red.webp","track-pants.html","Unisex · 4 colors",[{"id": 500, "n": "Unisex Street Track Pant — Blue", "p": 42, "img": "img/st-blue.webp"}, {"id": 501, "n": "Unisex Street Track Pant — Green", "p": 42, "img": "img/st-green.webp"}, {"id": 502, "n": "Unisex Street Track Pant — Red", "p": 42, "img": "img/st-red.webp"}, {"id": 503, "n": "Unisex Street Track Pant — Yellow", "p": 42, "img": "img/st-yellow.webp"}]],
  ["Rhinestone & mesh tops","img/top70.webp","women-wear.html","Women",[{"id": 70, "n": "Rhinestone Mesh Hooded Crop", "p": 41, "img": "imgs/tops/top-70.webp"}, {"id": 80, "n": "Holographic Sequin Bra Top", "p": 21, "img": "imgs/tops/top-80.webp"}, {"id": 81, "n": "Rhinestone Heart Chain Bra", "p": 15.99, "img": "imgs/tops/top-81.webp"}, {"id": 82, "n": "Gold Chainmail Choker Bra", "p": 15.99, "img": "imgs/tops/top-82.webp"}, {"id": 90, "n": "Silver Metallic Crop Set", "p": 27, "img": "imgs/tops/top-90.webp"}]],
@@ -1159,19 +1185,19 @@ cv.addEventListener("pointerleave",()=>{mx=my=-9999});cv.addEventListener("point
           </div>
 </div></div></div>
 <div class="modal" id="sbModal" aria-hidden="true" role="dialog" aria-label="Surprise bag"><div class="box sbm"><button class="x" type="button" data-close aria-label="Close">✕</button>
-  <a class="ph" href="product.html#p900"><img src="imgs/bundle/surprise-bag.webp" alt="KRYPTAA Drop 001 Surprise Bag — two sealed pieces"></a>
+  <div class="ph sb-ph"><a class="sb-bag" href="product.html#p900"><img src="imgs/bundle/surprise-bag.webp" alt="KRYPTAA Drop 001 Surprise Bag — two sealed pieces"></a><img class="sb-chart" src="imgs/bundle/surprise-size-chart.webp" alt="Surprise bag size chart — S to XL waist, hip, inseam and tee chest" loading="lazy"></div>
   <div><div class="eyebrow">Limited — Drop 001 / Mystery</div><h2>Surprise bag</h2>
     <p>Two pieces. Our pick. Your size. One pair of Drop 001 denim and one 300GSM heavyweight tee — together worth over $100. Which two stays sealed until you open it.</p>
     <ol><li><b>01</b>You choose the size — we choose the fit</li><li><b>02</b>Sealed until it lands — no previews, no requests</li><li><b>03</b>Free shipping — it clears the $60 threshold</li></ol>
     <div class="pr"><b>$64</b><s class="mono">$100+ value</s></div>
-    <div class="acts"><a class="btn" href="product.html#p900">Open the bag →</a><button class="btn ghost" type="button" data-close>Maybe later</button></div>
+    <div class="acts"><a class="btn" href="product.html#p900">Open the bag →</a><button class="btn ghost sb-cbtn" type="button" aria-pressed="false">📏 Size chart</button><button class="btn ghost" type="button" data-close>Maybe later</button></div>
     <p class="mono" style="color:var(--ash);margin-top:12px;font-size:11px">Size exchanges accepted within 7 days. Contents are final — that's the deal.</p></div></div></div>
 <div class="modal" id="wpModal" aria-hidden="true" role="dialog" aria-label="Every piece on this shelf"><div class="box wp"><button class="x" type="button" data-close aria-label="Close">✕</button><div id="wpBody"></div></div></div>
 <button type="button" id="wpOpen" data-open="wpModal" hidden></button>
 <button type="button" id="sbOpen" data-open="sbModal" hidden></button>
 <div class="sbr" id="sbr"><button class="go" type="button" aria-label="Surprise bag — open the offer"><span class="a"><img src="imgs/kryptaa-sigil.webp" alt=""></span><span class="bub" id="sbBub">Click for a surprise bag</span></button><button class="sx" type="button" id="sbX" aria-label="Hide the surprise bag button">✕</button></div>
 
-<script src="catalog.js?v=6"></script><script src="slugs.js?v=6"></script><script src="api.js?v=6" data-after="site.js"></script><script>(function(){const v=document.getElementById("bvid"),b=document.getElementById("bvBtn");if(!v)return;
+<script src="catalog.js?v=7"></script><script src="slugs.js?v=7"></script><script src="api.js?v=7" data-after="site.js"></script><script>(function(){const v=document.getElementById("bvid"),b=document.getElementById("bvBtn");if(!v)return;
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;let want=!reduce;
 const set=()=>{b.textContent=v.paused?"▶ Play":"❚❚ Pause";b.setAttribute("aria-label",v.paused?"Play video":"Pause video")};
 new IntersectionObserver(es=>{if(es[0].isIntersecting&&want)v.play().catch(()=>{});else v.pause();setTimeout(set,50)},{threshold:.25}).observe(v);
@@ -1179,7 +1205,7 @@ b.onclick=()=>{want=v.paused;want?v.play().catch(()=>{}):v.pause();setTimeout(se
 /* Sound is opt-in: browsers only autoplay a muted video, so unmuting has to come
    from a real tap. Leaving the page re-mutes it so audio never follows the user. */
 const sb=document.getElementById("bvSound");
-if(sb){const sset=()=>{sb.textContent=v.muted?"\uD83D\uDD07 Sound on":"\uD83D\uDD0A Sound off";sb.setAttribute("aria-label",v.muted?"Unmute video":"Mute video");sb.setAttribute("aria-pressed",String(!v.muted))};
+if(sb){const sset=()=>{sb.textContent=v.muted?"\uD83D\uDD07 Tap for sound":"\uD83D\uDD0A Sound on \u00b7 tap to mute";sb.classList.toggle("live",!v.muted);sb.setAttribute("aria-label",v.muted?"Turn sound on":"Mute video");sb.setAttribute("aria-pressed",String(!v.muted))};
 sb.onclick=()=>{v.muted=!v.muted;if(!v.muted){v.volume=1;if(v.paused){want=true;v.play().catch(()=>{})}}sset()};
 v.addEventListener("volumechange",sset);
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&!v.muted){v.muted=true;sset()}});

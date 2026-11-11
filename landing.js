@@ -29,7 +29,11 @@ function show(k,user){if(k===cur&&!user)return;const prev=prods[cur];cur=k;
   selB.forEach((b,i)=>b.toggleAttribute("aria-current",i===k));
   const p=LD[k];$("#ldIdx").textContent=String(k+1).padStart(2,"0");$("#ldName").textContent=p.n;
   $("#ldMeta").innerHTML="<b>"+money(p.p)+"</b> · "+p.tags.slice(0,2).join(" / ")+"<br>"+stockLine(p.id,p.av);
-  $("#ldShop").href="product.html#p"+p.id;$("#ldShop").textContent=p.av?"Pre-order this piece →":"Shop this piece →";t0=performance.now()}
+  $("#ldShop").href="product.html#p"+p.id;
+  const ql=$("#ldQL");if(ql)ql.dataset.qlook=p.id;
+  const tr=$("#ldThumbs"),full=(K.products||[]).find(x=>x.id===p.id);
+  if(tr&&full){const g=(full.gallery&&full.gallery.length?full.gallery:[{src:full.img}]).filter(x=>!/sizechart/.test(x.src)).slice(0,4);
+    tr.innerHTML=g.map((x,i)=>`<button type="button" data-qlook="${p.id}" aria-label="See ${String(x.label||"photo").replace(/"/g,"")} in quick look"><img src="${x.src}" alt="" loading="lazy"></button>`).join("")+(full.gallery&&full.gallery.length>4?`<button type="button" class="more mono" data-qlook="${p.id}">+${full.gallery.length-4}</button>`:"")}$("#ldShop").textContent=p.av?"Pre-order this piece →":"Shop this piece →";t0=performance.now()}
 function tick(now){if(!document.hidden&&!reduce){const f=(now-t0)/DUR;if(bar)bar.style.width=Math.min(100,f*100)+"%";if(f>=1)show((cur+1)%prods.length)}requestAnimationFrame(tick)}
 show(0,true);requestAnimationFrame(tick);
 selB.forEach((b,i)=>b.addEventListener("click",()=>show(i,true)));
@@ -53,10 +57,14 @@ function placeCalls(){if(!fig)return;const sr=fig.parentElement.getBoundingClien
 function onScroll(){
   if(stack&&iso){const p=prog(stack);const sp=reduce?1:clamp(p/.75,0,1);const e=1-Math.pow(1-sp,3);stack.style.setProperty("--sp",e.toFixed(3))}
   if(anat){const p=prog(anat),n=calls.length;const k=clamp(Math.floor(p*n*1.0001),0,n-1);
-    if(k!==lastK){lastK=k;dots.forEach((d,i)=>{d.classList.toggle("on",i<=k);d.classList.toggle("cur",i===k)});calls.forEach((c,i)=>c.classList.toggle("on",i===k));if(anK)anK.textContent=String(k+1).padStart(2,"0");placeCalls()}
+    window.__ldK=k;if(pin>=0&&k!==pinK)pin=-1;if(pin<0&&k!==lastK){lastK=k;dots.forEach((d,i)=>{d.classList.toggle("on",i<=k);d.classList.toggle("cur",i===k)});calls.forEach((c,i)=>c.classList.toggle("on",i===k));if(anK)anK.textContent=String(k+1).padStart(2,"0");placeCalls()}
     lines(k)}
   panels.forEach(pn=>{const r=pn.getBoundingClientRect();const v=clamp(r.top/innerHeight,-1,1);pn.style.setProperty("--pv",v.toFixed(3))});
 }
+/* hover (laptop) or tap (phone) a gold dot to open its close-up straight away */
+let pin=-1,pinK=-1;
+function showK(k){lastK=k;dots.forEach((d,i)=>{d.classList.toggle("on",true);d.classList.toggle("cur",i===k)});calls.forEach((c,i)=>c.classList.toggle("on",i===k));if(anK)anK.textContent=String(k+1).padStart(2,"0");placeCalls();lines(k)}
+dots.forEach((d,i)=>{d.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse"){pin=i;pinK=window.__ldK;showK(i)}});d.addEventListener("click",()=>{pin=i;pinK=window.__ldK;showK(i)})});
 let ticking=false;addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{ticking=false;onScroll()})}},{passive:true});
 addEventListener("resize",()=>{placeCalls();onScroll()});
 addEventListener("load",()=>{placeCalls();onScroll()});
