@@ -7,7 +7,7 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-242EQ24FP3');</script>
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2070231503594050');fbq('track','PageView');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="site.css?v=5">
+<link rel="stylesheet" href="site.css?v=6">
 <style>
 /* Layout: one black-and-gold store page. Order: clothing rail (opening) → reviews that pop up on scroll → sliding words + drifting product photos → spinning product ribbon → pick-your-weapon list → trident made of dots → footer. */
 :root{
@@ -211,7 +211,9 @@ h1,h2{font-family:var(--f-display);font-weight:900;text-transform:uppercase;line
 .drift-row a:hover{transform:translateY(-8px) rotate(-1.5deg)}
 .drift-row img{object-fit:cover;width:var(--w);height:calc(var(--w)*1.25);margin-top:var(--y)}
 .drift-row small{display:block;margin-top:8px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash)}
-.mq:hover .mq-row,.drift:hover .drift-row{animation-play-state:paused}
+/* Pause on hover only where hover is real. On a touch screen :hover latches
+   after a tap and never clears, which froze the product row permanently. */
+@media (hover:hover) and (pointer:fine){.mq:hover .mq-row,.drift:hover .drift-row{animation-play-state:paused}}
 
 /* ── 4. SPINNING RIBBON ── */
 .spin-sec{overflow:hidden}
@@ -251,7 +253,8 @@ h1,h2{font-family:var(--f-display);font-weight:900;text-transform:uppercase;line
 @media (hover:none),(max-width:640px){.follow{display:none}.cats .mini{display:block}.cats a{grid-template-columns:auto minmax(0,1fr) auto;-webkit-tap-highlight-color:transparent}.cats .n{display:none}
   /* No hover on a phone, so the desktop preview never appears. Show the piece
      inline instead, big enough to actually read. */
-  .cats .mini{width:84px;height:106px;object-fit:contain;background:radial-gradient(ellipse at 50% 45%,#17120c,#0d0a07);border:1px solid #2a221a}
+  .cats .mini{width:100%;height:clamp(150px,44vw,230px);object-fit:contain;grid-column:1/-1;grid-row:2;background:radial-gradient(ellipse at 50% 45%,#17120c,#0d0a07);border:1px solid #2a221a;margin-top:10px}
+  .cats a{grid-template-columns:minmax(0,1fr) auto;grid-auto-rows:auto}
   .cats a{padding-block:12px;gap:14px}
   .cats .t{font-size:clamp(20px,6vw,30px)}
 
@@ -1168,7 +1171,7 @@ cv.addEventListener("pointerleave",()=>{mx=my=-9999});cv.addEventListener("point
 <button type="button" id="sbOpen" data-open="sbModal" hidden></button>
 <div class="sbr" id="sbr"><button class="go" type="button" aria-label="Surprise bag — open the offer"><span class="a"><img src="imgs/kryptaa-sigil.webp" alt=""></span><span class="bub" id="sbBub">Click for a surprise bag</span></button><button class="sx" type="button" id="sbX" aria-label="Hide the surprise bag button">✕</button></div>
 
-<script src="catalog.js?v=5"></script><script src="slugs.js?v=5"></script><script src="api.js?v=5" data-after="site.js"></script><script>(function(){const v=document.getElementById("bvid"),b=document.getElementById("bvBtn");if(!v)return;
+<script src="catalog.js?v=6"></script><script src="slugs.js?v=6"></script><script src="api.js?v=6" data-after="site.js"></script><script>(function(){const v=document.getElementById("bvid"),b=document.getElementById("bvBtn");if(!v)return;
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;let want=!reduce;
 const set=()=>{b.textContent=v.paused?"▶ Play":"❚❚ Pause";b.setAttribute("aria-label",v.paused?"Play video":"Pause video")};
 new IntersectionObserver(es=>{if(es[0].isIntersecting&&want)v.play().catch(()=>{});else v.pause();setTimeout(set,50)},{threshold:.25}).observe(v);

@@ -115,8 +115,8 @@ function openSizeGuide(cat){openDrawer("sgModal");const m=$("#sgModal");m.classL
 
 /* ── CARDS ── */
 function card(p){const alt=(p.gallery||[]).map(g=>g.src||g).find(s=>s&&s!==p.img);
-  return `<article class="card">${badge(p)}${heartBtn(p.id)}<a class="ph" href="${purl(p.id)}" aria-label="${esc(p.name)}"><img src="${esc(asset(p.img))}" alt="${esc(p.name)}" loading="lazy">${alt?`<img class="alt" src="${esc(asset(alt))}" alt="" loading="lazy">`:""}</a>
-  <button class="qlook mono" type="button" data-qlook="${p.id}">Quick look</button>
+  return `<article class="card">${badge(p)}${heartBtn(p.id)}<div class="ph-wrap"><a class="ph" href="${purl(p.id)}" aria-label="${esc(p.name)}"><img src="${esc(asset(p.img))}" alt="${esc(p.name)}" loading="lazy">${alt?`<img class="alt" src="${esc(asset(alt))}" alt="" loading="lazy">`:""}</a>
+  <button class="qlook mono" type="button" data-qlook="${p.id}">Quick look</button></div>
   <div class="row"><a class="nm" href="${purl(p.id)}">${esc(p.name)}</a><span class="pr">${money(p.price)}</span></div><div class="sub">${esc(p.collection||"")}</div></article>`}
 
 /* ── RECENTLY VIEWED ── */
@@ -163,7 +163,7 @@ if(page==="product"){
     const acc=[["The story",p.story||p.desc],["Fit",p.fit],["Materials",p.materials],["Construction",p.technical],["Artwork",p.artisticConcept],["Finish",p.finish],["Shipping",p.shipping],["The KRYPTAA uniform",p.brandConnection]].filter(x=>x[1]);
     root.innerHTML=`<div class="crumbs mono"><a href="index.html">Home</a>/<a href="${cc.href||"men-all.html"}">${esc(cc.title||"Shop")}</a>/<span>${esc(p.name)}</span></div>
     <div class="pdp" style="padding-top:0">
-      <div class="gal"><div class="main"><img id="gMain" src="${esc(asset(gal[0].src))}" alt="${esc(p.name)}"><span class="lab mono" id="gLab">${esc(gal[0].label||"")}</span></div>
+      <div class="gal"><div class="main"><img id="gMain" src="${esc(asset(gal[0].src))}" alt="${esc(p.name)}"><span class="lab mono" id="gLab">${esc(gal[0].label||"")}</span><button class="gnav prev" type="button" aria-label="Previous image"><img src="${DEPTH}img/trident.webp" alt="" aria-hidden="true"></button><button class="gnav next" type="button" aria-label="Next image"><img src="${DEPTH}img/trident.webp" alt="" aria-hidden="true"></button></div>
         ${gal.length>1?`<div class="thumbs" role="group" aria-label="Photos">${gal.map((g,i)=>`<button type="button" data-g="${i}" aria-pressed="${i===0}" aria-label="${esc(g.label||"Photo "+(i+1))}"><img src="${esc(asset(g.src))}" alt="" loading="lazy"></button>`).join("")}</div>`:""}</div>
       <div class="info-col">
         <div class="eyebrow">${esc(p.collection||"")}</div>
@@ -189,6 +189,17 @@ if(page==="product"){
     const rb=$("#reviewsBlk");if(rb){rb.hidden=!revs.length;$("#prodReviews").innerHTML=revs.map(rvCard).join("")}
     const rel=K.products.filter(x=>x.category===p.category&&x.id!==p.id&&!x.archived).slice(0,8);
     $("#related").innerHTML=(rel.length?rel:K.products.filter(x=>x.id!==p.id&&!x.archived).slice(0,8)).map(card).join("");
+    /* Arrows for the gallery: the thumbnail strip alone gave no way to page
+       through on a phone. */
+    (function(){
+      const main=$("#gMain"),lab=$("#gLab");if(!main)return;
+      const go=d=>{gi=(gi+d+gal.length)%gal.length;
+        main.src=asset(gal[gi].src);if(lab)lab.textContent=gal[gi].label||"";
+        $$(".gal .thumbs button").forEach((b,i)=>b.setAttribute("aria-pressed",String(i===gi)))};
+      const pv=$(".gal .gnav.prev"),nx=$(".gal .gnav.next");
+      pv&&(pv.onclick=()=>go(-1));nx&&(nx.onclick=()=>go(1));
+      if(gal.length<2){pv&&(pv.hidden=true);nx&&(nx.hidden=true)}
+    })();
     paintRecent(p.id);scrollTo(0,0);
   }
   addEventListener("hashchange",render);render();
@@ -344,7 +355,7 @@ paintCounts();renderBag();paintRecent();
     const q=stockOf(qp,qsize);
     host.querySelector(".ql-in").innerHTML=`
       <div class="ql-gal">
-        <div class="ql-main"><img src="${esc(asset((gal[qi]||gal[0]).src))}" alt="${esc(qp.name)}"></div>
+        <div class="ql-main"><img src="${esc(asset((gal[qi]||gal[0]).src))}" alt="${esc(qp.name)}">${gal.length>1?`<button class="gnav prev" type="button" data-step="-1" aria-label="Previous image"><img src="${DEPTH}img/trident.webp" alt="" aria-hidden="true"></button><button class="gnav next" type="button" data-step="1" aria-label="Next image"><img src="${DEPTH}img/trident.webp" alt="" aria-hidden="true"></button>`:""}</div>
         <div class="ql-thumbs">${gal.slice(0,8).map((g,i)=>`<button type="button" data-g="${i}" aria-current="${i===qi}"><img src="${esc(asset(g.src))}" alt="${esc(g.label||"")}" loading="lazy"></button>`).join("")}</div>
       </div>
       <div class="ql-info">
@@ -372,6 +383,9 @@ paintCounts();renderBag();paintRecent();
     const t=e.target.closest("[data-qlook]");
     if(t){e.preventDefault();open(Number(t.dataset.qlook));return}
     if(!host.classList.contains("on"))return;
+    const st=e.target.closest("#qlModal [data-step]");
+    if(st){const gl=(qp.gallery&&qp.gallery.length?qp.gallery:[{src:qp.img}]);
+      qi=(qi+Number(st.dataset.step)+gl.length)%gl.length;draw();return}
     const g=e.target.closest("#qlModal [data-g]"); if(g){qi=Number(g.dataset.g);draw();return}
     const z=e.target.closest("#qlModal .ql-sizes button"); if(z&&!z.disabled){qsize=z.dataset.z;draw();return}
     if(e.target.closest("#qlModal .ql-add")){
