@@ -1,328 +1,123 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta name="robots" content="noindex, follow">
-<!-- Meta Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-   if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-   n.queue=[];window.addEventListener('load',function(){setTimeout(function(){t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s);},1200)});}(window, document,'script',
-                                   'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '2070231503594050');
-  fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-            src="https://www.facebook.com/tr?id=2070231503594050&ev=PageView&noscript=1"/></noscript>
-<!-- End Meta Pixel Code -->
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://kryptaa-api.kryptaa.workers.dev https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com; frame-src https://www.facebook.com; object-src 'none'; base-uri 'self'; form-action 'self' https://www.facebook.com">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 
-<!-- Google tag (gtag.js) -->
-<script>window.addEventListener('load',function(){setTimeout(function(){var s=document.createElement('script');s.async=1;s.src='https://www.googletagmanager.com/gtag/js?id=G-242EQ24FP3';document.head.appendChild(s);},800)});</script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-242EQ24FP3');
-</script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta name="theme-color" content="#000000">
 <title>Track Your Order — KRYPTAA</title>
-<meta name="description" content="Track your KRYPTAA order status. Enter your email to view order details and shipping info.">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="KRYPTAA">
-<meta property="og:title" content="Track Your Order — KRYPTAA">
-<meta property="og:image" content="https://www.kryptaa.com/imgs/kryptaa-sigil.webp">
-<meta property="og:url" content="https://www.kryptaa.com/track.html">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://www.kryptaa.com/imgs/kryptaa-sigil.webp">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap"></noscript>
-<link rel="stylesheet" href="global.css?v=0e1f2f4e">
-<link rel="icon" type="image/webp" href="imgs/kryptaa-sigil.webp">
-<script defer src="products.js?v=14c01dd5"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script defer src="motion.js?v=b89eba04"></script>
-<style>
-  .track-shell {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: clamp(80px, 10vw, 140px) clamp(20px, 5vw, 40px) 80px;
-    min-height: 100vh;
-  }
-  .track-eyebrow {
-    font-family: var(--f-mono); font-size: 0.6rem;
-    letter-spacing: 0.3em; text-transform: uppercase;
-    color: rgba(210,174,91,0.55); margin-bottom: 14px;
-  }
-  .track-title {
-    font-family: var(--f-primary); font-weight: 900;
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    background: linear-gradient(180deg,#fff3b9 0%,#d2ae5b 45%,#7a501d 100%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    letter-spacing: 0.06em; margin-bottom: 10px;
-  }
-  .track-sub {
-    font-size: 1rem; color: rgba(240,237,232,0.45);
-    margin-bottom: 48px; line-height: 1.65;
-  }
-  .track-form-row {
-    display: flex; gap: 10px; margin-bottom: 12px;
-  }
-  .track-input {
-    flex: 1;
-    background: rgba(0,0,0,0.45); border: 1px solid rgba(210,174,91,0.22);
-    color: #f0ede8; font-family: var(--f-secondary); font-size: 1rem;
-    padding: 14px 18px; outline: none;
-    transition: border-color 0.2s;
-  }
-  .track-input:focus { border-color: rgba(210,174,91,0.55); }
-  .track-input::placeholder { color: rgba(240,237,232,0.25); }
-  .track-btn {
-    background: var(--k-gold, #d2ae5b); color: #060604;
-    font-family: var(--f-mono); font-size: 0.65rem;
-    letter-spacing: 0.2em; text-transform: uppercase;
-    padding: 14px 26px; border: none; cursor: pointer;
-    white-space: nowrap; font-weight: 700;
-    transition: opacity 0.2s;
-  }
-  .track-btn:hover { opacity: 0.88; }
-  .track-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .track-msg {
-    font-size: 0.85rem; min-height: 20px;
-    color: rgba(240,237,232,0.4); margin-bottom: 36px;
-    letter-spacing: 0.04em;
-  }
-  .track-msg.error { color: #e07070; }
-
-  /* Results */
-  .track-results { display: flex; flex-direction: column; gap: 20px; }
-  .track-order-card {
-    background: rgba(16,14,10,0.8); border: 1px solid rgba(210,174,91,0.16);
-    padding: 24px 28px;
-  }
-  .track-order-head {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 18px; padding-bottom: 14px;
-    border-bottom: 1px solid rgba(210,174,91,0.1);
-    gap: 12px; flex-wrap: wrap;
-  }
-  .track-order-num {
-    font-family: var(--f-primary); font-size: 1.3rem; font-weight: 900;
-    color: #d2ae5b; letter-spacing: 0.05em;
-  }
-  .track-order-date {
-    font-size: 0.78rem; letter-spacing: 0.1em;
-    color: rgba(240,237,232,0.4); text-transform: uppercase;
-  }
-  .track-order-total {
-    font-size: 1.2rem; color: #d2ae5b;
-    font-variant-numeric: tabular-nums;
-  }
-  .track-order-items { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
-  .track-order-item {
-    display: flex; align-items: center; justify-content: space-between;
-    font-size: 0.9rem; color: rgba(240,237,232,0.7);
-    padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
-    gap: 12px;
-  }
-  .track-order-item:last-child { border-bottom: none; }
-  .track-item-name { flex: 1; }
-  .track-item-qty { color: rgba(210,174,91,0.6); font-size: 0.82rem; }
-  .track-item-price { color: rgba(240,237,232,0.5); font-variant-numeric: tabular-nums; font-size: 0.85rem; }
-  .track-addr-row {
-    font-size: 0.8rem; color: rgba(240,237,232,0.35);
-    line-height: 1.65; padding-top: 12px;
-    border-top: 1px solid rgba(210,174,91,0.08);
-  }
-  .track-addr-lbl {
-    font-family: var(--f-mono); font-size: 0.58rem;
-    letter-spacing: 0.22em; text-transform: uppercase;
-    color: rgba(210,174,91,0.4); margin-bottom: 4px;
-  }
-  .track-empty {
-    text-align: center; padding: 60px 24px;
-    color: rgba(240,237,232,0.3); font-style: italic; font-size: 1rem;
-  }
-  .track-status-badge {
-    display: inline-block; font-family: var(--f-mono);
-    font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
-    padding: 4px 10px; border: 1px solid rgba(125,186,125,0.4);
-    color: #7dba7d; background: rgba(125,186,125,0.07);
-  }
-  @media (max-width: 520px) {
-    .track-form-row { flex-direction: column; }
-    .track-order-card { padding: 18px 16px; }
-  }
-</style>
-<!-- Microsoft Clarity -->
-<script type="text/javascript">(function(c,l,a,r,i){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};window.addEventListener('load',function(){setTimeout(function(){var t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;l.head.appendChild(t);},2500)});})(window,document,"clarity","script","y6kgv0czuk");</script>
-</head>
+<meta name="claude:viewport-fit-sides" content="cover">
+<!-- Analytics: GA4 + Meta Pixel. Must load before site.js so no early event is lost. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-242EQ24FP3"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-242EQ24FP3');</script>
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2070231503594050');fbq('track','PageView');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="site.css?v=4">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style></head>
 <body data-page="track">
-
-<main>
-  <div class="track-shell">
-    <div class="track-eyebrow">KRYPTAA — Order Lookup</div>
-    <h1 class="track-title">Track Your Order</h1>
-    <p class="track-sub">Enter the email address used at checkout. We'll send a 6-digit code to confirm it's you, then show your orders.</p>
-
-    <div class="track-form-row">
-      <input class="track-input" type="email" id="trackEmail" placeholder="your@email.com" autocomplete="email" maxlength="120">
-      <button class="track-btn" id="trackBtn" type="button">Send Code →</button>
-    </div>
-    <div class="track-form-row" id="trackCodeRow" hidden style="margin-top:12px">
-      <input class="track-input" type="text" id="trackCode" placeholder="6-digit code" inputmode="numeric" autocomplete="one-time-code" maxlength="6">
-      <button class="track-btn" id="trackCodeBtn" type="button">View Orders →</button>
-    </div>
-    <div class="track-msg" id="trackMsg"></div>
-
-    <div class="track-results" id="trackResults"></div>
+<div class="announce">Drop 001 live <span>·</span> Free shipping over $60</div>
+<header class="k-head"><div class="wrap">
+  <ul class="k-nav">
+    <li><button class="dd" type="button" aria-expanded="false">Men ▾</button><ul class="dd-menu"><li><a href="men-all.html">All Men's</a></li><li><a href="men.html">Jeans</a></li><li><a href="t-shirts.html">T-Shirts</a></li></ul></li>
+    <li><button class="dd" type="button" aria-expanded="false">Women ▾</button><ul class="dd-menu"><li><a href="women-all.html">All Women's</a></li><li><a href="women.html">Jeans</a></li><li><a href="women-wear.html">Women Wear</a></li><li><a href="track-pants.html">Track Pants</a></li></ul></li>
+    <li><a href="anime.html">Anime</a></li>
+    <li><a href="lookbook.html">Lookbook</a></li>
+    <li class="opt"><a href="reviews.html">Reviews</a></li>
+    <li class="opt"><a href="journal.html">Journal</a></li>
+    <li class="opt"><a href="info.html">Shipping</a></li>
+  </ul>
+  <button class="icon-btn burger" type="button" data-open="menuDrawer" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+  <a class="k-brand" href="index.html" aria-label="KRYPTAA home"><img src="imgs/kryptaa-sigil.webp" alt="KRYPTAA"></a>
+  <div class="k-tools">
+    <div class="soc"><a href="https://www.instagram.com/kryptaa__/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"/></svg></a><a href="https://www.tiktok.com/@kryptaa2426" aria-label="TikTok" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.2a3.6 3.6 0 1 1-3.1-3.6V7.4a6.9 6.9 0 1 0 6.3 6.9V9.1a7.5 7.5 0 0 0 4 1.2V7a4.4 4.4 0 0 1-4.3-4z" fill="currentColor"/></svg></a></div>
+    <a class="icon-btn" href="wishlist.html" aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 8 3.6 4.5 7.1 4.5c2 0 3.6 1.1 4.9 2.8 1.3-1.7 2.9-2.8 4.9-2.8 3.5 0 5.7 3.5 4.4 6.8-1.8 4.6-9.3 9.2-9.3 9.2z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="count" data-count="wish">0</span></a>
+    <button class="bag-btn" type="button" data-open="bagDrawer" aria-label="Open bag"><span class="bag3d" aria-hidden="true"><span class="rot"><span class="f fr"></span><span class="f bk"></span><span class="f sd l"></span><span class="f sd r"></span><span class="h h1"></span><span class="h h2"></span></span><span class="shadow"></span></span><span class="lbl">Bag</span><span class="count" data-count="bag" style="position:static">0</span></button>
   </div>
+</div></header>
+<main id="top">
+<section class="p-hero"><div class="wrap"><div><div class="crumbs mono"><a href="index.html">Home</a>/<span>Track Order</span></div><div class="eyebrow">KRYPTAA — Order Lookup</div><h1 style="margin-top:10px">Track Your Order</h1><p>Enter the email address used at checkout. We'll send a 6-digit code to confirm it's you, then show your orders.</p></div><div class="side"></div></div></section>
+<section class="wrap sec"><form id="trackForm" novalidate style="max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+<div class="field"><label for="trEmail">Email used at checkout</label><input id="trEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+<div class="field" id="codeRow" hidden><label for="trCode">6-digit code</label><input id="trCode" type="text" inputmode="numeric" maxlength="6" placeholder="••••••"></div>
+<button class="btn" id="trBtn" type="submit">Send code →</button><div class="msg mono" id="trMsg" aria-live="polite"></div></form></section>
 </main>
-
-<script>
-(function () {
-  /* Resolved at call time, not parse time: this inline script runs before
-     products.js assigns window.K_API, so reading it here produced the literal
-     string "undefinedtrack-order" and every lookup 405'd against our own origin. */
-  function trackApi() {
-    return (window.K_API || 'https://kryptaa-api.kryptaa.workers.dev/') + 'track-order';
-  }
-
-  var emailEl = document.getElementById('trackEmail');
-  var btn     = document.getElementById('trackBtn');
-  var codeRow = document.getElementById('trackCodeRow');
-  var codeEl  = document.getElementById('trackCode');
-  var codeBtn = document.getElementById('trackCodeBtn');
-  var msgEl   = document.getElementById('trackMsg');
-  var results = document.getElementById('trackResults');
-
-  function escHtml(s) {
-    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  /* Step 1 — ask for a code. The reply is identical whether or not this address
-     has ever ordered, so the page can't be used to test who is a customer. */
-  function requestCode() {
-    var email = (emailEl.value || '').trim().toLowerCase();
-    if (!email || !email.includes('@')) {
-      msgEl.textContent = 'Please enter a valid email address.';
-      msgEl.className = 'track-msg error';
-      return;
-    }
-    btn.disabled = true;
-    btn.textContent = 'Sending…';
-    msgEl.textContent = '';
-    msgEl.className = 'track-msg';
-    results.innerHTML = '';
-
-    fetch(trackApi(), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email })
-    })
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        btn.disabled = false;
-        btn.textContent = 'Resend Code';
-        msgEl.textContent = data.message || data.error || 'Check your inbox for the code.';
-        msgEl.className = 'track-msg' + (data.error ? ' error' : '');
-        if (!data.error) { codeRow.hidden = false; codeEl.focus(); }
-      })
-      .catch(function () {
-        btn.disabled = false;
-        btn.textContent = 'Send Code →';
-        msgEl.textContent = 'Could not reach the server. Please try again.';
-        msgEl.className = 'track-msg error';
-      });
-  }
-
-  /* Step 2 — exchange the code for the orders. */
-  function lookUp() {
-    var email = (emailEl.value || '').trim().toLowerCase();
-    var code  = (codeEl.value || '').trim();
-    if (!code) {
-      msgEl.textContent = 'Enter the 6-digit code we emailed you.';
-      msgEl.className = 'track-msg error';
-      return;
-    }
-    codeBtn.disabled = true;
-    codeBtn.textContent = 'Checking…';
-    msgEl.textContent = '';
-    msgEl.className = 'track-msg';
-    results.innerHTML = '';
-
-    fetch(trackApi(), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, code: code })
-    })
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        codeBtn.disabled = false;
-        codeBtn.textContent = 'View Orders →';
-
-        if (data.error) {
-          msgEl.textContent = data.error;
-          msgEl.className = 'track-msg error';
-          return;
-        }
-
-        var orders = data.orders || [];
-        if (!orders.length) {
-          results.innerHTML = '<div class="track-empty">No orders found for that email address.<br>Make sure you\'re using the email you checked out with.</div>';
-          msgEl.textContent = '';
-          return;
-        }
-
-        msgEl.textContent = orders.length + ' order' + (orders.length !== 1 ? 's' : '') + ' found.';
-        results.innerHTML = orders.map(function(o) {
-          var date = new Date(o.created * 1000).toLocaleDateString('en-US',{day:'numeric',month:'long',year:'numeric'});
-          var itemsHtml = (o.items||[]).map(function(item) {
-            return '<div class="track-order-item">'
-              + '<span class="track-item-name">' + escHtml(item.name||'—') + '</span>'
-              + '<span class="track-item-qty">×' + (item.qty||1) + '</span>'
-              + '<span class="track-item-price">$' + escHtml(item.total||'0.00') + '</span>'
-              + '</div>';
-          }).join('');
-
-          return '<div class="track-order-card">'
-            + '<div class="track-order-head">'
-            + '<div><div class="track-order-num">Order #' + o.orderNum + '</div>'
-            + '<div class="track-order-date">' + escHtml(date) + '</div></div>'
-            + '<div style="display:flex;align-items:center;gap:12px;">'
-            + '<span class="track-status-badge">✓ Paid</span>'
-            + '<div class="track-order-total">$' + escHtml(o.total) + '</div>'
-            + '</div></div>'
-            + '<div class="track-order-items">' + itemsHtml + '</div>'
-            + (o.shippingAddress && o.shippingAddress !== '—'
-              ? '<div class="track-addr-row"><div class="track-addr-lbl">Ships To</div>' + escHtml(o.shippingAddress) + '</div>'
-              : '')
-            + '</div>';
-        }).join('');
-      })
-      .catch(function() {
-        btn.disabled = false;
-        btn.textContent = 'Look Up →';
-        msgEl.textContent = 'Network error. Please try again.';
-        msgEl.className = 'track-msg error';
-      });
-  }
-
-  btn.addEventListener('click', requestCode);
-  emailEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') requestCode(); });
-  codeBtn.addEventListener('click', lookUp);
-  codeEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') lookUp(); });
-
-  /* Pre-fill from URL param ?email=... */
-  var urlEmail = new URLSearchParams(window.location.search).get('email');
-  if (urlEmail) { emailEl.value = urlEmail; lookUp(); }
-})();
-</script>
-
-</body>
-</html>
+<footer class="k-foot"><div class="wrap">
+  <div class="cols">
+    <div class="brandcol"><img src="imgs/kryptaa-sigil.webp" alt="KRYPTAA"><p>Gothic streetwear from the Philly underground. Defined by Power. Since '26.</p>
+      <div class="soc"><a href="https://www.instagram.com/kryptaa__/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"/></svg></a><a href="https://www.tiktok.com/@kryptaa2426" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.2a3.6 3.6 0 1 1-3.1-3.6V7.4a6.9 6.9 0 1 0 6.3 6.9V9.1a7.5 7.5 0 0 0 4 1.2V7a4.4 4.4 0 0 1-4.3-4z" fill="currentColor"/></svg></a><a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H8v3h2.6V21z" fill="currentColor"/></svg></a></div></div>
+    <div><h4>Men</h4><ul><li><a href="men-all.html">All Men's</a></li><li><a href="men.html">Men's Denim</a></li><li><a href="t-shirts.html">T-Shirts</a></li><li><a href="jeans.html">All Denim</a></li><li><a href="anime.html">Anime Denim</a></li></ul></div>
+    <div><h4>Women</h4><ul><li><a href="women-all.html">All Women's</a></li><li><a href="women.html">Women's Denim</a></li><li><a href="women-wear.html">Women's Wear</a></li><li><a href="track-pants.html">Track Pants</a></li></ul></div>
+    <div><h4>Help</h4><ul><li><a href="info.html">Shipping &amp; Returns</a></li><li><a href="size-guide.html">Size Guide</a></li><li><a href="faq.html">FAQ</a></li><li><a href="track.html">Track Order</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><h4>KRYPTAA</h4><ul><li><a href="about.html">About KRYPTAA</a></li><li><a href="lookbook.html">Lookbook</a></li><li><a href="journal.html">Journal</a></li><li><a href="reviews.html">Reviews</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms &amp; Conditions</a></li></ul></div>
+  </div>
+  <div class="base mono"><span>© 2026 KRYPTA LLC · Philadelphia</span><span>Secure checkout by Stripe · Ships from Philadelphia</span></div>
+</div></footer>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="bagDrawer" aria-hidden="true" aria-label="Your bag"><div class="dr-head"><b>Your bag</b><button class="x" type="button" data-close aria-label="Close bag">✕</button></div>
+  <div class="ship-bar" id="shipBar"></div><div class="dr-body" id="bagBody"></div>
+  <div class="dr-foot" id="bagFoot" hidden><div class="dr-total"><span>Total</span><b id="bagTotal">$0.00</b></div><a class="btn" href="checkout.html">Checkout →</a><div class="dr-note">Shipping and taxes calculated at checkout</div></div></aside>
+<aside class="drawer left" id="menuDrawer" aria-hidden="true" aria-label="Menu"><div class="dr-head"><b>Menu</b><button class="x" type="button" data-close aria-label="Close menu">✕</button></div>
+  <nav class="mm-body">
+    <div class="grp"><a href="men-all.html">Men</a><div class="sub"><a href="men-all.html">All Men's</a><a href="men.html">Jeans</a><a href="t-shirts.html">T-Shirts</a></div></div>
+    <div class="grp"><a href="women-all.html">Women</a><div class="sub"><a href="women-all.html">All Women's</a><a href="women.html">Jeans</a><a href="women-wear.html">Women Wear</a><a href="track-pants.html">Track Pants</a></div></div>
+    <div class="grp"><a href="anime.html">Anime Denim</a></div>
+    <div class="grp"><a href="lookbook.html">Lookbook</a></div>
+    <div class="grp"><a href="reviews.html">Reviews</a></div>
+    <div class="grp"><a href="journal.html">Journal</a></div>
+    <div class="grp"><a href="info.html">Shipping &amp; Returns</a></div>
+    <div class="grp"><span class="mono" style="font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;color:var(--gold)">More</span><div class="sub"><a href="wishlist.html">Wishlist</a><a href="checkout.html">Bag &amp; Checkout</a><a href="track.html">Track my order</a><a href="size-guide.html">Size guide</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="about.html">About</a></div></div>
+    <div class="grp" style="border:0"><div class="sub"><a href="https://www.instagram.com/kryptaa__/" target="_blank" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@kryptaa2426" target="_blank" rel="noopener">TikTok</a><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></div></div>
+  </nav></aside>
+<div class="modal" id="sgModal" aria-hidden="true" role="dialog" aria-label="Size guide"><div class="box sg"><button class="x" type="button" data-close aria-label="Close size guide">✕</button><div class="eyebrow">KRYPTAA · Fit</div><h2 style="font-size:44px;margin-top:6px">Size guide</h2><div class="sg-tabs" role="tablist"><button type="button" role="tab" data-sg="sgTees" aria-selected="true">T-Shirts</button><button type="button" role="tab" data-sg="sgDenim" aria-selected="false">Denim</button><button type="button" role="tab" data-sg="sgTrack" aria-selected="false">Track Pants</button></div><div class="sg-body">
+          <!-- T-SHIRTS -->
+          <div class="sg-panel active" id="sgTees">
+            <div class="sg-eyebrow">Oversized T-Shirt — US Standard</div>
+            <div class="sg-table-wrap">
+              <table class="sg-table">
+                <thead><tr><th>SIZE</th><th>CHEST (in)</th><th>WAIST (in)</th><th>ARM LENGTH (in)</th><th>NECKLINE (in)</th></tr></thead>
+                <tbody>
+                  <tr><td class="sg-size">XS</td><td>34″–36″</td><td>30″–32″</td><td>25″–25½</td><td>14″–14½</td></tr>
+                  <tr class="sg-highlight"><td class="sg-size">S</td><td>38″–40″</td><td>33″–35″</td><td>25½–26</td><td>14½–15</td></tr>
+                  <tr><td class="sg-size">M</td><td>42″–44″</td><td>36″–38″</td><td>26″–26½</td><td>15″–15¼</td></tr>
+                  <tr><td class="sg-size">L</td><td>46″–48″</td><td>39″–41″</td><td>26½–27</td><td>15½–16</td></tr>
+                  <tr><td class="sg-size">XL</td><td>50″–52″</td><td>42″–44″</td><td>27–27½</td><td>16½–16½</td></tr>
+                  <tr><td class="sg-size">XXL</td><td>54″–56″</td><td>45″–47″</td><td>27⅔–28</td><td>16½–17</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="sg-note">Oversized fit — size down for a structured look, size up for a dramatic shoulder drop.</p>
+          </div>
+          <!-- DENIM -->
+          <div class="sg-panel" id="sgDenim">
+            <div class="sg-eyebrow">Wide-Leg Denim — Waist &amp; Inseam (in)</div>
+            <div class="sg-table-wrap">
+              <table class="sg-table">
+                <thead><tr><th>SIZE</th><th>WAIST (in)</th><th>HIP (in)</th><th>THIGH (in)</th><th>INSEAM (in)</th><th>RISE (in)</th></tr></thead>
+                <tbody>
+                  <tr class="sg-highlight"><td class="sg-size">S</td><td>26″–28″</td><td>34″–36″</td><td>23″</td><td>30″</td><td>11″</td></tr>
+                  <tr><td class="sg-size">M</td><td>29″–31″</td><td>37″–39″</td><td>25″</td><td>30½″</td><td>11½″</td></tr>
+                  <tr><td class="sg-size">L</td><td>32″–34″</td><td>40″–42″</td><td>27″</td><td>31″</td><td>12″</td></tr>
+                  <tr><td class="sg-size">XL</td><td>35″–37″</td><td>43″–45″</td><td>29″</td><td>31″</td><td>12½″</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="sg-note">All jeans are mid-to-high rise with a relaxed wide-leg cut. Measure your natural waist for the most accurate fit.</p>
+          </div>
+          <!-- TRACK PANTS -->
+          <div class="sg-panel" id="sgTrack">
+            <div class="sg-eyebrow">Street Track Pants — Hip &amp; Length (in)</div>
+            <div class="sg-table-wrap">
+              <table class="sg-table">
+                <thead><tr><th>SIZE</th><th>WAIST (in)</th><th>HIP (in)</th><th>INSEAM (in)</th><th>LENGTH (in)</th></tr></thead>
+                <tbody>
+                  <tr><td class="sg-size">XS</td><td>22″–24″</td><td>32″–34″</td><td>27″</td><td>39″</td></tr>
+                  <tr class="sg-highlight"><td class="sg-size">S</td><td>24″–26″</td><td>34″–36″</td><td>28″</td><td>40″</td></tr>
+                  <tr><td class="sg-size">M</td><td>26″–28″</td><td>36″–38″</td><td>29″</td><td>41″</td></tr>
+                  <tr><td class="sg-size">L</td><td>28″–30″</td><td>38″–40″</td><td>30″</td><td>42″</td></tr>
+                  <tr><td class="sg-size">XL</td><td>— Sold Out —</td><td>—</td><td>—</td><td>—</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="sg-note">Elasticated waist with drawstring — fits true to size. XL is currently unavailable.</p>
+          </div>
+        </div></div></div>
+<script src="catalog.js?v=4"></script><script src="slugs.js?v=4"></script><script src="api.js?v=4" data-after="site.js"></script>
+</body></html>

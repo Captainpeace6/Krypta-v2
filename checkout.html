@@ -1,1104 +1,136 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta name="robots" content="noindex, follow">
-<!-- Meta Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-   if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-   n.queue=[];window.addEventListener('load',function(){setTimeout(function(){t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s);},1200)});}(window, document,'script',
-                                   'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '2070231503594050');
-  fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-            src="https://www.facebook.com/tr?id=2070231503594050&ev=PageView&noscript=1"/></noscript>
-<!-- End Meta Pixel Code -->
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://kryptaa-api.kryptaa.workers.dev https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com; frame-src https://www.facebook.com; object-src 'none'; base-uri 'self'; form-action 'self' https://www.facebook.com">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 
-<!-- Google tag (gtag.js) -->
-<script>window.addEventListener('load',function(){setTimeout(function(){var s=document.createElement('script');s.async=1;s.src='https://www.googletagmanager.com/gtag/js?id=G-242EQ24FP3';document.head.appendChild(s);},800)});</script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-242EQ24FP3');
-</script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta name="theme-color" content="#000000">
 <title>Checkout — KRYPTAA</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@700;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap"></noscript>
-<link rel="stylesheet" href="global.css?v=0e1f2f4e">
-<link rel="icon" type="image/webp" href="imgs/kryptaa-sigil.webp">
-<script defer src="products.js?v=14c01dd5"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-<script defer src="motion.js?v=b89eba04"></script>
-<style>
-/* ── Checkout page overrides ── */
-.checkout-page {
-  padding: calc(var(--nav-h) + 56px) 0 100px;
-  min-height: 100vh;
-}
-
-/* Section headings */
-.co-section-label {
-  font-family: var(--f-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--k-gold);
-  margin-bottom: 22px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--k-line);
-}
-
-/* Secure badge */
-.co-secure {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 10px;
-  font-family: var(--f-mono);
-  font-size: 0.5rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
-}
-
-.co-secure::before {
-  content: "🔒";
-  font-size: 0.7rem;
-}
-
-/* Form sections spacing */
-.co-section { margin-bottom: 38px; }
-
-/* Submit button */
-.co-submit {
-  width: 100%;
-  padding: 18px 28px;
-  background: var(--k-gold);
-  border: none;
-  color: #060606;
-  font-family: var(--f-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: opacity 0.2s, transform 0.15s;
-}
-
-.co-submit:hover { opacity: 0.88; transform: translateY(-1px); }
-.co-submit:active { transform: translateY(0); }
-.co-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-
-/* Summary panel enhancements */
-.checkout-panel {
-  position: sticky;
-  top: calc(var(--nav-h) + 24px);
-  align-self: start;
-}
-
-.co-summary-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 4px;
-}
-
-.co-summary-count {
-  font-family: var(--f-mono);
-  font-size: 0.52rem;
-  color: var(--k-muted);
-  letter-spacing: 0.12em;
-}
-
-.checkout-item {
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--k-line);
-}
-
-.checkout-item:last-child { border-bottom: none; }
-
-.co-qty-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  background: rgba(210,174,91,0.18);
-  border: 1px solid var(--k-gold);
-  font-family: var(--f-mono);
-  font-size: 0.58rem;
-  color: var(--k-gold);
-  flex-shrink: 0;
-  position: absolute;
-  top: -6px;
-  right: -6px;
-}
-
-.checkout-item-thumb {
-  position: relative;
-  width: 76px;
-  height: 96px;
-  flex-shrink: 0;
-  background: rgba(210,174,91,0.05);
-  border: 1px solid var(--k-line-cold);
-}
-
-.checkout-item-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border: 1px solid var(--k-line-cold);
-  display: block;
-  transition: opacity 0.2s;
-}
-
-/* Hide broken/missing image icons gracefully */
-.checkout-item-thumb img.img-error {
-  opacity: 0;
-}
-
-/* Subtotals row */
-.co-subtotals {
-  display: grid;
-  gap: 10px;
-  margin-bottom: 16px;
-  font-family: var(--f-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-  color: var(--k-muted);
-}
-
-.co-subtotal-row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.co-subtotal-row.shipping-row span:last-child { color: #7dba7d; }
-
-/* Success overlay */
-.co-success {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(2,2,2,0.97);
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 40px;
-}
-
-.co-success.active { display: flex; }
-.co-referral { margin: 6px auto 14px; max-width: 420px; padding: 18px 20px; border: 1px solid rgba(210,174,91,0.3); background: rgba(210,174,91,0.05); text-align: center; }
-.co-referral-eyebrow { font-family: var(--f-mono, 'Space Mono', monospace); font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(210,174,91,0.75); margin-bottom: 8px; }
-.co-referral-code { font-family: var(--f-mono, 'Space Mono', monospace); font-size: 1.25rem; letter-spacing: 0.16em; color: var(--k-gold, #d2ae5b); font-weight: 700; margin-bottom: 8px; user-select: all; }
-.co-referral-text { font-size: 0.82rem; line-height: 1.6; color: rgba(240,237,232,0.75); margin: 0 0 14px; }
-.co-referral-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-.co-ref-btn { padding: 10px 18px; font-size: 0.68rem; letter-spacing: 0.16em; }
-
-.co-success-icon {
-  width: 72px;
-  height: 72px;
-  border: 2px solid var(--k-gold);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  margin-bottom: 32px;
-}
-
-.co-success h2 {
-  font-family: var(--f-primary);
-  font-size: clamp(1.6rem, 4vw, 2.8rem);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--k-white);
-  margin-bottom: 16px;
-}
-
-.co-success p {
-  font-family: var(--f-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  color: var(--k-muted);
-  max-width: 440px;
-  line-height: 1.9;
-  margin-bottom: 40px;
-}
-
-.co-order-ref {
-  font-family: var(--f-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
-  color: var(--k-gold);
-  padding: 10px 20px;
-  border: 1px solid var(--k-line);
-  margin-bottom: 40px;
-}
-
-/* Payment note — region-specific, and honest about what we can take */
-.co-pay-note {
-  margin-top: 10px;
-  font-family: var(--f-secondary);
-  font-size: 0.74rem;
-  color: rgba(255,255,255,0.4);
-  letter-spacing: 0.02em;
-  line-height: 1.6;
-}
-.co-pay-note strong { color: rgba(210,174,91,0.85); font-weight: 600; }
-
-/* Phone hint */
-.co-phone-hint {
-  margin-top: 10px;
-  font-family: var(--f-secondary);
-  font-size: 0.72rem;
-  color: rgba(255,255,255,0.28);
-  letter-spacing: 0.02em;
-  line-height: 1.5;
-}
-
-/* Empty bag CTA — editorial */
-.co-empty {
-  padding: 56px 0 40px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.co-empty-glyph {
-  font-size: 3.2rem;
-  color: rgba(210,174,91,0.25);
-  font-family: var(--f-primary);
-  line-height: 1;
-  letter-spacing: 0;
-}
-
-.co-empty-label {
-  font-family: var(--f-mono);
-  font-size: 0.52rem;
-  letter-spacing: 0.32em;
-  color: rgba(210,174,91,0.45);
-  text-transform: uppercase;
-}
-
-.co-empty-headline {
-  font-family: var(--f-primary);
-  font-size: clamp(1.4rem, 4vw, 2rem);
-  color: rgba(240,237,232,0.75);
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  margin: 0;
-}
-
-.co-empty-sub {
-  font-family: var(--f-secondary);
-  font-size: 0.85rem;
-  color: var(--k-muted);
-  max-width: 280px;
-  line-height: 1.55;
-  margin: 0;
-}
-
-.co-empty-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 4px;
-}
-
-@media (max-width: 880px) {
-  .checkout-panel { position: static; order: -1; }
-  .checkout-grid { grid-template-columns: 1fr; }
-}
-
-/* Stripe total box */
-.co-stripe-total-box {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  padding: 20px 24px;
-  background: rgba(210,174,91,0.05);
-  border: 1px solid rgba(210,174,91,0.2);
-  margin-bottom: 28px;
-}
-
-.co-stripe-total-label {
-  font-family: var(--f-mono);
-  font-size: 0.56rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--k-muted);
-}
-
-.co-stripe-total-amount {
-  font-family: var(--f-primary);
-  font-size: clamp(1.4rem, 3vw, 2rem);
-  letter-spacing: 0.06em;
-  color: var(--k-gold);
-}
-
-/* Stripe info checklist */
-.co-stripe-info {
-  display: grid;
-  gap: 10px;
-  margin-bottom: 28px;
-  padding: 20px 24px;
-  border: 1px solid var(--k-line);
-  background: rgba(255,255,255,0.02);
-}
-
-.co-stripe-info-row {
-  font-family: var(--f-secondary);
-  font-size: 0.82rem;
-  letter-spacing: 0.03em;
-  color: rgba(255,255,255,0.55);
-  line-height: 1.6;
-}
-
-/* Promo banner — click to auto-apply */
-.co-promo-banner {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: linear-gradient(135deg, rgba(210,174,91,0.12) 0%, rgba(210,174,91,0.06) 100%);
-  border: 1px solid rgba(210,174,91,0.45);
-  border-radius: 4px;
-  padding: 12px 14px;
-  margin-bottom: 14px;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
-  position: relative;
-  overflow: hidden;
-}
-.co-promo-banner::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(210,174,91,0.08) 50%, transparent 100%);
-  transform: translateX(-100%);
-  transition: transform 0.55s ease;
-}
-.co-promo-banner:hover::before { transform: translateX(100%); }
-.co-promo-banner:hover { border-color: rgba(210,174,91,0.75); }
-.co-promo-tag {
-  font-family: var(--f-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #0f0f10;
-  background: var(--k-gold, #d2ae5b);
-  padding: 3px 7px;
-  border-radius: 2px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-.co-promo-code {
-  font-family: var(--f-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.22em;
-  color: var(--k-gold, #d2ae5b);
-  font-weight: 600;
-  flex: 1;
-}
-.co-promo-action {
-  font-family: var(--f-mono);
-  font-size: 0.52rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(210,174,91,0.55);
-  flex-shrink: 0;
-}
-.co-promo-banner.co-promo-used {
-  opacity: 0.4;
-  pointer-events: none;
-  cursor: default;
-}
-
-/* Coupon input */
-.co-coupon-wrap {
-  margin-bottom: 20px;
-}
-.co-coupon-row {
-  display: flex;
-  gap: 8px;
-}
-.co-coupon-input {
-  flex: 1;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--k-line);
-  color: var(--k-bone);
-  font-family: var(--f-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  padding: 11px 14px;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.co-email-wrap { margin: 0 0 14px; }
-.co-email-lbl { display: block; font-family: var(--f-mono); font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(243,239,229,0.55); margin: 0 0 6px; }
-.co-req { color: var(--k-gold, #d2ae5b); margin-left: 2px; }
-.co-email-why { font-size: 0.62rem; letter-spacing: 0.04em; color: rgba(243,239,229,0.42); margin-top: 6px; }
-.co-email-input.is-invalid { border-color: rgba(255,90,90,0.7); }
-.co-email-input { width: 100%; text-transform: none; letter-spacing: 0.04em; font-size: 0.8rem; box-sizing: border-box; }
-.co-coupon-input::placeholder { color: rgba(255,255,255,0.2); }
-.co-coupon-input:focus { border-color: rgba(210,174,91,0.5); }
-.co-coupon-btn {
-  background: transparent;
-  border: 1px solid var(--k-line);
-  color: var(--k-muted);
-  font-family: var(--f-mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 11px 16px;
-  cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
-}
-.co-coupon-btn:hover { border-color: rgba(210,174,91,0.5); color: var(--k-gold); }
-.co-coupon-msg {
-  margin-top: 8px;
-  font-family: var(--f-mono);
-  font-size: 0.54rem;
-  letter-spacing: 0.1em;
-  min-height: 18px;
-}
-.co-coupon-msg.success { color: #7dba7d; }
-.co-coupon-msg.error   { color: #e07070; }
-
-/* Back to Drop button */
-.co-back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 28px;
-  font-family: var(--f-mono, 'Space Mono', monospace);
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(210,174,91,0.8);
-  text-decoration: none;
-  border: 1px solid rgba(210,174,91,0.2);
-  border-left: 2px solid rgba(210,174,91,0.55);
-  background: rgba(210,174,91,0.04);
-  padding: 8px 12px 8px 10px;
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
-}
-.co-back-btn:hover {
-  color: var(--k-gold-bright, #d2ae5b);
-  border-color: rgba(210,174,91,0.45);
-  border-left-color: var(--k-gold-bright, #d2ae5b);
-  background: rgba(210,174,91,0.08);
-}
-.co-whatsapp-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  margin-top: 20px;
-  padding: 12px 18px;
-  font-family: var(--f-mono, 'Space Mono', monospace);
-  font-size: 0.62rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(37,211,102,0.85);
-  text-decoration: none;
-  border: 1px solid rgba(37,211,102,0.25);
-  background: rgba(37,211,102,0.05);
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
-}
-.co-whatsapp-btn:hover {
-  color: rgba(37,211,102,1);
-  border-color: rgba(37,211,102,0.5);
-  background: rgba(37,211,102,0.1);
-}
-</style>
-<!-- Microsoft Clarity -->
-<script type="text/javascript">(function(c,l,a,r,i){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};window.addEventListener('load',function(){setTimeout(function(){var t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;l.head.appendChild(t);},2500)});})(window,document,"clarity","script","y6kgv0czuk");</script>
-</head>
+<meta name="claude:viewport-fit-sides" content="cover">
+<!-- Analytics: GA4 + Meta Pixel. Must load before site.js so no early event is lost. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-242EQ24FP3"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-242EQ24FP3');</script>
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2070231503594050');fbq('track','PageView');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="site.css?v=4">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style></head>
 <body data-page="checkout">
-<div class="k-grain"></div>
-
-<!-- ── Success Overlay ── -->
-<div class="co-success" id="coSuccess">
-  <div class="co-success-icon">✓</div>
-  <h2>Order Confirmed</h2>
-  <p>Your order has been received. You will receive a confirmation email shortly at the address you provided. We'll notify you once your drop ships.</p>
-  <div class="co-order-ref" id="coOrderRef">ORDER #KR-000000</div>
-  <div class="co-referral" id="coReferral" hidden>
-    <div class="co-referral-eyebrow">Your referral code</div>
-    <div class="co-referral-code" id="coReferralCode">KRYPTAA-······</div>
-    <p class="co-referral-text">Friends get <strong>10% off</strong> with it. Every time one orders, you get <strong>15% off</strong> your next drop — sent to your email automatically.</p>
-    <div class="co-referral-actions">
-      <button type="button" class="k-btn-outline co-ref-btn" id="coRefCopy">Copy link</button>
-      <button type="button" class="k-btn-gold co-ref-btn" id="coRefShare">Share</button>
-    </div>
+<div class="announce">Drop 001 live <span>·</span> Free shipping over $60</div>
+<header class="k-head"><div class="wrap">
+  <ul class="k-nav">
+    <li><button class="dd" type="button" aria-expanded="false">Men ▾</button><ul class="dd-menu"><li><a href="men-all.html">All Men's</a></li><li><a href="men.html">Jeans</a></li><li><a href="t-shirts.html">T-Shirts</a></li></ul></li>
+    <li><button class="dd" type="button" aria-expanded="false">Women ▾</button><ul class="dd-menu"><li><a href="women-all.html">All Women's</a></li><li><a href="women.html">Jeans</a></li><li><a href="women-wear.html">Women Wear</a></li><li><a href="track-pants.html">Track Pants</a></li></ul></li>
+    <li><a href="anime.html">Anime</a></li>
+    <li><a href="lookbook.html">Lookbook</a></li>
+    <li class="opt"><a href="reviews.html">Reviews</a></li>
+    <li class="opt"><a href="journal.html">Journal</a></li>
+    <li class="opt"><a href="info.html">Shipping</a></li>
+  </ul>
+  <button class="icon-btn burger" type="button" data-open="menuDrawer" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+  <a class="k-brand" href="index.html" aria-label="KRYPTAA home"><img src="imgs/kryptaa-sigil.webp" alt="KRYPTAA"></a>
+  <div class="k-tools">
+    <div class="soc"><a href="https://www.instagram.com/kryptaa__/" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"/></svg></a><a href="https://www.tiktok.com/@kryptaa2426" aria-label="TikTok" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.2a3.6 3.6 0 1 1-3.1-3.6V7.4a6.9 6.9 0 1 0 6.3 6.9V9.1a7.5 7.5 0 0 0 4 1.2V7a4.4 4.4 0 0 1-4.3-4z" fill="currentColor"/></svg></a></div>
+    <a class="icon-btn" href="wishlist.html" aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 8 3.6 4.5 7.1 4.5c2 0 3.6 1.1 4.9 2.8 1.3-1.7 2.9-2.8 4.9-2.8 3.5 0 5.7 3.5 4.4 6.8-1.8 4.6-9.3 9.2-9.3 9.2z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="count" data-count="wish">0</span></a>
+    <button class="bag-btn" type="button" data-open="bagDrawer" aria-label="Open bag"><span class="bag3d" aria-hidden="true"><span class="rot"><span class="f fr"></span><span class="f bk"></span><span class="f sd l"></span><span class="f sd r"></span><span class="h h1"></span><span class="h h2"></span></span><span class="shadow"></span></span><span class="lbl">Bag</span><span class="count" data-count="bag" style="position:static">0</span></button>
   </div>
-  <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:8px;">
-    <a class="k-btn-gold" href="index.html">Return Home</a>
-    <a class="k-btn-outline" href="index.html" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--f-mono,monospace);letter-spacing:0.1em;font-size:0.8rem;">
-      ← Aura Can Cook More
-    </a>
-  </div>
-</div>
-
-<main class="checkout-page">
-  <div class="section-shell checkout-grid">
-
-    <!-- ── LEFT: Form ── -->
-    <div id="coFormWrap">
-
-      <!-- Back to Drop — always visible -->
-      <a href="index.html" class="co-back-btn" id="coBackBtn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
-        Back to the Drop
-      </a>
-
-      <!-- Empty bag state -->
-      <div class="co-empty" id="coEmptyState" style="display:none;">
-        <div class="co-empty-glyph">∅</div>
-        <div class="co-empty-label">Drop 001 · KRYPTAA</div>
-        <h2 class="co-empty-headline">Your Bag is Empty</h2>
-        <p class="co-empty-sub">Nothing selected yet. The drop is live — explore what's available.</p>
-        <div class="co-empty-actions">
-          <a class="k-btn-gold" href="men.html">Shop Men</a>
-          <a class="k-btn-outline" href="women.html">Shop Women</a>
-        </div>
-      </div>
-
-      <!-- Stripe Checkout panel -->
-      <div id="coStripeWrap">
-        <div class="co-section-label">Secure Payment via Stripe</div>
-
-        <!-- Order total display -->
-        <div class="co-stripe-total-box" id="coTotalBox">
-          <div class="co-stripe-total-label">Order Total</div>
-          <div class="co-stripe-total-amount" id="coTotalAmount">$0.00</div>
-        </div>
-
-        <!-- What happens info -->
-        <div class="co-stripe-info">
-          <div class="co-stripe-info-row">✓ &nbsp;Enter your card &amp; address securely on Stripe</div>
-          <div class="co-stripe-info-row">✓ &nbsp;Exact amount charged — no hidden fees</div>
-          <div class="co-stripe-info-row">✓ &nbsp;Email receipt sent automatically by Stripe</div>
-          <div class="co-stripe-info-row">✓ &nbsp;Payment goes directly to KRYPTAA</div>
-        </div>
-
-        <div class="co-trust-badges">
-          <div class="co-trust-badge">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            SSL Secured
-          </div>
-          <div class="co-trust-badge">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            Stripe Verified
-          </div>
-          <div class="co-trust-badge">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-            7-Day Returns
-          </div>
-          <div class="co-trust-badge">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            Made to Order
-          </div>
-        </div>
-        <div class="co-email-wrap">
-          <label class="co-email-lbl" for="coEmail">Email for your order confirmation <span class="co-req" aria-hidden="true">*</span></label>
-          <input class="co-coupon-input co-email-input" id="coEmail" type="email" placeholder="you@email.com" autocomplete="email" inputmode="email" maxlength="200" required aria-required="true">
-          <div class="co-email-why">Required — it's where your confirmation and tracking number go.</div>
-          <div class="co-coupon-msg" id="coEmailMsg"></div>
-        </div>
-        <button class="co-submit" id="coSubmit" type="button" onclick="goToStripe()">
-          🔒 &nbsp; Pay Now — <span id="coPayBtnTotal">$0.00</span>
-        </button>
-
-        <!-- Filled by region, so we only ever promise what this Stripe account can actually take -->
-        <div class="co-pay-methods" id="coPayMethods">
-          <span class="co-pay-lbl">We accept</span>
-          <span class="co-pay-pill">VISA</span>
-          <span class="co-pay-pill">Mastercard</span>
-          <span class="co-pay-pill">Amex</span>
-          <span class="co-pay-stripe">🔒 Powered by Stripe</span>
-        </div>
-        <div class="co-pay-note" id="coPayNote"></div>
-      </div>
-    </div>
-
-    <!-- ── RIGHT: Order Summary ── -->
-    <aside class="checkout-panel">
-      <div class="co-summary-header">
-        <div class="eyebrow" style="margin-bottom:0;">Order Summary</div>
-        <span class="co-summary-count" id="coItemCount"></span>
-      </div>
-      <div class="checkout-items" id="checkoutItems"></div>
-
-      <!-- Promo banner — click to apply KRYPTAA12 -->
-      <div class="co-promo-banner" id="coPromoBanner" onclick="quickApplyPromo('KRYPTAA12')" role="button" tabindex="0" aria-label="Apply coupon KRYPTAA12 for 12% off">
-        <span class="co-promo-tag">12% Off</span>
-        <span class="co-promo-code">KRYPTAA12</span>
-        <span class="co-promo-action">Tap to apply →</span>
-      </div>
-
-      <!-- Coupon code input -->
-      <div class="co-coupon-wrap" id="coCouponWrap">
-        <div class="co-coupon-row">
-          <input class="co-coupon-input" id="coCouponInput" type="text" placeholder="COUPON CODE" autocomplete="off" maxlength="20">
-          <button class="co-coupon-btn" id="coCouponBtn" type="button">Apply</button>
-        </div>
-        <div class="co-coupon-msg" id="coCouponMsg"></div>
-      </div>
-
-      <div class="co-subtotals">
-        <div class="co-subtotal-row">
-          <span>Subtotal</span>
-          <span id="coSubtotal">$0.00</span>
-        </div>
-        <div class="co-subtotal-row co-discount-row" id="coDiscountRow" style="display:none;">
-          <span>Discount (10% off)</span>
-          <span id="coDiscount" style="color:#7dba7d;">-$0.00</span>
-        </div>
-        <div class="co-subtotal-row shipping-row">
-          <span>Shipping</span>
-          <span>Calculated at checkout</span>
-        </div>
-        <div class="co-subtotal-row">
-          <span>Taxes</span>
-          <span>Calculated at delivery</span>
-        </div>
-      </div>
-
-      <div class="checkout-total">
-        <span>Total</span>
-        <span id="checkoutTotal">$0.00</span>
-      </div>
-
-      <a class="co-whatsapp-btn" href="https://wa.me/919999999999?text=Hi%20KRYPTAA%20%E2%80%94%20I%20need%20help%20with%20my%20order" target="_blank" rel="noopener" aria-label="Contact KRYPTAA on WhatsApp">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        <span>WhatsApp Support</span>
-      </a>
-    </aside>
-
-  </div>
+</div></header>
+<main id="top">
+<section class="p-hero"><div class="wrap"><div><div class="crumbs mono"><a href="index.html">Home</a>/<span>Checkout</span></div><div class="eyebrow">Drop 001 · KRYPTAA</div><h1 style="margin-top:10px">Bag &amp; Checkout</h1></div><div class="side"><a class="mono" href="men-all.html" style="color:var(--ash)">← Back to the drop</a></div></div></section>
+<style>.co{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(22px,4vw,56px);padding-block:clamp(30px,5vw,60px)}@media (max-width:860px){.co{grid-template-columns:minmax(0,1fr)}}
+.co .panel{background:var(--coal);border:1px solid #2d251c;padding:clamp(18px,3vw,28px)}.co .sum div{display:flex;justify-content:space-between;padding:7px 0;color:#c9bfae;font-variant-numeric:tabular-nums}.co .sum .tot{border-top:1px solid var(--rule);margin-top:6px;padding-top:12px;color:var(--bone);font-family:var(--f-display);font-weight:800;font-size:26px;text-transform:uppercase}
+.promo{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;background:rgba(201,162,74,.1);border:1px dashed var(--gold);padding:12px 14px;cursor:pointer;color:var(--bone);text-align:left}.promo b{font-family:var(--f-mono);color:var(--gold-hi);letter-spacing:.1em}
+.ticks{list-style:none;padding:0;margin:0;display:grid;gap:7px;color:#c9bfae;font-size:14px}.ticks li::before{content:"✓ ";color:var(--ok)}</style>
+<section class="wrap">
+<div class="empty" id="coEmpty"><div class="stage"><span class="bag3d" style="--s:3" aria-hidden="true"><span class="rot"><span class="f fr"></span><span class="f bk"></span><span class="f sd l"></span><span class="f sd r"></span><span class="h h1"></span><span class="h h2"></span></span><span class="shadow"></span></span></div><b>Your bag is empty</b><p>Nothing selected yet. The drop is live — explore what's available.</p><div class="acts"><a class="btn" href="men-all.html">Shop Men</a><a class="btn ghost" href="women-all.html">Shop Women</a></div></div>
+<div class="co" id="coFull" hidden>
+  <div class="panel"><div class="eyebrow" style="margin-bottom:10px">Order summary</div><div id="coLines"></div>
+    <button class="promo" type="button" id="promoBanner"><span>12% off your order</span><b>KRYPTAA12 · Tap to apply →</b></button>
+    <form id="coupForm" style="display:flex;gap:8px;margin-top:12px" novalidate><label class="sr" for="coupCode">Discount code</label><input id="coupCode" type="text" placeholder="Discount code" autocomplete="off"><button class="btn ghost" type="submit">Apply</button></form><div class="msg mono" id="coupMsg" aria-live="polite"></div>
+    <div class="sum"><div><span>Subtotal</span><span id="coSub"></span></div><div id="coDiscRow" hidden><span id="coDiscLbl"></span><span id="coDisc"></span></div><div><span>Shipping</span><span id="coShip"></span></div><div><span>Taxes</span><span>Calculated at delivery</span></div><div class="tot"><span>Total</span><span id="coTotal"></span></div></div></div>
+  <div class="panel"><div class="eyebrow" style="margin-bottom:10px">Secure payment via Stripe</div>
+    <ul class="ticks"><li>Enter your card &amp; address securely on Stripe</li><li>Exact amount charged — no hidden fees</li><li>Email receipt sent automatically by Stripe</li><li>Payment goes directly to KRYPTAA</li></ul>
+    <form id="payForm" novalidate style="display:flex;flex-direction:column;gap:12px;margin-top:20px"><div class="field"><label for="coEmail">Email for your order confirmation *</label><input id="coEmail" type="email" autocomplete="email" placeholder="you@example.com"><span class="mono" style="color:var(--ash);font-size:10px">Required — it's where your confirmation and tracking number go.</span></div>
+    <button class="btn" type="submit" id="payBtn" style="padding:18px">🔒 Pay now</button><div class="msg mono" id="payMsg" aria-live="polite"></div></form>
+    <p class="mono" style="color:var(--ash);margin-top:16px">Apple&nbsp;Pay · Google&nbsp;Pay · Klarna · Cash&nbsp;App · Visa · Mastercard · Amex · 🔒 Powered by Stripe<br>SSL secured · 7-day returns</p></div>
+</div></section>
 </main>
-
-<script>
-/* ── Coupon state ── */
-var appliedCoupon = null; /* null or { code, discountRate } */
-var VALID_COUPONS = { 'KRYPTAA12': 0.12, 'KRYPTAA10': 0.10 };
-
-function quickApplyPromo(code) {
-  (function(){ var e=document.getElementById('coEmail'); var v=null; try { v=localStorage.getItem('kryptaa_email'); } catch(x){} if(e&&v) e.value=v; })();
-  var input  = document.getElementById('coCouponInput');
-  var btn    = document.getElementById('coCouponBtn');
-  var banner = document.getElementById('coPromoBanner');
-  if (!input || !btn || btn.disabled) return;
-  input.value = code;
-  btn.click();
-  if (banner) banner.classList.add('co-promo-used');
-}
-
-/* ?express=1 (Buy Now on a product page): skip the cart review, go straight to Stripe */
-window.addEventListener("load", function () {
-  try {
-    if (/[?&]express=1/.test(location.search) && !/success=true/.test(location.search)) {
-      var c = JSON.parse(localStorage.getItem("kryptaa_cart") || "[]");
-      if (c.length) setTimeout(goToStripe, 250);
-    }
-  } catch (e) {}
-});
-
-function goToStripe() {
-  var cart;
-  try { cart = JSON.parse(localStorage.getItem("kryptaa_cart") || "[]"); } catch (e) { cart = []; }
-  if (!cart.length) return;
-
-  var btn = document.getElementById("coSubmit");
-  if (btn) { var _t = document.getElementById("coPayBtnTotal"); if (_t) btn.dataset.total = _t.textContent; btn.disabled = true; btn.textContent = "Redirecting to Stripe…"; }
-  var restoreBtn = function () { if (btn) { btn.disabled = false; btn.innerHTML = "🔒 &nbsp; Pay Now — <span id=\"coPayBtnTotal\">" + (btn.dataset.total || "") + "</span>"; } };
-
-  var subtotal  = cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
-  var discount  = appliedCoupon ? subtotal * appliedCoupon.discountRate : 0;
-  var cartTotal = Math.round((subtotal - discount) * 100) / 100;
-
-  /* Bake the coupon discount into each item's unit price so Stripe
-     line items reflect the discounted amount, not the original. */
-  var checkoutCart = appliedCoupon
-    ? cart.map(function (item) {
-        return Object.assign({}, item, {
-          price: Math.round(item.price * (1 - appliedCoupon.discountRate) * 100) / 100
-        });
-      })
-    : cart;
-
-  /* Meta Pixel — InitiateCheckout, and stash the exact charged total so the
-     Purchase event on the success redirect reports accurate revenue. */
-  var mpContentIds = cart.map(function (i) { return String(i.id); });
-  var mpNumItems = cart.reduce(function (s, i) { return s + (i.qty || 1); }, 0);
-  if (typeof window.fbq === "function") {
-    window.fbq("track", "InitiateCheckout", {
-      content_ids: mpContentIds,
-      content_type: "product",
-      num_items: mpNumItems,
-      value: cartTotal,
-      currency: "USD"
-    });
-  }
-
-  /* GA4 ecommerce — item prices come from checkoutCart so they carry the same
-     coupon discount that is actually charged, keeping sum(items) == value. */
-  var gaItems = checkoutCart.map(function (item, idx) {
-    return {
-      item_id: String(item.id),
-      item_name: item.name,
-      item_variant: item.size,
-      price: item.price,
-      quantity: item.qty,
-      index: idx
-    };
-  });
-  var gaCoupon = appliedCoupon ? appliedCoupon.code : null;
-  if (typeof window.gtag === "function") {
-    window.gtag("event", "begin_checkout", {
-      currency: "USD",
-      value: cartTotal,
-      coupon: gaCoupon || undefined,
-      items: gaItems
-    });
-  }
-
-  try {
-    localStorage.setItem("kryptaa_pending_purchase", JSON.stringify({
-      value: cartTotal, num_items: mpNumItems, content_ids: mpContentIds,
-      ga_items: gaItems, coupon: gaCoupon
-    }));
-  } catch (e) {}
-
-  /* Email captured here (not only on Stripe's page) so the abandoned-cart recovery email can
-     reach people who leave before typing it on Stripe. Remembered for next time. */
-  var emailEl = document.getElementById("coEmail");
-  var email = ((emailEl && emailEl.value) || "").trim().toLowerCase();
-  /* Mandatory: there are no accounts, so this address is the only way to send the confirmation
-     and the tracking number. */
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    var em = document.getElementById("coEmailMsg"); if (em) { em.textContent = email ? "Please check that email address." : "Please enter your email — we need it to send your order confirmation and tracking."; em.className = "co-coupon-msg error"; }
-    if (emailEl) { emailEl.classList.add("is-invalid"); emailEl.scrollIntoView({ block: "center", behavior: "smooth" }); emailEl.focus(); emailEl.addEventListener("input", function () { emailEl.classList.remove("is-invalid"); if (em) em.textContent = ""; }, { once: true }); }
-    if (typeof gtag === "function") gtag("event", "checkout_email_missing");
-    restoreBtn();
-    return;
-  }
-  if (email) { try { localStorage.setItem("kryptaa_email", email); } catch (e) {} }
-
-  fetch(window.K_API + "create-checkout", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ cart: checkoutCart, total: cartTotal, coupon: appliedCoupon ? appliedCoupon.code : null, email: email || undefined })
-  })
-  .then(function (r) { if (r.status === 503 || r.status === 502) throw new Error("offline"); return r.json(); })
-  .then(function (data) {
-    if (data.url) {
-      window.location.replace(data.url);
-    } else {
-      alert("Payment error: " + (data.error || "Could not create checkout session"));
-      restoreBtn();
-    }
-  })
-  .catch(function (e) {
-    /* Backend unreachable (host outage / usage cap) — give people a way to order instead of a dead button */
-    var offline = e && e.message === "offline";
-    var msg = offline
-      ? "Checkout is briefly offline while we move servers. DM @kryptaa__ on Instagram or email hello@kryptaa.com with what you'd like and we'll send a secure payment link within the hour. Your bag is saved."
-      : "Network error. Please try again.";
-    alert(msg);
-    if (window.gtag) gtag("event", "checkout_unavailable", { reason: offline ? "backend_503" : "network" });
-    restoreBtn();
-  });
-}
-
-(function () {
-  var fmt = function (n) { return "$" + n.toFixed(2); };
-
-  function getCart() {
-    try { return JSON.parse(localStorage.getItem("kryptaa_cart") || "[]"); } catch (e) { return []; }
-  }
-
-  function updateTotals(cart) {
-    var subtotal     = cart.reduce(function (s, i) { return s + i.price * i.qty; }, 0);
-    var discount     = appliedCoupon ? Math.round(subtotal * appliedCoupon.discountRate * 100) / 100 : 0;
-    var total        = Math.round((subtotal - discount) * 100) / 100;
-    var totalQty     = cart.reduce(function (s, i) { return s + i.qty; }, 0);
-
-    var subtotalEl   = document.getElementById("coSubtotal");
-    var totalEl      = document.getElementById("checkoutTotal");
-    var amountEl     = document.getElementById("coTotalAmount");
-    var payBtnEl     = document.getElementById("coPayBtnTotal");
-    var countEl      = document.getElementById("coItemCount");
-    var discountRow  = document.getElementById("coDiscountRow");
-    var discountEl   = document.getElementById("coDiscount");
-
-    if (countEl)    countEl.textContent    = totalQty + " ITEM" + (totalQty !== 1 ? "S" : "");
-    if (subtotalEl) subtotalEl.textContent = fmt(subtotal);
-    if (totalEl)    totalEl.textContent    = fmt(total);
-    if (amountEl)   amountEl.textContent   = fmt(total);
-    if (payBtnEl)   payBtnEl.textContent   = fmt(total);
-
-    if (discountRow) discountRow.style.display = discount > 0 ? "" : "none";
-    if (discountEl)  discountEl.textContent    = "-" + fmt(discount);
-
-    /* Browsing in rupees and paying in dollars is a surprise unless we show both.
-       The dollar figure stays the one that is charged. */
-    try {
-      if ((localStorage.getItem("k_currency") || "USD") === "INR") {
-        var approx = document.getElementById("coInrApprox");
-        if (!approx && payBtnEl) {
-          approx = document.createElement("div");
-          approx.id = "coInrApprox";
-          approx.className = "co-pay-note";
-          approx.style.textAlign = "center";
-          var submit = document.getElementById("coSubmit");
-          if (submit && submit.parentNode) submit.parentNode.insertBefore(approx, submit.nextSibling);
-        }
-        if (approx) approx.innerHTML = "That's roughly <strong>₹"
-          + Math.round(total * 84).toLocaleString("en-IN")
-          + "</strong> — your bank converts at its own rate.";
-      }
-    } catch (e) {}
-  }
-
-  function renderSummary() {
-    var cart = getCart();
-
-    var emptyEl    = document.getElementById("coEmptyState");
-    var stripeWrap = document.getElementById("coStripeWrap");
-    var couponWrap = document.getElementById("coCouponWrap");
-    var btnEl      = document.getElementById("coSubmit");
-    var listEl     = document.getElementById("checkoutItems");
-
-    if (!cart.length) {
-      if (emptyEl)    emptyEl.style.display = "";
-      if (stripeWrap) stripeWrap.style.display = "none";
-      if (couponWrap) couponWrap.style.display = "none";
-      if (listEl)     listEl.innerHTML = '<div class="cart-empty">Your bag is empty</div>';
-      if (btnEl)      btnEl.disabled = true;
-      return;
-    }
-
-    if (listEl) {
-      listEl.innerHTML = cart.map(function (item) {
-        return '<div class="checkout-item">' +
-          '<div class="checkout-item-thumb">' +
-            '<img src="' + (item.img || "") + '" alt="' + item.name + '" loading="lazy" onerror="this.classList.add(\'img-error\')">' +
-            '<span class="co-qty-badge">' + item.qty + '</span>' +
-          '</div>' +
-          '<div>' +
-            '<div class="checkout-name">' + item.name + '</div>' +
-            '<div class="checkout-meta">Size ' + item.size + '</div>' +
-            '<div class="checkout-meta" style="margin-top:4px;color:var(--k-gold);">' + fmt(item.price * item.qty) + '</div>' +
-          '</div>' +
-        '</div>';
-      }).join("");
-    }
-
-    updateTotals(cart);
-  }
-
-  function initCoupon() {
-    var input  = document.getElementById("coCouponInput");
-    var btn    = document.getElementById("coCouponBtn");
-    var msgEl  = document.getElementById("coCouponMsg");
-
-    if (!input || !btn) return;
-
-    function accept(code, rate, kind) {
-      appliedCoupon = { code: code, discountRate: rate };
-      /* A tick that draws itself — the moment a discount lands is worth confirming. */
-      var label = Math.round(rate * 100) + "% " + (kind === "referral" ? "friend discount" : kind === "reward" ? "referral reward" : "discount") + " applied!";
-      msgEl.innerHTML = '<span class="coupon-ok"><svg class="coupon-tick" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">'
-        + '<path d="M3 8.5L6.5 12L13 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-        + '<span></span></span>';
-      msgEl.querySelector(".coupon-ok span:last-child").textContent = label;
-      msgEl.className = "co-coupon-msg success";
-      input.disabled = true; btn.textContent = "Applied"; btn.disabled = true;
-      var banner = document.getElementById("coPromoBanner"); if (banner) banner.style.display = "none";
-      updateTotals(getCart());
-    }
-    function reject(text) {
-      msgEl.textContent = text; msgEl.className = "co-coupon-msg error"; appliedCoupon = null; updateTotals(getCart());
-    }
-    function applyCoupon() {
-      var code = input.value.trim().toUpperCase();
-      if (!code) { msgEl.textContent = "Enter a coupon code."; msgEl.className = "co-coupon-msg error"; return; }
-      var rate = VALID_COUPONS[code];
-      if (rate) { accept(code, rate, "promo"); return; }
-      /* Referral (KRYPTAA-XXXXXX) and reward (THANKS-XXXXXX) codes live on the server */
-      if (!/^(KRYPTAA|THANKS)-[A-Z0-9]{6}$/.test(code)) { reject("Invalid coupon code."); return; }
-      btn.disabled = true; btn.textContent = "Checking…";
-      var emailEl = document.getElementById("coEmail");
-      fetch(window.K_API + "validate-coupon", { method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: code, email: emailEl && emailEl.value ? emailEl.value.trim() : undefined }) })
-        .then(function (r) { return r.json(); })
-        .then(function (d) {
-          if (d && d.ok) { accept(d.code, d.percentOff / 100, d.kind); return; }
-          btn.disabled = false; btn.textContent = "Apply";
-          reject(d && d.reason === "self" ? "That's your own code — share it with a friend instead." : "Invalid or already used code.");
-        })
-        .catch(function () { btn.disabled = false; btn.textContent = "Apply"; reject("Couldn't check that code — try again."); });
-    }
-
-    btn.addEventListener("click", applyCoupon);
-    input.addEventListener("keydown", function (e) { if (e.key === "Enter") applyCoupon(); });
-    /* A friend's referral link (?ref=KRYPTAA-XXXXXX) is remembered site-wide; apply it here */
-    try { var ref = localStorage.getItem("k_ref"); if (ref && !input.value && getCart().length) { input.value = ref; applyCoupon(); } } catch (e) {}
-  }
-
-  /* ── Order success: Stripe redirects back with ?success=true ── */
-  (function () {
-    if (new URLSearchParams(window.location.search).get("success") !== "true") return;
-    /* Generate a readable order reference */
-    var ref = "KR-" + Date.now().toString(36).toUpperCase().slice(-6);
-    var refEl = document.getElementById("coOrderRef");
-    if (refEl) refEl.textContent = "ORDER #" + ref;
-    /* Show overlay */
-    var overlay = document.getElementById("coSuccess");
-    if (overlay) overlay.classList.add("active");
-    /* Meta Pixel + GA4 — Purchase, using the exact total stashed before the Stripe redirect.
-       transaction_id is the order ref shown to the customer; GA4 dedupes on it. */
-    try {
-      var pending = JSON.parse(localStorage.getItem("kryptaa_pending_purchase") || "null");
-      /* Stripe session id (from success_url) doubles as the Meta event_id so the
-         server-side Conversions API Purchase and this client Pixel event dedupe. */
-      var stripeSession = new URLSearchParams(window.location.search).get("session_id") || "";
-      if (pending && typeof window.fbq === "function") {
-        window.fbq("track", "Purchase", {
-          content_ids: pending.content_ids || [],
-          content_type: "product",
-          num_items: pending.num_items || 1,
-          value: pending.value || 0,
-          currency: "USD"
-        }, stripeSession ? { eventID: stripeSession } : undefined);
-      }
-      if (pending && typeof window.gtag === "function") {
-        window.gtag("event", "purchase", {
-          transaction_id: ref,
-          currency: "USD",
-          value: pending.value || 0,
-          coupon: pending.coupon || undefined,
-          items: pending.ga_items || []
-        });
-      }
-      localStorage.removeItem("kryptaa_pending_purchase");
-    } catch (e) {}
-    /* Referral code for this buyer (server verifies the session is paid) */
-    (function () {
-      var sid = new URLSearchParams(window.location.search).get("session_id") || "";
-      var box = document.getElementById("coReferral"); if (!sid || !box || !window.K_API) return;
-      fetch(window.K_API + "referral-code?session_id=" + encodeURIComponent(sid)).then(function (r) { return r.json(); }).then(function (d) {
-        if (!d || !d.ok) return;
-        document.getElementById("coReferralCode").textContent = d.code;
-        box.hidden = false;
-        var link = d.shareUrl || ("https://www.kryptaa.com/?ref=" + d.code);
-        var msg = "10% off KRYPTAA with my code " + d.code + " — " + link;
-        var copyBtn = document.getElementById("coRefCopy"), shareBtn = document.getElementById("coRefShare");
-        copyBtn.addEventListener("click", function () {
-          (navigator.clipboard ? navigator.clipboard.writeText(link) : Promise.reject()).then(function () { copyBtn.textContent = "Copied ✓"; }, function () { window.prompt("Copy your link:", link); });
-          if (typeof gtag === "function") gtag("event", "referral_copy", { code: d.code });
-        });
-        if (navigator.share) {
-          shareBtn.addEventListener("click", function () { navigator.share({ title: "KRYPTAA", text: msg, url: link }).catch(function () {}); if (typeof gtag === "function") gtag("event", "referral_share", { code: d.code }); });
-        } else {
-          shareBtn.textContent = "WhatsApp";
-          shareBtn.addEventListener("click", function () { window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank", "noopener"); if (typeof gtag === "function") gtag("event", "referral_share", { code: d.code }); });
-        }
-        try { localStorage.removeItem("k_ref"); } catch (e) {}
-      }).catch(function () {});
-    })();
-    /* Clear cart so bag doesn't show stale items */
-    try { localStorage.removeItem("kryptaa_cart"); } catch (e) {}
-    /* Remove ?success=true from URL so refresh doesn't re-show */
-    if (window.history && window.history.replaceState) {
-      window.history.replaceState({}, "", window.location.pathname);
-    }
-  })();
-
-  document.addEventListener("DOMContentLoaded", function () {
-    renderSummary();
-    initCoupon();
-    var backBtn = document.getElementById("coBackBtn");
-    if (backBtn) {
-      try { var last = localStorage.getItem("k_last_shop"); if (last) backBtn.href = last; } catch(e) {}
-    }
-  });
-
-  /* Reset button if browser restores this page from BFCache after Stripe redirect */
-  /* ── Payment methods by region ───────────────────────────────────────────
-     KRYPTAA's Stripe account is US-domiciled, so it can take international
-     card networks and the US/EU wallets — but NOT UPI, RuPay or any Indian
-     domestic rail, which need an Indian entity and a local gateway.
-     The old markup advertised UPI. An Indian customer reached Stripe, found
-     no UPI, and left. We now show only what will genuinely be on that page,
-     and say plainly what an Indian card needs in order to work.
-     Region comes from the browser's own timezone and language — no geo-IP
-     lookup, no third party, nothing about the visitor leaves the page. */
-  function renderPayMethods() {
-    var box = document.getElementById("coPayMethods");
-    var note = document.getElementById("coPayNote");
-    if (!box) return;
-    var tz = "", lang = "";
-    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
-    try { lang = (navigator.language || "").toLowerCase(); } catch (e) {}
-    var inIndia = /Asia\/(Kolkata|Calcutta)/i.test(tz) || /-in$/.test(lang);
-    var inUS    = /America\//i.test(tz) && !/Sao_Paulo|Argentina|Bogota|Lima|Mexico/i.test(tz);
-
-    /* These lists are the account's real capabilities, read from the Stripe API
-       (country US; card, link, cashapp, amazon_pay, klarna, crypto). Apple Pay and
-       Google Pay are not separate methods — Stripe surfaces them on top of `card`
-       when the device supports them, so they are genuine here. */
-    var pills, msg;
-    if (inIndia) {
-      pills = ["VISA", "Mastercard", "Amex", "Google Pay"];
-      msg = "Your card must be <strong>enabled for international payments</strong> — most Indian banks let you switch this on in their app in a minute. "
-          + "UPI and RuPay aren't supported yet. Prices are shown in rupees for reference; "
-          + "<strong>you'll be charged in US dollars</strong> and your bank applies its own rate.";
-    } else if (inUS) {
-      pills = ["VISA", "Mastercard", "Amex", "Discover", "Apple Pay", "Google Pay", "Link", "Cash App", "Amazon Pay", "Klarna"];
-      msg = "Split it into four with <strong>Klarna</strong> at no extra cost.";
-    } else {
-      pills = ["VISA", "Mastercard", "Amex", "Apple Pay", "Google Pay", "Link", "Klarna"];
-      msg = "<strong>Charged in US dollars.</strong> Your bank applies its own conversion rate.";
-    }
-    box.innerHTML = '<span class="co-pay-lbl">We accept</span>'
-      + pills.map(function (p) { return '<span class="co-pay-pill">' + p + "</span>"; }).join("")
-      + '<span class="co-pay-stripe">🔒 Powered by Stripe</span>';
-    if (note) note.innerHTML = msg;
-  }
-  renderPayMethods();
-
-  window.addEventListener("pageshow", function (e) {
-    if (e.persisted) {
-      var btn = document.getElementById("coSubmit");
-      if (btn && btn.disabled) {
-        btn.disabled = false;
-        var payTotal = document.getElementById("coPayBtnTotal");
-        btn.innerHTML = "🔒 &nbsp; Pay Now" + (payTotal ? " — " + payTotal.textContent : "");
-      }
-    }
-  });
-})();
-</script>
-</body>
-</html>
+<footer class="k-foot"><div class="wrap">
+  <div class="cols">
+    <div class="brandcol"><img src="imgs/kryptaa-sigil.webp" alt="KRYPTAA"><p>Gothic streetwear from the Philly underground. Defined by Power. Since '26.</p>
+      <div class="soc"><a href="https://www.instagram.com/kryptaa__/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"/></svg></a><a href="https://www.tiktok.com/@kryptaa2426" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.2a3.6 3.6 0 1 1-3.1-3.6V7.4a6.9 6.9 0 1 0 6.3 6.9V9.1a7.5 7.5 0 0 0 4 1.2V7a4.4 4.4 0 0 1-4.3-4z" fill="currentColor"/></svg></a><a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H8v3h2.6V21z" fill="currentColor"/></svg></a></div></div>
+    <div><h4>Men</h4><ul><li><a href="men-all.html">All Men's</a></li><li><a href="men.html">Men's Denim</a></li><li><a href="t-shirts.html">T-Shirts</a></li><li><a href="jeans.html">All Denim</a></li><li><a href="anime.html">Anime Denim</a></li></ul></div>
+    <div><h4>Women</h4><ul><li><a href="women-all.html">All Women's</a></li><li><a href="women.html">Women's Denim</a></li><li><a href="women-wear.html">Women's Wear</a></li><li><a href="track-pants.html">Track Pants</a></li></ul></div>
+    <div><h4>Help</h4><ul><li><a href="info.html">Shipping &amp; Returns</a></li><li><a href="size-guide.html">Size Guide</a></li><li><a href="faq.html">FAQ</a></li><li><a href="track.html">Track Order</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><h4>KRYPTAA</h4><ul><li><a href="about.html">About KRYPTAA</a></li><li><a href="lookbook.html">Lookbook</a></li><li><a href="journal.html">Journal</a></li><li><a href="reviews.html">Reviews</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms &amp; Conditions</a></li></ul></div>
+  </div>
+  <div class="base mono"><span>© 2026 KRYPTA LLC · Philadelphia</span><span>Secure checkout by Stripe · Ships from Philadelphia</span></div>
+</div></footer>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="bagDrawer" aria-hidden="true" aria-label="Your bag"><div class="dr-head"><b>Your bag</b><button class="x" type="button" data-close aria-label="Close bag">✕</button></div>
+  <div class="ship-bar" id="shipBar"></div><div class="dr-body" id="bagBody"></div>
+  <div class="dr-foot" id="bagFoot" hidden><div class="dr-total"><span>Total</span><b id="bagTotal">$0.00</b></div><a class="btn" href="checkout.html">Checkout →</a><div class="dr-note">Shipping and taxes calculated at checkout</div></div></aside>
+<aside class="drawer left" id="menuDrawer" aria-hidden="true" aria-label="Menu"><div class="dr-head"><b>Menu</b><button class="x" type="button" data-close aria-label="Close menu">✕</button></div>
+  <nav class="mm-body">
+    <div class="grp"><a href="men-all.html">Men</a><div class="sub"><a href="men-all.html">All Men's</a><a href="men.html">Jeans</a><a href="t-shirts.html">T-Shirts</a></div></div>
+    <div class="grp"><a href="women-all.html">Women</a><div class="sub"><a href="women-all.html">All Women's</a><a href="women.html">Jeans</a><a href="women-wear.html">Women Wear</a><a href="track-pants.html">Track Pants</a></div></div>
+    <div class="grp"><a href="anime.html">Anime Denim</a></div>
+    <div class="grp"><a href="lookbook.html">Lookbook</a></div>
+    <div class="grp"><a href="reviews.html">Reviews</a></div>
+    <div class="grp"><a href="journal.html">Journal</a></div>
+    <div class="grp"><a href="info.html">Shipping &amp; Returns</a></div>
+    <div class="grp"><span class="mono" style="font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;color:var(--gold)">More</span><div class="sub"><a href="wishlist.html">Wishlist</a><a href="checkout.html">Bag &amp; Checkout</a><a href="track.html">Track my order</a><a href="size-guide.html">Size guide</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="about.html">About</a></div></div>
+    <div class="grp" style="border:0"><div class="sub"><a href="https://www.instagram.com/kryptaa__/" target="_blank" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@kryptaa2426" target="_blank" rel="noopener">TikTok</a><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></div></div>
+  </nav></aside>
+<div class="modal" id="sgModal" aria-hidden="true" role="dialog" aria-label="Size guide"><div class="box sg"><button class="x" type="button" data-close aria-label="Close size guide">✕</button><div class="eyebrow">KRYPTAA · Fit</div><h2 style="font-size:44px;margin-top:6px">Size guide</h2><div class="sg-tabs" role="tablist"><button type="button" role="tab" data-sg="sgTees" aria-selected="true">T-Shirts</button><button type="button" role="tab" data-sg="sgDenim" aria-selected="false">Denim</button><button type="button" role="tab" data-sg="sgTrack" aria-selected="false">Track Pants</button></div><div class="sg-body">
+          <!-- T-SHIRTS -->
+          <div class="sg-panel active" id="sgTees">
+            <div class="sg-eyebrow">Oversized T-Shirt — US Standard</div>
+            <div class="sg-table-wrap">
+              <table class="sg-table">
+                <thead><tr><th>SIZE</th><th>CHEST (in)</th><th>WAIST (in)</th><th>ARM LENGTH (in)</th><th>NECKLINE (in)</th></tr></thead>
+                <tbody>
+                  <tr><td class="sg-size">XS</td><td>34″–36″</td><td>30″–32″</td><td>25″–25½</td><td>14″–14½</td></tr>
+                  <tr class="sg-highlight"><td class="sg-size">S</td><td>38″–40″</td><td>33″–35″</td><td>25½–26</td><td>14½–15</td></tr>
+                  <tr><td class="sg-size">M</td><td>42″–44″</td><td>36″–38″</td><td>26″–26½</td><td>15″–15¼</td></tr>
+                  <tr><td class="sg-size">L</td><td>46″–48″</td><td>39″–41″</td><td>26½–27</td><td>15½–16</td></tr>
+                  <tr><td class="sg-size">XL</td><td>50″–52″</td><td>42″–44″</td><td>27–27½</td><td>16½–16½</td></tr>
+                  <tr><td class="sg-size">XXL</td><td>54″–56″</td><td>45″–47″</td><td>27⅔–28</td><td>16½–17</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="sg-note">Oversized fit — size down for a structured look, size up for a dramatic shoulder drop.</p>
+          </div>
+          <!-- DENIM -->
+          <div class="sg-panel" id="sgDenim">
+            <div class="sg-eyebrow">Wide-Leg Denim — Waist &amp; Inseam (in)</div>
+            <div class="sg-table-wrap">
+              <table class="sg-table">
+                <thead><tr><th>SIZE</th><th>WAIST (in)</th><th>HIP (in)</th><th>THIGH (in)</th><th>INSEAM (in)</th><th>RISE (in)</th></tr></thead>
+                <tbody>
+                  <tr class="sg-highlight"><td class="sg-size">S</td><td>26″–28″</td><td>34″–36″</td><td>23″</td><td>30″</td><td>11″</td></tr>
+                  <tr><td class="sg-size">M</td><td>29″–31″</td><td>37″–39″</td><td>25″</td><td>30½″</td><td>11½″</td></tr>
+                  <tr><td class="sg-size">L</td><td>32″–34″</td><td>40″–42″</td><td>27″</td><td>31″</td><td>12″</td></tr>
+                  <tr><td class="sg-size">XL</td><td>35″–37″</td><td>43″–45″</td><td>29″</td><td>31″</td><td>12½″</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="sg-note">All jeans are mid-to-high rise with a relaxed wide-leg cut. Measure your natural waist for the most accurate fit.</p>
+          </div>
+          <!-- TRACK PANTS -->
+          <div class="sg-panel" id="sgTrack">
+            <div class="sg-eyebrow">Street Track Pants — Hip &amp; Length (in)</div>
+            <div class="sg-table-wrap">
+              <table class="sg-table">
+                <thead><tr><th>SIZE</th><th>WAIST (in)</th><th>HIP (in)</th><th>INSEAM (in)</th><th>LENGTH (in)</th></tr></thead>
+                <tbody>
+                  <tr><td class="sg-size">XS</td><td>22″–24″</td><td>32″–34″</td><td>27″</td><td>39″</td></tr>
+                  <tr class="sg-highlight"><td class="sg-size">S</td><td>24″–26″</td><td>34″–36″</td><td>28″</td><td>40″</td></tr>
+                  <tr><td class="sg-size">M</td><td>26″–28″</td><td>36″–38″</td><td>29″</td><td>41″</td></tr>
+                  <tr><td class="sg-size">L</td><td>28″–30″</td><td>38″–40″</td><td>30″</td><td>42″</td></tr>
+                  <tr><td class="sg-size">XL</td><td>— Sold Out —</td><td>—</td><td>—</td><td>—</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="sg-note">Elasticated waist with drawstring — fits true to size. XL is currently unavailable.</p>
+          </div>
+        </div></div></div>
+<script src="catalog.js?v=4"></script><script src="slugs.js?v=4"></script><script src="api.js?v=4" data-after="site.js"></script>
+</body></html>
