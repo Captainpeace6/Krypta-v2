@@ -1,4 +1,13 @@
 User-agent: *
 Allow: /
 
+# Admin surfaces. They already carry <meta name="robots" content="noindex">
+# and orders.html is password-gated; this keeps them out of crawl entirely.
+Disallow: /orders.html
+Disallow: /inventory.html
+Disallow: /product-detail.html
+Disallow: /home-sample.html
+Disallow: /logo-sting.html
+Disallow: /women-streetwear-trousers.html
+
 Sitemap: https://www.kryptaa.com/sitemap.xml
