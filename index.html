@@ -7,7 +7,7 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-242EQ24FP3');</script>
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2070231503594050');fbq('track','PageView');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="site.css?v=4">
+<link rel="stylesheet" href="site.css?v=5">
 <style>
 /* Layout: one black-and-gold store page. Order: clothing rail (opening) → reviews that pop up on scroll → sliding words + drifting product photos → spinning product ribbon → pick-your-weapon list → trident made of dots → footer. */
 :root{
@@ -242,13 +242,19 @@ h1,h2{font-family:var(--f-display);font-weight:900;text-transform:uppercase;line
 .cats .c{font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
 .cats a:hover .c,.cats a:focus-visible .c{color:var(--void)}
 .cats .mini{display:none;width:44px;height:56px;object-fit:cover}
-.follow{position:fixed;left:0;top:0;width:220px;height:300px;pointer-events:none;z-index:40;opacity:0;transition:opacity .25s;overflow:hidden;border:1px solid #c9a24a;background:#14110d;box-shadow:0 18px 50px rgba(0,0,0,.6)}
-.follow img{width:100%;height:100%;object-fit:cover}
+.follow{position:fixed;left:0;top:0;width:clamp(240px,22vw,340px);height:clamp(320px,30vw,450px);pointer-events:none;z-index:40;opacity:0;transition:opacity .25s;overflow:hidden;border:1px solid #c9a24a;background:#14110d;box-shadow:0 18px 50px rgba(0,0,0,.6)}
+.follow img{width:100%;height:100%;object-fit:contain;background:radial-gradient(ellipse at 50% 45%,#17120c,#0d0a07)}
 .follow .fcap{position:absolute;left:0;right:0;bottom:0;padding:26px 10px 9px;background:linear-gradient(transparent,rgba(11,9,7,.92));display:flex;flex-direction:column;gap:3px}
 .follow .fcap b{font-size:13px;line-height:1.2;color:var(--bone);font-weight:600}
 .follow .fcap span{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;color:var(--gold-hi);text-transform:uppercase}
 .follow.on{opacity:1}
 @media (hover:none),(max-width:640px){.follow{display:none}.cats .mini{display:block}.cats a{grid-template-columns:auto minmax(0,1fr) auto;-webkit-tap-highlight-color:transparent}.cats .n{display:none}
+  /* No hover on a phone, so the desktop preview never appears. Show the piece
+     inline instead, big enough to actually read. */
+  .cats .mini{width:84px;height:106px;object-fit:contain;background:radial-gradient(ellipse at 50% 45%,#17120c,#0d0a07);border:1px solid #2a221a}
+  .cats a{padding-block:12px;gap:14px}
+  .cats .t{font-size:clamp(20px,6vw,30px)}
+
   .cats a:hover::before{transform:scaleY(0)}.cats a:hover,.cats a:hover .c{color:inherit}.cats a:hover .c{color:var(--gold)}
   .cats a:active::before{transform:scaleY(1);background:rgba(201,162,74,.16)}.cats .c::after{content:" ›";color:var(--gold-hi)}}
 
@@ -324,6 +330,7 @@ footer .note{color:var(--ash);width:100%;margin:0}
 .bvid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
 .bvid::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(rgba(11,9,7,.35),rgba(11,9,7,.78))}
 .bvid h2{font-size:clamp(46px,7.6vw,112px)}.bvid p{color:#d9d0c0;margin:14px 0 24px}
+.bvid .play.sound{right:auto;left:clamp(14px,3vw,28px)}
 .bvid .play{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:16px;background:rgba(11,9,7,.7);border:1px solid #3a3026;color:var(--bone);padding:8px 12px;cursor:pointer}
 /* spec sheet */
 .spec{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,56px)}
@@ -576,7 +583,7 @@ footer .note{color:var(--ash);width:100%;margin:0}
 <!-- BRAND VIDEO (from kryptaa.com) -->
 <section class="bvid" aria-label="Brand video"><video id="bvid" src="imgs/brand-video.mp4" poster="imgs/brand-video-poster.webp" muted loop playsinline preload="metadata"></video>
   <div class="wrap"><div class="eyebrow">Drop 001 — SS26</div><h2>The uniform for<br>the underground</h2><p>Gothic roots. Streetwear edge. No compromises.</p><a class="btn" href="men-all.html">Shop the drop</a></div>
-  <button class="play mono" type="button" id="bvBtn" aria-label="Pause video">❚❚ Pause</button></section>
+  <button class="play mono" type="button" id="bvBtn" aria-label="Pause video">❚❚ Pause</button><button class="play mono sound" type="button" id="bvSound" aria-label="Unmute video" aria-pressed="false">🔇 Sound on</button></section>
 
 <!-- SPEC SHEET (from kryptaa.com) -->
 <section class="sec"><div class="wrap">
@@ -1076,7 +1083,7 @@ cv.addEventListener("pointerleave",()=>{mx=my=-9999});cv.addEventListener("point
     <div class="grp"><span class="mono" style="font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;color:var(--gold)">More</span><div class="sub"><a href="wishlist.html">Wishlist</a><a href="checkout.html">Bag &amp; Checkout</a><a href="track.html">Track my order</a><a href="size-guide.html">Size guide</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="about.html">About</a></div></div>
     <div class="grp" style="border:0"><div class="sub"><a href="https://www.instagram.com/kryptaa__/" target="_blank" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@kryptaa2426" target="_blank" rel="noopener">TikTok</a><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></div></div>
   </nav></aside>
-<div class="modal" id="sgModal" aria-hidden="true" role="dialog" aria-label="Size guide"><div class="box sg"><button class="x" type="button" data-close aria-label="Close size guide">✕</button><div class="eyebrow">KRYPTAA · Fit</div><h2 style="font-size:44px;margin-top:6px">Size guide</h2><div class="sg-tabs" role="tablist"><button type="button" role="tab" data-sg="sgTees" aria-selected="true">T-Shirts</button><button type="button" role="tab" data-sg="sgDenim" aria-selected="false">Denim</button><button type="button" role="tab" data-sg="sgTrack" aria-selected="false">Track Pants</button></div><div class="sg-body">
+<div class="modal" id="sgModal" aria-hidden="true" role="dialog" aria-label="Size guide"><div class="box sg"><button class="x" type="button" data-close aria-label="Close size guide">✕</button><div class="eyebrow">KRYPTAA · Fit</div><h2 style="font-size:44px;margin-top:6px">Size guide</h2><div class="sg-tabs" role="tablist"><button type="button" role="tab" data-sg="sgTees" aria-selected="true">T-Shirts</button><button type="button" role="tab" data-sg="sgDenim" aria-selected="false">Denim</button><button type="button" role="tab" data-sg="sgTrack" aria-selected="false">Track Pants</button><button type="button" role="tab" data-sg="sgBag" aria-selected="false">Surprise Bag</button></div><div class="sg-body">
           <!-- T-SHIRTS -->
           <div class="sg-panel active" id="sgTees">
             <div class="sg-eyebrow">Oversized T-Shirt — US Standard</div>
@@ -1128,7 +1135,26 @@ cv.addEventListener("pointerleave",()=>{mx=my=-9999});cv.addEventListener("point
             </div>
             <p class="sg-note">Elasticated waist with drawstring — fits true to size. XL is currently unavailable.</p>
           </div>
-        </div></div></div>
+        
+          <!-- SURPRISE BAG -->
+          <div class="sg-panel sg-surprise" id="sgBag">
+            <div class="sg-sigil" aria-hidden="true"></div>
+            <div class="sg-eyebrow">Drop 001 Surprise Bag — one pair of jeans + one 300GSM tee</div>
+            <p class="sg-note" style="margin-top:0">You pick one size. We send a pair of Drop 001 jeans <strong>and</strong> a heavyweight tee cut to match it. Both pieces arrive in the same size band below.</p>
+            <div class="sg-table-wrap">
+              <table class="sg-table">
+                <thead><tr><th>SIZE</th><th>WAIST (in)</th><th>HIP (in)</th><th>INSEAM (in)</th><th>TEE CHEST (in)</th></tr></thead>
+                <tbody>
+                  <tr><td class="sg-size">S</td><td>26&Prime;&ndash;28&Prime;</td><td>34&Prime;&ndash;36&Prime;</td><td>30&Prime;</td><td>38&Prime;&ndash;40&Prime;</td></tr>
+                  <tr class="sg-highlight"><td class="sg-size">M</td><td>29&Prime;&ndash;31&Prime;</td><td>37&Prime;&ndash;39&Prime;</td><td>30&frac12;&Prime;</td><td>42&Prime;&ndash;44&Prime;</td></tr>
+                  <tr><td class="sg-size">L</td><td>32&Prime;&ndash;34&Prime;</td><td>40&Prime;&ndash;42&Prime;</td><td>31&Prime;</td><td>46&Prime;&ndash;48&Prime;</td></tr>
+                  <tr><td class="sg-size">XL</td><td>35&Prime;&ndash;37&Prime;</td><td>43&Prime;&ndash;45&Prime;</td><td>31&Prime;</td><td>50&Prime;&ndash;52&Prime;</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="sg-note">Jeans run wide-leg and mid-to-high rise; the tee is oversized. Measure your natural waist. Zero restocks &mdash; what is in the bag is what is left of the drop.</p>
+          </div>
+</div></div></div>
 <div class="modal" id="sbModal" aria-hidden="true" role="dialog" aria-label="Surprise bag"><div class="box sbm"><button class="x" type="button" data-close aria-label="Close">✕</button>
   <a class="ph" href="product.html#p900"><img src="imgs/bundle/surprise-bag.webp" alt="KRYPTAA Drop 001 Surprise Bag — two sealed pieces"></a>
   <div><div class="eyebrow">Limited — Drop 001 / Mystery</div><h2>Surprise bag</h2>
@@ -1142,11 +1168,20 @@ cv.addEventListener("pointerleave",()=>{mx=my=-9999});cv.addEventListener("point
 <button type="button" id="sbOpen" data-open="sbModal" hidden></button>
 <div class="sbr" id="sbr"><button class="go" type="button" aria-label="Surprise bag — open the offer"><span class="a"><img src="imgs/kryptaa-sigil.webp" alt=""></span><span class="bub" id="sbBub">Click for a surprise bag</span></button><button class="sx" type="button" id="sbX" aria-label="Hide the surprise bag button">✕</button></div>
 
-<script src="catalog.js?v=4"></script><script src="slugs.js?v=4"></script><script src="api.js?v=4" data-after="site.js"></script><script>(function(){const v=document.getElementById("bvid"),b=document.getElementById("bvBtn");if(!v)return;
+<script src="catalog.js?v=5"></script><script src="slugs.js?v=5"></script><script src="api.js?v=5" data-after="site.js"></script><script>(function(){const v=document.getElementById("bvid"),b=document.getElementById("bvBtn");if(!v)return;
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;let want=!reduce;
 const set=()=>{b.textContent=v.paused?"▶ Play":"❚❚ Pause";b.setAttribute("aria-label",v.paused?"Play video":"Pause video")};
 new IntersectionObserver(es=>{if(es[0].isIntersecting&&want)v.play().catch(()=>{});else v.pause();setTimeout(set,50)},{threshold:.25}).observe(v);
-b.onclick=()=>{want=v.paused;want?v.play().catch(()=>{}):v.pause();setTimeout(set,50)};v.addEventListener("play",set);v.addEventListener("pause",set);set()})();</script><script>/* KRYPTAA surprise-bag reveal: the screen cracks from the A, molten light bleeds through,
+b.onclick=()=>{want=v.paused;want?v.play().catch(()=>{}):v.pause();setTimeout(set,50)};v.addEventListener("play",set);v.addEventListener("pause",set);set();
+/* Sound is opt-in: browsers only autoplay a muted video, so unmuting has to come
+   from a real tap. Leaving the page re-mutes it so audio never follows the user. */
+const sb=document.getElementById("bvSound");
+if(sb){const sset=()=>{sb.textContent=v.muted?"\uD83D\uDD07 Sound on":"\uD83D\uDD0A Sound off";sb.setAttribute("aria-label",v.muted?"Unmute video":"Mute video");sb.setAttribute("aria-pressed",String(!v.muted))};
+sb.onclick=()=>{v.muted=!v.muted;if(!v.muted){v.volume=1;if(v.paused){want=true;v.play().catch(()=>{})}}sset()};
+v.addEventListener("volumechange",sset);
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&!v.muted){v.muted=true;sset()}});
+new IntersectionObserver(es=>{if(!es[0].isIntersecting&&!v.muted){v.muted=true;sset()}},{threshold:.1}).observe(v);
+sset()}})();</script><script>/* KRYPTAA surprise-bag reveal: the screen cracks from the A, molten light bleeds through,
    obsidian shards fall away in 3D, live lava underneath, then the bag rises out of it. */
 (function(){
 const go=document.querySelector("#sbr .go"),opener=document.getElementById("sbOpen"),modal=document.getElementById("sbModal"),sbr=document.getElementById("sbr");

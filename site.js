@@ -108,11 +108,15 @@ addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
 /* size guide tabs */
 document.addEventListener("click",e=>{const t=e.target.closest("[data-sg]");if(!t)return;const box=t.closest(".sg");
   $$("[data-sg]",box).forEach(b=>b.setAttribute("aria-selected",b===t));$$(".sg-panel",box).forEach(p=>p.classList.toggle("active",p.id===t.dataset.sg))});
-function openSizeGuide(cat){openDrawer("sgModal");const m=$("#sgModal");m.classList.add("on");const id=/tee/.test(cat)?"sgTees":cat==="women_st"?"sgTrack":"sgDenim";const b=$(`#sgModal [data-sg="${id}"]`);b&&b.click()}
+function openSizeGuide(cat){openDrawer("sgModal");const m=$("#sgModal");m.classList.add("on");
+  /* The surprise bag covers jeans AND a tee, so it gets its own chart rather
+     than borrowing the denim one. */
+  const id=cat==="bundle"?"sgBag":/tee/.test(cat)?"sgTees":cat==="women_st"?"sgTrack":"sgDenim";const b=$(`#sgModal [data-sg="${id}"]`);b&&b.click()}
 
 /* ── CARDS ── */
 function card(p){const alt=(p.gallery||[]).map(g=>g.src||g).find(s=>s&&s!==p.img);
   return `<article class="card">${badge(p)}${heartBtn(p.id)}<a class="ph" href="${purl(p.id)}" aria-label="${esc(p.name)}"><img src="${esc(asset(p.img))}" alt="${esc(p.name)}" loading="lazy">${alt?`<img class="alt" src="${esc(asset(alt))}" alt="" loading="lazy">`:""}</a>
+  <button class="qlook mono" type="button" data-qlook="${p.id}">Quick look</button>
   <div class="row"><a class="nm" href="${purl(p.id)}">${esc(p.name)}</a><span class="pr">${money(p.price)}</span></div><div class="sub">${esc(p.collection||"")}</div></article>`}
 
 /* ── RECENTLY VIEWED ── */
@@ -322,5 +326,61 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-add]");if(
 
 /* boot */
 paintCounts();renderBag();paintRecent();
+/* ── QUICK LOOK ──────────────────────────────────────────────────────────
+   A collection page used to show one cropped photo per piece, so the only way
+   to judge anything was to open the product page. This opens the gallery, the
+   sizes and add-to-bag in place. */
+(function(){
+  const host=document.createElement("div");
+  host.className="modal"; host.id="qlModal"; host.setAttribute("aria-hidden","true");
+  host.setAttribute("role","dialog"); host.setAttribute("aria-label","Quick look");
+  host.innerHTML='<div class="box ql"><button class="x" type="button" data-close aria-label="Close quick look">\u2715</button><div class="ql-in"></div></div>';
+  document.body.appendChild(host);
+  let qp=null,qsize=null,qi=0;
+
+  function draw(){
+    if(!qp)return;
+    const gal=(qp.gallery&&qp.gallery.length?qp.gallery:[{src:qp.img,label:""}]);
+    const q=stockOf(qp,qsize);
+    host.querySelector(".ql-in").innerHTML=`
+      <div class="ql-gal">
+        <div class="ql-main"><img src="${esc(asset((gal[qi]||gal[0]).src))}" alt="${esc(qp.name)}"></div>
+        <div class="ql-thumbs">${gal.slice(0,8).map((g,i)=>`<button type="button" data-g="${i}" aria-current="${i===qi}"><img src="${esc(asset(g.src))}" alt="${esc(g.label||"")}" loading="lazy"></button>`).join("")}</div>
+      </div>
+      <div class="ql-info">
+        <div class="eyebrow">${esc(qp.collection||"Drop 001")}</div>
+        <h3>${esc(qp.name)}</h3>
+        <div class="ql-price">${money(qp.price)}</div>
+        <p>${esc((qp.desc||"").slice(0,180))}</p>
+        <div class="sizes ql-sizes">${qp.sizes.map(z=>{const so=soldOut(qp,z),left=stockOf(qp,z);
+          return `<button type="button" data-z="${esc(z)}" aria-pressed="${z===qsize}" ${so?"disabled":""}>${esc(z)}${!so&&left!=null&&left<=LOW?`<span class="lo">${left} left</span>`:""}</button>`}).join("")}</div>
+        <div class="msg mono ql-msg">${qsize&&q!=null&&q<=LOW?q+" left in "+esc(qsize):""}</div>
+        <button class="btn ql-add" type="button">Add to bag</button>
+        <a class="btn ghost" href="${purl(qp.id)}">Full details \u2192</a>
+      </div>`;
+  }
+
+  function open(id){
+    qp=byId(id); if(!qp)return;
+    qsize=qp.sizes.length===1?qp.sizes[0]:null; qi=0; draw();
+    openDrawer("qlModal"); host.classList.add("on");
+    if(window.KAPI)KAPI.track("view_item",{value:qp.price,ids:[String(qp.id)],
+      items:[{item_id:String(qp.id),item_name:qp.name,price:qp.price}]});
+  }
+
+  document.addEventListener("click",e=>{
+    const t=e.target.closest("[data-qlook]");
+    if(t){e.preventDefault();open(Number(t.dataset.qlook));return}
+    if(!host.classList.contains("on"))return;
+    const g=e.target.closest("#qlModal [data-g]"); if(g){qi=Number(g.dataset.g);draw();return}
+    const z=e.target.closest("#qlModal .ql-sizes button"); if(z&&!z.disabled){qsize=z.dataset.z;draw();return}
+    if(e.target.closest("#qlModal .ql-add")){
+      if(!qsize&&qp.sizes.length>1){const m=host.querySelector(".ql-msg");m.textContent="Pick a size first";m.classList.add("err");return}
+      addToBag(qp.id,qsize||qp.sizes[0]||"One size"); host.classList.remove("on");
+    }
+  });
+  host.addEventListener("click",e=>{if(e.target===host)host.classList.remove("on")});
+})();
+
 window.KRY={addToBag,card,byId,money,openDrawer,toast,rvCard};
 })();
