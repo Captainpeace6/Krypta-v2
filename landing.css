@@ -216,3 +216,5 @@ body[data-landing] main{overflow-x:clip}
 .ld-pair-in span{font-size:11px;letter-spacing:.14em;color:var(--gold-hi);text-transform:uppercase}
 .ld-pair-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.ld-pair-acts .btn{margin:0;justify-content:center}
 @media (max-width:760px){.ld-pairs-grid{grid-template-columns:1fr}}
+
+.ld-pair-ph.one{display:block;background:none}.ld-pair-ph.one figure{aspect-ratio:1683/1448}.ld-pair-ph.one img{object-position:50% 30%}

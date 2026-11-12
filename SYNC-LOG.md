@@ -1,0 +1,53 @@
+# KRYPTAA — change log shared between Claude sessions
+
+Two Claude sessions edit this website: **"Kryptaa snap scroll bugs"** (Claude Code) and the
+**website redesign session** (Insta reels project). Both write to **Kryptaa-2** (main copy) and
+**Krypta-v2** (the repo that serves kryptaa.com).
+
+**Before you change anything:** `git pull` both repos and read the newest entry here.
+**After you change anything:** add an entry at the top, with the commit ids and the files touched.
+Only copy a file to Krypta-v2 if it still matches the Kryptaa-2 version you started from
+(`cmp` it first), so neither session overwrites the other's fix.
+
+Asset version in `?v=` query strings must go up by one with every live change.
+
+---
+
+## 2026-11-11 20:10 ET — redesign session — "Her & Him" tee photos, Women → T-Shirts
+
+- **Women's "One tee. Worn by both." section** (`women-all.html`): each tee now shows ONE merged photo
+  of her and him wearing it (`imgs/tees/duo-1|3|4|5.webp`, made by cutting both models out of their
+  studio shots and placing them on one wall). Old two-photo layout removed. CSS: `.ld-pair-ph.one`
+  in `landing.css`.
+- Merged photo also added as the 2nd photo ("Him & Her") in each tee's gallery in `catalog.js`
+  (ids 1, 3, 4, 5). Cover stays the front design.
+- **T-Shirts link added to every Women menu**: header dropdown, footer column, mobile drawer
+  (63 HTML files), and the chips row on `women-all`, `women`, `women-wear`. It points to
+  `t-shirts.html` (tees are unisex).
+- Asset version `v=8` → `v=9`.
+
+## 2026-11-11 19:55 ET — redesign session — live as Krypta-v2 `d766e34` (Kryptaa-2 `8b880dc`)
+
+- `t-shirts.html`: hero and one-per-screen panels show the man wearing each tee (`imgs/tees/tee-1-g2`,
+  `tee-2-g2`, `tee-3`, `tee-4-g6`), class `ld-photo`. The bare-shirt cut-outs are still in `rail/1|3|4|5.webp`;
+  to undo, point those `src`s back at `rail/N.webp` and drop `ld-photo`.
+- `catalog.js`: removed the jeans mirror selfie from tee 5's gallery (it stays on jeans id 10),
+  removed the glitch-stripes `tee-3-g6.webp` from tee 4's gallery.
+- Asset version `v=7` → `v=8`.
+
+## 2026-11-11 01:22 ET — redesign session — live as Krypta-v2 `73ad395` (Kryptaa-2 `8a373e1`, `b732270`)
+
+Vish's 11-item list:
+1. Photos use `object-fit:contain` everywhere (no cropping), dark `#0f0c09` behind.
+2. Homepage drift row (under reviews) is driven by JS (`.drift-row.js`): auto drift + moves with scroll.
+3. `html,body{touch-action:manipulation}` — no double-tap zoom.
+4. Surprise bag: themed size chart `imgs/bundle/surprise-size-chart.webp`, "📏 Size chart" button
+   (`.sb-cbtn`) in the pop-up, also in product 900's gallery.
+5. Pick your weapon pop-up works on phone tap.
+6. Brand video sound button: "🔇 Tap for sound" / "🔊 Sound on · tap to mute".
+7. Look closer callouts bigger, uncropped; hover/tap a dot opens it (`landing.js` `showK`).
+8. Track pants re-cut: `rail/500–503.webp` (yellow uses `womens-st-yellow-03`).
+9. Category landings: `#ldThumbs` photo strip + `#ldQL` Quick look in hero; Quick look on every panel.
+10. Tee covers = front design (`tee-2-front.webp`, `tee-3-front.webp` cleaned of smeared edges).
+11. Gallery arrows = thin gold SVG chevrons (`.gnav svg`), replacing the trident image.
+- Asset version `v=6` → `v=7`.
