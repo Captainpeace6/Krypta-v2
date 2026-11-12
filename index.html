@@ -1,4 +1,17 @@
-<!doctype html><html lang="en"><head><meta charset=utf8><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://kryptaa-api.kryptaa.workers.dev https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com; frame-src https://www.facebook.com; object-src 'none'; base-uri 'self'; form-action 'self' https://www.facebook.com"><meta name="referrer" content="strict-origin-when-cross-origin"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset=utf8><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://kryptaa-api.kryptaa.workers.dev https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net https://www.googletagmanager.com https://connect.facebook.net https://www.facebook.com; frame-src https://www.facebook.com; object-src 'none'; base-uri 'self'; form-action 'self' https://www.facebook.com"><meta name="referrer" content="strict-origin-when-cross-origin"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
+@media (hover:none),(max-width:640px){
+  .cats a{position:relative}
+  .wp-cap{display:none}
+  .cats a.live .wp-cap{display:block;position:absolute;left:50%;transform:translateX(-50%);bottom:14px;max-width:calc(100% - 40px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--void);background:var(--gold);padding:6px 10px;z-index:2;pointer-events:none}
+  .cats a.live .mini{animation:wpflip .35s ease}
+  @keyframes wpflip{from{opacity:.4}}
+  .cats a.live::before{transform:scaleY(1)!important;background:rgba(201,162,74,.14)}
+  .cats a.live .t{color:var(--gold-hi)}
+  .cats a.live .mini{outline:1px solid var(--gold)}
+  .wp-hint{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+}
+</style></head><body>
 <title>KRYPTAA — Gothic Streetwear from the Philly Underground</title>
 <meta name="description" content="KRYPTAA Drop 001: gothic and anime streetwear — wide-leg denim, heavyweight tees and street track pants. Limited units, zero restocks. Ships from Philadelphia.">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -8,7 +21,7 @@
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2070231503594050');fbq('track','PageView');</script>
 <link rel="canonical" href="https://www.kryptaa.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="site.css?v=9">
+<link rel="stylesheet" href="site.css?v=10">
 <style>
 /* Layout: one black-and-gold store page. Order: clothing rail (opening) → reviews that pop up on scroll → sliding words + drifting product photos → spinning product ribbon → pick-your-weapon list → trident made of dots → footer. */
 :root{
@@ -1033,7 +1046,21 @@ cats.querySelectorAll("a").forEach(a=>{const c=C[+a.dataset.i],L=list(c);
       <a class="btn" href="${a.getAttribute("href")}" style="width:100%;justify-content:center;margin-top:16px">Shop all ${esc(c[0].toLowerCase())} →</a>`;
     document.getElementById("wpOpen").click()})});
 addEventListener("pointermove",e=>{px=e.clientX;py=e.clientY;tx=px+24;ty=py-150});
-addEventListener("scroll",()=>{if(!fOn)return;const el=document.elementFromPoint(px,py);const a=el&&el.closest&&el.closest("#cats a");if(!a){fol.classList.remove("on");fOn=false;stopCyc()}},{passive:true});
+/* Phones: no mouse to hover, so the line in the middle of the screen lights up as you scroll
+   and the same photo card flips through every piece next to it. Tap = full pop-up. */
+if(touchUI()){const links=[...cats.querySelectorAll("a")];let cur=-1;
+  const hint=document.createElement("p");hint.className="wp-hint mono";hint.textContent="Scroll — each shelf flips through its pieces · tap to see them all";cats.parentElement.insertBefore(hint,cats);
+  links.forEach(a=>{const m=a.querySelector(".mini");if(!m)return;a.dataset.cover=m.getAttribute("src");const cap=document.createElement("span");cap.className="wp-cap mono";m.after(cap)});
+  function off(){if(cur<0)return;const a=links[cur],m=a.querySelector(".mini");a.classList.remove("live");if(m)m.src=a.dataset.cover;stopCyc();cur=-1}
+  function pick(){const r=cats.getBoundingClientRect();
+    if(r.bottom<innerHeight*.2||r.top>innerHeight*.8||document.querySelector(".modal.on")){off();return}
+    const mid=innerHeight*.5;let best=0,bd=1e9;links.forEach((a,i)=>{const b=a.getBoundingClientRect(),d=Math.abs(b.top+b.height/2-mid);if(d<bd){bd=d;best=i}});
+    if(best===cur)return;off();cur=best;const a=links[cur],m=a.querySelector(".mini"),cap=a.querySelector(".wp-cap");a.classList.add("live");
+    const L=list(C[+a.dataset.i]);let k=0;const step=()=>{const it=L[k];if(m)m.src=it.img;if(cap)cap.textContent=it.n+(it.p!=null?" · "+money(it.p):"")+(L.length>1?"  "+(k+1)+"/"+L.length:"")};
+    step();if(L.length>1&&!reduce)cyc=setInterval(()=>{k=(k+1)%L.length;step()},1000)}
+  let t=false;addEventListener("scroll",()=>{if(!t){t=true;requestAnimationFrame(()=>{t=false;pick()})}},{passive:true});
+  setInterval(pick,400);}
+addEventListener("scroll",()=>{if(!fOn||touchUI())return;const el=document.elementFromPoint(px,py);const a=el&&el.closest&&el.closest("#cats a");if(!a){fol.classList.remove("on");fOn=false;stopCyc()}},{passive:true});
 (function loop(){fx+=(tx-fx)*.16;fy+=(ty-fy)*.16;fol.style.transform=`translate(${fx}px,${fy}px) rotate(${(tx-fx)*.04}deg)`;requestAnimationFrame(loop)})();
 })();
 
@@ -1198,7 +1225,7 @@ cv.addEventListener("pointerleave",()=>{mx=my=-9999});cv.addEventListener("point
 <button type="button" id="sbOpen" data-open="sbModal" hidden></button>
 <div class="sbr" id="sbr"><button class="go" type="button" aria-label="Surprise bag — open the offer"><span class="a"><img src="imgs/kryptaa-sigil.webp" alt=""></span><span class="bub" id="sbBub">Click for a surprise bag</span></button><button class="sx" type="button" id="sbX" aria-label="Hide the surprise bag button">✕</button></div>
 
-<script src="catalog.js?v=9"></script><script src="slugs.js?v=9"></script><script src="api.js?v=9" data-after="site.js"></script><script>(function(){const v=document.getElementById("bvid"),b=document.getElementById("bvBtn");if(!v)return;
+<script src="catalog.js?v=10"></script><script src="slugs.js?v=10"></script><script src="api.js?v=10" data-after="site.js"></script><script>(function(){const v=document.getElementById("bvid"),b=document.getElementById("bvBtn");if(!v)return;
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;let want=!reduce;
 const set=()=>{b.textContent=v.paused?"▶ Play":"❚❚ Pause";b.setAttribute("aria-label",v.paused?"Play video":"Pause video")};
 new IntersectionObserver(es=>{if(es[0].isIntersecting&&want)v.play().catch(()=>{});else v.pause();setTimeout(set,50)},{threshold:.25}).observe(v);

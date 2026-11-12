@@ -13,6 +13,15 @@ Asset version in `?v=` query strings must go up by one with every live change.
 
 ---
 
+## 2026-11-11 20:30 ET — redesign session — Pick your weapon on phones flips like desktop
+
+- `index.html`, section 5 JS: on touch screens the line nearest the middle of the screen gets
+  class `live`; its own big photo (`.mini`) flips through every piece on that shelf once a second,
+  with a gold caption `.wp-cap` (name · price · n/total). Leaves the photo back on its cover when it
+  goes off. Tap still opens the all-pieces pop-up (`#wpModal`). Desktop hover card unchanged.
+- Added a small gold hint above the list on phones (`.wp-hint`).
+- Asset version `v=9` → `v=10`.
+
 ## 2026-11-11 20:10 ET — redesign session — "Her & Him" tee photos, Women → T-Shirts
 
 - **Women's "One tee. Worn by both." section** (`women-all.html`): each tee now shows ONE merged photo
