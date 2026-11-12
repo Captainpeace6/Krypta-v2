@@ -13,6 +13,24 @@ Asset version in `?v=` query strings must go up by one with every live change.
 
 ---
 
+## 2026-11-11 22:00 ET — redesign session — bundle picks, club pop-up, louder free-shipping bar, Google/IG feed, SEO, lighter photos
+
+- `site.js` product page: "Complete the look" block (`#pairBlk`, `.pair`) under the Add-to-bag area — 3 matching
+  pieces from the other half of the outfit (tees ↔ jeans, track pants → tees, women's wear ↔ women's denim),
+  each opens Quick look. Line: "Code KRYPTAA12 = 12% off the whole bag" (existing code, no new discount).
+- `site.js`: club pop-up `#clubPop` (`.club-pop`), once per visitor (localStorage `kry_club_pop`), after 20 s or
+  half the page, never on checkout/track/admin. Uses the same `form[data-club]` handler → Worker `club-signup`
+  (source `popup`). After "You're in" it shows code KRYPTAA12 + Copy.
+- `site.js` bag: free-shipping bar louder — truck icon, 8px glowing gold track, "A $39 tee gets you there →"
+  link when a tee closes the gap; turns green when unlocked. CSS at the end of `site.css`.
+- New `feed.xml` (Google Merchant RSS, g: namespace) — 26 live products, links to /products/<slug>.html.
+  Works for Google Merchant Center and Meta Commerce Manager (Instagram Shopping). Pre-orders use
+  availability_date = 2026-12-11. Rebuild it when products/prices change.
+- SEO: real titles + meta description + Open Graph tags on men, men-all, women, women-all, women-wear,
+  t-shirts, anime, jeans, track-pants, lookbook, product.html.
+- 22 big .webp photos re-encoded (max 1500px, quality 80): 6.9 MB → 5.3 MB.
+- Asset version `v=13` → `v=14`.
+
 ## 2026-11-11 21:15 ET — redesign session — Instagram on phones, Look closer photo boxes, Angel of Death front
 
 - `index.html`: on touch screens, links to instagram.com lose `target="_blank"` (new-tab links to

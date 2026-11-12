@@ -69,8 +69,10 @@ function renderBag(){
       <div class="acts"><a class="btn" href="men-all.html">Shop Drop 001</a><a class="btn ghost" href="anime.html">Anime pre-orders</a></div></div>`;
     foot.hidden=true;return}
   const rem=Math.max(0,FREE-tot),pct=Math.min(100,tot/FREE*100);
-  bar.innerHTML=rem>0?`<div class="t">Add <strong>${money(rem)}</strong> more for free shipping</div><div class="track"><i style="--p:${pct}%"></i></div>`
-    :`<div class="t ok">✓ Free shipping unlocked</div><div class="track"><i style="--p:100%;background:var(--ok)"></i></div>`;
+  const tee=K.products.find(x=>x.category==="tees"&&!x.archived&&x.price>=rem);
+  bar.innerHTML=rem>0?`<div class="t"><span class="fs-ic" aria-hidden="true">🚚</span><span>You're <strong>${money(rem)}</strong> away from <b>free shipping</b></span></div><div class="track"><i style="--p:${pct}%"></i></div>${tee&&rem<=tee.price?`<a class="fs-tip mono" href="t-shirts.html">A $${tee.price} tee gets you there →</a>`:""}`
+    :`<div class="t ok"><span class="fs-ic" aria-hidden="true">✓</span><b>Free shipping unlocked</b></div><div class="track done"><i style="--p:100%"></i></div>`;
+  bar.classList.toggle("done",rem<=0);
   body.innerHTML=bag.map(l=>{const p=byId(l.id);return `<div class="line"><a href="${purl(p.id)}"><img src="${esc(asset(p.img))}" alt="${esc(p.name)}"></a><div>
     <a class="nm" href="${purl(p.id)}">${esc(p.name)}</a><div class="meta">Size ${esc(l.size)} · ${money(p.price)}${isPre(p)?" · Pre-order":""}</div>
     <div class="row"><span class="qty"><button type="button" data-q="${esc(l.key)}" data-d="-1" aria-label="One less">−</button><span>${l.qty}</span><button type="button" data-q="${esc(l.key)}" data-d="1" aria-label="One more">+</button></span>
@@ -176,12 +178,20 @@ if(page==="product"){
           <div class="sizes" id="sizes">${p.sizes.map(z=>{const so=soldOut(p,z),q=stockOf(p,z);return `<button type="button" data-z="${esc(z)}" aria-pressed="false" ${so?"disabled aria-label=\""+esc(z)+" sold out\"":""}>${esc(z)}${!so&&q!=null&&q<=LOW?'<span class="lo">'+q+' left</span>':""}</button>`}).join("")}</div>
           <div class="lowmsg mono" id="lowmsg" aria-live="polite"></div></div>`:""}
         <div class="buy"><button class="btn" type="button" id="addBtn" ${p.archived?"disabled":""}>${btnTxt}</button>${heartBtn(p.id)}</div>
+        <div class="pair" id="pairBlk"></div>
         <div class="trust"><div><b>Free shipping</b><span class="mono">Over $60</span></div><div><b>Ships in</b><span class="mono">3–7 days</span></div><div><b>Secure</b><span class="mono">Stripe checkout</span></div></div>
         <div class="acc">${acc.map((a,i)=>`<details${i===0?" open":""}><summary>${a[0]}</summary><div class="ac">${esc(a[1])}</div></details>`).join("")}</div>
       </div></div>`;
     $$("[data-g]",root).forEach(b=>b.onclick=()=>{gi=+b.dataset.g;$("#gMain").src=gal[gi].src;$("#gLab").textContent=gal[gi].label||"";$$("[data-g]",root).forEach(x=>x.setAttribute("aria-pressed",x===b))});
     $$("#sizes [data-z]").forEach(b=>b.onclick=()=>{size=b.dataset.z;$$("#sizes [data-z]").forEach(x=>x.setAttribute("aria-pressed",x===b));const q=stockOf(p,size);$("#lowmsg").textContent=q!=null&&q<=LOW?`Only ${q} left in ${size}`:""});
     const sg=$("#sgBtn");sg&&(sg.onclick=()=>openSizeGuide(p.category));
+    /* Complete the look: a matching piece from the other half of the outfit, opened in Quick look */
+    (function(){const pb=$("#pairBlk");if(!pb||p.archived)return;
+      const want={men:["tees"],women:["tees","women_wear"],anime:["tees"],tees:["men","women"],women_st:["tees","women_wear"],women_wear:["women","women_st"]}[p.category]||[];
+      const pick=K.products.filter(x=>want.includes(x.category)&&!x.archived&&x.id!==p.id&&!isPre(x)).slice(0,3);
+      if(!pick.length){pb.remove();return}
+      pb.innerHTML=`<div class="pair-h"><b>Complete the look</b><span class="mono">Code <strong>KRYPTAA12</strong> = 12% off the whole bag</span></div>
+        <div class="pair-row">${pick.map(x=>`<button type="button" class="pair-it" data-qlook="${x.id}"><img src="${esc(asset(x.img))}" alt="" loading="lazy"><span>${esc(x.name)}</span><em class="mono">${money(x.price)} · Add +</em></button>`).join("")}</div>`})();
     $("#addBtn").onclick=()=>{if(p.archived)return;if(!buy){location.href="contact.html";return}
       if(!size&&p.sizes.length>1){$("#lowmsg").textContent="Pick a size first";$("#lowmsg").style.color="#e0535a";$("#sizes").animate&&!reduce&&$("#sizes").animate([{transform:"translateX(0)"},{transform:"translateX(-6px)"},{transform:"translateX(6px)"},{transform:"translateX(0)"}],{duration:300});return}
       addToBag(p.id,size||p.sizes[0]||"One size")};
@@ -325,6 +335,26 @@ if(page==="track"){let step=1;
 
 /* CONTACT copy email */
 $$("[data-copy]").forEach(b=>b.addEventListener("click",async()=>{const t=b.dataset.copy;try{await navigator.clipboard.writeText(t);toast("Copied "+t)}catch(e){const r=document.createRange();r.selectNodeContents(b.previousElementSibling||b);const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Select and copy the email")}}));
+
+/* Club pop-up: once per visitor, after 20 s or half the page, never on checkout. Uses the same
+   club form as the footer (same Worker endpoint); the 12% code is shown once they've joined. */
+(function(){const pg=document.body.dataset.page||"";if(/checkout|track|admin/.test(pg)||/checkout|admin/.test(location.pathname))return;
+  let seen=false;try{seen=localStorage.getItem("kry_club_pop")==="1"}catch(e){}
+  if(seen)return;
+  const m=document.createElement("div");m.className="modal club-pop";m.id="clubPop";m.setAttribute("aria-hidden","true");m.setAttribute("role","dialog");m.setAttribute("aria-label","Join the club");
+  m.innerHTML=`<div class="box"><button class="x" type="button" data-close aria-label="Close">✕</button>
+    <div class="cp-in"><img class="cp-sig" src="${asset("imgs/kryptaa-sigil.webp")}" alt=""><div class="eyebrow">Join the club</div><h2>12% off your first order</h2>
+    <p>Drop news, restocks and early access — straight to your inbox. No spam.</p>
+    <form data-club="popup" novalidate><input type="email" placeholder="you@email.com" aria-label="Email" autocomplete="email" required><button class="btn" type="submit">Get 12% off</button></form>
+    <p class="msg mono" aria-live="polite"></p><div class="cp-code" hidden>Your code: <b>KRYPTAA12</b> <button type="button" class="btn ghost" data-copy="KRYPTAA12">Copy</button></div>
+    <button type="button" class="cp-no mono" data-close>No thanks</button></div></div>`;
+  document.body.append(m);
+  m.querySelector("[data-copy]").addEventListener("click",async()=>{try{await navigator.clipboard.writeText("KRYPTAA12");toast("Copied KRYPTAA12")}catch(e){toast("Code: KRYPTAA12")}});
+  const msg=m.querySelector(".msg");const mo=new MutationObserver(()=>{if(/^You're in\. Drop/.test(msg.textContent)){mo.disconnect();m.querySelector(".cp-code").hidden=false;m.querySelector("form").hidden=true;msg.textContent="You're in. Use this code at checkout:"}});mo.observe(msg,{childList:true,characterData:true,subtree:true});
+  let done=false;const show=()=>{if(done||document.querySelector(".drawer.on,.modal.on"))return;done=true;try{localStorage.setItem("kry_club_pop","1")}catch(e){}openDrawer("clubPop")};
+  setTimeout(show,20000);
+  addEventListener("scroll",function f(){const h=document.documentElement;if(h.scrollTop>(h.scrollHeight-innerHeight)*.5){removeEventListener("scroll",f);setTimeout(show,800)}},{passive:true});
+})();
 
 /* Join the club — POSTs to the Worker, which stores the address and pings the shop.
    The reply is identical for a new and an existing address, so the form cannot be
