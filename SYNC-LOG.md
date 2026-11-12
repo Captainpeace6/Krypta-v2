@@ -13,6 +13,14 @@ Asset version in `?v=` query strings must go up by one with every live change.
 
 ---
 
+## 2026-11-11 22:45 ET — redesign session — Gold Baroque Wide-Leg cover = back embroidery photo
+
+- `catalog.js` product 31: `img`/`hero` `womens-pant-6-g5.webp` (plain black) → `womens-pant-6-g2.webp`
+  (back, gold embroidery); that photo moved to the front of its gallery.
+- Same swap in the homepage "Pick your weapon" data (`index.html`), the photo tiles on `women.html`,
+  `women-all.html`, `jeans.html`, and the main image in `feed.xml` + `feed/google-merchant.xml`.
+- Asset version `v=14` → `v=15`.
+
 ## 2026-11-11 22:00 ET — redesign session — bundle picks, club pop-up, louder free-shipping bar, Google/IG feed, SEO, lighter photos
 
 - `site.js` product page: "Complete the look" block (`#pairBlk`, `.pair`) under the Add-to-bag area — 3 matching
