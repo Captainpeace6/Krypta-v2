@@ -13,6 +13,16 @@ Asset version in `?v=` query strings must go up by one with every live change.
 
 ---
 
+## 2026-11-11 21:15 ET — redesign session — Instagram on phones, Look closer photo boxes, Angel of Death front
+
+- `index.html`: on touch screens, links to instagram.com lose `target="_blank"` (new-tab links to
+  Instagram are often blocked on phones; same tab opens the Instagram app reliably).
+- `landing.css` (desktop): Look closer photo box `.call .ph` now takes the photo's own shape (no empty
+  bars); the 0N/04 counter moved to the top-right so it no longer sits under a card.
+- `rail/3.webp` (Angel of Death) re-cut from the FRONT (from `imgs/tees/tee-2-g2.webp`, shirt only).
+  Used by the homepage rail and the "layer by layer" stacks. Rail label changed to "Heavyweight · Front".
+- Asset version `v=12` → `v=13`.
+
 ## 2026-11-11 21:00 ET — redesign session — faster Look closer + phone upgrades
 
 - `landing.css` (all 9 category pages): Look closer section height `n+1` screens → `n*0.45+1`

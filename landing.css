@@ -250,3 +250,10 @@ body[data-landing] main{overflow-x:clip}
   .ld-swipe{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:10px}
 }
 @media (min-width:981px){.ld-swipe{display:none}}
+
+/* Look closer: the photo box takes the photo's own shape, so no empty bars around it */
+@media (min-width:981px){
+  .call .ph{height:auto;max-height:min(46svh,440px);display:flex;justify-content:center;align-items:center}
+  .call .ph img{width:100%;height:auto;max-height:min(46svh,440px);object-fit:contain}
+  .ld-an-prog{left:auto;right:clamp(16px,3vw,44px);top:clamp(14px,3vh,34px);bottom:auto}
+}
