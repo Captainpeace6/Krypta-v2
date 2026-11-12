@@ -200,8 +200,16 @@ body[data-landing] main{overflow-x:clip}
 .ld-acts .btn[data-qlook]{border-color:var(--gold);color:var(--gold-hi)}
 
 /* T-shirts page: real people wearing the tee instead of the bare shirt */
-.ld-prod.ld-photo,.ld-pn-art img.ld-photo{object-fit:contain;border:1px solid rgba(201,162,74,.45);filter:drop-shadow(0 30px 40px rgba(0,0,0,.6))}
-.ld-pn-art img.ld-photo{height:100%;width:auto;max-width:100%;aspect-ratio:3/4;object-fit:cover;object-position:50% 20%}
+/* T-Shirts page: her + him wearing the tee (one wide photo), shown big */
+.ld-prod.ld-photo{object-fit:cover;border:1px solid rgba(201,162,74,.45);filter:drop-shadow(0 30px 40px rgba(0,0,0,.6))}
+.ld-prod.ld-photo:not(.on):not(.off){visibility:hidden}
+.ld-hero-duo{grid-template-columns:minmax(0,.85fr) minmax(0,1.7fr) minmax(0,.8fr)}
+.ld-hero-duo .ld-stage{height:min(72svh,760px)}
+.ld-tilt.ld-duo{height:auto;width:100%;max-width:100%;max-height:96%;aspect-ratio:1.162}
+.ld-pn-art img.ld-photo{width:100%;height:auto;max-height:100%;aspect-ratio:1683/1448;object-fit:cover;object-position:50% 25%;border:1px solid rgba(201,162,74,.45);filter:drop-shadow(0 30px 40px rgba(0,0,0,.6))}
+.ld-show .ld-panel:has(img.ld-photo){grid-template-columns:minmax(0,1.35fr) minmax(0,.8fr)}
+@media (max-width:980px){.ld-hero-duo{grid-template-columns:1fr}.ld-hero-duo .ld-stage{height:auto;padding:8px 0}.ld-tilt.ld-duo{max-height:none}
+  .ld-show .ld-panel:has(img.ld-photo){grid-template-columns:1fr}.ld-show .ld-panel:has(img.ld-photo) .ld-pn-art{height:auto}}
 /* Women's: one tee, worn by both */
 .ld-pairs{position:relative;padding-block:clamp(50px,7vw,100px)}
 .ld-pairs-h{position:relative;max-width:620px;margin-bottom:clamp(20px,3vw,36px)}.ld-pairs-h p{color:#b8ad98;line-height:1.6}
@@ -218,3 +226,4 @@ body[data-landing] main{overflow-x:clip}
 @media (max-width:760px){.ld-pairs-grid{grid-template-columns:1fr}}
 
 .ld-pair-ph.one{display:block;background:none}.ld-pair-ph.one figure{aspect-ratio:1683/1448}.ld-pair-ph.one img{object-position:50% 30%}
+.ld-hero-duo .ld-h{font-size:clamp(30px,3.2vw,60px)}.ld-hero-duo .ld-copy{padding-right:8px}

@@ -13,6 +13,15 @@ Asset version in `?v=` query strings must go up by one with every live change.
 
 ---
 
+## 2026-11-11 20:45 ET — redesign session — T-Shirts page uses the Her & Him photos, bigger
+
+- `t-shirts.html`: hero (`.ld-prod.ld-photo`) and the 4 one-per-screen panels (`img.ld-photo`) now show
+  `imgs/tees/duo-1|3|4|5.webp` — the same merged her+him photos as `women-all.html`.
+  Hero section has class `ld-hero-duo` (wider middle column, bigger stage); tilt box `.ld-duo` is 1.162 wide.
+- `landing.css`: non-active hero photos are `visibility:hidden` so the photo always matches the name in the
+  card (before, the previous tee could show under the new card mid-swap). Phone layout stacks full width.
+- Asset version `v=10` → `v=11`.
+
 ## 2026-11-11 20:30 ET — redesign session — Pick your weapon on phones flips like desktop
 
 - `index.html`, section 5 JS: on touch screens the line nearest the middle of the screen gets
