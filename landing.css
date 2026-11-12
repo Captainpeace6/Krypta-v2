@@ -81,7 +81,7 @@ body[data-landing] main{overflow-x:clip}
 @media (hover:none){.ld-tile img{filter:grayscale(.3) brightness(.9)}}
 
 /* ── STACK (isometric layers) ── */
-.ld-stack{position:relative;height:300vh}
+.ld-stack{position:relative;height:190vh}
 .ld-sticky{position:sticky;top:60px;height:calc(100svh - 60px);overflow:hidden;display:grid;align-items:center}
 .ld-stack .ld-sticky{grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr) minmax(0,.9fr);gap:clamp(12px,2vw,30px);padding:0 clamp(16px,3vw,44px)}
 .ld-st-copy{position:relative;z-index:2}.ld-st-copy p{color:#b8ad98;line-height:1.65;max-width:40ch;font-size:15px}
@@ -100,7 +100,7 @@ body[data-landing] main{overflow-x:clip}
 .lb:hover b{color:var(--gold-hi)}
 
 /* ── ANATOMY ── */
-.ld-anat{position:relative;height:calc(100vh * (var(--n) + 1))}
+.ld-anat{position:relative;height:calc(100vh * (var(--n) * .45 + 1))}
 .ld-anat .ld-sticky{grid-template-columns:1fr;grid-template-rows:auto 1fr;padding:clamp(14px,3vh,34px) clamp(16px,3vw,44px) 0}
 .ld-an-head{position:relative;z-index:2;text-align:center}.ld-an-head .ld-h2{margin-bottom:0}
 .ld-an-stage{position:relative;height:100%;display:grid;place-items:center;min-height:0}
@@ -227,3 +227,26 @@ body[data-landing] main{overflow-x:clip}
 
 .ld-pair-ph.one{display:block;background:none}.ld-pair-ph.one figure{aspect-ratio:1683/1448}.ld-pair-ph.one img{object-position:50% 30%}
 .ld-hero-duo .ld-h{font-size:clamp(30px,3.2vw,60px)}.ld-hero-duo .ld-copy{padding-right:8px}
+
+/* ── phones & tablets: no long sticky scroll — the drop and the close-ups become swipeable cards ── */
+@media (max-width:980px){
+  .ld-stack,.ld-anat{height:auto!important}
+  .ld-stack .ld-sticky,.ld-anat .ld-sticky{position:relative;top:auto;height:auto;overflow:visible;padding-bottom:28px}
+  .ld-iso{height:auto;perspective:none;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -16px;padding:4px 16px}
+  .ld-iso::-webkit-scrollbar{display:none}
+  .ld-iso-in{transform:none!important;display:flex;gap:10px;width:auto!important;aspect-ratio:auto;transform-style:flat}
+  .ld-iso .ly{position:relative;inset:auto;transform:none!important;flex:0 0 58%;aspect-ratio:3/4;scroll-snap-align:center;background:radial-gradient(closest-side,rgba(241,207,122,.14),transparent 75%),#100d0a;border:1px solid #2a221a}
+  .ld-iso .ly::after{display:none}
+  .ld-iso .ly img{filter:drop-shadow(0 14px 18px rgba(0,0,0,.6))}
+  .ld-labels{display:none}
+  .ld-st-copy p{display:block;font-size:14px}
+  .ld-an-stage{display:none}
+  .ld-an-head{text-align:left}
+  .ld-calls{position:static;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:14px -16px 0;padding:0 16px 6px;pointer-events:auto}
+  .ld-calls::-webkit-scrollbar{display:none}
+  .ld-calls .call{position:relative;left:auto!important;right:auto!important;top:auto!important;bottom:auto;opacity:1;transform:none;flex:0 0 84%;scroll-snap-align:center;display:block}
+  .ld-calls .call .ph{aspect-ratio:4/3;height:auto;border-right:0;border-bottom:1px solid #3a3026}
+  .ld-an-prog{display:none}
+  .ld-swipe{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:10px}
+}
+@media (min-width:981px){.ld-swipe{display:none}}

@@ -199,6 +199,22 @@ if(page==="product"){
       const pv=$(".gal .gnav.prev"),nx=$(".gal .gnav.next");
       pv&&(pv.onclick=()=>go(-1));nx&&(nx.onclick=()=>go(1));
       if(gal.length<2){pv&&(pv.hidden=true);nx&&(nx.hidden=true)}
+      /* phones: swipe the big photo left/right */
+      const box=$(".gal .main");let sx=null,sy=0;
+      if(box&&gal.length>1){box.addEventListener("touchstart",e=>{const t=e.touches[0];sx=t.clientX;sy=t.clientY},{passive:true});
+        box.addEventListener("touchend",e=>{if(sx==null)return;const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;sx=null;
+          if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.3)go(dx<0?1:-1)},{passive:true});}
+    })();
+    /* phones: slim bar stuck to the bottom with the price + Add to bag, shown once the real button scrolls away */
+    (function(){let bar=document.getElementById("stickyBuy");if(bar)bar.remove();
+      if(p.archived)return;const ab=$("#addBtn");if(!ab||!("IntersectionObserver" in window))return;
+      bar=document.createElement("div");bar.id="stickyBuy";bar.className="sticky-buy";
+      bar.innerHTML=`<div class="sb-i"><b>${esc(p.name)}</b><span class="mono">${money(p.price)}${size?" · "+esc(size):""}</span></div><button class="btn" type="button">${ab.textContent}</button>`;
+      document.body.append(bar);
+      bar.querySelector("button").onclick=()=>{if(!size&&p.sizes.length>1){$("#sizes").scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"});ab.click();return}ab.click()};
+      const upd=()=>{const sp=bar.querySelector(".mono");if(sp)sp.textContent=money(p.price)+(size?" · "+size:"")};
+      $$("#sizes button").forEach(b=>b.addEventListener("click",()=>setTimeout(upd,0)));
+      new IntersectionObserver(en=>{bar.classList.toggle("on",!en[0].isIntersecting&&en[0].boundingClientRect.top<0)}).observe(ab);
     })();
     paintRecent(p.id);scrollTo(0,0);
   }

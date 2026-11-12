@@ -13,6 +13,20 @@ Asset version in `?v=` query strings must go up by one with every live change.
 
 ---
 
+## 2026-11-11 21:00 ET — redesign session — faster Look closer + phone upgrades
+
+- `landing.css` (all 9 category pages): Look closer section height `n+1` screens → `n*0.45+1`
+  (4 close-ups ≈ 2.8 screens instead of 5). "Layer by layer" stack 300vh → 190vh.
+- Phones/tablets (≤980px): stack + Look closer are no longer sticky scroll sections. The drop becomes a
+  horizontal swipe row of cut-outs, the close-ups a swipe row of cards (`.ld-calls` flex + scroll-snap);
+  `.ld-labels` and the figure with dots are hidden. "Swipe →" hint `.ld-swipe` added under both headings.
+- `site.js` product page: swipe left/right on the big photo changes it; `#stickyBuy` bar (name, price ·
+  size, Add to bag) slides up from the bottom on phones once `#addBtn` scrolls out of view. With no size
+  picked it scrolls back to the sizes and shows "Pick a size first".
+- `site.css` phones: size buttons ≥56×48px, hearts 44px.
+- `index.html`: surprise-bag runner 54px → 44px on phones.
+- Asset version `v=11` → `v=12`.
+
 ## 2026-11-11 20:45 ET — redesign session — T-Shirts page uses the Her & Him photos, bigger
 
 - `t-shirts.html`: hero (`.ld-prod.ld-photo`) and the 4 one-per-screen panels (`img.ld-photo`) now show
