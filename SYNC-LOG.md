@@ -11,7 +11,52 @@ Only copy a file to Krypta-v2 if it still matches the Kryptaa-2 version you star
 
 Asset version in `?v=` query strings must go up by one with every live change.
 
+
+## RULES FOR BACKEND WORK — read before touching anything below the site
+
+Vishwak's instruction, 17 Nov 2026: **the UI is low stakes, the backend is not.** A design idea can be
+redone in an afternoon; a broken Worker stops the shop taking money and a wrong key breaks email,
+analytics and the dashboard at once. If backend work is risky and not urgent, leave it and say so
+rather than pushing on.
+
+1. **Never run a bare `npx wrangler deploy`** in `kryptaa-worker`. It produces a version with **zero
+   secrets** and kills live checkout. Always: `wrangler versions upload` (or `versions secret put`) →
+   `wrangler versions view <id>` to confirm **5** `Secret Name:` lines → test the version's own
+   preview URL → only then `wrangler versions deploy`.
+2. **`wrangler secret list` lies.** It prints the pending config, not what is deployed. Trust
+   `wrangler versions view <id>`.
+3. **Recovery is a rollback**, not a re-deploy: `wrangler rollback <previous-version-id> --yes`
+   restores the old code *and* its secrets in seconds.
+4. **A self-signed webhook test proves nothing.** Signing with the Worker's own secret only shows it
+   agrees with itself. Use `~/check-webhook-secret.sh` (sign with the secret revealed in Stripe), or
+   watch `pending_webhooks` drop to 0.
+5. **Never put `GA4_SA_KEY` back in the Netlify environment.** 2.3KB against a 4KB Lambda cap breaks
+   every function deploy. It lives in Blobs: store `kryptaa-config`, key `ga4-sa-key`.
+6. **`ADMIN_KEY` must be identical on the Worker and Netlify.** They are separate stores; rotating one
+   and not the other 401s half the dashboard and leaves the old key live on the other platform.
+7. **Rotating a Stripe key means both places.** The Worker and Netlify's `STRIPE_SECRET_KEY` both use
+   one. Netlify additionally needs **Promotion Codes: Write** and **Charges: Read**, or `daily-pulse`
+   fails silently on `charges.list`.
+8. **Create before you revoke.** New key in, verified working, *then* delete the old one. Never the
+   other way round.
+9. **Secrets never go in chat, a commit, or a command line.** Straight into the tool's own masked
+   prompt. If one is exposed, it is burned — rotate it.
+10. **Verify with evidence, not assumption.** Live checkout returning a real `checkout.stripe.com`
+    URL, a 401 on every admin route, `pending_webhooks: 0`. Say plainly what was not checked.
+
 ---
+
+## 2026-11-17 20:00 ET — Claude Code session — key rotation closed out
+
+- The leaked Mar 25 restricted key is **deleted** in Stripe. Verified afterwards that nothing broke:
+  Worker checkout returns a live `checkout.stripe.com` session, coupons apply, track-order responds,
+  webhook signatures enforced (400 on bad), all Worker and Netlify admin routes 401, site 200 on `v=16`.
+- Netlify now runs the same restricted key created this morning, with Promotion Codes and Charges
+  added. Confirmed with `get-orders` 200 and `pulse-now` 200 — the latter exercises `charges.list`.
+- **Every credential that leaked on 11 Nov is now dead**: `rk_live_`, `whsec_`, `ADMIN_KEY`,
+  `Mail_Secret`. Zero secrets in any of the four repos' working trees or git history.
+- The Google service-account JSON in `~/Downloads` stays — Vishwak keeps it on local disk deliberately.
+- Added the standing backend rules at the top of this file.
 
 ## 2026-11-17 19:30 ET — Claude Code session — Stripe key rotation finished, where secrets live
 
