@@ -1,0 +1,17 @@
+
+node_modules/
+.venv/
+.runtime/
+.git/
+dist/
+build/
+.expo/
+.netlify/
+.wrangler/
+.playwright-mcp/
+data/
+.env*
+.dev.vars*
+sellbird.local.yaml
+graphify-out/
+*.min.js

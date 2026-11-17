@@ -98,8 +98,8 @@ function paintCounts(){$$("[data-count=bag]").forEach(c=>{c.textContent=bagCount
 
 /* ── DRAWERS / MENUS ── */
 const scrim=$("#scrim");let lastFocus=null;
-function openDrawer(id){const d=document.getElementById(id);if(!d)return;closeAll();lastFocus=document.activeElement;d.classList.add("on");d.setAttribute("aria-hidden","false");scrim.classList.add("on");document.documentElement.style.overflow="hidden";setTimeout(()=>{const f=d.querySelector(".x");f&&f.focus()},60)}
-function closeAll(){$$(".drawer.on,.modal.on").forEach(d=>{d.classList.remove("on");d.setAttribute("aria-hidden","true")});scrim&&scrim.classList.remove("on");document.documentElement.style.overflow="";if(lastFocus&&lastFocus.focus)lastFocus.focus()}
+function openDrawer(id){const d=document.getElementById(id);if(!d)return;closeAll();lastFocus=document.activeElement;d.classList.add("on");document.documentElement.classList.toggle("modal-open",d.classList.contains("modal"));d.setAttribute("aria-hidden","false");scrim.classList.add("on");document.documentElement.style.overflow="hidden";setTimeout(()=>{const f=d.querySelector(".x");f&&f.focus()},60)}
+function closeAll(){$$(".drawer.on,.modal.on").forEach(d=>{d.classList.remove("on");d.setAttribute("aria-hidden","true")});document.documentElement.classList.remove("modal-open");scrim&&scrim.classList.remove("on");document.documentElement.style.overflow="";if(lastFocus&&lastFocus.focus)lastFocus.focus()}
 document.addEventListener("click",e=>{
   if(e.target.closest("[data-open]")){e.preventDefault();openDrawer(e.target.closest("[data-open]").dataset.open);return}
   if(e.target.closest("[data-close]")||e.target===scrim||e.target.classList.contains("modal")){closeAll();return}
@@ -107,6 +107,8 @@ document.addEventListener("click",e=>{
   if(!e.target.closest(".k-nav"))$$(".k-nav li.open").forEach(x=>{x.classList.remove("open");x.querySelector("button").setAttribute("aria-expanded","false")});
 });
 addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
+(function(){const fx=document.createElement("button");fx.type="button";fx.className="modal-fx";fx.setAttribute("aria-label","Close");fx.textContent="\u2715";
+  fx.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();closeAll()});document.body.append(fx)})();
 /* size guide tabs */
 document.addEventListener("click",e=>{const t=e.target.closest("[data-sg]");if(!t)return;const box=t.closest(".sg");
   $$("[data-sg]",box).forEach(b=>b.setAttribute("aria-selected",b===t));$$(".sg-panel",box).forEach(p=>p.classList.toggle("active",p.id===t.dataset.sg))});

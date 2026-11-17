@@ -432,3 +432,13 @@ button,.btn,.ld-sel button,.sg-tabs button,.rs-btn,[data-open],[data-close],
 .cp-code{margin-top:6px;font-size:15px}.cp-code b{color:var(--gold-hi);letter-spacing:.1em;font-size:18px}.cp-code .btn{margin-left:8px;padding:8px 12px}
 .cp-no{background:none;border:0;color:var(--ash);margin-top:14px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
 @media (max-width:480px){.club-pop form{grid-template-columns:1fr}}
+
+/* phones: a close button pinned to the screen corner while any pop-up is open (the in-box ✕ scrolls away) */
+.modal-fx{display:none}
+@media (max-width:760px){
+  .modal-open .modal-fx{display:grid;place-items:center;position:fixed;z-index:120;top:calc(10px + env(safe-area-inset-top,0px));right:calc(10px + env(safe-area-inset-right,0px));
+    width:46px;height:46px;border-radius:50%;border:1px solid var(--gold);background:rgba(11,9,7,.92);color:var(--bone);font-size:20px;line-height:1;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.6)}
+  .modal .box>.x{display:none}
+  .modal .box{max-height:calc(100dvh - 76px);margin-top:44px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  .modal.lava .box{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(12,9,7,.95)}
+}

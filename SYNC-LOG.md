@@ -13,6 +13,18 @@ Asset version in `?v=` query strings must go up by one with every live change.
 
 ---
 
+## 2026-11-17 08:30 ET — redesign session — Red Gothic new model photos, phone close button for pop-ups
+
+- Red Gothic Embroidery Denim (id 11): old `mens-pant-2-onbody-1|2|3.webp` (On Body / Worn / Fit) deleted and
+  replaced by Vish's 3 new studio photos `imgs/pants/mens-pant-2-model-1|2|3.webp` (1 = standing full,
+  2 = seated, 3 = close-up). Paths updated in catalog.js, index.html, men.html, men-all.html, jeans.html,
+  journal.js, sitemap.xml, feed.xml, feed/google-merchant.xml.
+- Phones (≤760px): every pop-up (Quick look, surprise bag, club pop-up, Pick your weapon) now shows a round ✕
+  pinned to the screen's top-right corner (`.modal-fx`, added by `site.js`, shown while `html.modal-open`).
+  The in-box ✕ is hidden on phones because it scrolled away. Fixes "Maybe later can't get back" on the
+  surprise bag: the ✕ is always reachable. Surprise bag box: no backdrop blur on phones (iOS tap/scroll bug).
+- Asset version `v=15` → `v=16`.
+
 ## 2026-11-11 22:45 ET — redesign session — Gold Baroque Wide-Leg cover = back embroidery photo
 
 - `catalog.js` product 31: `img`/`hero` `womens-pant-6-g5.webp` (plain black) → `womens-pant-6-g2.webp`
