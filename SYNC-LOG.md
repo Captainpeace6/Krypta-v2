@@ -13,6 +13,29 @@ Asset version in `?v=` query strings must go up by one with every live change.
 
 ---
 
+## 2026-11-17 14:30 ET — Claude Code session — Analytics restored, admin key aligned, bigger dashboard logo
+
+- **Analytics tab was dead** ("Missing GA4_PROPERTY_ID or GA4_SA_KEY env var"). `GA4_SA_KEY` had been
+  deleted from Netlify on 10 Nov because the key is **2,356 bytes** and Netlify injects every site env
+  var into every Lambda, where AWS caps the payload at 4KB — its presence failed EVERY function deploy.
+- **Fix: the key now lives in Netlify Blobs, not the environment.** New
+  `netlify/functions/sa-key-lib.js` (`loadServiceAccount()` — env first, then blob `ga4-sa-key` in store
+  `kryptaa-config`) and `set-sa-key.js` (admin-gated; POST stores, GET reports presence only and never
+  returns the key). `ga4-report`, `gsc-report` and `gsc-sitemap-submit` all use the loader.
+  `GA4_PROPERTY_ID` stays in env — it is 9 bytes. Backend commit `668d0aa`.
+  **Do not put GA4_SA_KEY back in the environment; it will break every deploy again.**
+- The original key was still on disk at `~/Downloads/kryptaa-analytics-9301d916a496.json`
+  (project `kryptaa-analytics`, `kryptaa-ga4-reader@...`), so no new key was generated.
+- **Verified live:** GA4 30d = 369 sessions / 297 users / 832 views / 42% bounce / 1 purchase $36.61,
+  funnel 128 view_item → 5 add_to_cart → 6 begin_checkout → 1 purchase. GSC 28d = 45 clicks /
+  667 impressions / 6.7% CTR / position 9. The only converting channel is Organic Search.
+- **Admin keys had diverged.** `ADMIN_KEY` was rotated on the Cloudflare Worker on 11 Nov but not on
+  Netlify, so the dashboard's Analytics/SEO/Conversion tabs 401'd and the old leaked key still opened
+  Netlify's `get-orders` (customer names and addresses). Netlify `ADMIN_KEY` now matches the Worker and
+  is marked secret. Confirmed the old key returns 401 on both platforms.
+- **Dashboard logo** `.od-header-logo` 46 → 72px desktop, 24 → 40px and 22 → 36px on the smaller
+  breakpoints (`orders.html`, Krypta-v2 `28f23b1`).
+
 ## 2026-11-17 13:35 ET — Claude Code session — mirror v16 live, commit the Worker, Stripe webhook
 
 - **Krypta-v2 was a commit behind.** Kryptaa-2 was at `v=16` but the repo serving kryptaa.com was still
