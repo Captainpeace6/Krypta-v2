@@ -13,6 +13,36 @@ Asset version in `?v=` query strings must go up by one with every live change.
 
 ---
 
+## 2026-11-17 19:30 ET — Claude Code session — Stripe key rotation finished, where secrets live
+
+**Both Stripe credentials rotated.** The `rk_live_` and `whsec_` that leaked into a chat transcript on
+11 Nov are replaced. The webhook secret was verified the honest way: signing an event with the secret
+revealed on the Stripe destination page and posting it to production — `HTTP 200`.
+
+**The leaked restricted key was in TWO places, not one.** The Worker had it, and so did Netlify's
+`STRIPE_SECRET_KEY` (used by `get-orders`, `track-order`, `daily-pulse`, `lab-feed`, `recover-carts`,
+`order-notify`). Netlify now uses the same new restricted key, stored as a Netlify *secret* value.
+
+**Netlify's Stripe calls**, for scoping a key in future: `checkout.sessions.list`, `listLineItems`,
+`create`, `coupons.create`, `promotionCodes.list/create`, `charges.list`. A key scoped only for the
+Worker (Checkout Sessions + Coupons) will make `daily-pulse` fail silently on `charges.list`.
+
+**Where every secret lives now** — none are in any repo (verified: 0 hits in all four working trees and
+0 in all git history):
+- Cloudflare Worker secrets (write-only): `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `ADMIN_KEY`,
+  `Mail_Secret`, `META_CAPI_TOKEN`. Set only with `wrangler versions secret put`, never a bare deploy.
+- Netlify env (marked secret): `STRIPE_SECRET_KEY`, `ADMIN_KEY`, `Mail_Secret`, `GMAIL_APP_PASSWORD`,
+  `NETLIFY_API_TOKEN` and friends. `ADMIN_KEY` must stay identical to the Worker's or the dashboard
+  401s on half its tabs.
+- Netlify Blobs: the Google service-account key, as blob `ga4-sa-key` in store `kryptaa-config`.
+  **Never put it back in the environment** — 2.3KB breaks every deploy at the 4KB Lambda cap.
+
+**Still to do:** delete the Mar 25 restricted key in the Stripe dashboard once the Netlify deploy is
+verified. It is the leaked one and it was still being used by Netlify until today.
+
+**Routine UI work needs none of this.** Edit, push, mirror, bump `?v=`. Keys only come up when one
+leaks or a service is added.
+
 ## 2026-11-17 17:45 ET — Claude Code session — Stripe keys rotated
 
 - **Restricted key replaced.** New Stripe restricted key (Checkout Sessions: Write, Coupons: Write only)
