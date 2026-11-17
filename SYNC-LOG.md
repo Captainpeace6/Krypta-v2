@@ -45,6 +45,11 @@ Asset version in `?v=` query strings must go up by one with every live change.
   surprise bag: the ✕ is always reachable. Surprise bag box: no backdrop blur on phones (iOS tap/scroll bug).
 - Asset version `v=15` → `v=16`.
 
+- **Fixed a broken image on the live homepage.** `index.html:548` (review tile) pointed at
+  `img/rev-mens-pant-2-model-1.webp`, which the 17 Nov Red Gothic rename never created — only
+  `img/rev-mens-pant-2-onbody-1.webp` existed, so the tile 404'd. Built the missing thumbnail from
+  `imgs/pants/mens-pant-2-model-1.webp` at 800x1200 to match the other `rev-*` thumbnails.
+
 ## 2026-11-11 22:45 ET — redesign session — Gold Baroque Wide-Leg cover = back embroidery photo
 
 - `catalog.js` product 31: `img`/`hero` `womens-pant-6-g5.webp` (plain black) → `womens-pant-6-g2.webp`
