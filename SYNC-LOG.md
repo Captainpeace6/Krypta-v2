@@ -27,9 +27,12 @@ Asset version in `?v=` query strings must go up by one with every live change.
   endpoint. A self-signed test passed (Worker consistent with itself) while every real Stripe delivery
   returned 400. **Note for next time: a signed test proves the Worker is self-consistent, not that it
   matches Stripe. Only `pending_webhooks` dropping to 0 proves delivery.**
-- **Not yet confirmed fixed.** All `checkout.session.expired` events so far predate the new secret. A
-  fresh session was created at 17:43 UTC; its expiry event ~1h later is the first real test. Watch the
-  error rate on the destination page, or `pending_webhooks` on a post-17:45 event.
+- **CONFIRMED FIXED.** Verified by signing a `ping.diagnostic` event with the secret revealed on the
+  Stripe destination page and posting it to production: `HTTP 200 Ignored`. That is the real test —
+  Stripe's own secret, accepted by the Worker. Production runs version `6b5c8df9`. The 93% error
+  rate is history from before the fix and will fall away as new events arrive.
+  Helper kept at `~/check-webhook-secret.sh` — reveal the secret on the destination page, paste at
+  its hidden prompt, and it reports MATCH or MISMATCH without the value touching disk or a transcript.
 
 ## 2026-11-17 14:30 ET — Claude Code session — Analytics restored, admin key aligned, bigger dashboard logo
 
