@@ -13,6 +13,26 @@ Asset version in `?v=` query strings must go up by one with every live change.
 
 ---
 
+## 2026-11-17 13:35 ET — Claude Code session — mirror v16 live, commit the Worker, Stripe webhook
+
+- **Krypta-v2 was a commit behind.** Kryptaa-2 was at `v=16` but the repo serving kryptaa.com was still
+  on `v=15`, so the new Red Gothic studio photos and the phone pop-up close button were NOT live
+  (`modal-fx` absent, `mens-pant-2-model-1.webp` 404). Mirrored Kryptaa-2 `5ef9758` → Krypta-v2 `9b8d8a0`.
+  Nothing in Kryptaa-2 changed.
+- **Worker code committed** (`kryptaa-worker` `6b72ea1`). `src/club.js` was untracked and
+  `src/index.js`, `src/util.js`, `wrangler.toml` had uncommitted edits — all live on Cloudflare since
+  10 Nov but absent from git, so a clean redeploy would have dropped club-signup, the GitHub Pages CORS
+  origin and the NOTIFY_EMAIL fix.
+- **Stripe webhook failure resolved.** Stripe warned it would disable
+  `kryptaa-api.kryptaa.workers.dev/stripe-webhook` on 20 Nov. Cause: during the 11 Nov secret rotation a
+  Worker version was briefly deployed with no secrets, so `STRIPE_WEBHOOK_SECRET` was undefined and
+  signature checks returned 400. Verified fixed by signing a dummy event with the current secret — the
+  Worker returned `200 Ignored`.
+  All 10 undelivered events are `checkout.session.expired` from the test address
+  `kryptaa.test.order@gmail.com`. **No `checkout.session.completed` was missed, so no paid order went
+  unfulfilled.** Stripe's classic webhooks have no resend operation in the API (dashboard only), so a
+  fresh checkout session was created; its expiry event delivers successfully and clears the failure state.
+
 ## 2026-11-17 08:30 ET — redesign session — Red Gothic new model photos, phone close button for pop-ups
 
 - Red Gothic Embroidery Denim (id 11): old `mens-pant-2-onbody-1|2|3.webp` (On Body / Worn / Fit) deleted and
