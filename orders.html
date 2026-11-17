@@ -70,7 +70,7 @@
     /* ── DASHBOARD SHELL ── */
     #dashboard { display: none; }
     .od-header { position: sticky; top: 0; z-index: 10; background: rgba(12,11,9,0.97); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 28px; display: flex; align-items: center; justify-content: space-between; height: 62px; gap: 16px; }
-    .od-header-logo { height: 46px; width: auto; display: block; mix-blend-mode: screen; }
+    .od-header-logo { height: 72px; width: auto; display: block; mix-blend-mode: screen; }
     .od-nav { display: flex; gap: 0; }
     /* ── KRY assistant ── */
     .kry-hello { background: linear-gradient(135deg, rgba(210,174,91,0.10), rgba(210,174,91,0.02)); border: 1px solid var(--gold-faint); padding: var(--kry-pad); margin-bottom: 18px; }
@@ -303,7 +303,7 @@
 
     @media (max-width: 860px) {
       .od-header { height: auto; flex-wrap: wrap; padding: 10px 14px; gap: 10px; row-gap: 8px; }
-      .od-header-logo { height: 24px; width: auto; }
+      .od-header-logo { height: 40px; width: auto; }
       .od-nav { order: 3; width: 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 6px; }
       .od-nav-btn {
         padding: 12px 8px; font-size: 12px; letter-spacing: 0.1em; min-height: 44px;
@@ -319,7 +319,7 @@
     }
 
     @media (max-width: 560px) {
-      .od-header-logo { height: 22px; }
+      .od-header-logo { height: 36px; }
       .od-btn-ghost { padding: 6px 10px; font-size: 10px; }
       .order-card-head { padding: 12px 14px; }
       .order-body { padding: 14px; }
