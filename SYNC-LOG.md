@@ -13,6 +13,24 @@ Asset version in `?v=` query strings must go up by one with every live change.
 
 ---
 
+## 2026-11-17 17:45 ET — Claude Code session — Stripe keys rotated
+
+- **Restricted key replaced.** New Stripe restricted key (Checkout Sessions: Write, Coupons: Write only)
+  set on the Worker; version `acd27d38` promoted and verified against Stripe's own records — a
+  $33.75 session with a 12% coupon correctly applied, and a $51.99 session without. Wallets and BNPL
+  intact (card, klarna, link, cashapp, amazon_pay, crypto). The `rk_live_` that leaked on 11 Nov can be
+  deleted from the Stripe dashboard.
+- **Webhook signing secret rolled** on destination `sophisticated-victory`
+  (`we_1UGu1dBxvrWSHcOenvj6H7vL`, the Cloudflare endpoint). Worker version `6b5c8df9` promoted.
+- **Why the webhook had a 91% error rate all week:** the Worker's `STRIPE_WEBHOOK_SECRET` did not match
+  that endpoint — most likely the value came from `sophisticated-serenity`, the DISABLED Netlify
+  endpoint. A self-signed test passed (Worker consistent with itself) while every real Stripe delivery
+  returned 400. **Note for next time: a signed test proves the Worker is self-consistent, not that it
+  matches Stripe. Only `pending_webhooks` dropping to 0 proves delivery.**
+- **Not yet confirmed fixed.** All `checkout.session.expired` events so far predate the new secret. A
+  fresh session was created at 17:43 UTC; its expiry event ~1h later is the first real test. Watch the
+  error rate on the destination page, or `pending_webhooks` on a post-17:45 event.
+
 ## 2026-11-17 14:30 ET — Claude Code session — Analytics restored, admin key aligned, bigger dashboard logo
 
 - **Analytics tab was dead** ("Missing GA4_PROPERTY_ID or GA4_SA_KEY env var"). `GA4_SA_KEY` had been
