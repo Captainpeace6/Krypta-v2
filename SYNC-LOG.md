@@ -46,6 +46,16 @@ rather than pushing on.
 
 ---
 
+## 2026-11-17 21:00 ET — redesign session — Microsoft Clarity on every page
+
+- Clarity tag `y6kgv0czuk` (same snippet as `404.html`: loads 2.5 s after page load) added just before
+  `</head>` on **63 pages**: every public page, `products/*.html` and `journal/*.html`.
+  Skipped on purpose: `orders.html` (owner dashboard, holds order data). Before this, Clarity was only
+  on `404.html` and 4 old pages on the live copy.
+- HTML only, no CSS/JS asset changed, so the `?v=` stamp stays `v=16`.
+- Also found 59 live pages (Krypta-v2) still loading `?v=15` assets after the v16 change; bumped them to `v=16`
+  so live matches Kryptaa-2 byte for byte.
+
 ## 2026-11-17 20:00 ET — Claude Code session — key rotation closed out
 
 - The leaked Mar 25 restricted key is **deleted** in Stripe. Verified afterwards that nothing broke:
