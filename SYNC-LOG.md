@@ -46,6 +46,21 @@ rather than pushing on.
 
 ---
 
+## 2026-11-18 16:50 ET — redesign session — readable labels, one gold accent, Spin the drop fits
+
+From the Frontend Design review (#4, #5, #7). Vish said skip #2, so the homepage keeps all its sections.
+- `site.css` (end, "Design review (Nov 18)" block, `html body` prefix so it beats index.html's inline styles):
+  - #4 small labels: menu, bag button, top banner, eyebrows and the small typewriter labels (`.mono`,
+    `.ld-hud`, `.ld-tags span`, `.card .sub`, etc.) now use the body face (Archivo), normal case, no wide
+    letter-spacing, 12.5–14px. Buttons keep their capitals.
+  - #5 gold-word headings: `h2 em` / `.ld-h` second line no longer gold (`color:inherit!important`). Only the
+    homepage opening h1 ("Pick it off the rail") keeps its gold outline.
+- `lookbook.html`: removed the inline gold span on "Every drop is a statement."
+- `index.html` #7 Spin the drop on desktop (≥761px): ribbon width `min(w*1.25,1500)` → `min(w*.8,1260)` and tilt
+  -11° → -6°, so the whole ribbon stays on screen (was running off both sides). Phones unchanged.
+  Also guarded the Spin and Aura scripts (`if(!helix)return;` / `if(!cv)return;`) in case a section is removed.
+- Asset version `v=17` → `v=18`.
+
 ## 2026-11-18 15:30 ET — redesign session — design fixes from the Frontend Design review
 
 - `landing.css` (9 shop pages): headings now use the same gothic display face as home + product pages

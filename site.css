@@ -433,3 +433,19 @@ button,.btn,.ld-sel button,.sg-tabs button,.rs-btn,[data-open],[data-close],
   .modal .box{max-height:calc(100dvh - 76px);margin-top:44px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
   .modal.lava .box{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(12,9,7,.95)}
 }
+
+/* ── Design review (Nov 18) ─────────────────────────────
+   #5 the gold-word headline accent stays only on the homepage opening ("Pick it off the rail") */
+html body h2 em,html body h2 .gold{color:inherit!important;-webkit-text-fill-color:currentColor}
+html body .ld-h .ln:nth-of-type(2)>span{color:inherit}
+/* #4 small labels: plain readable text in the body face, sentence case, no wide tracking */
+html body .k-nav a,html body .k-nav button.dd{font-family:var(--f-body);font-size:14px;letter-spacing:.01em;text-transform:none;font-weight:500}
+html body .bag-btn{font-family:var(--f-body);font-size:14px;letter-spacing:.01em;text-transform:none}
+html body .announce{font-family:var(--f-body);font-size:12.5px;letter-spacing:.02em;text-transform:none}
+html body .eyebrow,html body .ld-eye,html body .sg-eyebrow,html body .k-foot h4{font-family:var(--f-body);font-size:13.5px;letter-spacing:.02em;text-transform:none;font-weight:600}
+html body .mono,html body .ld-hud,html body .ld-badge,html body .ld-down,html body .ld-strip-h,html body .ld-tile span,html body .lb em,
+html body .ld-tags span,html body .ld-meta,html body .ld-stock,html body .card .sub,html body .field label,html body .chips a,html body .chips button,
+html body .drift-row small,html body .follow .fcap span,html body .wp-hint,html body .ld-swipe,html body .ld-pair-in span,html body .line .meta,html body .ship-bar .t{
+  font-family:var(--f-body);text-transform:none;letter-spacing:.01em}
+html body .mono{font-size:13px}
+html body .ld-hud,html body .ld-badge,html body .ld-down,html body .ld-strip-h,html body .ld-tile span,html body .ld-tags span,html body .lb em,html body .ld-meta,html body .ld-stock,html body .card .sub,html body .drift-row small,html body .wp-hint,html body .ld-swipe{font-size:12.5px}
