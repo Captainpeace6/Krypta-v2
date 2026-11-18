@@ -46,6 +46,17 @@ rather than pushing on.
 
 ---
 
+## 2026-11-18 15:30 ET — redesign session — design fixes from the Frontend Design review
+
+- `landing.css` (9 shop pages): headings now use the same gothic display face as home + product pages
+  (`--f-tech` → `var(--f-display)`, Big Shoulders Display 800), sizes raised to suit the narrower face.
+  Before, shop pages used Space Mono for big headings, so the site looked like two brands.
+- `site.js` + `site.css`: removed the "Complete the look" block (`#pairBlk`, `.pair*`) added on 11-11.
+  It duplicated the existing "Complete the fit" section on product pages.
+- `index.html`: surprise-bag runner (`#sbr`) on phones (≤760px) tucks half into the screen edge when it
+  stops (`.sbr.rest.at-r/.at-l .go` translateX ±26px), so it no longer covers text; its ✕ hides while tucked.
+- Asset version `v=16` → `v=17`.
+
 ## 2026-11-17 21:00 ET — redesign session — Microsoft Clarity on every page
 
 - Clarity tag `y6kgv0czuk` (same snippet as `404.html`: loads 2.5 s after page load) added just before

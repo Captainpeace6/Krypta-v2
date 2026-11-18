@@ -257,3 +257,12 @@ body[data-landing] main{overflow-x:clip}
   .call .ph img{width:100%;height:auto;max-height:min(46svh,440px);object-fit:contain}
   .ld-an-prog{left:auto;right:clamp(16px,3vw,44px);top:clamp(14px,3vh,34px);bottom:auto}
 }
+
+/* one brand voice: shop-page headings use the same gothic display face as home + product pages */
+:root{--f-tech:var(--f-display)}
+.ld-h,.ld-h2{font-weight:800;letter-spacing:.004em;font-size:clamp(40px,5.8vw,88px);line-height:.9}
+.ld-pn-info h3{font-weight:800;letter-spacing:.01em;font-size:clamp(34px,4.6vw,66px);line-height:.92}
+.ld-name{font-weight:800;letter-spacing:.02em;font-size:25px}
+.lb b,.ld-pair-in b{font-weight:800;letter-spacing:.03em;font-size:clamp(16px,1.4vw,19px)}
+.call figcaption b{font-weight:800;letter-spacing:.03em;font-size:18px}
+.ld-q summary{font-weight:800;letter-spacing:.03em;font-size:18px}

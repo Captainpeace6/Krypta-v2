@@ -180,20 +180,13 @@ if(page==="product"){
           <div class="sizes" id="sizes">${p.sizes.map(z=>{const so=soldOut(p,z),q=stockOf(p,z);return `<button type="button" data-z="${esc(z)}" aria-pressed="false" ${so?"disabled aria-label=\""+esc(z)+" sold out\"":""}>${esc(z)}${!so&&q!=null&&q<=LOW?'<span class="lo">'+q+' left</span>':""}</button>`}).join("")}</div>
           <div class="lowmsg mono" id="lowmsg" aria-live="polite"></div></div>`:""}
         <div class="buy"><button class="btn" type="button" id="addBtn" ${p.archived?"disabled":""}>${btnTxt}</button>${heartBtn(p.id)}</div>
-        <div class="pair" id="pairBlk"></div>
         <div class="trust"><div><b>Free shipping</b><span class="mono">Over $60</span></div><div><b>Ships in</b><span class="mono">3–7 days</span></div><div><b>Secure</b><span class="mono">Stripe checkout</span></div></div>
         <div class="acc">${acc.map((a,i)=>`<details${i===0?" open":""}><summary>${a[0]}</summary><div class="ac">${esc(a[1])}</div></details>`).join("")}</div>
       </div></div>`;
     $$("[data-g]",root).forEach(b=>b.onclick=()=>{gi=+b.dataset.g;$("#gMain").src=gal[gi].src;$("#gLab").textContent=gal[gi].label||"";$$("[data-g]",root).forEach(x=>x.setAttribute("aria-pressed",x===b))});
     $$("#sizes [data-z]").forEach(b=>b.onclick=()=>{size=b.dataset.z;$$("#sizes [data-z]").forEach(x=>x.setAttribute("aria-pressed",x===b));const q=stockOf(p,size);$("#lowmsg").textContent=q!=null&&q<=LOW?`Only ${q} left in ${size}`:""});
     const sg=$("#sgBtn");sg&&(sg.onclick=()=>openSizeGuide(p.category));
-    /* Complete the look: a matching piece from the other half of the outfit, opened in Quick look */
-    (function(){const pb=$("#pairBlk");if(!pb||p.archived)return;
-      const want={men:["tees"],women:["tees","women_wear"],anime:["tees"],tees:["men","women"],women_st:["tees","women_wear"],women_wear:["women","women_st"]}[p.category]||[];
-      const pick=K.products.filter(x=>want.includes(x.category)&&!x.archived&&x.id!==p.id&&!isPre(x)).slice(0,3);
-      if(!pick.length){pb.remove();return}
-      pb.innerHTML=`<div class="pair-h"><b>Complete the look</b><span class="mono">Code <strong>KRYPTAA12</strong> = 12% off the whole bag</span></div>
-        <div class="pair-row">${pick.map(x=>`<button type="button" class="pair-it" data-qlook="${x.id}"><img src="${esc(asset(x.img))}" alt="" loading="lazy"><span>${esc(x.name)}</span><em class="mono">${money(x.price)} · Add +</em></button>`).join("")}</div>`})();
+
     $("#addBtn").onclick=()=>{if(p.archived)return;if(!buy){location.href="contact.html";return}
       if(!size&&p.sizes.length>1){$("#lowmsg").textContent="Pick a size first";$("#lowmsg").style.color="#e0535a";$("#sizes").animate&&!reduce&&$("#sizes").animate([{transform:"translateX(0)"},{transform:"translateX(-6px)"},{transform:"translateX(6px)"},{transform:"translateX(0)"}],{duration:300});return}
       addToBag(p.id,size||p.sizes[0]||"One size")};
