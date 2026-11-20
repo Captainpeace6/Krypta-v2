@@ -1,3 +1,11 @@
+/* SAFETY LOCK (2026-11-20): this script reads the OLD products.js and rewrites products/*.html,
+   sitemap.xml, journal/*.html and the shop pages in the pre-Nov-10 design, wiping the live storefront
+   and its Google tags. The live site is built from catalog.js (site.js + tools/build_static_seo.py in
+   Kryptaa-2). For the Google feed run `node build-feed.js` on its own. Only run with KRYPTAA_OLD_BUILD=1. */
+if (process.env.KRYPTAA_OLD_BUILD !== '1') {
+  console.error('build-seo.js is locked: it would overwrite the live pages with the old design. See the note at the top of the file.');
+  process.exit(1);
+}
 /* ─────────────────────────────────────────────────────────────
    KRYPTAA — Static SEO pre-render (Phase 1: collection crawlability)
 

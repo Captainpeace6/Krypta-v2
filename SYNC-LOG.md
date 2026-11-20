@@ -46,6 +46,20 @@ rather than pushing on.
 
 ---
 
+## 2026-11-20 16:05 ET — redesign session — feed builder fixed, old page builder locked
+
+- **Krypta-v2 `build-feed.js` now reads `catalog.js` + `slugs.js`** (what the live site shows), not the old
+  `products.js`. Archived pieces skipped; sizes with stock 0 in `K.stock` left out, same as `site.js`. Safe to run
+  `node build-feed.js` again. Rebuilt `feed/google-merchant.xml`: same 79 listings, prices and stock. Photos now match
+  the product pages: front-design covers on the 4 tees, Her & Him photo added, Need Some Money no longer shows a jeans
+  photo, anime covers use .webp, yellow track pant cover = its first photo. Tee material/pattern kept.
+- **Krypta-v2 `build-seo.js` is LOCKED** (exits with a warning unless `KRYPTAA_OLD_BUILD=1`). It reads the old
+  `products.js` and rewrites all 30 product pages, the journal, the shop pages and `sitemap.xml` in the pre-Nov-10
+  design, wiping the storefront and its Google tags. Product page tags now come from `tools/build_static_seo.py`
+  in Kryptaa-2. (Tested by mistake on a local copy: it rewrote 80+ files. Reverted before any commit.)
+
+---
+
 ## 2026-11-20 15:40 ET — Google feed: tee material + pattern
 
 - Merchant Center suggested "Update descriptions for T-Shirts": 20 tee listings (Medusa, Angel of Death, Broken Skull, Need Some Money, all sizes) lacked a clean Material and a Pattern.

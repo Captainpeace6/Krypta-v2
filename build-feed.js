@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* ─────────────────────────────────────────────────────────────
    KRYPTAA — Google Merchant Center product feed
-   Reads products.js (single source of truth) and writes
+   Reads catalog.js + slugs.js (what the live site shows) and writes
    feed/google-merchant.xml (RSS 2.0 + g: namespace) → free listings in
    the Google Shopping tab. Also usable as a Meta/Pinterest catalog feed.
 
@@ -15,9 +15,17 @@ const path = require('path');
 global.window = {};
 global.localStorage = { getItem() { return null; }, setItem() {}, removeItem() {} };
 global.document = { addEventListener() {}, readyState: 'complete', body: { dataset: {} } };
-require(path.join(__dirname, 'products.js'));
-
-const PRODUCTS = global.window.PRODUCTS || [];
+// catalog.js is what the live site (site.js) renders since the Nov 10 launch; slugs.js gives each
+// product's /products/<slug>.html. products.js is the OLD list — do not read it here.
+require(path.join(__dirname, 'catalog.js'));
+require(path.join(__dirname, 'slugs.js'));
+const K = global.window.K || { products: [], stock: {} };
+const SLUGS = global.window.K_SLUGS || {};
+const stockOf = (p, z) => { const s = (K.stock || {})[p.id]; if (!s) return null; if (z in s) return s[z]; if ('Universal' in s && p.sizes.length <= 1) return s.Universal; return null; };
+const PRODUCTS = K.products
+  .filter((p) => !p.archived)
+  .map((p) => ({ ...p, slug: SLUGS[p.id], soldOutSizes: (p.sizes || []).filter((z) => stockOf(p, z) === 0) }))
+  .filter((p) => { if (!p.slug) { console.warn(`! skipped id ${p.id} (${p.name}): no slug in slugs.js`); return false; } return true; });
 const SITE = 'https://www.kryptaa.com';
 
 const esc = (s) => String(s == null ? '' : s)
