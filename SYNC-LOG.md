@@ -46,6 +46,30 @@ rather than pushing on.
 
 ---
 
+## 2026-11-20 14:30 ET — redesign session — crawlable product + journal pages restored (SEO)
+
+**Why:** the Nov 10 storefront launch made `products/*.html` and `journal/*.html` empty shells filled by
+`site.js` after load. The saved HTML lost the product name/price/description, every `<h1>`, and all the
+Product / Breadcrumb / Article structured data the old pages had. Likely behind the Merchant Center
+"Fair" store rating (Nov 13).
+- New `tools/build_static_seo.py` (re-runnable, replaces its own `<!-- seo:static -->` blocks). For all 30
+  `products/*.html`: Product JSON-LD (name, description, up to 6 photos, brand, sku `KRYPTAA-<id>`, USD
+  price, InStock/PreOrder/OutOfStock from `catalog.js`, 7-day mail return policy) + BreadcrumbList, and a plain
+  fallback inside `#pdp` (crumbs, `<h1>`, price, description, photo). `site.js` replaces `#pdp` on load, so
+  shoppers see no change. **Re-run it whenever a product's name, price, photos or stock changes.**
+  No review/rating markup on purpose (one of the reviews is the owner's; Google penalises self-reviews).
+- `journal/*.html` (8): the article (`#postHead`, `#postImg`, `#postBody`) is now written into the HTML
+  (captured from the live render) + Article and BreadcrumbList JSON-LD. If `build-journal.js` regenerates
+  these pages, it must keep this.
+- `site.js`: article crumbs used `index.html` / `journal.html` relative to `/journal/` (404s); now `${DEPTH}`.
+- `journal.js` + 2 articles: links to `journal-post.html#slug` (404 from `/journal/`) → `/journal/<slug>.html`.
+- Meta descriptions added to about, checkout, contact, faq, info, journal, privacy, reviews, size-guide,
+  terms, track, wishlist. `journal-post.html` (old hash template, not in sitemap) → title "Journal Post",
+  `noindex,follow`. 3 journal `<title>`s shortened to ≤65 characters.
+- Checked: page looks identical with JS on (phone + desktop); with JS off, product pages show name + price and
+  articles show full text; 76 JSON-LD blocks parse; no broken links.
+- Asset version `v=19` → `v=20`.
+
 ## 2026-11-20 13:45 ET — redesign session — 12% club pop-up waits 25 s (Google interstitial fix)
 
 - `site.js` club pop-up (`#clubPop`): removed the "scrolled past half the page" trigger (fired almost at
