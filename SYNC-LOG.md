@@ -46,6 +46,23 @@ rather than pushing on.
 
 ---
 
+## 2026-11-20 16:30 ET — redesign session — Merchant Center account settings
+
+- **Customer service contact** set (Business info): https://www.kryptaa.com/contact.html, hello@kryptaa.com,
+  preferred = Email. No phone, no live chat claimed.
+- **Promotions add-on turned on** + promotion `KRYPTAA12` created: 12% off the whole order, all products, US,
+  code KRYPTAA12, Nov 21 2026 – May 20 2027, no minimum, shown to all. Matches Stripe exactly (promo code
+  `promo_1UHTacBxvrWSHcOekk32lH1w` → coupon `f3wcfP2p`, 12% forever, no minimum, no expiry). Google reviews it in
+  24–72 h. **If KRYPTAA12 is ever changed or switched off in Stripe, end this promotion too** (Marketing → Promotions),
+  or Google will advertise a code that fails at checkout. Renew it before May 20 2027.
+- **Business name warning** = Merchant Center's own name "KRYPTAA" (all caps breaks Google's capitalization rule;
+  Google's helper says "Kryptaa" would pass). Not changed — waiting on Vish (brand decision).
+- **Google Customer Reviews: skipped.** Needs an opt-in script on an order confirmation page with the buyer's email
+  and order id, which means a Worker change (backend rules). Store stars need ~100 reviews/year anyway.
+- Store quality in Merchant Center is now **Good** (was Fair on Nov 13).
+
+---
+
 ## 2026-11-20 16:05 ET — redesign session — feed builder fixed, old page builder locked
 
 - **Krypta-v2 `build-feed.js` now reads `catalog.js` + `slugs.js`** (what the live site shows), not the old
