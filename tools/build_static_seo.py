@@ -30,6 +30,9 @@ RETURNS = {
     "returnMethod": "https://schema.org/ReturnByMail",
 }
 
+import datetime
+# Pre-orders: make time is 30+ days, so promise the honest upper end (45 days), same as build-feed.js.
+PREORDER_DATE = (datetime.date.today() + datetime.timedelta(days=45)).isoformat() + "T00:00:00-05:00"
 src = open("catalog.js", encoding="utf-8").read()
 K, _ = json.JSONDecoder().raw_decode(src[src.index("{"):])
 slugs = dict((v, int(k)) for k, v in re.findall(r'(\d+):"([^"]+)"', open("slugs.js", encoding="utf-8").read()))
@@ -38,6 +41,8 @@ ST = K.get("stock", {})
 
 
 def avail(p):
+    if p.get("archived"):
+        return "https://schema.org/OutOfStock"
     if re.search(r"pre-order|production", p.get("availability", "") or "", re.I):
         return "https://schema.org/PreOrder"
     s = ST.get(str(p["id"]))
@@ -86,6 +91,7 @@ for path in sorted(glob.glob("products/*.html")):
             "price": f"{float(p['price']):.2f}",
             "availability": avail(p),
             "itemCondition": "https://schema.org/NewCondition",
+            **({"availabilityStarts": PREORDER_DATE} if avail(p).endswith("PreOrder") else {}),
             "seller": {"@type": "Organization", "name": "KRYPTAA"},
             "hasMerchantReturnPolicy": RETURNS,
         },
