@@ -59,6 +59,12 @@ Vish: free over $60 is for the US only; abroad, use the Shipping page's rates.
 - `info.html` table now lists only the 10 countries checkout accepts; free row = "US orders over $60".
   FAQ/shop FAQs: free shipping is US only; international listed by country. Banner: "Free US shipping $60+ · $5 tees ·
   Ships next day" (fits one line on a 360px phone). Product info row: "Free US shipping" / "$5 US shipping".
+- **LIVE** 18:35: Worker version 70bc6c54 deployed (health 200, admin 401), Krypta-v2 c68daf0 (includes 582d815).
+  Verified on kryptaa.com: tee $29 + "$5 US shipping", banner, country picker (CA tee shows $12.99 / $41.99), anime
+  PreOrder, info.html US-only free row, feed 114 items with tees 29.00.
+- **Merchant Center shipping policy** edited: order cut-off 5:00 PM ET, handling 1–1, transit 2–5 business days
+  (Google shows 3–6), flat $9.99 + free over $60 kept. (Continue was disabled before because the time zone was empty.)
+  Feed re-fetch triggered 16:35 EST but Merchant Center still showed 79 items (Pages cache); daily fetch picks up 114.
 
 ---
 
