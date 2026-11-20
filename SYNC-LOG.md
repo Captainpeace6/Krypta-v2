@@ -46,6 +46,31 @@ rather than pushing on.
 
 ---
 
+## 2026-11-20 17:40 ET — redesign session — tees $29, $5 tee shipping, next-day dispatch, all anime = pre-order
+
+Vish's call: everything except anime denim is in stock and ships the next business day, delivered within a week;
+all 9 anime jeans are pre-order only (incl. the 4 that were "Coming soon").
+- **Checkout server** (`kryptaa-worker` cf29e32, version c3996473 → deployed): tees 1,3,4,5 $39 → $29. Shipping: free
+  at $60+ (unchanged); under $60 a tees-only bag pays **$5**, anything else $9.99. Delivery estimate 7–14 → **3–6
+  business days**. A bag with an anime piece shows "pre-order", 22–32 business days, no express. Tested on the
+  version preview with 4 live checkout sessions (tee $34, track $51.99, tee+track $71 free, JJK $68.99 pre-order).
+- `catalog.js`: tee prices 29; anime 108–116 `archived:false`, `buyable:true`, availability "Pre-order · ships in
+  30–45 days", restockDate removed; every product's `shipping` text rewritten (in stock: ships next business day,
+  3–6 days; tees $5; anime made to order, 30–45 days).
+- `site.js` product page info row: "$5 shipping / Free over $60" on tees, "Ships next day · Arrives in 3–6 days" (or
+  "Pre-order · Arrives in 30–45 days"), "7-day returns · Secure Stripe checkout".
+- $39 → $29 in t-shirts, men-all, women-all, index (Pick your weapon data + "From $29"), journal.js, 1 article.
+- Top banner on 63 pages: "Free shipping over $60 · $5 tee shipping · Ships next day".
+- info.html, faq.html and the 9 shop-page FAQs: next-day dispatch, 3–6 day US delivery, $5 tees, anime 30–45 days.
+  (International rows in info.html still list $12.99–$18.99 but checkout charges $9.99/free everywhere — not changed.)
+- `tools/build_static_seo.py`: Product JSON-LD now has `shippingDetails` (rate as above, handling 0–1, transit 2–5).
+  Rerun → 30 product pages.
+- Krypta-v2 `build-feed.js`: per-item `g:shipping` price (free ≥$60 / tees $5 / $9.99) + transit 2–5 and handling 0–1
+  days. Feed rebuilt: anime pieces now listed as preorder.
+- Asset version `v=20` → `v=21`.
+
+---
+
 ## 2026-11-20 16:55 ET — redesign session — Google feed photos get a fingerprint (old track-pant photo on Google)
 
 - Google Shopping still showed the OLD red track pant photo (white top, phone selfie): the Nov 11 reshoot kept the

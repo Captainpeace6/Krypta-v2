@@ -180,7 +180,7 @@ if(page==="product"){
           <div class="sizes" id="sizes">${p.sizes.map(z=>{const so=soldOut(p,z),q=stockOf(p,z);return `<button type="button" data-z="${esc(z)}" aria-pressed="false" ${so?"disabled aria-label=\""+esc(z)+" sold out\"":""}>${esc(z)}${!so&&q!=null&&q<=LOW?'<span class="lo">'+q+' left</span>':""}</button>`}).join("")}</div>
           <div class="lowmsg mono" id="lowmsg" aria-live="polite"></div></div>`:""}
         <div class="buy"><button class="btn" type="button" id="addBtn" ${p.archived?"disabled":""}>${btnTxt}</button>${heartBtn(p.id)}</div>
-        <div class="trust"><div><b>Free shipping</b><span class="mono">Over $60</span></div><div><b>Ships in</b><span class="mono">3–7 days</span></div><div><b>Secure</b><span class="mono">Stripe checkout</span></div></div>
+        <div class="trust"><div><b>${p.category==="tees"?"$5 shipping":"Free shipping"}</b><span class="mono">${p.category==="tees"?"Free over $60":"Over $60"}</span></div><div><b>${pre?"Pre-order":"Ships next day"}</b><span class="mono">${pre?"Arrives in 30–45 days":"Arrives in 3–6 days"}</span></div><div><b>7-day returns</b><span class="mono">Secure Stripe checkout</span></div></div>
         <div class="acc">${acc.map((a,i)=>`<details${i===0?" open":""}><summary>${a[0]}</summary><div class="ac">${esc(a[1])}</div></details>`).join("")}</div>
       </div></div>`;
     $$("[data-g]",root).forEach(b=>b.onclick=()=>{gi=+b.dataset.g;$("#gMain").src=gal[gi].src;$("#gLab").textContent=gal[gi].label||"";$$("[data-g]",root).forEach(x=>x.setAttribute("aria-pressed",x===b))});

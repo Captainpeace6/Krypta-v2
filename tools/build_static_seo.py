@@ -51,6 +51,27 @@ def avail(p):
     return "https://schema.org/InStock"
 
 
+def ship_cost(p):
+    # Matches the checkout server (kryptaa-worker checkout.js): free at $60+, tees $5, else $9.99.
+    if float(p["price"]) >= 60:
+        return "0.00"
+    return "5.00" if p.get("category") == "tees" else "9.99"
+
+
+def ship_details(p):
+    # In stock: ships next business day, 2–5 business days in transit (3–6 door to door).
+    return {
+        "@type": "OfferShippingDetails",
+        "shippingRate": {"@type": "MonetaryAmount", "value": ship_cost(p), "currency": "USD"},
+        "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "US"},
+        "deliveryTime": {
+            "@type": "ShippingDeliveryTime",
+            "handlingTime": {"@type": "QuantitativeValue", "minValue": 0, "maxValue": 1, "unitCode": "DAY"},
+            "transitTime": {"@type": "QuantitativeValue", "minValue": 2, "maxValue": 5, "unitCode": "DAY"},
+        },
+    }
+
+
 def gallery(p):
     out = [p["img"]]
     for g in p.get("gallery") or []:
@@ -94,6 +115,7 @@ for path in sorted(glob.glob("products/*.html")):
             **({"availabilityStarts": PREORDER_DATE} if avail(p).endswith("PreOrder") else {}),
             "seller": {"@type": "Organization", "name": "KRYPTAA"},
             "hasMerchantReturnPolicy": RETURNS,
+            "shippingDetails": ship_details(p),
         },
     }
     crumbs = {

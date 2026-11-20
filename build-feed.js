@@ -77,6 +77,10 @@ function color(p) {
   return c;
 }
 
+// Same rule as the checkout server (kryptaa-worker checkout.js): free at $60+, tees $5, else $9.99.
+// In stock ships next business day (handling 0–1) + 2–5 business days in transit.
+const shipPrice = (p) => (Number(p.price) >= 60 ? '0.00' : p.category === 'tees' ? '5.00' : '9.99');
+
 const items = [];
 for (const p of PRODUCTS) {
   if (p.category === 'anime' && !p.buyable) continue; // contact-to-order pieces have no fixed checkout
@@ -111,7 +115,9 @@ ${extra.map((u) => `    <g:additional_image_link>${esc(u)}</g:additional_image_l
     <g:color>${esc(color(p))}</g:color>
     <g:material>${esc(p.category === 'tees' && /cotton/i.test(p.materials || p.desc || '') ? 'Cotton' : (p.materials || p.material || 'Cotton'))}</g:material>${p.category === 'tees' ? '\n    <g:pattern>Graphic print</g:pattern>' : ''}
     <g:identifier_exists>no</g:identifier_exists>
-    <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price></g:shipping>
+    <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>${shipPrice(p)} USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
+    <g:min_handling_time>0</g:min_handling_time>
+    <g:max_handling_time>1</g:max_handling_time>
   </item>`);
   }
 }
