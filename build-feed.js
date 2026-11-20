@@ -92,7 +92,7 @@ ${extra.map((u) => `    <g:additional_image_link>${esc(u)}</g:additional_image_l
     <g:age_group>adult</g:age_group>
     <g:size>${esc(size)}</g:size>
     <g:color>${esc(color(p))}</g:color>
-    <g:material>${esc(p.materials || p.material || 'Cotton')}</g:material>
+    <g:material>${esc(p.category === 'tees' && /cotton/i.test(p.materials || p.desc || '') ? 'Cotton' : (p.materials || p.material || 'Cotton'))}</g:material>${p.category === 'tees' ? '\n    <g:pattern>Graphic print</g:pattern>' : ''}
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price></g:shipping>
   </item>`);

@@ -46,6 +46,14 @@ rather than pushing on.
 
 ---
 
+## 2026-11-20 15:40 ET — Google feed: tee material + pattern
+
+- Merchant Center suggested "Update descriptions for T-Shirts": 20 tee listings (Medusa, Angel of Death, Broken Skull, Need Some Money, all sizes) lacked a clean Material and a Pattern.
+- `feed/google-merchant.xml`: tee items now send `<g:material>Cotton</g:material>` and `<g:pattern>Graphic print</g:pattern>` (was a long "300GSM · …" string, no pattern). Pre-order date updated to 2027-01-04 to match the product pages.
+- Edited the feed file BY HAND. Do NOT just rerun `node build-feed.js` in Krypta-v2: it reads the old products.js and would bring back deleted Red Gothic "onbody" photos and the old Gothic Skull main image. build-feed.js itself was updated so a future rebuild also sends material/pattern for tees.
+
+---
+
 ## 2026-11-20 14:30 ET — redesign session — crawlable product + journal pages restored (SEO)
 
 **Why:** the Nov 10 storefront launch made `products/*.html` and `journal/*.html` empty shells filled by
