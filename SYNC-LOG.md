@@ -65,8 +65,10 @@ rather than pushing on.
   `promo_1UHTacBxvrWSHcOekk32lH1w` → coupon `f3wcfP2p`, 12% forever, no minimum, no expiry). Google reviews it in
   24–72 h. **If KRYPTAA12 is ever changed or switched off in Stripe, end this promotion too** (Marketing → Promotions),
   or Google will advertise a code that fails at checkout. Renew it before May 20 2027.
-- **Business name warning** = Merchant Center's own name "KRYPTAA" (all caps breaks Google's capitalization rule;
-  Google's helper says "Kryptaa" would pass). Not changed — waiting on Vish (brand decision).
+- **Business name warning** = Merchant Center's own name "KRYPTAA" (all caps breaks Google's capitalization rule).
+  Changed to **"Kryptaa"** in Merchant Center Business info on Vish's OK (16:58). Logo, website and JSON-LD `name`
+  stay KRYPTAA (`alternateName` Kryptaa already set). Feed re-fetched manually at 15:59 EST so the name + new
+  photo fingerprints get picked up today.
 - **Google Customer Reviews: skipped.** Needs an opt-in script on an order confirmation page with the buyer's email
   and order id, which means a Worker change (backend rules). Store stars need ~100 reviews/year anyway.
 - Store quality in Merchant Center is now **Good** (was Fair on Nov 13).
