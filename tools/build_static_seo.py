@@ -59,14 +59,14 @@ def ship_cost(p):
 
 
 def ship_details(p):
-    # In stock: ships next business day, 2–5 business days in transit (3–6 door to door).
+    # In stock: ships in 1–2 business days, 2–5 business days in transit (3–7 door to door).
     return {
         "@type": "OfferShippingDetails",
         "shippingRate": {"@type": "MonetaryAmount", "value": ship_cost(p), "currency": "USD"},
         "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "US"},
         "deliveryTime": {
             "@type": "ShippingDeliveryTime",
-            "handlingTime": {"@type": "QuantitativeValue", "minValue": 0, "maxValue": 1, "unitCode": "DAY"},
+            "handlingTime": {"@type": "QuantitativeValue", "minValue": 1, "maxValue": 2, "unitCode": "DAY"},
             "transitTime": {"@type": "QuantitativeValue", "minValue": 2, "maxValue": 5, "unitCode": "DAY"},
         },
     }

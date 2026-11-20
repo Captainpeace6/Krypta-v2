@@ -33,8 +33,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -65,8 +65,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -97,8 +97,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -129,8 +129,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -161,8 +161,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -194,8 +194,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -227,8 +227,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -260,8 +260,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -293,8 +293,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -326,8 +326,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -358,8 +358,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -390,8 +390,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -422,8 +422,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -454,8 +454,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -486,8 +486,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -518,8 +518,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -550,8 +550,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -582,8 +582,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -614,8 +614,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -646,8 +646,8 @@
     <g:pattern>Graphic print</g:pattern>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>5.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -680,8 +680,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -714,8 +714,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -748,8 +748,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -782,8 +782,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -816,8 +816,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -850,8 +850,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -884,8 +884,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -918,8 +918,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -946,8 +946,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -974,8 +974,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1002,8 +1002,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1030,8 +1030,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1063,8 +1063,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1096,8 +1096,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1129,8 +1129,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1162,8 +1162,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1188,8 +1188,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1214,8 +1214,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1240,8 +1240,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1266,8 +1266,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1292,8 +1292,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1318,8 +1318,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1344,8 +1344,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1370,8 +1370,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1396,8 +1396,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1422,8 +1422,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1448,8 +1448,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1474,8 +1474,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1500,8 +1500,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1526,8 +1526,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1552,8 +1552,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1578,8 +1578,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1604,8 +1604,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1630,8 +1630,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1656,8 +1656,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1682,8 +1682,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1708,8 +1708,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1734,8 +1734,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1760,8 +1760,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1786,8 +1786,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1812,8 +1812,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1838,8 +1838,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1864,8 +1864,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1890,8 +1890,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1916,8 +1916,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1942,8 +1942,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1968,8 +1968,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -1994,8 +1994,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2020,8 +2020,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2046,8 +2046,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2072,8 +2072,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2098,8 +2098,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2124,8 +2124,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2150,8 +2150,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2176,8 +2176,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2202,8 +2202,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2228,8 +2228,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2254,8 +2254,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2280,8 +2280,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2306,8 +2306,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2332,8 +2332,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2365,8 +2365,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2398,8 +2398,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2431,8 +2431,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2464,8 +2464,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2497,8 +2497,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2530,8 +2530,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2563,8 +2563,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2596,8 +2596,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2627,8 +2627,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2658,8 +2658,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2689,8 +2689,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2720,8 +2720,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>0.00 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2749,8 +2749,8 @@
     <g:material>Rhinestone mesh, holographic sequin, and liquid metallic jersey — each chosen for stage and night wearability.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2777,8 +2777,8 @@
     <g:material>Rhinestone mesh, holographic sequin, and liquid metallic jersey — each chosen for stage and night wearability.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2802,8 +2802,8 @@
     <g:material>Rhinestone mesh, holographic sequin, and liquid metallic jersey — each chosen for stage and night wearability.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2829,8 +2829,8 @@
     <g:material>Rhinestone mesh, holographic sequin, and liquid metallic jersey — each chosen for stage and night wearability.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2858,8 +2858,8 @@
     <g:material>Rhinestone mesh, holographic sequin, and liquid metallic jersey — each chosen for stage and night wearability.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2887,8 +2887,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2916,8 +2916,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2945,8 +2945,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -2974,8 +2974,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -3002,8 +3002,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -3030,8 +3030,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -3058,8 +3058,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -3086,8 +3086,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -3115,8 +3115,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -3144,8 +3144,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -3173,8 +3173,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -3202,8 +3202,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -3229,8 +3229,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -3256,8 +3256,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -3283,8 +3283,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 
   <item>
@@ -3310,8 +3310,8 @@
     <g:material>Mid-to-heavyweight cotton denim with wash treatments selected per garment artwork.</g:material>
     <g:identifier_exists>no</g:identifier_exists>
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>9.99 USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
-    <g:min_handling_time>0</g:min_handling_time>
-    <g:max_handling_time>1</g:max_handling_time>
+    <g:min_handling_time>1</g:min_handling_time>
+    <g:max_handling_time>2</g:max_handling_time>
   </item>
 </channel>
 </rss>

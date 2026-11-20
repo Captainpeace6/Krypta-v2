@@ -46,6 +46,21 @@ rather than pushing on.
 
 ---
 
+## 2026-11-20 19:20 ET — redesign session — ONE honest shipping promise: ships in 1–2 days, arrives in 3–7 (Express removed)
+
+Vish: "Ships in 1–2 days, arrives in 3–7 business days. $5 tees-only, $9.99 everything else, free over $60 (US).
+Other countries keep their region rates. Keep only this everywhere — no fake promises."
+- **Express removed.** The $24.99 "Express" (pre-existing, was 3–5 days; briefly mislabelled 1–2 day *delivery* at
+  18:55) is gone from checkout. Worker dc002f0, version 06be9fa4 deployed (preview tested: one option, Standard $9.99,
+  3–7 business days; health 200, admin 401). US standard estimate 3–6 → 3–7.
+- Website: every "ships next (business) day" / "3–6 days" → "ships in 1–2 days" / "3–7 business days" (catalog.js
+  shipping text ×30, product info row, banner "Free US shipping $60+ · $5 tees · Ships in 1–2 days" ×63, info.html,
+  faq.html + 9 shop FAQs). info.html Express row removed. JSON-LD handlingTime 1–2 (build_static_seo.py rerun).
+- Krypta-v2 `build-feed.js`: g:min_handling_time 1, g:max_handling_time 2. Merchant Center policy handling 1–2.
+- Asset version `v=21` → `v=22`.
+
+---
+
 ## 2026-11-20 18:55 ET — redesign session — US Express = 1–2 business days
 
 - Worker 4640b0a, version ea299a2f deployed (tested on preview first; health 200, admin 401): US Express $24.99 now
