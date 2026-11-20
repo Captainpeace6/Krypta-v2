@@ -347,8 +347,14 @@ $$("[data-copy]").forEach(b=>b.addEventListener("click",async()=>{const t=b.data
   m.querySelector("[data-copy]").addEventListener("click",async()=>{try{await navigator.clipboard.writeText("KRYPTAA12");toast("Copied KRYPTAA12")}catch(e){toast("Code: KRYPTAA12")}});
   const msg=m.querySelector(".msg");const mo=new MutationObserver(()=>{if(/^You're in\. Drop/.test(msg.textContent)){mo.disconnect();m.querySelector(".cp-code").hidden=false;m.querySelector("form").hidden=true;msg.textContent="You're in. Use this code at checkout:"}});mo.observe(msg,{childList:true,characterData:true,subtree:true});
   let done=false;const show=()=>{if(done||document.querySelector(".drawer.on,.modal.on"))return;done=true;try{localStorage.setItem("kry_club_pop","1")}catch(e){}openDrawer("clubPop")};
-  setTimeout(show,20000);
-  addEventListener("scroll",function f(){const h=document.documentElement;if(h.scrollTop>(h.scrollHeight-innerHeight)*.5){removeEventListener("scroll",f);setTimeout(show,800)}},{passive:true});
+  /* Only after 25 s of a real visit, and only once the visitor has scrolled, tapped or typed.
+     No "half the page" trigger (it fired almost at once on short phone pages), and crawlers that
+     fast-forward timers never interact, so search engines never see the pop-up covering the page. */
+  const t0=Date.now(),WAIT=25000;let acted=false;
+  const ready=()=>acted&&Date.now()-t0>=WAIT&&document.visibilityState==="visible";
+  const act=()=>{acted=true;if(ready())show()};
+  ["pointerdown","keydown","scroll","touchstart"].forEach(ev=>addEventListener(ev,act,{passive:true}));
+  (function tick(){if(done)return;if(ready()){show();return}setTimeout(tick,1000)})();
 })();
 
 /* Join the club — POSTs to the Worker, which stores the address and pings the shop.

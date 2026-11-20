@@ -46,6 +46,17 @@ rather than pushing on.
 
 ---
 
+## 2026-11-20 13:45 ET — redesign session — 12% club pop-up waits 25 s (Google interstitial fix)
+
+- `site.js` club pop-up (`#clubPop`): removed the "scrolled past half the page" trigger (fired almost at
+  once on short phone pages, so the pop-up covered the jeans right after opening — Google ranks pages lower
+  for that on phones). Now it opens only when **25 s have passed AND the visitor has scrolled, tapped or
+  typed**, with the tab visible. Crawlers that fast-forward timers never interact, so they never see it.
+  Still once per visitor (`kry_club_pop`), never on checkout/track/admin.
+- Tested phone + desktop: hidden at 3/10/20 s, shown at ~25 s after a scroll; no-interaction visit stays
+  clear until the first scroll after 25 s.
+- Asset version `v=18` → `v=19`.
+
 ## 2026-11-18 16:50 ET — redesign session — readable labels, one gold accent, Spin the drop fits
 
 From the Frontend Design review (#4, #5, #7). Vish said skip #2, so the homepage keeps all its sections.
