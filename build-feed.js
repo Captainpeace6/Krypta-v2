@@ -31,6 +31,15 @@ const SITE = 'https://www.kryptaa.com';
 const esc = (s) => String(s == null ? '' : s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const abs = (p) => /^https?:/i.test(p) ? p : SITE + '/' + String(p).replace(/^\/+/, '');
+// Image URLs carry a short content fingerprint (?v=…). Google caches photos by URL and does not re-fetch a
+// replaced file that kept its name (the Nov 11 track-pant reshoot kept womens-st-red-01.webp, so Google kept
+// showing the old photo). A new fingerprint whenever the file changes makes Google fetch the new photo.
+const crypto = require('crypto');
+const img = (p) => {
+  const rel = String(p).replace(/^\/+/, '');
+  try { return abs(rel) + '?v=' + crypto.createHash('md5').update(fs.readFileSync(path.join(__dirname, rel))).digest('hex').slice(0, 8); }
+  catch (e) { console.warn(`! image not found: ${rel}`); return abs(rel); }
+};
 
 // Pre-orders: Google requires availability_date. Make time is 30+ days, so promise the
 // honest upper end — 45 days from the build date, refreshed on every deploy.
@@ -74,8 +83,8 @@ for (const p of PRODUCTS) {
   if (p.category === 'bundle') continue;             // mystery bundle: contents vary, Merchant Center wants concrete items
   if (availability(p) === 'out_of_stock') continue;  // Google rejects long-term OOS items
   const link = `${SITE}/products/${p.slug}.html`;
-  const images = (p.gallery || []).map((g) => abs(g.src)).filter((u, i, a) => a.indexOf(u) === i);
-  const main = abs(p.img);
+  const images = (p.gallery || []).map((g) => img(g.src || g)).filter((u, i, a) => a.indexOf(u) === i);
+  const main = img(p.img);
   const extra = images.filter((u) => u !== main && !/sizechart/i.test(u)).slice(0, 10);
   const sizes = (p.sizes || []).filter((s) => !(p.soldOutSizes || []).includes(s));
 

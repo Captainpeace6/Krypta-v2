@@ -46,6 +46,16 @@ rather than pushing on.
 
 ---
 
+## 2026-11-20 16:55 ET — redesign session — Google feed photos get a fingerprint (old track-pant photo on Google)
+
+- Google Shopping still showed the OLD red track pant photo (white top, phone selfie): the Nov 11 reshoot kept the
+  filename `womens-st-red-01.webp`, and Google caches photos by URL, so it never re-fetched.
+- Krypta-v2 `build-feed.js`: every image link in `feed/google-merchant.xml` now ends in `?v=<8-char md5 of the file>`.
+  New URL whenever a photo changes → Google fetches it. Feed rebuilt; only the `?v=` parts changed (checked by diff).
+  **Whenever a product photo is replaced, rerun `node build-feed.js` in Krypta-v2.**
+
+---
+
 ## 2026-11-20 16:30 ET — redesign session — Merchant Center account settings
 
 - **Customer service contact** set (Business info): https://www.kryptaa.com/contact.html, hello@kryptaa.com,
