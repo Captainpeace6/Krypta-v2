@@ -46,6 +46,15 @@ rather than pushing on.
 
 ---
 
+## 2026-11-20 18:55 ET — redesign session — US Express = 1–2 business days
+
+- Worker 4640b0a, version ea299a2f deployed (tested on preview first; health 200, admin 401): US Express $24.99 now
+  "Express Shipping (1–2 business days)", estimate 1–2 (was 3–5). Still US only, not offered with pre-orders.
+- info.html: Express row ($24.99, 1–2 days, US, in-stock only). FAQ + shop FAQs mention Express 1–2 days.
+- Scheduled a check for Nov 21 (Merchant Center should show 114 products from PRODUCTS SOURCE 1).
+
+---
+
 ## 2026-11-20 18:20 ET — redesign session — international shipping = Shipping page rates, free shipping US only
 
 Vish: free over $60 is for the US only; abroad, use the Shipping page's rates.
