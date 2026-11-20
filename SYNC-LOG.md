@@ -46,6 +46,22 @@ rather than pushing on.
 
 ---
 
+## 2026-11-20 18:20 ET — redesign session — international shipping = Shipping page rates, free shipping US only
+
+Vish: free over $60 is for the US only; abroad, use the Shipping page's rates.
+- **Checkout server** (`kryptaa-worker` a426631, version 70bc6c54): `body.country` picks the rate — CA $12.99,
+  GB/DE/FR/NL/AU/IN/SG $14.99, AE $18.99 (10–25 business days), never free, no express. Stripe's address form is locked
+  to that one country (`allowed_countries: [country]`). No/unknown country = US (unchanged rules). Tested on the
+  preview: US tee $34, GB tee $43.99, AE jeans $85.99, US jeans $67 free.
+- `checkout.html`: "Shipping to" country picker under the email (remembered in localStorage `kry_country`).
+  `site.js` checkout now shows the exact shipping and the total including it (same rules as the server; the $60
+  check uses the subtotal before discount, like the server). `api.js` sends `country`.
+- `info.html` table now lists only the 10 countries checkout accepts; free row = "US orders over $60".
+  FAQ/shop FAQs: free shipping is US only; international listed by country. Banner: "Free US shipping $60+ · $5 tees ·
+  Ships next day" (fits one line on a 360px phone). Product info row: "Free US shipping" / "$5 US shipping".
+
+---
+
 ## 2026-11-20 17:40 ET — redesign session — tees $29, $5 tee shipping, next-day dispatch, all anime = pre-order
 
 Vish's call: everything except anime denim is in stock and ships the next business day, delivered within a week;

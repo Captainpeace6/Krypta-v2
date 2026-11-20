@@ -449,3 +449,7 @@ html body .drift-row small,html body .follow .fcap span,html body .wp-hint,html 
   font-family:var(--f-body);text-transform:none;letter-spacing:.01em}
 html body .mono{font-size:13px}
 html body .ld-hud,html body .ld-badge,html body .ld-down,html body .ld-strip-h,html body .ld-tile span,html body .ld-tags span,html body .lb em,html body .ld-meta,html body .ld-stock,html body .card .sub,html body .drift-row small,html body .wp-hint,html body .ld-swipe{font-size:12.5px}
+
+/* Checkout: country picker (Nov 20) */
+select.ship-sel{background:#0f0c09;border:1px solid #3a3026;color:var(--bone);font:inherit;font-size:16px;padding:14px 16px;width:100%;outline:none;appearance:auto}
+select.ship-sel:focus-visible{border-color:var(--gold,#d2ae5b)}

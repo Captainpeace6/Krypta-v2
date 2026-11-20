@@ -70,8 +70,8 @@ function renderBag(){
     foot.hidden=true;return}
   const rem=Math.max(0,FREE-tot),pct=Math.min(100,tot/FREE*100);
   const tee=K.products.find(x=>x.category==="tees"&&!x.archived&&x.price>=rem);
-  bar.innerHTML=rem>0?`<div class="t"><span class="fs-ic" aria-hidden="true">🚚</span><span>You're <strong>${money(rem)}</strong> away from <b>free shipping</b></span></div><div class="track"><i style="--p:${pct}%"></i></div>${tee&&rem<=tee.price?`<a class="fs-tip mono" href="t-shirts.html">A $${tee.price} tee gets you there →</a>`:""}`
-    :`<div class="t ok"><span class="fs-ic" aria-hidden="true">✓</span><b>Free shipping unlocked</b></div><div class="track done"><i style="--p:100%"></i></div>`;
+  bar.innerHTML=rem>0?`<div class="t"><span class="fs-ic" aria-hidden="true">🚚</span><span>You're <strong>${money(rem)}</strong> away from <b>free US shipping</b></span></div><div class="track"><i style="--p:${pct}%"></i></div>${tee&&rem<=tee.price?`<a class="fs-tip mono" href="t-shirts.html">A $${tee.price} tee gets you there →</a>`:""}`
+    :`<div class="t ok"><span class="fs-ic" aria-hidden="true">✓</span><b>Free US shipping unlocked</b></div><div class="track done"><i style="--p:100%"></i></div>`;
   bar.classList.toggle("done",rem<=0);
   body.innerHTML=bag.map(l=>{const p=byId(l.id);return `<div class="line"><a href="${purl(p.id)}"><img src="${esc(asset(p.img))}" alt="${esc(p.name)}"></a><div>
     <a class="nm" href="${purl(p.id)}">${esc(p.name)}</a><div class="meta">Size ${esc(l.size)} · ${money(p.price)}${isPre(p)?" · Pre-order":""}</div>
@@ -180,7 +180,7 @@ if(page==="product"){
           <div class="sizes" id="sizes">${p.sizes.map(z=>{const so=soldOut(p,z),q=stockOf(p,z);return `<button type="button" data-z="${esc(z)}" aria-pressed="false" ${so?"disabled aria-label=\""+esc(z)+" sold out\"":""}>${esc(z)}${!so&&q!=null&&q<=LOW?'<span class="lo">'+q+' left</span>':""}</button>`}).join("")}</div>
           <div class="lowmsg mono" id="lowmsg" aria-live="polite"></div></div>`:""}
         <div class="buy"><button class="btn" type="button" id="addBtn" ${p.archived?"disabled":""}>${btnTxt}</button>${heartBtn(p.id)}</div>
-        <div class="trust"><div><b>${p.category==="tees"?"$5 shipping":"Free shipping"}</b><span class="mono">${p.category==="tees"?"Free over $60":"Over $60"}</span></div><div><b>${pre?"Pre-order":"Ships next day"}</b><span class="mono">${pre?"Arrives in 30–45 days":"Arrives in 3–6 days"}</span></div><div><b>7-day returns</b><span class="mono">Secure Stripe checkout</span></div></div>
+        <div class="trust"><div><b>${p.category==="tees"?"$5 US shipping":"Free US shipping"}</b><span class="mono">${p.category==="tees"?"Free over $60":"Over $60"}</span></div><div><b>${pre?"Pre-order":"Ships next day"}</b><span class="mono">${pre?"Arrives in 30–45 days":"Arrives in 3–6 days"}</span></div><div><b>7-day returns</b><span class="mono">Secure Stripe checkout</span></div></div>
         <div class="acc">${acc.map((a,i)=>`<details${i===0?" open":""}><summary>${a[0]}</summary><div class="ac">${esc(a[1])}</div></details>`).join("")}</div>
       </div></div>`;
     $$("[data-g]",root).forEach(b=>b.onclick=()=>{gi=+b.dataset.g;$("#gMain").src=gal[gi].src;$("#gLab").textContent=gal[gi].label||"";$$("[data-g]",root).forEach(x=>x.setAttribute("aria-pressed",x===b))});
@@ -243,12 +243,20 @@ if(page==="wishlist"){const draw=()=>{const g=$("#grid"),em=$("#wEmpty");$("#wCo
    on anything this browser says. */
 if(page==="checkout"){
   let applied=null,pct=0;
+  /* Same shipping rules as the checkout server (kryptaa-worker checkout.js). Free over $60 is US only. */
+  const INTL={CA:12.99,GB:14.99,DE:14.99,FR:14.99,NL:14.99,AU:14.99,IN:14.99,SG:14.99,AE:18.99};
+  const sel=$("#coCountry");try{const c=localStorage.getItem("kry_country");if(c&&sel&&[...sel.options].some(o=>o.value===c))sel.value=c}catch(e){}
+  const country=()=>sel?sel.value:"US";
+  const shipCost=(after)=>{const c=country();if(c!=="US")return INTL[c]||14.99;if(after>=FREE)return 0;return bag.every(l=>(byId(l.id)||{}).category==="tees")?5:9.99};
+  if(sel)sel.addEventListener("change",()=>{try{localStorage.setItem("kry_country",sel.value)}catch(e){};draw()});
   const lineItems=()=>bag.map(l=>{const p=byId(l.id);return{item_id:String(l.id),item_name:p.name,price:p.price,quantity:l.qty,item_variant:l.size}});
   const draw=()=>{const box=$("#coLines"),has=bag.length;$("#coEmpty").hidden=has;$("#coFull").hidden=!has;if(!has)return;
     box.innerHTML=bag.map(l=>{const p=byId(l.id);return `<div class="line"><img src="${esc(asset(p.img))}" alt=""><div><a class="nm" href="${purl(p.id)}">${esc(p.name)}</a><div class="meta">Size ${esc(l.size)} · Qty ${l.qty}</div><div class="row"><span class="pr">${money(p.price*l.qty)}</span><button class="rm" type="button" data-rm="${esc(l.key)}">Remove</button></div></div></div>`}).join("");
     const sub=bagTotal(),disc=applied?Math.round(sub*pct*100)/100:0;
     $("#coSub").textContent=money(sub);$("#coDiscRow").hidden=!applied;$("#coDiscLbl").textContent=applied?`Discount (${Math.round(pct*100)}% off · ${applied})`:"";$("#coDisc").textContent="−"+money(disc);
-    $("#coShip").textContent=sub-disc>=FREE?"Free":"Calculated at checkout";$("#coTotal").textContent=money(sub-disc);$("#payBtn").textContent="🔒 Pay now — "+money(sub-disc)};
+    const ship=shipCost(sub);$("#coShip").textContent=ship?money(ship):"Free";
+    const n=$("#coCountryNote");if(n)n.textContent=country()==="US"?(ship?"Free US shipping on orders over $60."+(ship===5?" Tees-only orders ship for $5.":""):"Free US shipping unlocked."):"International orders: flat "+money(ship)+" shipping. Free shipping over $60 is for US orders.";
+    $("#coTotal").textContent=money(sub-disc+ship);$("#payBtn").textContent="🔒 Pay now — "+money(sub-disc+ship)};
   draw();document.addEventListener("bag:change",draw);
   if(bag.length&&window.KAPI)KAPI.track("begin_checkout",{value:bagTotal(),items:lineItems(),ids:bag.map(l=>String(l.id)),count:bagCount()});
 
@@ -273,7 +281,7 @@ if(page==="checkout"){
     if(!window.KAPI){m.classList.add("err");m.textContent="Checkout isn't available right now. Email hello@kryptaa.com and we'll send a payment link.";return}
     const label=btn.textContent;btn.disabled=true;btn.textContent="Opening secure payment…";m.textContent="";
     const restore=()=>{btn.disabled=false;btn.textContent=label};
-    KAPI.checkout(bag.map(l=>({id:l.id,size:l.size,qty:l.qty})),v,applied)
+    KAPI.checkout(bag.map(l=>({id:l.id,size:l.size,qty:l.qty})),v,applied,country())
       .then(d=>{if(d&&d.url){location.replace(d.url);return}
         m.classList.add("err");m.textContent="Payment error: "+((d&&d.error)||"could not start checkout");restore()})
       .catch(err=>{const off=err&&(err.code===502||err.code===503||err.message==="offline");

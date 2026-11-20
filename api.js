@@ -168,9 +168,9 @@
     /* Resolves to { url } — the Stripe Checkout page to send the customer to.
        Prices come from the Worker's own catalog, never from this browser, so a
        tampered cart cannot change what is charged. */
-    checkout: function (cart, email, coupon) {
+    checkout: function (cart, email, coupon, country) {
       return postJson("create-checkout", {
-        cart: cart, coupon: coupon || null, email: email || undefined
+        cart: cart, coupon: coupon || null, email: email || undefined, country: country || "US"
       });
     },
 
