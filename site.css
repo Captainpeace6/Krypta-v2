@@ -14,8 +14,8 @@ button,a,[role=button]{touch-action:manipulation}
   --void:#0b0907;--coal:#16120e;--coal-2:#1d1712;--wall:#2e2419;
   --bone:#ece3d0;--ash:#8d8375;--rule:#2a231b;
   --gold:#c9a24a;--gold-hi:#f1cf7a;--blood:#a3141b;--ok:#7dba7d;
-  --f-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
-  --f-body:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-display:"Dela Gothic One","Hiragino Sans","Arial Black",Impact,sans-serif;
+  --f-body:"Zen Kaku Gothic New",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
   color-scheme:dark;
 }
@@ -453,3 +453,18 @@ html body .ld-hud,html body .ld-badge,html body .ld-down,html body .ld-strip-h,h
 /* Checkout: country picker (Nov 20) */
 select.ship-sel{background:#0f0c09;border:1px solid #3a3026;color:var(--bone);font:inherit;font-size:16px;padding:14px 16px;width:100%;outline:none;appearance:auto}
 select.ship-sel:focus-visible{border-color:var(--gold,#d2ae5b)}
+
+/* Anime Heavy fonts (sample, Nov 20): Dela Gothic One headings, Zen Kaku Gothic New menu/text */
+html body .k-nav a,html body .k-nav button.dd,html body .bag-btn{font-weight:700;font-size:15.5px}
+html body .eyebrow,html body .ld-eye,html body .sg-eyebrow,html body .k-foot h4{font-weight:700;font-size:14px}
+html body .announce{font-weight:700}
+.rail-sec .intro{position:relative}
+.kana-bg{position:absolute;right:0;top:-10px;font:400 clamp(80px,16vw,220px)/1 "Dela Gothic One",sans-serif;color:transparent;-webkit-text-stroke:1.5px rgba(201,162,74,.32);pointer-events:none;z-index:0;white-space:nowrap}
+#railTitle{position:relative;z-index:1}
+/* Dela Gothic One is far wider than the old condensed face: shrink display headings ~25% so they fit */
+html body :is(h1,h2,h3){font-size-adjust:cap-height .5}
+html body :is(.ld-h,.ld-h2){font-size-adjust:cap-height .42}
+@media (max-width:760px){html body :is(h1,h2,h3){font-size-adjust:cap-height .47;overflow-wrap:break-word}html body :is(.ld-h,.ld-h2){font-size-adjust:cap-height .42}}
+html body .ld-h .ln{white-space:nowrap}
+@media (min-width:761px){html body .ld-h{font-size-adjust:cap-height .34}}
+@media (max-width:760px){.kana-bg{top:64px;font-size:22vw;-webkit-text-stroke-color:rgba(201,162,74,.22)}}

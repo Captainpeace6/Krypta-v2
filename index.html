@@ -31,8 +31,8 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-242EQ24FP3');</script>
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2070231503594050');fbq('track','PageView');</script>
 <link rel="canonical" href="https://www.kryptaa.com/">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="site.css?v=22">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="site.css?v=23">
 <style>
 /* Layout: one black-and-gold store page. Order: clothing rail (opening) → reviews that pop up on scroll → sliding words + drifting product photos → spinning product ribbon → pick-your-weapon list → trident made of dots → footer. */
 :root{
@@ -45,8 +45,8 @@
   --gold:#c9a24a;        /* brand gold */
   --gold-hi:#f1cf7a;     /* gold highlight */
   --blood:#a3141b;       /* red from the snake denim */
-  --f-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
-  --f-body:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-display:"Dela Gothic One","Hiragino Sans","Arial Black",Impact,sans-serif;
+  --f-body:"Zen Kaku Gothic New",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
   color-scheme:dark;
 }
@@ -487,7 +487,7 @@ footer .note{color:var(--ash);width:100%;margin:0}
   <div class="intro wrap">
     <div class="crumbs mono"><b>New collection</b> &nbsp;|&nbsp; Drop 001 · Tees, denim, track pants &amp; women wear</div>
     <div class="bigname" id="bigname" aria-hidden="true"><img src="img/wordmark.webp" alt=""><img class="shine" src="img/wordmark.webp" alt=""><img class="glow" src="img/wordmark.webp" alt=""></div>
-    <h1 id="railTitle">Pick it off <em>the rail</em></h1>
+    <span class="kana-bg" aria-hidden="true">クリプタ</span><h1 id="railTitle">Pick it off <em>the rail</em></h1>
   </div>
   <div class="rscrub wrap" id="rscrub">
     <button type="button" class="rs-arr" data-dir="-1" aria-label="Slide the rail left">‹</button>
@@ -1239,7 +1239,7 @@ cv.addEventListener("pointerleave",()=>{mx=my=-9999});cv.addEventListener("point
 <button type="button" id="sbOpen" data-open="sbModal" hidden></button>
 <div class="sbr" id="sbr"><button class="go" type="button" aria-label="Surprise bag — open the offer"><span class="a"><img src="imgs/kryptaa-sigil.webp" alt=""></span><span class="bub" id="sbBub">Click for a surprise bag</span></button><button class="sx" type="button" id="sbX" aria-label="Hide the surprise bag button">✕</button></div>
 
-<script src="catalog.js?v=22"></script><script src="slugs.js?v=22"></script><script src="api.js?v=22" data-after="site.js"></script><script>(function(){const v=document.getElementById("bvid"),b=document.getElementById("bvBtn");if(!v)return;
+<script src="catalog.js?v=23"></script><script src="slugs.js?v=23"></script><script src="api.js?v=23" data-after="site.js"></script><script>(function(){const v=document.getElementById("bvid"),b=document.getElementById("bvBtn");if(!v)return;
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;let want=!reduce;
 const set=()=>{b.textContent=v.paused?"▶ Play":"❚❚ Pause";b.setAttribute("aria-label",v.paused?"Play video":"Pause video")};
 new IntersectionObserver(es=>{if(es[0].isIntersecting&&want)v.play().catch(()=>{});else v.pause();setTimeout(set,50)},{threshold:.25}).observe(v);

@@ -46,6 +46,19 @@ rather than pushing on.
 
 ---
 
+## 2026-11-21 00:10 ET — redesign session — Anime Heavy fonts LIVE (Vish approved)
+
+- Fonts: headings `--f-display` = **Dela Gothic One**; menu/sub-headers/text `--f-body` = **Zen Kaku Gothic New**
+  (500/700/900). Google Fonts link on all 63 pages now loads Dela Gothic One + Zen Kaku Gothic New + IBM Plex Mono
+  (Big Shoulders Display and Archivo removed). Vars changed in site.css AND index.html's inline :root.
+- site.css end, "Anime Heavy fonts" block: menu/bag 700 15.5px, eyebrows 700 14px, banner 700. Dela is ~2x wider than
+  Big Shoulders, so headings shrink with `font-size-adjust:cap-height` (.5 h1–h3, .42 landing .ld-h/.ld-h2, .34 .ld-h
+  on desktop; .47/.42 on phones) and `.ld-h .ln{white-space:nowrap}`. Checked 5 pages at 1440 and 390: no overflow.
+- Homepage: `<span class="kana-bg">クリプタ</span>` (gold outline) behind `#railTitle`.
+- Asset version `v=22` → `v=23`.
+
+---
+
 ## 2026-11-20 23:55 ET — redesign session — leftover $39 tee prices fixed
 
 - The Nov 20 price change missed inline page data: `"p": 39` / `p:39` for the 4 tees in t-shirts.html (4),
