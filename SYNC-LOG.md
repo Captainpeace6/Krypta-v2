@@ -46,6 +46,16 @@ rather than pushing on.
 
 ---
 
+## 2026-11-20 23:55 ET — redesign session — leftover $39 tee prices fixed
+
+- The Nov 20 price change missed inline page data: `"p": 39` / `p:39` for the 4 tees in t-shirts.html (4),
+  men-all.html (3) and index.html (7: homepage rail price tags + Pick your weapon pop-up). Landing hero cards and the
+  rail showed $39 although the bag and checkout charged $29. All now 29. HTML only, no asset bump needed.
+- Font sample on branch `font-anime-heavy` in Kryptaa-2 (NOT live, not on main): Dela Gothic One headings + Zen Kaku
+  Gothic New text + katakana behind the homepage title. Waiting for Vish's approval.
+
+---
+
 ## 2026-11-20 19:20 ET — redesign session — ONE honest shipping promise: ships in 1–2 days, arrives in 3–7 (Express removed)
 
 Vish: "Ships in 1–2 days, arrives in 3–7 business days. $5 tees-only, $9.99 everything else, free over $60 (US).
