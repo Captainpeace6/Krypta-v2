@@ -46,6 +46,44 @@ rather than pushing on.
 
 ---
 
+## 2026-11-21 16:00 ET — Claude Code session — Depop relist, and the site has NO stock ceiling
+
+**Depop: Gold Chainmail Choker Bra (catalog id 82) is live again.** It sold on 21 Nov to @h0neybunny3 and
+went to Sold because its listing quantity was 1. Quantity 1 → **20** in the Depop listing editor
+(`depop.com/products/ksyptaa-gold-chainmail-choker-with-a-18a9/`); price left at **$15.99**. Verified by
+reopening the editor after saving (reads 20) and loading the public page (no Sold banner). The listing
+kept its photos, description, Boosted status and 11.5K views — it was edited, not recreated.
+Note the sale went through at $13.99, an accepted offer; the list price is back at $15.99.
+**One order still needs shipping** — Selling Hub → Sold, USPS label not yet downloaded.
+
+**Finding: stock on this site is decoration, not a limit.** Two separate gaps, both confirmed in code:
+
+1. `site.js:32` `stockOf()` returns `null` for any product with no KV entry, and `site.js:34`
+   `soldOut()` is `stockOf(p,z)===0`. `null === 0` is false, so a product absent from KV can **never**
+   show as sold out. It sells for ever.
+2. `src/checkout.js` `createCheckout()` never reads stock at all — it looks up the price and builds the
+   Stripe session. Even a product sitting at 0 in KV would still check out.
+
+Product 82 is in `catalog.js` and `src/catalog.js` at $15.99, in neither `BASE_STOCK` nor the KV blob.
+So kryptaa.com has been offering it with no ceiling while Vish holds 20 units.
+
+**Setting 82 to 20 in KV:** helper at `~/set-stock-82.sh`, admin-gated, run by Vish.
+`POST /update-stock` **replaces the whole stock blob — it does not merge** (`src/stock.js:80-87`), so
+sending `{"82":…}` alone would wipe every other count. The script reads `/get-stock`, adds 82 to that
+object, prints the diff, asks, posts the full blob, then re-reads to confirm. Key stays in a shell
+variable, never on disk.
+
+**Durable follow-up, NOT done:** 82 lives only in the stored KV blob, not in `BASE_STOCK`, so it is not
+re-seeded if that blob is ever reset. Adding `82: { Universal: 20 }` to `BASE_STOCK` in
+`kryptaa-worker/src/stock.js` needs a Worker deploy — `versions upload` → `versions view <id>` → confirm
+**5** `Secret Name:` lines → `versions deploy`. Left for a deliberate, separate pass.
+
+**Correction to my 17 Nov note about Clarity.** I reported Clarity was not collecting. That check ran at
+~20:15 ET; the redesign session added the tag to 63 pages at 21:00 ET the same evening, 45 minutes later.
+Clarity IS live — `clarity.ms/tag/` is on the live homepage now. My later "1 of 65 pages" figure came from
+a local `kryptaa-2` that was 25 commits behind; both repos have since been pulled and the two SYNC-LOGs
+are byte-identical again. **Pull before reporting a repo's state.**
+
 ## 2026-11-21 00:10 ET — redesign session — Anime Heavy fonts LIVE (Vish approved)
 
 - Fonts: headings `--f-display` = **Dela Gothic One**; menu/sub-headers/text `--f-body` = **Zen Kaku Gothic New**
