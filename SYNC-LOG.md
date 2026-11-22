@@ -46,6 +46,39 @@ rather than pushing on.
 
 ---
 
+## 2026-11-22 04:20 ET — Claude Code session — 81 and 82 added to BASE_STOCK (Worker deployed)
+
+`kryptaa-worker` `57c8b1c`, live as version **`41dae87f`** (previous: `06be9fa4` — roll back to that id if
+anything surfaces). Seven added lines in `src/stock.js`, nothing removed:
+`81: { Universal: 21 }`, `82: { Universal: 20 }`.
+
+**Why:** the KV write on 22 Nov gave both products a count, but `BASE_STOCK` is what re-seeds KV if that
+blob is ever lost. Without this they would have come back untracked — no ceiling — exactly the bug we had
+just closed.
+
+**Proved safe before deploying, not after.** Ran the real `loadStock()` merge logic (extracted from the
+edited source) against the live stock blob and diffed every product: **no live count changes**. Also
+simulated a wiped KV: 81 comes back as 21, 82 as 20, 22 products seeded. Worth reusing — the merge loop
+starts applying to a product the moment it joins `BASE_STOCK`, deleting sizes absent from the schema and
+filling in ones that are missing, so adding an entry whose sizes don't match what's stored WOULD rewrite
+live data. Here both are `Universal` on each side, so it is a no-op.
+
+**Deploy followed the rules exactly:**
+1. Confirmed the repo was clean and `main` matched origin.
+2. Confirmed the deployed version `06be9fa4` corresponded to HEAD `dc002f0`, so Cloudflare was not running
+   anything missing from git (the 17 Nov trap).
+3. `wrangler versions upload` → `41dae87f`. **Never a bare `wrangler deploy`.**
+4. `wrangler versions view 41dae87f` → **5** `Secret Name:` lines, same names as the live version.
+5. Tested the version's own preview URL: health 200, stock 81/82 correct, admin routes 401, unsigned
+   webhook 400, and **two real `checkout.stripe.com` sessions created** (products 81 and 82).
+6. `wrangler versions deploy 41dae87f@100%`, then re-verified production independently: health 200,
+   81 `{Universal:21}`, 82 `{Universal:20}`, 22 products, admin 401, webhook 400, live checkout returns a
+   real Stripe session.
+
+**Still open:** `create-checkout` still never reads stock for any product (`src/checkout.js` resolves price
+only), so a product at 0 in KV still completes a Stripe session. Stock remains display-only sitewide. Not
+touched — it is a behaviour change to the money path and deserves its own pass.
+
 ## 2026-11-22 03:30 ET — Claude Code session — Clarity unblocked, chain bras now have stock counts
 
 **Clarity was never collecting — the CSP blocked it.** The tag went onto 63 pages on 17 Nov, but
