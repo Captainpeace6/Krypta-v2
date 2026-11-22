@@ -1,0 +1,106 @@
+{
+ "products": {
+  "1": [
+   "Medusa Graphic Tee — Oversized Heavyweight Goth T-Shirt",
+   "Black 300GSM oversized goth graphic tee with a Medusa serpent back print. Unisex. $29, $5 US shipping, ships in 1–2 days."
+  ],
+  "3": [
+   "Angel of Death Tee — Heavyweight Goth Graphic T-Shirt",
+   "Black 300GSM heavyweight goth graphic tee: winged skeleton, flames and skulls. Oversized unisex fit. $29, $5 US shipping, ships in 1–2 days."
+  ],
+  "4": [
+   "Skull Graphic Tee — Broken Skull Oversized Heavyweight T-Shirt",
+   "Charcoal 300GSM oversized skull graphic tee with blood-drip BROKEN lettering. Unisex. $29, $5 US shipping, ships in 1–2 days."
+  ],
+  "5": [
+   "Need Some Money Tee — Oversized Heavyweight Graphic T-Shirt",
+   "Charcoal 300GSM oversized graphic tee: angel statue with cash in flames. Unisex. $29, $5 US shipping, ships in 1–2 days."
+  ],
+  "10": [
+   "Ripped Baggy Jeans Men — Vintage Distressed Wide-Leg",
+   "Men's ripped baggy jeans: sand-washed vintage wide-leg with heavy side rips. $67 · in stock, ships in 1–2 days · free US shipping."
+  ],
+  "11": [
+   "Gothic Embroidered Jeans — Red Snake Baggy Wide-Leg, Men's",
+   "Black baggy wide-leg jeans with red gothic snake embroidery and a studded hem. $67 · in stock, ships in 1–2 days · free US shipping."
+  ],
+  "12": [
+   "Acid Wash Baggy Jeans — Rust Patchwork Wide-Leg, Men's",
+   "Men's acid wash baggy jeans: dark indigo with a rust bleed, patchwork and distressing. $63 · ships in 1–2 days · free US shipping."
+  ],
+  "14": [
+   "Baggy Cargo Jeans Men — Ice Wash Ripped Wide-Leg",
+   "Men's baggy cargo jeans in light ice wash with utility pockets and thigh rips. $63 · in stock, ships in 1–2 days · free US shipping."
+  ],
+  "30": [
+   "Skull Jeans Women — Black Gothic Wide-Leg, Pink Print",
+   "Women's black high-waist gothic wide-leg jeans with a pink skull back print. $51 · in stock, ships in 1–2 days · free US shipping over $60."
+  ],
+  "31": [
+   "Gold Embroidered Jeans Women — Black Baroque Wide-Leg",
+   "Women's black wide-leg jeans with all-over gold baroque embroidery. $62 · in stock, ships in 1–2 days · free US shipping."
+  ],
+  "32": [
+   "Graphic Jeans Women — Black Wide-Leg Creature Print",
+   "Women's black wide-leg graphic jeans with a white creature print on both legs. $62 · in stock, ships in 1–2 days · free US shipping."
+  ],
+  "70": [
+   "Rhinestone Mesh Hoodie Top — Sheer Crystal Rave Crop Top",
+   "Sheer rhinestone mesh hoodie crop top with an open chain back. Crystal rave and goth club top. $41 · ships in 1–2 days."
+  ],
+  "80": [
+   "Sequin Bra Top — Holographic Rainbow Halter Rave Top",
+   "Holographic rainbow sequin bra top with a halter neck and open chain back. Rave and festival outfit. $21 · ships in 1–2 days."
+  ],
+  "81": [
+   "Rhinestone Heart Chain Bra — Rave Body Chain Top",
+   "Rhinestone heart chain bra with crystal fringe and adjustable body chain. Rave and festival outfit. $15.99 · ships in 1–2 days."
+  ],
+  "82": [
+   "Gold Chainmail Bra Top — Choker Body Chain for Raves",
+   "Gold chainmail choker bra with draped waist chains. Statement rave and festival outfit. $15.99 · ships in 1–2 days."
+  ],
+  "90": [
+   "Silver Chrome Outfit — Metallic Crop Top & Chainmail Skirt Set",
+   "Silver chrome outfit: metallic crop top and chainmail mini skirt set for raves, festivals and parties. $27 · ships in 1–2 days."
+  ],
+  "500": [
+   "Blue Track Pants — Wide-Leg Unisex Streetwear",
+   "Deep blue wide-leg track pants, unisex relaxed fit. $42 · in stock, ships in 1–2 days · free US shipping over $60."
+  ],
+  "501": [
+   "Green Track Pants — Wide-Leg Unisex Streetwear",
+   "Muted green wide-leg track pants, unisex relaxed fit. $42 · in stock, ships in 1–2 days · free US shipping over $60."
+  ],
+  "502": [
+   "Red Track Pants — Wide-Leg Unisex Streetwear",
+   "Bold red wide-leg track pants, unisex relaxed fit. $42 · in stock, ships in 1–2 days · free US shipping over $60."
+  ],
+  "503": [
+   "Yellow Track Pants — Wide-Leg Unisex Streetwear",
+   "Gold yellow wide-leg track pants, unisex relaxed fit. $42 · in stock, ships in 1–2 days · free US shipping over $60."
+  ]
+ },
+ "pages": {
+  "track-pants.html": [
+   "Wide-Leg Track Pants — Yellow, Green, Red & Blue",
+   "Unisex wide-leg track pants in yellow, green, red and blue. $42 · in stock, ships in 1–2 days · free US shipping over $60."
+  ],
+  "women-wear.html": [
+   "Rave Outfits — Sequin Bra Tops, Chrome Sets & Body Chains",
+   "Rave and goth club outfits: holographic sequin bra tops, silver chrome sets, rhinestone mesh tops and chain bras. From $15.99, ships in 1–2 days."
+  ],
+  "men.html": [
+   "Gothic Baggy Jeans for Men — Embroidered, Ripped & Cargo",
+   "Men's gothic baggy jeans: embroidered, ripped, acid wash and cargo wide-leg denim. In stock, ships in 1–2 days, free US shipping over $60."
+  ],
+  "t-shirts.html": [
+   "Heavyweight Graphic Tees — Oversized Goth T-Shirts, $29",
+   "Oversized 300GSM heavyweight goth graphic tees: Medusa, Angel of Death, Broken Skull. Unisex. $29, $5 US shipping, ships in 1–2 days."
+  ],
+  "women.html": [
+   "Women's Gothic Jeans — Skull, Baroque & Graphic Wide-Leg",
+   "Women's gothic wide-leg jeans: pink skull, gold baroque embroidery and creature graphic. In stock, ships in 1–2 days, free US shipping over $60."
+  ]
+ }
+}

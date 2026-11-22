@@ -46,6 +46,31 @@ rather than pushing on.
 
 ---
 
+## 2026-11-22 02:50 ET — redesign session — search-matched titles for in-stock products (LIVE)
+
+- New `tools/seo_titles.json` (Kryptaa-2 and Krypta-v2): for 20 in-stock products and 5 shop pages (track-pants,
+  women-wear, men, t-shirts, women), a `<title>` / meta description / og:title / og:description built from real Search
+  Console queries (chrome outfit, yellow/green track pants, baggy ripped jeans, sequin bra top, crystal mesh hoodie,
+  heavyweight graphic tee, gothic baggy jeans men, rave outfits). Every $ price checked against catalog.js; "free US
+  shipping" only on items ≥ $60. Anime pages untouched.
+- Krypta-v2 `build-feed.js`: Shopping `g:title` = first entry of seo_titles.json for that product (+ " — size").
+  Feed rebuilt (114 items; only titles + pre-order date changed). build_static_seo.py rerun: pre-order date 2027-01-06.
+- If a product's price changes, update its line in tools/seo_titles.json too.
+
+---
+
+## 2026-11-22 00:50 ET — redesign session — TEMP owner-only test coupon on the Worker (REMOVE after Vish's test)
+
+- Vish wants to place a real ~$1 test payment. Instead of dropping Medusa to $1 for everyone, a temporary 97%-off code
+  was added to `COUPONS` in `kryptaa-worker/src/catalog.js` (private repo; the code itself is not written here because
+  this file is public). Worker fdbe031, version 579ad810 deployed on top of the other session's stock guard (4296465 /
+  c874ae52). Tested on preview: Medusa M = $29 − $28.13 + $5 shipping = $5.87. health 200, admin 401.
+- **Remove that COUPONS line and redeploy right after his test order** (and refund the order in Stripe).
+- DONE 00:55: test order paid ($5.87, Medusa S, session cs_live_agjVo6…, webhook delivered: pending_webhooks 0). Code removed
+  (Worker 2a3689a, version 1d344fbe deployed; /validate-coupon now answers invalid; health 200, admin 401). Vish refunds in Stripe.
+
+---
+
 ## 2026-11-22 04:45 ET — Claude Code session — checkout can no longer oversell (Worker deployed)
 
 `kryptaa-worker` `4296465`, live as version **`c874ae52`** (previous: `41dae87f` — roll back to that id if

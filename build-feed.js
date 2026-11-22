@@ -79,6 +79,9 @@ function color(p) {
 
 // Same rule as the checkout server (kryptaa-worker checkout.js): free at $60+, tees $5, else $9.99.
 // In stock ships in 1–2 business days (handling 1–2) + 2–5 business days in transit = 3–7.
+// Search-friendly Shopping titles for in-stock products (same file Kryptaa-2 uses for page titles).
+let SEO = {};
+try { SEO = JSON.parse(fs.readFileSync(path.join(__dirname, 'tools', 'seo_titles.json'), 'utf8')).products || {}; } catch (e) { console.warn('! tools/seo_titles.json not found — using product names'); }
 const shipPrice = (p) => (Number(p.price) >= 60 ? '0.00' : p.category === 'tees' ? '5.00' : '9.99');
 
 const items = [];
@@ -98,7 +101,7 @@ for (const p of PRODUCTS) {
   <item>
     <g:id>${esc(p.id)}-${esc(size)}</g:id>
     <g:item_group_id>${esc(p.id)}</g:item_group_id>
-    <g:title>${esc(p.name)} — ${esc(size)}</g:title>
+    <g:title>${esc((SEO[p.id] || [p.name])[0])} — ${esc(size)}</g:title>
     <g:description>${esc(p.desc || p.story || p.name)}</g:description>
     <g:link>${esc(link)}?utm_source=google&amp;utm_medium=shopping&amp;utm_campaign=free_listings</g:link>
     <g:image_link>${esc(main)}</g:image_link>
