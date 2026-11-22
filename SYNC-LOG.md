@@ -46,6 +46,44 @@ rather than pushing on.
 
 ---
 
+## 2026-11-22 04:45 ET — Claude Code session — checkout can no longer oversell (Worker deployed)
+
+`kryptaa-worker` `4296465`, live as version **`c874ae52`** (previous: `41dae87f` — roll back to that id if
+anything surfaces). `src/checkout.js` only; `create-checkout` now refuses to sell more units than exist.
+
+**The hole it closes:** the browser greys out sold-out sizes, but that is the only thing that ever stopped
+an oversell. A stale tab, a second device or a direct POST to `/create-checkout` would happily take the
+money, and a product with no stock row could be bought for ever. `create-checkout` resolved the price and
+never looked at stock.
+
+**How it is built, and why each choice:**
+- **Mirrors `webhook.js` exactly** — same `stockKeysFor()`, same exact-size lookup (`row[size]`), no
+  `Universal` fallback. The guard must only count units the webhook will actually deduct, or it would
+  block carts that never decrement anything.
+- **Sums quantities across cart lines**, so two lines of the same size cannot slip through one at a time.
+  Per-line qty is already clamped to 20 upstream, so multi-line was the real oversell route.
+- **Sits BEFORE the coupon block.** The coupon path creates a single-use Stripe coupon; rejecting after
+  that would leave an orphaned coupon behind on every blocked attempt.
+- **Fails OPEN.** The whole guard is in a `try`/`catch`; if KV cannot be read the sale proceeds and a line
+  goes to the log. Losing a real order to an infrastructure hiccup is worse than overselling one unit.
+- **Untracked products are never blocked** — a missing row or missing size is skipped, the same meaning
+  "untracked" carries in `site.js` and `api.js`. The made-to-order anime denim (108–116) is unaffected.
+- **It is NOT a reservation.** Two buyers can still pass the check in the same instant and both pay. This
+  closes the large hole, not the race. A real reservation needs expiry handling and is a bigger change.
+- Rejection returns **409** with `{ error, soldOut, id, size, available }`. `site.js:286` already renders
+  `"Payment error: " + d.error`, so the message is written to read correctly after that prefix.
+
+**Tested on the version preview before promoting — 10 checkout cases, all as designed:**
+allowed → 82×1, 82×20 (exactly all stock), 81×21 (clamped to 20), anime 108×20, tee 4 XL×4 (exact), set
+90×3 (exact); blocked → 82×20+82×20, 4 XL×4+XL×1, set 90×4, set top-only×4. Each block named the product
+and the remaining count. Regressions checked: coupon checkout still works, `country:"GB"` still works,
+health 200, admin 401, unsigned webhook 400, empty cart 400, unknown item 400.
+Then re-verified on production after the deploy: real sale allowed, 40-unit oversell blocked, anime
+pre-order allowed.
+
+**Not independently exercised:** no product is currently at 0, so the `have === 0` "just sold out" wording
+never fired. It is the same `qty > have` branch the other blocks prove, but that exact string is untested.
+
 ## 2026-11-22 04:20 ET — Claude Code session — 81 and 82 added to BASE_STOCK (Worker deployed)
 
 `kryptaa-worker` `57c8b1c`, live as version **`41dae87f`** (previous: `06be9fa4` — roll back to that id if
