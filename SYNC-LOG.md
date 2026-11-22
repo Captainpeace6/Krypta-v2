@@ -46,6 +46,49 @@ rather than pushing on.
 
 ---
 
+## 2026-11-22 03:30 ET — Claude Code session — Clarity unblocked, chain bras now have stock counts
+
+**Clarity was never collecting — the CSP blocked it.** The tag went onto 63 pages on 17 Nov, but
+`clarity.ms` was never added to the `Content-Security-Policy` meta tag, so every browser refused the
+script: `Loading the script 'https://www.clarity.ms/tag/y6kgv0czuk' violates the following Content
+Security Policy directive: "script-src 'self' 'unsafe-inline' …"`. Dark since the 10 Nov rebuild.
+- Added `https://www.clarity.ms https://*.clarity.ms` to `script-src` and `https://*.clarity.ms` to
+  `connect-src`, on all 63 pages carrying a CSP. **Nothing else in the policy was widened** —
+  `default-src`, `style-src`, `font-src`, `img-src`, `frame-src`, `object-src 'none'`, `base-uri` and
+  `form-action` are untouched. Kryptaa-2 `b4c212b`, Krypta-v2 `a31537d`. The two repos were edited
+  independently with the same replacement rather than copying files, so nothing else could be clobbered;
+  verified 63 files changed, 63 insertions, 63 deletions, zero non-CSP lines.
+- HTML only, so the stamp stays at **`v=23`**.
+- **Verified working on the live site**, not just loading: `www.clarity.ms/tag/y6kgv0czuk` →
+  `scripts.clarity.ms/0.8.80-beta/clarity.js` → 3 × `a.clarity.ms/collect` on one page view.
+  (Watch out when checking this: the browser console keeps entries across navigations, so stale
+  pre-fix CSP errors look current. Confirm with `performance.getEntriesByType('resource')`.)
+
+**Products 81 and 82 now have stock counts.** Both are physical stock that had never been in `BASE_STOCK`
+or KV, so `stockOf()` returned `null`, `soldOut()` was never true, and the site would have sold any
+quantity of either. Counts confirmed by Vishwak:
+- **81 Rhinestone Heart Chain Bra $15.99 → 21.** No sales anywhere yet; Depop already read 21, left alone.
+- **82 Gold Chainmail Choker Bra $15.99 → 20.** One sold on Depop 21 Nov; Depop relisted at 20 yesterday.
+- Written with `~/set-stock-82.sh` (read current blob → add the two keys → show diff → confirm → write →
+  re-read). Its diff printed `keys changed: 81, 82`, products 20 → 22. Verified from a fresh `/get-stock`
+  and on the live product page (`K.stockLive: true`, 81 `{Universal:21}`, 82 `{Universal:20}`).
+- **Watch out:** `BASE_STOCK` in `src/stock.js` holds the original SEED values and does not move as items
+  sell, so it is not a baseline for checking live stock. Example: `500` XS is legitimately 8 live while
+  `BASE_STOCK` still says 9. Compare against `/get-stock`, never against `BASE_STOCK`.
+
+**Still open, deliberately not done:**
+- 81 and 82 exist only in the stored KV blob, not in `BASE_STOCK`, so they are not re-seeded if that blob
+  is ever reset. Adding them to `kryptaa-worker/src/stock.js` needs a Worker deploy — `versions upload` →
+  `versions view <id>` → confirm **5** `Secret Name:` lines → `versions deploy`.
+- **`create-checkout` still never reads stock, for any product** (`src/checkout.js` looks up price only).
+  A product at 0 in KV still completes a Stripe session. Stock is display-only sitewide.
+
+Checked and found clean while auditing the Nov 20 price/shipping rework: all 30 prices match between
+`catalog.js` and the Worker's `src/catalog.js`; no leftover `$39` or "ships next day" / "3–6 days" copy;
+`info.html` international rates match the Worker rate for rate; the Google feed's 114 items all carry real
+prices (the `0.00` entries are free-shipping rates inside `<g:shipping>`); live matches the repo byte for
+byte on `v=23`.
+
 ## 2026-11-21 16:00 ET — Claude Code session — Depop relist, and the site has NO stock ceiling
 
 **Depop: Gold Chainmail Choker Bra (catalog id 82) is live again.** It sold on 21 Nov to @h0neybunny3 and
