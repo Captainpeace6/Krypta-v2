@@ -1239,7 +1239,7 @@ cv.addEventListener("pointerleave",()=>{mx=my=-9999});cv.addEventListener("point
 <button type="button" id="sbOpen" data-open="sbModal" hidden></button>
 <div class="sbr" id="sbr"><button class="go" type="button" aria-label="Surprise bag — open the offer"><span class="a"><img src="imgs/kryptaa-sigil.webp" alt=""></span><span class="bub" id="sbBub">Click for a surprise bag</span></button><button class="sx" type="button" id="sbX" aria-label="Hide the surprise bag button">✕</button></div>
 
-<script src="catalog.js?v=23"></script><script src="slugs.js?v=23"></script><script src="api.js?v=23" data-after="site.js"></script><script>(function(){const v=document.getElementById("bvid"),b=document.getElementById("bvBtn");if(!v)return;
+<script src="catalog.js?v=23"></script><script src="slugs.js?v=23"></script><script src="api.js?v=24" data-after="site.js"></script><script>(function(){const v=document.getElementById("bvid"),b=document.getElementById("bvBtn");if(!v)return;
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;let want=!reduce;
 const set=()=>{b.textContent=v.paused?"▶ Play":"❚❚ Pause";b.setAttribute("aria-label",v.paused?"Play video":"Pause video")};
 new IntersectionObserver(es=>{if(es[0].isIntersecting&&want)v.play().catch(()=>{});else v.pause();setTimeout(set,50)},{threshold:.25}).observe(v);

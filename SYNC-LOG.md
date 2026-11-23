@@ -46,6 +46,12 @@ rather than pushing on.
 
 ---
 
+## 2026-11-23 10:45 ET — redesign session — sales are counted again in GA4 + Meta; thank-you message after payment (LIVE)
+- Problem: since the Nov 10 rebuild, coming back from Stripe (checkout.html?success=true&session_id=…) fired no purchase event, and the shopper saw their full bag again with no thank-you.
+- site.js (checkout page): right before the Stripe redirect, stash the exact total (after discount + shipping), shipping, coupon and items in localStorage `kry_pending_purchase`. On return: GA4 `purchase` (transaction_id = Stripe session id) + Meta `Purchase` with eventID = session id (same event_id the Worker's Meta CAPI uses, so Meta dedupes). Each session id is fired once (`kry_sent_orders`); the bag is emptied, a thank-you message shows, and the URL is cleaned.
+- All 63 pages: api.js?v=23 → v=24 so browsers load the new site.js. No Worker change.
+- Tested headless: purchase fires once, reload does not double count, bag empties.
+
 ## 2026-11-22 02:50 ET — redesign session — search-matched titles for in-stock products (LIVE)
 
 - New `tools/seo_titles.json` (Kryptaa-2 and Krypta-v2): for 20 in-stock products and 5 shop pages (track-pants,

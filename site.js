@@ -243,6 +243,22 @@ if(page==="wishlist"){const draw=()=>{const g=$("#grid"),em=$("#wEmpty");$("#wCo
    on anything this browser says. */
 if(page==="checkout"){
   let applied=null,pct=0;
+  /* Back from Stripe: report the sale to GA4 + Meta once, using the Stripe session id as the
+     order id (Meta's server-side Purchase uses the same id, so Meta counts it once), then
+     empty the bag and say thank you. */
+  const qs=new URLSearchParams(location.search),sid=qs.get("session_id");
+  if(qs.get("success")==="true"&&sid){
+    const pend=store.get("pending_purchase",null),done=store.get("sent_orders",[]);
+    if(!done.includes(sid)){
+      const p=pend||{value:bagTotal(),items:bag.map(l=>{const q=byId(l.id);return{item_id:String(l.id),item_name:q.name,price:q.price,quantity:l.qty,item_variant:l.size}}),ids:bag.map(l=>String(l.id)),count:bagCount(),shipping:0};
+      if(window.KAPI){KAPI.ga("purchase",{transaction_id:sid,currency:"USD",value:p.value,shipping:p.shipping,coupon:p.coupon||undefined,items:p.items});
+        try{if(window.fbq)window.fbq("track","Purchase",{content_ids:p.ids,content_type:"product",value:p.value,currency:"USD",num_items:p.count},{eventID:sid})}catch(e){}}
+      store.set("sent_orders",done.concat(sid).slice(-20))}
+    try{localStorage.removeItem("kry_pending_purchase")}catch(e){}
+    bag=[];saveBag();
+    const em=$("#coEmpty");if(em)em.innerHTML='<b>Thank you — your order is in</b><p>Payment received. A confirmation email is on its way. In-stock items ship in 1–2 days and arrive in 3–7 business days.</p><div class="acts"><a class="btn" href="track.html">Track your order</a><a class="btn ghost" href="index.html">Keep shopping</a></div>';
+    try{history.replaceState(null,"",location.pathname)}catch(e){}
+  }
   /* Same shipping rules as the checkout server (kryptaa-worker checkout.js). Free over $60 is US only. */
   const INTL={CA:12.99,GB:14.99,DE:14.99,FR:14.99,NL:14.99,AU:14.99,IN:14.99,SG:14.99,AE:18.99};
   const sel=$("#coCountry");try{const c=localStorage.getItem("kry_country");if(c&&sel&&[...sel.options].some(o=>o.value===c))sel.value=c}catch(e){}
@@ -282,7 +298,9 @@ if(page==="checkout"){
     const label=btn.textContent;btn.disabled=true;btn.textContent="Opening secure payment…";m.textContent="";
     const restore=()=>{btn.disabled=false;btn.textContent=label};
     KAPI.checkout(bag.map(l=>({id:l.id,size:l.size,qty:l.qty})),v,applied,country())
-      .then(d=>{if(d&&d.url){location.replace(d.url);return}
+      .then(d=>{if(d&&d.url){try{const sub=bagTotal(),disc=applied?Math.round(sub*pct*100)/100:0,sh=shipCost(sub);
+          store.set("pending_purchase",{value:Math.round((sub-disc+sh)*100)/100,shipping:sh,coupon:applied,items:lineItems(),ids:bag.map(l=>String(l.id)),count:bagCount()})}catch(e){}
+          location.replace(d.url);return}
         m.classList.add("err");m.textContent="Payment error: "+((d&&d.error)||"could not start checkout");restore()})
       .catch(err=>{const off=err&&(err.code===502||err.code===503||err.message==="offline");
         m.classList.add("err");
