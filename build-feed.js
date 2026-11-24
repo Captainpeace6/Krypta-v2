@@ -138,8 +138,40 @@ ${items.join('\n')}
 
 fs.mkdirSync(path.join(__dirname, 'feed'), { recursive: true });
 fs.writeFileSync(path.join(__dirname, 'feed', 'google-merchant.xml'), xml);
-// Same products and photos for Pinterest's catalog, tagged so visits count as Pinterest, not Google.
-fs.writeFileSync(path.join(__dirname, 'feed', 'pinterest.xml'),
-  xml.split('utm_source=google&amp;utm_medium=shopping&amp;utm_campaign=free_listings')
-     .join('utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=catalog'));
+// ── Pinterest copy of the same list ──────────────────────────────────────
+// Pinterest's spec (help.pinterest.com data-source-specification) differs from Google's:
+//  • availability must be "in stock" / "out of stock" / "preorder" (spaces, not in_stock)
+//  • the main image must be at least 1000x1500 px → we make a 1000x1500 JPG of the SAME
+//    website photo (whole photo, no crop, on a blurred dark copy of itself) in imgs/pinterest/.
+//    File name carries a hash of the source photo, so a changed photo gets a new link
+//    (Pinterest only re-fetches an image when its link changes).
+//  • links are tagged utm_source=pinterest so visits count as Pinterest, not Google.
+(async () => {
+  const sharp = require('sharp');
+  const outDir = path.join(__dirname, 'imgs', 'pinterest');
+  fs.mkdirSync(outDir, { recursive: true });
+  const keep = new Set();
+  let px = xml.split('utm_source=google&amp;utm_medium=shopping&amp;utm_campaign=free_listings')
+              .join('utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=catalog')
+              .split('<g:availability>in_stock<').join('<g:availability>in stock<')
+              .split('<g:availability>out_of_stock<').join('<g:availability>out of stock<');
+  const mains = [...new Set([...px.matchAll(/<g:image_link>([^<]+)<\/g:image_link>/g)].map((m) => m[1]))];
+  for (const url of mains) {
+    const rel = url.replace(SITE + '/', '').split('?')[0];
+    const src = path.join(__dirname, rel);
+    const hash = crypto.createHash('md5').update(fs.readFileSync(src)).digest('hex').slice(0, 8);
+    const name = path.basename(rel).replace(/\.[a-z]+$/i, '') + '-' + hash + '.jpg';
+    keep.add(name);
+    const out = path.join(outDir, name);
+    if (!fs.existsSync(out)) {
+      const bg = await sharp(src).resize(1000, 1500, { fit: 'cover' }).blur(40).modulate({ brightness: 0.35 }).toBuffer();
+      const fg = await sharp(src).resize(1000, 1500, { fit: 'inside', withoutEnlargement: false }).toBuffer();
+      await sharp(bg).composite([{ input: fg, gravity: 'center' }]).jpeg({ quality: 90 }).toFile(out);
+    }
+    px = px.split('<g:image_link>' + url + '</g:image_link>').join('<g:image_link>' + SITE + '/imgs/pinterest/' + name + '</g:image_link>');
+  }
+  for (const f of fs.readdirSync(outDir)) if (!keep.has(f)) fs.unlinkSync(path.join(outDir, f));
+  fs.writeFileSync(path.join(__dirname, 'feed', 'pinterest.xml'), px);
+  console.log(`✓ feed/pinterest.xml: same items, ${mains.length} Pinterest-size main photos in imgs/pinterest/`);
+})();
 console.log(`✓ feed/google-merchant.xml: ${items.length} variants across ${new Set(items.map((i) => i.match(/item_group_id>(\d+)/)[1])).size} products`);

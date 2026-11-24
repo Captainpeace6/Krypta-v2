@@ -46,6 +46,11 @@ rather than pushing on.
 
 ---
 
+## 2026-11-24 13:40 ET — redesign session — Pinterest list now meets Pinterest's own spec (LIVE)
+- Checked feed/pinterest.xml against help.pinterest.com data-source-specification. Two more problems beyond utm_source: availability must be "in stock"/"preorder" (spaces), and the main image must be at least 1000x1500 px (26 of 29 main photos were smaller).
+- build-feed.js now writes the Pinterest list with "in stock", and makes imgs/pinterest/<photo>-<hash>.jpg: the same main website photo, whole and uncropped, on a 1000x1500 blurred dark copy of itself. Old copies are deleted when a photo changes. Rerun `node build-feed.js` (needs sharp) after any product photo change.
+- Validator run on all 114 items: 0 problems. Google list unchanged.
+
 ## 2026-11-24 12:50 ET — redesign session — Pinterest gets its own product list (LIVE)
 - Krypta-v2 build-feed.js now also writes feed/pinterest.xml: the same 114 items and photos as feed/google-merchant.xml, but links tagged utm_source=pinterest&utm_medium=social&utm_campaign=catalog (Pinterest flagged utm_source=google on all 114).
 - Pinterest catalog "Kryptaa Store" data source switched to https://www.kryptaa.com/feed/pinterest.xml. Google Merchant still uses google-merchant.xml (only change: pre-order date refreshed to today+45).
