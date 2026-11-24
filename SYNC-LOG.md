@@ -46,6 +46,11 @@ rather than pushing on.
 
 ---
 
+## 2026-11-24 12:50 ET — redesign session — Pinterest gets its own product list (LIVE)
+- Krypta-v2 build-feed.js now also writes feed/pinterest.xml: the same 114 items and photos as feed/google-merchant.xml, but links tagged utm_source=pinterest&utm_medium=social&utm_campaign=catalog (Pinterest flagged utm_source=google on all 114).
+- Pinterest catalog "Kryptaa Store" data source switched to https://www.kryptaa.com/feed/pinterest.xml. Google Merchant still uses google-merchant.xml (only change: pre-order date refreshed to today+45).
+- Pinterest: @krypta2426 is a business account, merchant approved Nov 23, 10 old pins deleted; first read Nov 23 9:22 PM ET, products not yet published.
+
 ## 2026-11-23 10:45 ET — redesign session — sales are counted again in GA4 + Meta; thank-you message after payment (LIVE)
 - Problem: since the Nov 10 rebuild, coming back from Stripe (checkout.html?success=true&session_id=…) fired no purchase event, and the shopper saw their full bag again with no thank-you.
 - site.js (checkout page): right before the Stripe redirect, stash the exact total (after discount + shipping), shipping, coupon and items in localStorage `kry_pending_purchase`. On return: GA4 `purchase` (transaction_id = Stripe session id) + Meta `Purchase` with eventID = session id (same event_id the Worker's Meta CAPI uses, so Meta dedupes). Each session id is fired once (`kry_sent_orders`); the bag is emptied, a thank-you message shows, and the URL is cleaned.

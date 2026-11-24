@@ -138,4 +138,8 @@ ${items.join('\n')}
 
 fs.mkdirSync(path.join(__dirname, 'feed'), { recursive: true });
 fs.writeFileSync(path.join(__dirname, 'feed', 'google-merchant.xml'), xml);
+// Same products and photos for Pinterest's catalog, tagged so visits count as Pinterest, not Google.
+fs.writeFileSync(path.join(__dirname, 'feed', 'pinterest.xml'),
+  xml.split('utm_source=google&amp;utm_medium=shopping&amp;utm_campaign=free_listings')
+     .join('utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=catalog'));
 console.log(`✓ feed/google-merchant.xml: ${items.length} variants across ${new Set(items.map((i) => i.match(/item_group_id>(\d+)/)[1])).size} products`);
