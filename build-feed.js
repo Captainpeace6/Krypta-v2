@@ -84,7 +84,8 @@ let SEO = {};
 try { SEO = JSON.parse(fs.readFileSync(path.join(__dirname, 'tools', 'seo_titles.json'), 'utf8')).products || {}; } catch (e) { console.warn('! tools/seo_titles.json not found — using product names'); }
 const shipPrice = (p) => (Number(p.price) >= 60 ? '0.00' : p.category === 'tees' ? '5.00' : '9.99');
 
-const items = [];
+const items = [];      // every listing (Pinterest gets all of them)
+const googleItems = []; // Google Shopping: in-stock only (see below)
 for (const p of PRODUCTS) {
   if (p.category === 'anime' && !p.buyable) continue; // contact-to-order pieces have no fixed checkout
   if (p.category === 'bundle') continue;             // mystery bundle: contents vary, Merchant Center wants concrete items
@@ -97,7 +98,7 @@ for (const p of PRODUCTS) {
 
   // One item per size so Google can show size availability; parent grouped via item_group_id
   for (const size of sizes.length ? sizes : ['One Size']) {
-    items.push(`
+    const one = `
   <item>
     <g:id>${esc(p.id)}-${esc(size)}</g:id>
     <g:item_group_id>${esc(p.id)}</g:item_group_id>
@@ -121,20 +122,27 @@ ${extra.map((u) => `    <g:additional_image_link>${esc(u)}</g:additional_image_l
     <g:shipping><g:country>US</g:country><g:service>Standard</g:service><g:price>${shipPrice(p)} USD</g:price><g:min_transit_time>2</g:min_transit_time><g:max_transit_time>5</g:max_transit_time></g:shipping>
     <g:min_handling_time>1</g:min_handling_time>
     <g:max_handling_time>2</g:max_handling_time>
-  </item>`);
+  </item>`;
+    items.push(one);
+    // 25 Nov 2026 (Vishwak): pre-orders (anime jeans, 30–45 day make time) are kept OFF Google
+    // Shopping so Merchant Center's store-quality "Delivery time" is measured on in-stock orders
+    // (3–7 days) — it was rated Low at 19.7 days. They stay on the website and on Pinterest.
+    if (availability(p) !== 'preorder') googleItems.push(one);
   }
 }
 
-const xml = `<?xml version="1.0" encoding="UTF-8"?>
+const wrap = (list) => `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
 <channel>
   <title>KRYPTAA — Gothic &amp; Street Wear</title>
   <link>${SITE}/</link>
   <description>KRYPTAA luxury gothic streetwear: heavyweight tees, baggy wide-leg denim, rave wear. Statement without noise.</description>
-${items.join('\n')}
+${list.join('\n')}
 </channel>
 </rss>
 `;
+const xml = wrap(googleItems); // → feed/google-merchant.xml
+const xmlAll = wrap(items);    // → Pinterest copies
 
 fs.mkdirSync(path.join(__dirname, 'feed'), { recursive: true });
 fs.writeFileSync(path.join(__dirname, 'feed', 'google-merchant.xml'), xml);
@@ -151,7 +159,7 @@ fs.writeFileSync(path.join(__dirname, 'feed', 'google-merchant.xml'), xml);
   const outDir = path.join(__dirname, 'imgs', 'pinterest');
   fs.mkdirSync(outDir, { recursive: true });
   const keep = new Set();
-  let px = xml.split('utm_source=google&amp;utm_medium=shopping&amp;utm_campaign=free_listings')
+  let px = xmlAll.split('utm_source=google&amp;utm_medium=shopping&amp;utm_campaign=free_listings')
               .join('utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=catalog')
               .split('<g:availability>in_stock<').join('<g:availability>in stock<')
               .split('<g:availability>out_of_stock<').join('<g:availability>out of stock<');
@@ -193,4 +201,4 @@ fs.writeFileSync(path.join(__dirname, 'feed', 'google-merchant.xml'), xml);
   console.log(`✓ feed/pinterest.tsv: ${rows.length - 1} items`);
   console.log(`✓ feed/pinterest.xml: same items, ${mains.length} Pinterest-size main photos in imgs/pinterest/`);
 })();
-console.log(`✓ feed/google-merchant.xml: ${items.length} variants across ${new Set(items.map((i) => i.match(/item_group_id>(\d+)/)[1])).size} products`);
+console.log(`✓ feed/google-merchant.xml: ${googleItems.length} variants across ${new Set(googleItems.map((i) => i.match(/item_group_id>(\d+)/)[1])).size} products`);

@@ -257,6 +257,16 @@ if(page==="checkout"){
     try{localStorage.removeItem("kry_pending_purchase")}catch(e){}
     bag=[];saveBag();
     const em=$("#coEmpty");if(em)em.innerHTML='<b>Thank you — your order is in</b><p>Payment received. A confirmation email is on its way. In-stock items ship in 1–2 days and arrive in 3–7 business days.</p><div class="acts"><a class="btn" href="track.html">Track your order</a><a class="btn ghost" href="index.html">Keep shopping</a></div>';
+    /* Google Customer Reviews: Google's own opt-in box asks the buyer if they'll rate the order
+       after it arrives (store rating + trust badge in Merchant Center 5856559183). Shown once per
+       order, only when the email typed at checkout is known. Delivery estimate = the promise on
+       the product pages: 7 days in stock, 45 days if the order has a pre-order piece. */
+    if(pend&&pend.email&&!done.includes(sid)){try{
+      const d=new Date(Date.now()+(pend.pre?45:7)*864e5),eta=d.toISOString().slice(0,10);
+      window.renderOptIn=function(){window.gapi.load("surveyoptin",function(){window.gapi.surveyoptin.render({
+        merchant_id:5856559183,order_id:sid,email:pend.email,delivery_country:pend.country||"US",estimated_delivery_date:eta})})};
+      const g=document.createElement("script");g.src="https://apis.google.com/js/platform.js?onload=renderOptIn";g.async=true;g.defer=true;document.head.appendChild(g);
+    }catch(e){}}
     try{history.replaceState(null,"",location.pathname)}catch(e){}
   }
   /* Same shipping rules as the checkout server (kryptaa-worker checkout.js). Free over $60 is US only. */
@@ -299,7 +309,7 @@ if(page==="checkout"){
     const restore=()=>{btn.disabled=false;btn.textContent=label};
     KAPI.checkout(bag.map(l=>({id:l.id,size:l.size,qty:l.qty})),v,applied,country())
       .then(d=>{if(d&&d.url){try{const sub=bagTotal(),disc=applied?Math.round(sub*pct*100)/100:0,sh=shipCost(sub);
-          store.set("pending_purchase",{value:Math.round((sub-disc+sh)*100)/100,shipping:sh,coupon:applied,items:lineItems(),ids:bag.map(l=>String(l.id)),count:bagCount()})}catch(e){}
+          store.set("pending_purchase",{value:Math.round((sub-disc+sh)*100)/100,shipping:sh,coupon:applied,items:lineItems(),ids:bag.map(l=>String(l.id)),count:bagCount(),email:v,country:country(),pre:bag.some(l=>{const q=byId(l.id);return q&&isPre(q)})})}catch(e){}
           location.replace(d.url);return}
         m.classList.add("err");m.textContent="Payment error: "+((d&&d.error)||"could not start checkout");restore()})
       .catch(err=>{const off=err&&(err.code===502||err.code===503||err.message==="offline");

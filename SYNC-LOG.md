@@ -46,6 +46,17 @@ rather than pushing on.
 
 ---
 
+## 2026-11-25 ET — redesign session — Google list = in-stock only; Google Customer Reviews opt-in on thank-you (LIVE)
+- Why: Merchant Center store quality (US) rated Delivery time "Low" at 19.7 days (Fair needs <12.2). Vishwak: keep the anime pre-orders (30–45 day make time) on the website and Pinterest, but take them off Google Shopping.
+- Krypta-v2 build-feed.js: pre-order items are no longer written to feed/google-merchant.xml (114 → 69 listings, 20 products, 0 preorder). feed/pinterest.xml + pinterest.tsv still carry all 114. Website untouched.
+- Google may still find pre-order product pages by itself ("Found by Google", kryptaa.com source, every 24h). If anime jeans reappear under source "www.kryptaa.com", that is the auto-crawl, not the feed.
+- site.js (checkout return): pending_purchase now also stores email, country and a pre-order flag. On the thank-you, loads apis.google.com/js/platform.js and renders Google Customer Reviews opt-in (merchant 5856559183, order_id = Stripe session id, ETA = today+7 days, or +45 if the order has a pre-order piece). Once per order.
+- checkout.html CSP: script-src + https://apis.google.com https://www.gstatic.com; frame-src + https://www.google.com https://apis.google.com https://accounts.google.com.
+- All 63 pages: api.js?v=24 → v=25. No Worker change.
+- Merchant Center: Google customer reviews add-on added. Program agreement NOT signed yet (waiting on Vishwak) — until it is, the opt-in box will not show.
+- Tested headless: thank-you still shows, opt-in script loads once, not again on reload, no CSP errors.
+
+
 ## 2026-11-25 13:40 ET — redesign session — Pinterest switched to a TSV product list (LIVE)
 - Pinterest reads of feed/pinterest.xml (Nov 24 12:49, 7:53 PM; Nov 25 3 AM) all "Failed" with 0 successful / 0 failed and no issue listed. Checked: Pinterestbot gets 200 + full file + photos (from Mac); Pinterest's own "Test your data source" passes the XML items. Cause not shown by Pinterest.
 - build-feed.js now also writes feed/pinterest.tsv (Pinterest's primary documented format): same 114 items/photos, columns per help.pinterest.com spec, shipping as US::Standard:<price> USD, extra photos quoted. Pinterest's checker: "No errors or warnings detected".
