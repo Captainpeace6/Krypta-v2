@@ -53,7 +53,7 @@ rather than pushing on.
 - site.js (checkout return): pending_purchase now also stores email, country and a pre-order flag. On the thank-you, loads apis.google.com/js/platform.js and renders Google Customer Reviews opt-in (merchant 5856559183, order_id = Stripe session id, ETA = today+7 days, or +45 if the order has a pre-order piece). Once per order.
 - checkout.html CSP: script-src + https://apis.google.com https://www.gstatic.com; frame-src + https://www.google.com https://apis.google.com https://accounts.google.com.
 - All 63 pages: api.js?v=24 → v=25. No Worker change.
-- Merchant Center: Google customer reviews add-on added. Program agreement NOT signed yet (waiting on Vishwak) — until it is, the opt-in box will not show.
+- Merchant Center: Google customer reviews add-on added and program agreement signed (Vishwak OK'd, 25 Nov). Checked on live kryptaa.com/checkout.html: Google's "Share your opinion" box renders (test call, not answered). Store rating needs ~100 reviews in 12 months before it shows.
 - Tested headless: thank-you still shows, opt-in script loads once, not again on reload, no CSP errors.
 
 
