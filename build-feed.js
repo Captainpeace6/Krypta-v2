@@ -172,6 +172,25 @@ fs.writeFileSync(path.join(__dirname, 'feed', 'google-merchant.xml'), xml);
   }
   for (const f of fs.readdirSync(outDir)) if (!keep.has(f)) fs.unlinkSync(path.join(outDir, f));
   fs.writeFileSync(path.join(__dirname, 'feed', 'pinterest.xml'), px);
+  // Same list as TSV (Pinterest's primary documented format). Columns per help.pinterest.com
+  // data-source-specification; shipping as country:region:service:price.
+  const un = (v) => (v || '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&').replace(/[\t\r\n]+/g, ' ').trim();
+  const cols = ['id', 'item_group_id', 'title', 'description', 'link', 'image_link', 'additional_image_link', 'availability', 'price', 'brand', 'condition', 'google_product_category', 'product_type', 'gender', 'age_group', 'size', 'color', 'shipping'];
+  const rows = [cols.join('\t')];
+  for (const m of px.matchAll(/<item>([\s\S]*?)<\/item>/g)) {
+    const it = m[1];
+    const one = (t) => un((it.match(new RegExp('<g:' + t + '>([\\s\\S]*?)</g:' + t + '>')) || [])[1]);
+    const all = (t) => [...it.matchAll(new RegExp('<g:' + t + '>([\\s\\S]*?)</g:' + t + '>', 'g'))].map((x) => un(x[1]));
+    const sh = it.match(/<g:shipping><g:country>([^<]*)<\/g:country><g:service>([^<]*)<\/g:service><g:price>([^<]*)<\/g:price>/);
+    const r = { id: one('id'), item_group_id: one('item_group_id'), title: one('title'), description: one('description'), link: one('link'),
+      image_link: one('image_link'), additional_image_link: ((a) => a.length ? '"' + a.join(',') + '"' : '')(all('additional_image_link').slice(0, 10)), availability: one('availability'),
+      price: one('price'), brand: one('brand'), condition: one('condition'), google_product_category: one('google_product_category'),
+      product_type: one('product_type'), gender: one('gender'), age_group: one('age_group'), size: one('size'), color: one('color'),
+      shipping: sh ? `${sh[1]}::${sh[2]}:${sh[3]}` : '' };
+    rows.push(cols.map((c) => r[c]).join('\t'));
+  }
+  fs.writeFileSync(path.join(__dirname, 'feed', 'pinterest.tsv'), rows.join('\n') + '\n');
+  console.log(`✓ feed/pinterest.tsv: ${rows.length - 1} items`);
   console.log(`✓ feed/pinterest.xml: same items, ${mains.length} Pinterest-size main photos in imgs/pinterest/`);
 })();
 console.log(`✓ feed/google-merchant.xml: ${items.length} variants across ${new Set(items.map((i) => i.match(/item_group_id>(\d+)/)[1])).size} products`);

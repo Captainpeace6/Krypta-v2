@@ -46,6 +46,11 @@ rather than pushing on.
 
 ---
 
+## 2026-11-25 13:40 ET — redesign session — Pinterest switched to a TSV product list (LIVE)
+- Pinterest reads of feed/pinterest.xml (Nov 24 12:49, 7:53 PM; Nov 25 3 AM) all "Failed" with 0 successful / 0 failed and no issue listed. Checked: Pinterestbot gets 200 + full file + photos (from Mac); Pinterest's own "Test your data source" passes the XML items. Cause not shown by Pinterest.
+- build-feed.js now also writes feed/pinterest.tsv (Pinterest's primary documented format): same 114 items/photos, columns per help.pinterest.com spec, shipping as US::Standard:<price> USD, extra photos quoted. Pinterest's checker: "No errors or warnings detected".
+- Pinterest data source switched to https://www.kryptaa.com/feed/pinterest.tsv (format TSV) and a new read triggered.
+
 ## 2026-11-24 13:40 ET — redesign session — Pinterest list now meets Pinterest's own spec (LIVE)
 - Checked feed/pinterest.xml against help.pinterest.com data-source-specification. Two more problems beyond utm_source: availability must be "in stock"/"preorder" (spaces), and the main image must be at least 1000x1500 px (26 of 29 main photos were smaller).
 - build-feed.js now writes the Pinterest list with "in stock", and makes imgs/pinterest/<photo>-<hash>.jpg: the same main website photo, whole and uncropped, on a 1000x1500 blurred dark copy of itself. Old copies are deleted when a photo changes. Rerun `node build-feed.js` (needs sharp) after any product photo change.
