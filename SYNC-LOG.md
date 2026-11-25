@@ -57,6 +57,9 @@ rather than pushing on.
 - Tested headless: thank-you still shows, opt-in script loads once, not again on reload, no CSP errors.
 
 
+## 2026-11-25 16:05 ET — redesign session — privacy policy mentions Google review survey (LIVE)
+- privacy.html: new "Google Customer Reviews" part under Cookies & Analytics (buyers may get a review survey from Google; if they opt in, email, order number, delivery country and estimated delivery date go to Google), added to the Third-Party list, "Last updated November 2026". Matches the opt-in box already live on the thank-you page (site.js, Merchant Center 5856559183).
+
 ## 2026-11-25 13:40 ET — redesign session — Pinterest switched to a TSV product list (LIVE)
 - Pinterest reads of feed/pinterest.xml (Nov 24 12:49, 7:53 PM; Nov 25 3 AM) all "Failed" with 0 successful / 0 failed and no issue listed. Checked: Pinterestbot gets 200 + full file + photos (from Mac); Pinterest's own "Test your data source" passes the XML items. Cause not shown by Pinterest.
 - build-feed.js now also writes feed/pinterest.tsv (Pinterest's primary documented format): same 114 items/photos, columns per help.pinterest.com spec, shipping as US::Standard:<price> USD, extra photos quoted. Pinterest's checker: "No errors or warnings detected".
